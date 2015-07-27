@@ -1,0 +1,73 @@
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+```html
+<i class="icon-home"></i>
+```
+*/
+.icon-add {
+  background-image: url(../img/sprite.png);
+  background-position: -32px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-close {
+  background-image: url(../img/sprite.png);
+  background-position: -64px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-edit {
+  background-image: url(../img/sprite.png);
+  background-position: -128px -18px;
+  width: 16px;
+  height: 16px;
+}
+.icon-github {
+  background-image: url(../img/sprite.png);
+  background-position: 0px -96px;
+  width: 33px;
+  height: 27px;
+}
+.icon-no-image {
+  background-image: url(../img/sprite.png);
+  background-position: 0px 0px;
+  width: 64px;
+  height: 64px;
+}
+.icon-search {
+  background-image: url(../img/sprite.png);
+  background-position: -64px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-star-active {
+  background-image: url(../img/sprite.png);
+  background-position: -96px 0px;
+  width: 32px;
+  height: 32px;
+}
+.icon-star {
+  background-image: url(../img/sprite.png);
+  background-position: -96px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-time-active {
+  background-image: url(../img/sprite.png);
+  background-position: 0px -64px;
+  width: 32px;
+  height: 32px;
+}
+.icon-time {
+  background-image: url(../img/sprite.png);
+  background-position: -64px -32px;
+  width: 32px;
+  height: 32px;
+}
+.icon-tmdb {
+  background-image: url(../img/sprite.png);
+  background-position: -128px 0px;
+  width: 138px;
+  height: 18px;
+}

@@ -1,0 +1,54 @@
+import React from 'react';
+import Router from 'react-router';
+import Modal from './modal';
+
+let Link = Router.Link;
+
+class Header extends React.Component {
+
+  state = {
+    showModal: false,
+    type: ''
+  }
+
+  render() {
+    return (
+
+      <div>
+        {this.state.showModal ? <Modal type={this.state.type} closeModal={this.changeModal.bind(this)} /> : ''}
+
+        <header className="site-header">
+          <div className="wrap">
+            <Link to={config.uri} className="logo"><img src={config.uri + 'assets/img/logo.png'} width="80" height="24" alt="Flox" /></Link>
+
+              <div className="add-wrap" title="Search in TMDB" onClick={this.changeModal.bind(this, 'tmdb')}>
+                <i className="icon-add"></i>
+              </div>
+
+              <nav className="site-nav">
+                <ul>
+                  <li><Link to={config.uri}>All</Link></li>
+                  <li><Link to={config.uri + 'movies'}>Movies</Link></li>
+                  <li><Link to={config.uri + 'series'}>Series</Link></li>
+                  <li><Link to={config.uri + 'animes'}>Animes</Link></li>
+                  <li className="icon-search-wrap" onClick={this.changeModal.bind(this, 'flox')} title="Search in Flox">
+                    <i className="icon-search"></i>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </header>
+      </div>
+
+    );
+  }
+
+  changeModal(type = '') {
+    this.setState({
+      showModal: ! this.state.showModal,
+      type: type
+    })
+  }
+}
+
+export default Header;

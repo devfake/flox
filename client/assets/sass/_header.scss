@@ -1,0 +1,58 @@
+.site-header {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background: rgba($main, .95);
+  height: 65px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.logo {
+  float: left;
+  padding: 19px 0;
+}
+
+.site-nav {
+  float: right;
+  margin: 0 20px 0 0;
+  padding: 0 20px 0 0;
+  border-right: 1px solid #c86ede;
+
+  li {
+    float: left;
+  }
+
+  a {
+    color: #fff;
+    padding: 16px 20px 18px 20px;
+    float: left;
+    font-size: 17px;
+    border-top: 3px solid transparent;
+    transition: border .2s ease-in-out 0s;
+
+    &.active {
+      border-top: 3px solid #fff;
+    }
+  }
+}
+
+.add-wrap,
+.icon-search-wrap {
+  float: right;
+  padding: 16px 0 19px 0;
+  cursor: pointer;
+
+  i {
+    display: block;
+  }
+  
+  &:active {
+    opacity: .8;
+  }
+}
+
+.icon-search-wrap {
+  margin: 0 0 0 10px;
+}

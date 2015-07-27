@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+.wrap {
+  //max-width: 1200px;
+  //width: 100%;
+  width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+body {
+  background: $dark;
+  font-family: 'Titillium Web', sans-serif;
+  padding: 65px 0 0 0;
+  overflow-y: scroll;
+}
+
+.modal-active {
+  overflow: hidden;
+}
+
+::-moz-selection {
+  background: rgba(#474747, .99);
+  color: #fff;
+}
+
+::selection {
+  background: rgba(#474747, .99);
+  color: #fff;
+}
+
+::-webkit-input-placeholder {
+  color: #636363;
+}
+
+::-moz-placeholder {
+  color: #636363;
+  opacity:  1;
+}
+
+::-ms-input-placeholder {
+  color: #636363;
+}
+
+ul { list-style: none; }
+a { text-decoration: none; outline: 0; }
+img { border: 0; }
+textarea, input { outline: 0; }

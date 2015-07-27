@@ -1,0 +1,27 @@
+.site-footer {
+  float: left;
+  width: 100%;
+  background: darken($dark, 3%);
+  padding: 40px 0;
+  position: absolute;
+  bottom: 0;
+  font-size: 14px;
+  
+  a:active {
+    opacity: .5;
+  }
+}
+
+.attribution {
+  color: #555;
+  float: left;
+}
+
+.icon-tmdb {
+  float: left;
+  margin: 3px 10px 0 0;
+}
+
+.icon-github {
+  float: right;
+}
