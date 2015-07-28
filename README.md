@@ -45,6 +45,4 @@ There is a light theme option: Add `light-theme` class to `body` in `/client/vie
 * Login for admin (maybe with options).
 * Detail page for items (rather than direct to youtube).
 * Easy installer.
-* Rewrite Server API.
-* Modify and add own categorys.
 * For series and animes a list of episodes.
