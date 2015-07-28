@@ -214,8 +214,12 @@
   height: 32px;
   position: absolute;
   left: 50%;
-  top: 50vh;
+  top: 40vh;
   transform: translateX(-50%);
+
+  .light-theme & {
+    background: url(../img/content-load-light.gif) no-repeats;
+  }
 }
 
 .icon-box-load {
