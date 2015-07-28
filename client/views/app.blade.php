@@ -3,6 +3,7 @@
   <head>
 
     <meta charset="utf-8">
+    <meta name="csrf_token" content="{{ csrf_token() }}">
     <title>Flox - Collect your Movies, Series and Anime watch list</title>
 
     <link href="{{ url('assets/favicon.ico') }}" rel="icon" type="image/x-icon">

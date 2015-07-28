@@ -11,12 +11,12 @@ class Item extends Model implements SluggableInterface
 
   use SluggableTrait;
 
+  public $timestamps = false;
+
   protected $sluggable = [
     'build_from' => 'title',
     'save_to' => 'slug',
   ];
-
-  public $timestamps = false;
 
   public function categories()
   {

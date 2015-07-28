@@ -11,6 +11,8 @@
     get('search/tmdb/{title}', 'APIController@searchTMDBByTitle');
     //get('search/tmdb/id/{id}', 'APIController@searchTMDBByID');
 
+    post('new', 'APIController@newItem');
+
   });
 
   Route::get('/{uri}', function() {

@@ -30,6 +30,10 @@ class Api extends React.Component {
     return $.get(config.api + 'search/' + type + '/' + value);
   }
 
+  static addItem(data) {
+    return $.post(config.api + 'new', {data, _token: $('meta[name="csrf_token"]').attr('content')});
+  }
+
   /*static searchTMDBByID(id) {
     return $.get(config.api + 'search/tmdb/id/' + id);
   }
