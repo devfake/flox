@@ -22,6 +22,7 @@ The rating based on an 5-Point system.
 * Rename `.env.example` to `.env` and fill all your credentials out (your database and TMDb API-Key).
 * Run `composer install`.
 * Give `storage` recursive write access.
+* Run `php artisan key:generate`.
 * Run `php artisan migrate`. This builds the database schema for Flox.
 * Since the insertion of new items currently not working, run `php artisan db:seed` for prefabricated items.
 
