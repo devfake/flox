@@ -99,15 +99,9 @@
   z-index: 50;
   display: none;
   cursor: pointer;
-  opacity: .85;
-  transition: opacity .2s ease-in-out 0s;
 
   i {
     float: left;
-  }
-
-  &:hover {
-    opacity: 1;
   }
 }
 
@@ -178,6 +172,7 @@
   clear: both;
   color: #555;
   font-size: 15px;
+  cursor: help;
 
   .light-theme & {
     color: #909090;
@@ -213,7 +208,7 @@
   height: 32px;
   position: absolute;
   left: 50%;
-  top: 40vh;
+  top: 50vh;
   transform: translateX(-50%);
 
   .light-theme & {
