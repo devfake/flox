@@ -1,13 +1,10 @@
 * {
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
 }
 
 .wrap {
-  //max-width: 1200px;
-  //width: 100%;
   width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
@@ -26,11 +23,6 @@ body {
 
 .light-theme {
   background: #fff;
-}
-
-::-moz-selection {
-  background: rgba(#474747, .99);
-  color: #fff;
 }
 
 ::selection {

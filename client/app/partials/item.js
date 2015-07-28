@@ -31,9 +31,9 @@ class Item extends React.Component {
 
     return (
 
-        this.props.tmdb
-          ? <TMDBItem data={this.props.data} loadClass={this.state.loadClass} bgStyle={style} released={this.released.bind(this)} />
-          : <FloxItem data={this.props.data} loadClass={this.state.loadClass} bgStyle={style} released={this.released.bind(this)} />
+      this.props.tmdb
+        ? <TMDBItem data={this.props.data} loadClass={this.state.loadClass} bgStyle={style} released={this.released.bind(this)} />
+        : <FloxItem data={this.props.data} loadClass={this.state.loadClass} bgStyle={style} released={this.released.bind(this)} />
 
     )
   }

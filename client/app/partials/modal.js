@@ -74,7 +74,6 @@ class Modal extends React.Component {
       });
 
       Api.search(this.props.type, event.target.value).then((value) => {
-        console.log(value);
         setTimeout(() => {
           this.setState({
             searching: false,
