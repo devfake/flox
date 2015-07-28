@@ -2,4 +2,3 @@
 /server/vendor
 /client/node_modules
 .env
-public/assets/js/bundle.js
