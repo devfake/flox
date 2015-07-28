@@ -19,7 +19,7 @@
 
     public function categoryItems($category, $orderBy)
     {
-      return $this->getItems($category, $orderBy, 20);
+      return $this->getItems($category, $orderBy, Request::input('loading'));
     }
 
     public function allCategories()

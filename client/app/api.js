@@ -11,7 +11,7 @@ class Api extends React.Component {
   }
 
   static categoryItems(category) {
-    return $.get(config.api + 'category-items/' + category + '/' + this.usersFilterFor(category));
+    return $.get(config.api + 'category-items/' + category + '/' + this.usersFilterFor(category), {loading: config.loadItems});
   }
 
   static usersFilterFor(category) {
