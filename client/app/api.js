@@ -6,6 +6,10 @@ class Api extends React.Component {
     return $.get(config.api + 'all-categories');
   }
 
+  static items(type, category, filterBy) {
+    return $.get(config.api + type + '-items/' + category + '/' + filterBy);
+  }
+
   static categoryItems(category) {
     return $.get(config.api + 'category-items/' + category + '/' + this.usersFilterFor(category));
   }

@@ -46,13 +46,12 @@ class Box extends React.Component {
       items: []
     })
 
-    // todo: Move to api.
     setTimeout(() => {
-      $.get(config.api + this.props.type + '-items/' + this.props.category.slug + '/' + filterBy, (value) => {
+      Api.items(this.props.type, this.props.category.slug, filterBy).then((value) => {
         this.setState({
           items: value.items
-        })
-      });
+        });
+      })
     }, 200);
   }
 }
