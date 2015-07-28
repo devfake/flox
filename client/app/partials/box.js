@@ -1,6 +1,5 @@
 import React from 'react';
 import Router from 'react-router';
-import ReactTooltip from 'react-tooltip';
 import FilterOptions from './filter-options';
 import Item from './item';
 import Api from '../api';
@@ -22,8 +21,6 @@ class Box extends React.Component {
     return (
 
       <section className="box">
-        <ReactTooltip effect="float" place="right" />
-
         <div className="wrap">
 
           <Link to={config.uri + this.props.category.slug} className="box-headline">

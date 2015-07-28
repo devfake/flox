@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 
 class FloxItem extends React.Component {
 
@@ -18,7 +17,7 @@ class FloxItem extends React.Component {
         </a>
 
         <div className="item-content">
-          <span className="item-date" data-tip={"Released on " + this.props.released().full}>{this.props.released().year}</span>
+          <span className="item-date" title={"Released on " + this.props.released().full}>{this.props.released().year}</span>
           <a href={"https://www.youtube.com/results?search_query=" + this.props.data.title + " Trailer"} target="_blank" className="item-title" title={this.props.data.title}>{this.props.data.title}</a>
         </div>
       </div>
