@@ -12,7 +12,7 @@ class FloxItem extends React.Component {
           <i className="icon-edit"></i>
         </div>
 
-        <a href={"https://www.youtube.com/results?search_query=" + this.props.data.title + " Trailer"} target="_blank" className="item-image" style={this.props.bgStyle} data-tip={this.props.data.rating + " / 5 Points"}>
+        <a href={"https://www.youtube.com/results?search_query=" + this.props.data.title + " Trailer"} target="_blank" className="item-image" style={this.props.bgStyle}>
           {this.props.bgStyle.backgroundImage ? '' : <i className="icon-no-image"></i>}
           <div className={"rating rating-" + this.props.data.rating}></div>
         </a>
