@@ -13,7 +13,8 @@ class Category extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       category: {},
-      items: []
+      items: [],
+      currentLoaded: config.loadingItems
     });
     
     this.loadCategoryItems(nextProps);
