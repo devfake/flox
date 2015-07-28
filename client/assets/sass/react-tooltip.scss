@@ -1,0 +1,28 @@
+.reactTooltip {
+  border-radius: 3px;
+  display: inline-block;
+  font-size: 15px;
+  color: #fff;
+  left: -999em;
+  opacity: 0;
+  padding: 8px 21px;
+  position: fixed;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out .5s;
+  top: -999em;
+  background: $main;
+  // Modify z-index if you have some specific requirement for the layout
+  z-index: 999;
+
+  &:after {
+    content: "";
+    width: 0;
+	  height: 0;
+    position: absolute;
+  }
+  &.show {
+    opacity: 0.9 !important;
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+  }
+}

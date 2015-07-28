@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 import Api from '../api';
 import Item from './item';
 
@@ -47,6 +48,8 @@ class Modal extends React.Component {
     return (
 
       <section className={'modal-wrap ' + this.state.loadClass}>
+        <ReactTooltip effect="float" place="right" />
+
         <div className="search-items">
           <div className="wrap">
             <div className="icon-close-wrap" onClick={this.props.closeModal}><i className="icon-close"></i></div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 
 class TMDBItem extends React.Component {
 
@@ -12,7 +13,7 @@ class TMDBItem extends React.Component {
         </div>
 
         <div className="item-content">
-          <span className="item-date" title={"Released on " + this.props.released().full}>{this.props.released().year}</span>
+          <span className="item-date" data-tip={"Released on " + this.props.released().full}>{this.props.released().year}</span>
           <div className="item-title" title={this.props.data.title}>{this.props.data.title}</div>
         </div>
       </div>
