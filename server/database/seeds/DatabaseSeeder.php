@@ -15,7 +15,9 @@
       Model::unguard();
 
       $this->call(CategoryTableSeeder::class);
-      $this->call(ItemTableSeeder::class);
+      foreach(range(1,20) as $i) {
+        $this->call(ItemTableSeeder::class);
+      }
 
       Model::reguard();
     }

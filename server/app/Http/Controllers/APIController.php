@@ -10,16 +10,22 @@
   use Illuminate\Support\Facades\Request;
   use Illuminate\Support\Str;
 
+  // todo: Rewrite API.
   class APIController extends Controller {
 
-    public function homeItems($category, $orderBy)
+    public function homeItems($category, $orderBy, $loading = 5)
     {
-      return $this->getItems($category, $orderBy, 5);
+      return $this->getItems($category, $orderBy, $loading);
     }
 
-    public function categoryItems($category, $orderBy)
+    public function categoryItems($category, $orderBy, $loading)
     {
-      return $this->getItems($category, $orderBy, Request::input('loading'));
+      return $this->getItems($category, $orderBy, $loading);
+    }
+
+    public function moreCategoryItems($categoryID, $orderBy, $loading, $loaded)
+    {
+      return Item::where('category_id', $categoryID)->orderBy($orderBy, 'desc')->take($loading)->skip($loaded)->get();
     }
 
     public function allCategories()

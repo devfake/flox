@@ -13,6 +13,12 @@ class Box extends React.Component {
     items: this.props.items
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      items: nextProps.items
+    });
+  }
+
   render() {
     let items = this.state.items.map((value, key) => {
       return <Item key={key} data={value} category={this.props.category.slug} />
@@ -44,10 +50,10 @@ class Box extends React.Component {
 
     this.setState({
       items: []
-    })
+    });
 
     setTimeout(() => {
-      Api.items(this.props.type, this.props.category.slug, filterBy).then((value) => {
+      Api.items(this.props.type, this.props.category.slug, filterBy, this.props.currentLoaded).then((value) => {
         this.setState({
           items: value.items
         });

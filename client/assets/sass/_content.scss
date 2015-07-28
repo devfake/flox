@@ -240,3 +240,19 @@
     font-size: 32px;
   }
 }
+
+.load-more {
+  background: #242424;
+  padding: 10px;
+  float: left;
+  width: 100%;
+  margin: 0 0 40px 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: #555;
+  cursor: pointer;
+
+  .light-theme & {
+    background: #e9e9e9;
+  }
+}

@@ -6,6 +6,6 @@ window.config = {
   posterSmall: 'http://image.tmdb.org/t/p/w185',
   posterBig: 'http://image.tmdb.org/t/p/w300',
 
-  loadItems: 20
+  loadingItems: 20
 
 };

@@ -6,7 +6,8 @@ class Category extends React.Component {
 
   state = {
     category: {},
-    items: []
+    items: [],
+    currentLoaded: config.loadingItems
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,9 +27,12 @@ class Category extends React.Component {
   // todo: fix icon load.
   render() {
     return (
+
       <div>
-        { ! this.state.items.length ? <i className="icon-content-load"></i> : <Box items={this.state.items} category={this.state.category} type="category" />}
+        { ! this.state.items.length ? <i className="icon-content-load"></i> : <Box items={this.state.items} category={this.state.category} type="category" currentLoaded={this.state.currentLoaded} />}
+        {this.state.items.length >= config.loadingItems ? <div className="wrap"><div className="load-more" onClick={this.loadMore.bind(this)}>Load more {this.state.category.name}</div></div> : ''}
       </div>
+
     );
   }
 
@@ -41,6 +45,15 @@ class Category extends React.Component {
         });
       });
     }, 200);
+  }
+
+  loadMore() {
+    Api.moreCategoryItems(this.state.category, this.state.currentLoaded).then((value) => {
+      this.setState({
+        currentLoaded: this.state.currentLoaded + config.loadingItems,
+        items: this.state.items.concat(value)
+      });
+    });
   }
 }
 

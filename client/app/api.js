@@ -6,12 +6,17 @@ class Api extends React.Component {
     return $.get(config.api + 'all-categories');
   }
 
-  static items(type, category, filterBy) {
-    return $.get(config.api + type + '-items/' + category + '/' + filterBy);
+  static items(type, category, filterBy, currentLoaded) {
+    return $.get(config.api + type + '-items/' + category + '/' + filterBy + '/' + currentLoaded);
   }
 
   static categoryItems(category) {
-    return $.get(config.api + 'category-items/' + category + '/' + this.usersFilterFor(category), {loading: config.loadItems});
+    return $.get(config.api + 'category-items/' + category + '/' + this.usersFilterFor(category) + '/' + config.loadingItems);
+  }
+
+  static moreCategoryItems(category, currentLoaded) {
+    return $.get(config.api + 'more-category-items/' + category.id + '/' + this.usersFilterFor(category.slug) + '/' + config.loadingItems + '/' + currentLoaded);
+
   }
 
   static usersFilterFor(category) {
