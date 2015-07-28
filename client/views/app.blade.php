@@ -9,7 +9,7 @@
     <link href="{{ url('assets/css/app.css') }}" rel="stylesheet">
 
   </head>
-  <body>
+  <body class="light-theme">
 
     <div class="flox"></div>
 

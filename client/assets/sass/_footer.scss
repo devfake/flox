@@ -10,6 +10,10 @@
   a:active {
     opacity: .5;
   }
+
+  .light-theme & {
+    background: #cdcdcd;
+  }
 }
 
 .attribution {
@@ -20,8 +24,16 @@
 .icon-tmdb {
   float: left;
   margin: 3px 10px 0 0;
+
+  .light-theme & {
+    opacity: .6;
+  }
 }
 
 .icon-github {
   float: right;
+
+  .light-theme & {
+    opacity: .6;
+  }
 }

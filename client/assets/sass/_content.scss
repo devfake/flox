@@ -14,12 +14,20 @@
 
   &:nth-child(2) {
     background: #242424;
+
+    .light-theme & {
+      background: #e9e9e9;
+    }
   }
 }
 
 .box-headline {
   font-size: 22px;
   color: #555;
+
+  .light-theme & {
+    color: $dark;
+  }
 
   &:hover,
   &:hover {
@@ -36,6 +44,10 @@
     cursor: pointer;
     margin: 0 0 0 20px;
     opacity: .8;
+
+    .light-theme & {
+      opacity: 1;
+    }
 
     &:active {
       opacity: .6;
@@ -125,8 +137,13 @@
   position: relative;
   top: 0;
   opacity: 1;
+  box-shadow: 0 10px 12px 5px rgba(0,0,0,.4);
 
   transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s;
+
+  .light-theme & {
+    box-shadow: 0 10px 12px 0 rgba(0,0,0,.3);
+  }
 
   .loading & {
     top: -5px;
@@ -162,6 +179,10 @@
   clear: both;
   color: #555;
   font-size: 15px;
+
+  .light-theme & {
+    color: #909090;
+  }
 }
 
 .item-title {
@@ -174,6 +195,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 100%;
+
+  .light-theme & {
+    color: $dark;
+  }
 
   &:hover,
   &:active {

@@ -28,11 +28,15 @@ The rating based on an 5-Point system.
 
 ##### Client / Public
 
-* Open the `public/assets/js/config.js` file and modify them. The `uri` is needed for the react-router. If your app lives in the root folder, change it to `/`. The rest should be clear.
+* Open the `/public/assets/js/config.js` file and modify them. The `uri` is needed for the react-router. If your app lives in the root folder, change it to `/`. The rest should be clear.
 
 **Only for development:**
 * Run `npm install` in your `client` folder.
 * Run `gulp watch` or `gulp watch --production` and make your work.
+
+### Misc
+
+There is a light theme option: Add `light-theme` class to `body` in `/client/views/app.blade.php`.
 
 ### Todo
 
@@ -42,6 +46,5 @@ The rating based on an 5-Point system.
 * Detail page for items (rather than direct to youtube).
 * Easy installer.
 * Rewrite Server API.
-* Light Theme.
 * Modify and add own categorys.
 * For series and animes a list of episodes.

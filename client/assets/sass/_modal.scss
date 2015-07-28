@@ -9,6 +9,10 @@
   opacity: 1;
   transition: opacity .1s ease-in-out 0s;
 
+  .light-theme & {
+    background: rgba(#fff,.98);
+  }
+
   .modal-active & {
     overflow-y: scroll;
   }
