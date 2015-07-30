@@ -36,25 +36,29 @@ class Box extends React.Component {
 
     return (
 
-      <section className="box">
-        <div className="wrap">
+      <div>
 
-          <Link to={config.uri + this.props.category.slug} className="box-headline">
-            {this.props.category.name} ({this.props.category.items_count.aggregate})
-          </Link>
+        <section className="box">
+          <div className="wrap">
 
-          <FilterOptions category={this.props.category.slug} changeFilter={this.changeFilter.bind(this)} />
+            <Link to={config.uri + this.props.category.slug} className="box-headline">
+              {this.props.category.name} ({this.props.category.items_count.aggregate})
+            </Link>
 
-          <div className="items">
-            { ! this.state.items.length ? <i className="icon-box-load"></i> : items}
+            <FilterOptions category={this.props.category.slug} changeFilter={this.changeFilter.bind(this)} />
+
+            <div className="items">
+              { ! this.state.items.length ? <i className="icon-box-load"></i> : items}
+            </div>
+
           </div>
+        </section>
 
-          {this.state.items.length >= config.loadingItems && this.state.moreToLoad && this.props.category
-            ? <div className="load-more-wrap">{loadContent}</div>
-            : ''}
+        {this.state.items.length >= config.loadingItems && this.state.moreToLoad && this.props.category
+          ? <div className="wrap"><div className="load-more-wrap">{loadContent}</div></div>
+          : ''}
 
-        </div>
-      </section>
+      </div>
 
     );
   }
