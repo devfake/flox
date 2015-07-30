@@ -36,7 +36,7 @@ class Box extends React.Component {
 
     return (
 
-      <div>
+      <div className="box-wrap">
 
         <section className="box">
           <div className="wrap">
