@@ -44,6 +44,7 @@
   box-shadow: 0 10px 12px 5px rgba(0,0,0,.4);
   transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s, transform .15s ease-in-out 0s;
   filter: blur(0);
+  cursor: pointer;
 
   .light-theme & {
     box-shadow: 0 10px 12px 0 rgba(0,0,0,.3);

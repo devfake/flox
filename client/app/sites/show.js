@@ -16,7 +16,9 @@ class Show extends React.Component {
   render() {
     let style = {
       backgroundImage:
-        this.state.item.poster == 'null' || typeof this.state.item.poster === 'undefined' ? '' : 'url(' + config.posterBig + this.state.item.poster + ')'
+        this.state.item.poster == 'null' || typeof this.state.item.poster === 'undefined'
+          ? ''
+          : 'url(' + config.posterBig + this.state.item.poster + ')'
     }
 
     return (
