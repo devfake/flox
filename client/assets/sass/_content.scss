@@ -84,25 +84,6 @@
   &:nth-child(5n) {
     margin: 50px 0 0 0;
   }
-
-  &:hover .icon-edit-wrap {
-    display: block;
-  }
-}
-
-.icon-edit-wrap {
-  padding: 10px;
-  background: $main;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 50;
-  display: none;
-  cursor: pointer;
-
-  i {
-    float: left;
-  }
 }
 
 .rating {
@@ -132,7 +113,8 @@
   top: 0;
   opacity: 1;
   box-shadow: 0 10px 12px 5px rgba(0,0,0,.4);
-  transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s;
+  transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s, transform .15s ease-in-out 0s;
+  filter: blur(0);
 
   .light-theme & {
     box-shadow: 0 10px 12px 0 rgba(0,0,0,.3);
@@ -141,6 +123,10 @@
   .loading & {
     top: -5px;
     opacity: 0;
+  }
+
+  &:hover {
+    transform: translateZ(0) scale(1.05, 1.05);
   }
 }
 
