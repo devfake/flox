@@ -2,24 +2,28 @@
 Icon classes can be used entirely standalone. They are named after their original file names.
 
 ```html
-<i class="icon-home"></i>
+<!-- `display: block` sprite -->
+<div class="icon-home"></div>
+
+<!-- `display: inline-block` sprite -->
+<img class="icon-home" />
 ```
 */
 .icon-add {
   background-image: url(../img/sprite.png);
-  background-position: -64px 0px;
+  background-position: -64px -18px;
   width: 32px;
   height: 32px;
 }
 .icon-close {
   background-image: url(../img/sprite.png);
-  background-position: -64px -32px;
+  background-position: -96px -18px;
   width: 32px;
   height: 32px;
 }
 .icon-github {
   background-image: url(../img/sprite.png);
-  background-position: 0px -96px;
+  background-position: -96px -64px;
   width: 33px;
   height: 27px;
 }
@@ -31,37 +35,37 @@ Icon classes can be used entirely standalone. They are named after their origina
 }
 .icon-search {
   background-image: url(../img/sprite.png);
-  background-position: 0px -64px;
+  background-position: -128px -18px;
   width: 32px;
   height: 32px;
 }
 .icon-star-active {
   background-image: url(../img/sprite.png);
-  background-position: -32px -64px;
+  background-position: -160px -18px;
   width: 32px;
   height: 32px;
 }
 .icon-star {
   background-image: url(../img/sprite.png);
-  background-position: -64px -64px;
+  background-position: 0px -64px;
   width: 32px;
   height: 32px;
 }
 .icon-time-active {
   background-image: url(../img/sprite.png);
-  background-position: -96px 0px;
+  background-position: -32px -64px;
   width: 32px;
   height: 32px;
 }
 .icon-time {
   background-image: url(../img/sprite.png);
-  background-position: -96px -32px;
+  background-position: -64px -64px;
   width: 32px;
   height: 32px;
 }
 .icon-tmdb {
   background-image: url(../img/sprite.png);
-  background-position: -128px 0px;
+  background-position: -64px 0px;
   width: 138px;
   height: 18px;
 }

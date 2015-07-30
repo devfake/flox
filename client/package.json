@@ -4,8 +4,8 @@
     "gulp": "^3.8.8"
   },
   "dependencies": {
-    "laravel-elixir": "^2.3.13",
-    "laravel-elixir-spritesmith": "^0.1.5",
+    "laravel-elixir": "^3.0.0",
+    "laravel-elixir-spritesmith": "^0.2.0",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "react-tooltip": "^0.3.4"

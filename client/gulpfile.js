@@ -2,17 +2,18 @@ var elixir = require('laravel-elixir');
 
 require('laravel-elixir-spritesmith');
 
+elixir.config.js.browserify.transformers[0].options.stage = 0;
 elixir.config.sourcemaps = false;
 
-elixir.config.cssOutput = './../public/assets/css';
-elixir.config.jsOutput = './../public/assets/js';
-elixir.config.assetsDir = 'assets/';
-elixir.config.publicDir = '../public/';
+elixir.config.css.outputFolder = './../public/assets/css';
+elixir.config.js.outputFolder = './../public/assets/js';
+elixir.config.assetsPath = 'assets/';
+elixir.config.publicPath = '../public/';
 
 elixir(function(mix) {
   mix.sass('app.scss');
 
-  mix.browserify('../../app/app.js');
+  mix.browserify('../../app/.js');
 
   mix.spritesmith('assets/sprites', {
     imgOutput: '../public/assets/img',
