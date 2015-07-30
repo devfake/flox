@@ -10,7 +10,9 @@ class Box extends React.Component {
 
   state = {
     // No need to sync parent items.
-    items: this.props.items
+    items: this.props.items,
+    moreLoaded: false,
+    moreToLoad: true
   }
 
   componentWillReceiveProps(nextProps) {
@@ -20,6 +22,14 @@ class Box extends React.Component {
   }
 
   render() {
+    let loadContent;
+
+    if( ! this.state.moreLoaded) {
+      loadContent = <div className="load-more" onClick={this.loadMore.bind(this)}>Load more {this.props.category.name}</div>
+    } else {
+      loadContent = <i className="icon-load-more"></i>
+    }
+
     let items = this.state.items.map((value, key) => {
       return <Item key={key} data={value} category={this.props.category.slug} />
     });
@@ -38,6 +48,10 @@ class Box extends React.Component {
           <div className="items">
             { ! this.state.items.length ? <i className="icon-box-load"></i> : items}
           </div>
+
+          {this.state.items.length >= config.loadingItems && this.state.moreToLoad && this.props.category
+            ? <div className="load-more-wrap">{loadContent}</div>
+            : ''}
 
         </div>
       </section>
@@ -59,6 +73,25 @@ class Box extends React.Component {
         });
       })
     }, 200);
+  }
+
+  loadMore() {
+    this.setState({
+      moreLoaded: true
+    });
+
+    setTimeout(() => {
+
+      Api.moreCategoryItems(this.props.category, this.state.currentLoaded).then((value) => {
+        this.setState({
+          currentLoaded: this.state.currentLoaded + config.loadingItems,
+          items: this.state.items.concat(value),
+          moreLoaded: false,
+          moreToLoad: value.length ? true : false
+        });
+      });
+
+    }, 400);
   }
 }
 
