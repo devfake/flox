@@ -6,7 +6,7 @@ Flox is a self hosted Movies, Series and Anime watch list. It's build on top of 
 
 **The current status miss some important features. See Todo.**
 
-The rating based on an 5-Point system.
+The rating based on an 5-Point system with 0.5 steps.
 
 ### Requirements
 

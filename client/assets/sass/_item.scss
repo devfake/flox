@@ -28,9 +28,13 @@
 }
 
 .rating-1 { background: #ac1b1b; }
+.rating-1-5 { background: linear-gradient(#c15e33 20%, #ac1b1b 25%); }
 .rating-2 { background: #c15e33; }
+.rating-2-5 { background: linear-gradient(#dea621 20%, #c15e33 25%); }
 .rating-3 { background: #dea621; }
+.rating-3-5 { background: linear-gradient(#73a01c 20%, #dea621 25%); }
 .rating-4 { background: #73a01c; }
+.rating-4-5 { background: linear-gradient($main 20%, #73a01c 25%); }
 .rating-5 { background: $main; }
 
 .item-image {

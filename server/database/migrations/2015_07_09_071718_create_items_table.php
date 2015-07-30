@@ -20,7 +20,7 @@ class CreateItemsTable extends Migration
             $table->string('poster');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->integer('rating');
+            $table->string('rating');
             $table->integer('released');
             $table->integer('seen');
             $table->integer('created_at');
