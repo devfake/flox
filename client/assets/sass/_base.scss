@@ -43,6 +43,10 @@ body {
   color: #636363;
 }
 
+::-ms-clear {
+  display: none;
+}
+
 ul { list-style: none; }
 a { text-decoration: none; outline: 0; }
 img { border: 0; }
