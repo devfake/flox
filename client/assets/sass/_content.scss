@@ -70,7 +70,8 @@
 }
 
 .icon-content-load,
-.icon-box-load {
+.icon-box-load,
+.icon-load-more {
   background: url(../img/content-load.gif) no-repeats;
   width: 32px;
   height: 32px;
@@ -86,6 +87,17 @@
 
 .icon-box-load {
   top: 280px;
+}
+
+.load-more-wrap {
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 70px;
+}
+
+.icon-load-more {
+  top: 0;
 }
 
 .show-item-wrap {
@@ -114,11 +126,11 @@
   padding: 10px;
   float: left;
   width: 100%;
-  margin: 0 0 40px 0;
   text-align: center;
   text-transform: uppercase;
   color: #555;
   cursor: pointer;
+  position: relative;
 
   .light-theme & {
     background: #e9e9e9;
