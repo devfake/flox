@@ -13,7 +13,7 @@ elixir.config.publicPath = '../public/';
 elixir(function(mix) {
   mix.sass('app.scss');
 
-  mix.browserify('../../app/.js');
+  mix.browserify('../../app/app.js');
 
   mix.spritesmith('assets/sprites', {
     imgOutput: '../public/assets/img',
