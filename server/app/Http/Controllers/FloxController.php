@@ -2,16 +2,13 @@
 
   namespace Flox\Http\Controllers;
 
-  use DateTime;
   use Flox\Item;
   use Flox\Category;
   use Flox\Http\Controllers\Controller;
-  use GuzzleHttp\Client;
   use Illuminate\Support\Facades\Request;
   use Illuminate\Support\Str;
 
-  // todo: Rewrite API.
-  class APIController extends Controller {
+  class FloxController extends Controller {
 
     public function homeItems($category, $orderBy, $loading = 5)
     {
@@ -41,7 +38,6 @@
     private function getItems($category, $orderBy, $count)
     {
       $category = Category::where('slug', $category)->with('itemsCount')->first();
-
       $items = Item::where('category_id', $category->id)->orderBy($orderBy, 'desc')->take($count)->get();
 
       return [
@@ -50,37 +46,10 @@
       ];
     }
 
-     public function searchFloxByTitle($title)
-     {
-       // todo: Implement Levenshtein ;)
-       return Item::where('title', 'LIKE', '%' . $title . '%')->with('categories')->get();
-     }
-
-    public function searchTMDBByTitle($title)
+    public function searchFloxByTitle($title)
     {
-      $items = [];
-      $client = new Client(['base_uri' => 'http://api.themoviedb.org/']);
-
-      $response = $client->get('/3/search/multi', ['query' => ['api_key' => env('TMDB_API_KEY'), 'query' => $title]]);
-      $response = json_decode($response->getBody());
-
-      foreach($response->results as $result) {
-        if($result->media_type == 'person') continue;
-
-        $dtime = DateTime::createFromFormat('Y-m-d', (array_key_exists('release_date', $result)
-          ? ($result->release_date ?: '1970-12-1')
-          : ($result->first_air_date ?: '1970-12-1')
-        ));
-
-        $items[] = [
-          'tmdb_id' => $result->id,
-          'title' => array_key_exists('name', $result) ? $result->name : $result->title,
-          'poster' => $result->poster_path,
-          'released' => $dtime->getTimestamp(),
-        ];
-      }
-
-      return $items;
+      // todo: Implement Levenshtein ;)
+      return Item::where('title', 'LIKE', '%' . $title . '%')->with('categories')->get();
     }
 
     public function newItem()

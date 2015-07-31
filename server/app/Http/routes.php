@@ -1,16 +1,17 @@
 <?php
 
+  // todo: Rewrite API.
   Route::group(['prefix' => 'api'], function() {
 
-    get('all-categories', 'APIController@allCategories');
-    get('home-items/{category}/{orderBy}/{loading?}', 'APIController@homeItems');
-    get('category-items/{category}/{orderBy}/{loading}', 'APIController@categoryItems');
-    get('more-category-items/{categoryID}/{orderBy}/{loading}/{loaded}', 'APIController@moreCategoryItems');
+    get('all-categories', 'FloxController@allCategories');
+    get('home-items/{category}/{orderBy}/{loading?}', 'FloxController@homeItems');
+    get('category-items/{category}/{orderBy}/{loading}', 'FloxController@categoryItems');
+    get('more-category-items/{categoryID}/{orderBy}/{loading}/{loaded}', 'FloxController@moreCategoryItems');
 
-    get('search/flox/{title}', 'APIController@searchFloxByTitle');
-    get('search/tmdb/{title}', 'APIController@searchTMDBByTitle');
+    get('search/flox/{title}', 'FloxController@searchFloxByTitle');
+    get('search/tmdb/{title}', 'TMDBController@searchTMDBByTitle');
 
-    post('new', 'APIController@newItem');
+    post('new', 'FloxController@newItem');
 
   });
 
