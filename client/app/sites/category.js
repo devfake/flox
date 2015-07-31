@@ -50,25 +50,6 @@ class Category extends React.Component {
       });
     }, 200);
   }
-
-  /*loadMore() {
-    this.setState({
-      moreLoaded: true
-    });
-
-    setTimeout(() => {
-
-      Api.moreCategoryItems(this.state.category, this.state.currentLoaded).then((value) => {
-        this.setState({
-          currentLoaded: this.state.currentLoaded + config.loadingItems,
-          items: this.state.items.concat(value),
-          moreLoaded: false,
-          moreToLoad: value.length ? true : false
-        });
-      });
-
-    }, 400);
-  }*/
 }
 
 export default Category;

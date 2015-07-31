@@ -16,6 +16,7 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->integer('tmdb_id');
             $table->string('title');
+            $table->index('title');
             $table->string('slug');
             $table->string('poster');
             $table->integer('category_id')->unsigned();
