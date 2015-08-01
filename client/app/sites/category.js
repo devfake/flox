@@ -15,8 +15,7 @@ class Category extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       category: {},
-      items: [],
-      currentLoaded: config.loadingItems
+      items: []
     });
     
     this.loadCategoryItems(nextProps);
@@ -33,7 +32,7 @@ class Category extends React.Component {
 
       <div>
         {this.state.items.length
-          ? <Box items={this.state.items} category={this.state.category} type="category" currentLoaded={this.state.currentLoaded} />
+          ? <Box items={this.state.items} category={this.state.category} type="category" />
           : <i className="icon-content-load"></i>}
       </div>
 

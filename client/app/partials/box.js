@@ -12,7 +12,8 @@ class Box extends React.Component {
     // No need to sync parent items.
     items: this.props.items,
     moreLoaded: false,
-    moreToLoad: true
+    moreToLoad: true,
+    currentLoaded: config.loadingItems
   }
 
   componentWillReceiveProps(nextProps) {
