@@ -15,7 +15,11 @@ class FilterOptions extends React.Component {
   }
 
   setActiveIf(type) {
-    if(type === Api.usersFilterFor(this.props.category)) return 'active';
+    if(type === Api.usersFilterFor(this.props.category)) {
+      return 'active';
+    }
+
+    return '';
   }
 }
 

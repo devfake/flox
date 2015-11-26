@@ -16,7 +16,6 @@ class Api extends React.Component {
 
   static moreCategoryItems(category, currentLoaded) {
     return $.get(config.api + 'more-category-items/' + category.id + '/' + this.usersFilterFor(category.slug) + '/' + config.loadingItems + '/' + currentLoaded);
-
   }
 
   static usersFilterFor(category) {
