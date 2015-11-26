@@ -69,10 +69,10 @@
   }
 }
 
+.icon-load-more,
 .icon-content-load,
-.icon-box-load,
-.icon-load-more {
-  background: url(../img/content-load.gif) no-repeats;
+.icon-box-load {
+  background: url(../img/content-load.gif) no-repeat;
   width: 32px;
   height: 32px;
   position: absolute;
@@ -80,8 +80,8 @@
   top: 50vh;
   transform: translateX(-50%);
 
-  .light-theme & {
-    background: url(../img/content-load-light.gif) no-repeats;
+  .light-theme & {
+    background: url(../img/content-load-light.gif) no-repeat;
   }
 }
 

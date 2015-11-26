@@ -10,7 +10,7 @@ class Item extends React.Component {
 
   state = {
     loadClass: 'loading'
-  }
+  };
 
   componentDidMount() {
     // todo: Move to React animation.
