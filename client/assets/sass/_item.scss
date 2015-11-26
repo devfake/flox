@@ -87,12 +87,10 @@
   }
 }
 
-.item-date {
+.item-rating {
   float: left;
-  clear: both;
   color: #555;
-  font-size: 15px;
-  cursor: help;
+  clear: both;
 
   .light-theme & {
     color: #909090;
