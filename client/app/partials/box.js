@@ -14,7 +14,7 @@ class Box extends React.Component {
     moreLoaded: false,
     moreToLoad: true,
     currentLoaded: config.loadingItems
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({

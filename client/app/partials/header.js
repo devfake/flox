@@ -9,7 +9,7 @@ class Header extends React.Component {
   state = {
     showModal: false,
     type: ''
-  }
+  };
 
   render() {
     return (

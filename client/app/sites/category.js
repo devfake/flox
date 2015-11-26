@@ -10,7 +10,7 @@ class Category extends React.Component {
     currentLoaded: config.loadingItems,
     moreLoaded: false,
     moreToLoad: true
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({

@@ -6,7 +6,7 @@ class Home extends React.Component {
 
   state = {
     items: []
-  }
+  };
 
   constructor() {
     super();

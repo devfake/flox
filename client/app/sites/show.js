@@ -6,7 +6,7 @@ class Show extends React.Component {
 
   state = {
     item: {}
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ class Show extends React.Component {
         this.state.item.poster == 'null' || typeof this.state.item.poster === 'undefined'
           ? ''
           : 'url(' + config.posterBig + this.state.item.poster + ')'
-    }
+    };
 
     return (
 

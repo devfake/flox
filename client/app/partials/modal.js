@@ -9,7 +9,7 @@ class Modal extends React.Component {
     searching: false,
     searched: false,
     loadClass: 'loading'
-  }
+  };
 
   componentDidMount() {
     // Avoid 'jerk' if overflow from body is hidden.

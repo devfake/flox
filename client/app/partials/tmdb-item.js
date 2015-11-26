@@ -12,8 +12,8 @@ class TMDBItem extends React.Component {
         </div>
 
         <div className="item-content">
-          <span className="item-date" title={"Released on " + this.props.released().full}>{this.props.released().year}</span>
           <div className="item-title" onClick={this.addNewItem.bind(this)} title={this.props.data.title}>{this.props.data.title}</div>
+          <span className="item-date" title={"Released on " + this.props.released().full}>{this.props.released().year}</span>
         </div>
       </div>
 

@@ -27,7 +27,7 @@ class Item extends React.Component {
         this.props.data.poster === 'null' || this.props.data.poster === null || typeof this.props.data.poster === 'undefined'
           ? ''
           : 'url(' + config.posterSmall + this.props.data.poster + ')'
-    }
+    };
 
     return (
 

@@ -87,7 +87,8 @@
   }
 }
 
-.item-rating {
+.item-rating,
+.item-date {
   float: left;
   color: #555;
   clear: both;
@@ -95,6 +96,10 @@
   .light-theme & {
     color: #909090;
   }
+}
+
+.item-date {
+  cursor: help;
 }
 
 .item-title {
