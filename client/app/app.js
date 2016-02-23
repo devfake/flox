@@ -23,7 +23,7 @@ class Flox extends React.Component {
 }
 
 render((
-  <Router history={browserHistory}>
+  <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
     <Route component={Flox} path={config.uri}>
       <IndexRoute component={Home} />
       <Route path=":category" component={Category} />
