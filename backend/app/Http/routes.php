@@ -1,7 +1,10 @@
 <?php
 
   Route::get('import', function() {
-    Excel::load('list.csv', function($reader) {
+    Excel::load('test.csv', function($reader) {
+
+      dd($reader->get());
+
       $reader->each(function($sheet) {
         echo $sheet['title'] . "<br>";
       });
