@@ -1,8 +1,6 @@
 import React from 'react';
-import Router from 'react-router';
+import {Router, Link} from 'react-router';
 import Modal from './modal';
-
-let Link = Router.Link;
 
 class Header extends React.Component {
 

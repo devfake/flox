@@ -21,5 +21,5 @@ elixir(function(mix) {
     cssFormat: 'css'
   });
 
-  mix.task('browserify', '../../app/**/*.js');
+  mix.task('browserify', './app/**/*.js');
 });

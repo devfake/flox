@@ -1,10 +1,7 @@
 import React from 'react';
-import Router from 'react-router';
 import Api from '../api';
 import FloxItem from './flox-item';
 import TMDBItem from './tmdb-item';
-
-let Link = Router.Link;
 
 class Item extends React.Component {
 

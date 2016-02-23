@@ -1,7 +1,4 @@
 import React from 'react';
-import Router from 'react-router';
-
-let Link = Router.Link;
 
 class Footer extends React.Component {
 

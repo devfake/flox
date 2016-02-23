@@ -1,10 +1,8 @@
 import React from 'react';
-import Router from 'react-router';
+import {Router, Link} from 'react-router';
 import FilterOptions from './filter-options';
 import Item from './item';
 import Api from '../api';
-
-let Link = Router.Link;
 
 class Box extends React.Component {
 
@@ -46,7 +44,7 @@ class Box extends React.Component {
         <section className="box">
           <div className="wrap">
 
-            <Link to={config.uri + this.props.category.slug} className="box-headline">
+            <Link to="/" className="box-headline">
               {this.props.category.name} ({this.props.category.items_count.aggregate})
             </Link>
 
@@ -69,6 +67,7 @@ class Box extends React.Component {
   }
 
   changeFilter(filterBy, category) {
+    console.log(config);
     Api.changeUsersFilterFor(category, filterBy);
 
     this.setState({
