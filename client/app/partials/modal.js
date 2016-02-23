@@ -41,7 +41,7 @@ class Modal extends React.Component {
     });
 
     if( ! this.state.items.length && this.state.searched) {
-      content = <div className="no-items-found">No items found :(</div>
+      content = <div className="no-items-found">Nothing found :(</div>
     } else if(this.state.searching) {
       content = <i className="icon-content-load"></i>
     } else if(this.state.items.length && ! this.state.searching) {

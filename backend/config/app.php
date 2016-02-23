@@ -144,6 +144,7 @@ return [
         Flox\Providers\AppServiceProvider::class,
         Flox\Providers\EventServiceProvider::class,
         Flox\Providers\RouteServiceProvider::class,
+        Flox\Providers\AuthServiceProvider::class,
 
     ],
 
@@ -192,6 +193,7 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        'Gate' => Illuminate\Support\Facades\Gate::class,
 
     ],
 

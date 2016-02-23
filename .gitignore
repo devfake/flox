@@ -1,4 +1,4 @@
 .idea
-/server/vendor
+/backend/vendor
 /client/node_modules
 .env
