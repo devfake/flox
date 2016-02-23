@@ -1,5 +1,13 @@
 <?php
 
+  Route::get('import', function() {
+    Excel::load('list.csv', function($reader) {
+      $reader->each(function($sheet) {
+        echo $sheet['title'] . "<br>";
+      });
+    });
+  });
+
   // todo: Rewrite API.
   Route::group(['middleware' => ['web']], function() {
 

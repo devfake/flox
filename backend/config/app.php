@@ -137,6 +137,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         'Cviebrock\EloquentSluggable\SluggableServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider',
 
         /*
          * Application Service Providers...
@@ -194,6 +195,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
+        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 
     ],
 
