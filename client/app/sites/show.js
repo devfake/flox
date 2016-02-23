@@ -4,13 +4,13 @@ import Api from '../api';
 // Todo: Make it work!
 class Show extends React.Component {
 
-  state = {
-    item: {}
-  };
-
   constructor(props) {
     super(props);
     this.loadItem();
+
+    this.state = {
+      item: {}
+    };
   }
 
   render() {

@@ -2,7 +2,6 @@ var elixir = require('laravel-elixir');
 
 require('laravel-elixir-spritesmith');
 
-elixir.config.js.browserify.transformers[0].options.stage = 0;
 elixir.config.sourcemaps = false;
 
 elixir.config.css.outputFolder = './../public/assets/css';

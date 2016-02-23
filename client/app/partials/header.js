@@ -6,10 +6,14 @@ let Link = Router.Link;
 
 class Header extends React.Component {
 
-  state = {
-    showModal: false,
-    type: ''
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showModal: false,
+      type: ''
+    };
+  }
 
   render() {
     return (

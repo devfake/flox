@@ -4,12 +4,16 @@ import Item from './item';
 
 class Modal extends React.Component {
 
-  state = {
-    items: [],
-    searching: false,
-    searched: false,
-    loadClass: 'loading'
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      items: [],
+      searching: false,
+      searched: false,
+      loadClass: 'loading'
+    };
+  }
 
   componentDidMount() {
     // Avoid 'jerk' if overflow from body is hidden.

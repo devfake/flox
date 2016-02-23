@@ -4,13 +4,13 @@ import Api from '../api';
 
 class Home extends React.Component {
 
-  state = {
-    items: []
-  };
-
   constructor() {
     super();
     this.loadHomeItems();
+
+    this.state = {
+      items: []
+    };
   }
 
   render() {

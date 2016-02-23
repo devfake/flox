@@ -4,13 +4,18 @@ import Api from '../api';
 
 class Category extends React.Component {
 
-  state = {
-    category: {},
-    items: [],
-    currentLoaded: config.loadingItems,
-    moreLoaded: false,
-    moreToLoad: true
-  };
+  constructor(props) {
+    super(props);
+    this.loadCategoryItems(props);
+
+    this.state = {
+      category: {},
+      items: [],
+      currentLoaded: config.loadingItems,
+      moreLoaded: false,
+      moreToLoad: true
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -19,11 +24,6 @@ class Category extends React.Component {
     });
     
     this.loadCategoryItems(nextProps);
-  }
-
-  constructor(props) {
-    super(props);
-    this.loadCategoryItems(props);
   }
 
   // todo: fix icon load.

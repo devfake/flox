@@ -8,9 +8,13 @@ let Link = Router.Link;
 
 class Item extends React.Component {
 
-  state = {
-    loadClass: 'loading'
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loadClass: 'loading'
+    };
+  }
 
   componentDidMount() {
     // todo: Move to React animation.

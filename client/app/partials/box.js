@@ -8,13 +8,17 @@ let Link = Router.Link;
 
 class Box extends React.Component {
 
-  state = {
-    // No need to sync parent items.
-    items: this.props.items,
-    moreLoaded: false,
-    moreToLoad: true,
-    currentLoaded: config.loadingItems
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      // No need to sync parent items.
+      items: this.props.items,
+      moreLoaded: false,
+      moreToLoad: true,
+      currentLoaded: config.loadingItems
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
