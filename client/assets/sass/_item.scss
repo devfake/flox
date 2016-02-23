@@ -75,6 +75,7 @@
   margin: 20px 0 0 0;
   padding: 0 5px;
   width: 100%;
+  cursor: default;
 }
 
 .icon-no-image {
@@ -116,11 +117,5 @@
 
   .light-theme & {
     color: $dark;
-  }
-
-  &:hover,
-  &:active {
-    background: $main;
-    color: #fff;
   }
 }

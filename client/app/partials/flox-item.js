@@ -14,7 +14,7 @@ class FloxItem extends React.Component {
         </a>
 
         <div className="item-content">
-          <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="item-title" title={title}>{title}</a>
+          <span className="item-title" title={title}>{title}</span>
           <span className="item-rating">{this.props.data.rating + "/5 Points"}</span>
         </div>
       </div>

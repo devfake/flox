@@ -30,8 +30,8 @@
   }
 
   &:hover,
-  &:hover {
-    background: $main;
+  &:active {
+    //background: $main;
     color: #fff;
   }
 }
