@@ -35,8 +35,8 @@ var Api = function (_React$Component) {
     }
   }, {
     key: 'items',
-    value: function items(type, category, filterBy, currentLoaded) {
-      return $.get(config.api + type + '-items/' + category + '/' + filterBy + '/' + currentLoaded);
+    value: function items(type, category, filterBy) {
+      return $.get(config.api + type + '-items/' + category + '/' + filterBy);
     }
   }, {
     key: 'categoryItems',
@@ -262,7 +262,7 @@ var Box = function (_React$Component) {
             { className: 'wrap' },
             _react2.default.createElement(
               _reactRouter.Link,
-              { to: '/', className: 'box-headline' },
+              { to: config.uri + this.props.category.slug, className: 'box-headline' },
               this.props.category.name,
               ' (',
               this.props.category.items_count.aggregate,
@@ -292,7 +292,6 @@ var Box = function (_React$Component) {
     value: function changeFilter(filterBy, category) {
       var _this3 = this;
 
-      console.log(config);
       _api2.default.changeUsersFilterFor(category, filterBy);
 
       this.setState({
@@ -300,7 +299,7 @@ var Box = function (_React$Component) {
       });
 
       setTimeout(function () {
-        _api2.default.items(_this3.props.type, _this3.props.category.slug, filterBy, _this3.props.currentLoaded).then(function (value) {
+        _api2.default.items(_this3.props.type, _this3.props.category.slug, filterBy).then(function (value) {
           _this3.setState({
             items: value.items
           });
@@ -614,7 +613,7 @@ var Header = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouter.Link,
-                    { to: config.uri + 'movies' },
+                    { to: config.uri + 'movies', activeClassName: 'active' },
                     'Movies'
                   )
                 ),
@@ -623,7 +622,7 @@ var Header = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouter.Link,
-                    { to: config.uri + 'series' },
+                    { to: config.uri + 'series', activeClassName: 'active' },
                     'Series'
                   )
                 ),
@@ -632,7 +631,7 @@ var Header = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouter.Link,
-                    { to: config.uri + 'animes' },
+                    { to: config.uri + 'animes', activeClassName: 'active' },
                     'Animes'
                   )
                 ),
@@ -768,6 +767,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _api = require('../api');
 
 var _api2 = _interopRequireDefault(_api);
@@ -811,7 +814,7 @@ var Modal = function (_React$Component) {
         $('body').addClass('modal-active');
       }, 200);
 
-      _react2.default.findDOMNode(this.refs.input).focus();
+      _reactDom2.default.findDOMNode(this.refs.input).focus();
 
       setTimeout(function () {
         _this2.setState({
@@ -910,7 +913,7 @@ var Modal = function (_React$Component) {
 
 exports.default = Modal;
 
-},{"../api":1,"./item":8,"react":226}],10:[function(require,module,exports){
+},{"../api":1,"./item":8,"react":226,"react-dom":63}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

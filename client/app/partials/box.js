@@ -44,7 +44,7 @@ class Box extends React.Component {
         <section className="box">
           <div className="wrap">
 
-            <Link to="/" className="box-headline">
+            <Link to={config.uri + this.props.category.slug} className="box-headline">
               {this.props.category.name} ({this.props.category.items_count.aggregate})
             </Link>
 

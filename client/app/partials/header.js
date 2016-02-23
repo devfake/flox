@@ -30,9 +30,9 @@ class Header extends React.Component {
               <nav className="site-nav">
                 <ul>
                   <li><Link to={config.uri}>All</Link></li>
-                  <li><Link to={config.uri + 'movies'}>Movies</Link></li>
-                  <li><Link to={config.uri + 'series'}>Series</Link></li>
-                  <li><Link to={config.uri + 'animes'}>Animes</Link></li>
+                  <li><Link to={config.uri + 'movies'} activeClassName="active">Movies</Link></li>
+                  <li><Link to={config.uri + 'series'} activeClassName="active">Series</Link></li>
+                  <li><Link to={config.uri + 'animes'} activeClassName="active">Animes</Link></li>
                   <li className="icon-search-wrap" onClick={this.changeModal.bind(this, 'flox')} title="Search in Flox">
                     <i className="icon-search"></i>
                   </li>

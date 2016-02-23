@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Api from '../api';
 import Item from './item';
 
@@ -21,7 +22,7 @@ class Modal extends React.Component {
       $('body').addClass('modal-active');
     }, 200);
 
-    React.findDOMNode(this.refs.input).focus();
+    ReactDOM.findDOMNode(this.refs.input).focus();
 
     setTimeout(() => {
       this.setState({
