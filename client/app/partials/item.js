@@ -23,18 +23,15 @@ class Item extends React.Component {
   }
 
   render() {
-    let style = {
-      backgroundImage:
-        this.props.data.poster === 'null' || this.props.data.poster === null || typeof this.props.data.poster === 'undefined'
-          ? ''
-          : 'url(' + config.posterSmall + this.props.data.poster + ')'
-    };
+    let image = this.props.data.poster === 'null' || this.props.data.poster === null || typeof this.props.data.poster === 'undefined'
+      ? ''
+      : config.posterSmall + this.props.data.poster;
 
     return (
 
       this.props.tmdb
-        ? <TMDBItem data={this.props.data} loadClass={this.state.loadClass} bgStyle={style} released={this.released.bind(this)} />
-        : <FloxItem data={this.props.data} loadClass={this.state.loadClass} bgStyle={style} released={this.released.bind(this)} />
+        ? <TMDBItem data={this.props.data} loadClass={this.state.loadClass} image={image} released={this.released.bind(this)} />
+        : <FloxItem data={this.props.data} loadClass={this.state.loadClass} image={image} released={this.released.bind(this)} />
 
     )
   }

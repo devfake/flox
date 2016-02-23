@@ -9,7 +9,6 @@ import Show from './sites/show';
 import Header from './partials/header';
 import Footer from './partials/footer';
 
-
 class Flox extends React.Component {
   render() {
     return (

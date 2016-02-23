@@ -8,8 +8,8 @@ class FloxItem extends React.Component {
     return (
 
       <div className={'item ' + this.props.loadClass}>
-        <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="item-image" style={this.props.bgStyle}>
-          {this.props.bgStyle.backgroundImage ? '' : <i className="icon-no-image"></i>}
+        <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="item-image">
+          {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
           <div className={"rating rating-" + this.formatRating()}></div>
         </a>
 

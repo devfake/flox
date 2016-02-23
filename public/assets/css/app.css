@@ -689,12 +689,15 @@ Icon classes can be used entirely standalone. They are named after their origina
   height: 270px;
   position: relative;
   top: 0;
+  overflow: hidden;
   opacity: 1;
   transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s, -webkit-transform .15s ease-in-out 0s;
   transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s, transform .15s ease-in-out 0s;
   -webkit-filter: blur(0);
   filter: blur(0);
   cursor: pointer; }
+  .item-image img {
+    position: absolute; }
   .light-theme .item-image {
     box-shadow: 0 10px 12px 0 rgba(0, 0, 0, 0.3); }
   .loading .item-image {

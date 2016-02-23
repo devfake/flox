@@ -159,7 +159,9 @@ var Flox = function (_React$Component) {
 
 (0, _reactDom.render)(_react2.default.createElement(
   _reactRouter.Router,
-  { history: _reactRouter.browserHistory },
+  { history: _reactRouter.browserHistory, onUpdate: function onUpdate() {
+      return window.scrollTo(0, 0);
+    } },
   _react2.default.createElement(
     _reactRouter.Route,
     { component: Flox, path: config.uri },
@@ -434,16 +436,16 @@ var FloxItem = function (_React$Component) {
         { className: 'item ' + this.props.loadClass },
         _react2.default.createElement(
           'a',
-          { href: "https://www.youtube.com/results?search_query=" + title + " Trailer", target: '_blank', className: 'item-image', style: this.props.bgStyle },
-          this.props.bgStyle.backgroundImage ? '' : _react2.default.createElement('i', { className: 'icon-no-image' }),
+          { href: "https://www.youtube.com/results?search_query=" + title + " Trailer", target: '_blank', className: 'item-image' },
+          this.props.image ? _react2.default.createElement('img', { src: this.props.image }) : _react2.default.createElement('i', { className: 'icon-no-image' }),
           _react2.default.createElement('div', { className: "rating rating-" + this.formatRating() })
         ),
         _react2.default.createElement(
           'div',
           { className: 'item-content' },
           _react2.default.createElement(
-            'a',
-            { href: "https://www.youtube.com/results?search_query=" + title + " Trailer", target: '_blank', className: 'item-title', title: title },
+            'span',
+            { className: 'item-title', title: title },
             title
           ),
           _react2.default.createElement(
@@ -725,11 +727,9 @@ var Item = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var style = {
-        backgroundImage: this.props.data.poster === 'null' || this.props.data.poster === null || typeof this.props.data.poster === 'undefined' ? '' : 'url(' + config.posterSmall + this.props.data.poster + ')'
-      };
+      var image = this.props.data.poster === 'null' || this.props.data.poster === null || typeof this.props.data.poster === 'undefined' ? '' : config.posterSmall + this.props.data.poster;
 
-      return this.props.tmdb ? _react2.default.createElement(_tmdbItem2.default, { data: this.props.data, loadClass: this.state.loadClass, bgStyle: style, released: this.released.bind(this) }) : _react2.default.createElement(_floxItem2.default, { data: this.props.data, loadClass: this.state.loadClass, bgStyle: style, released: this.released.bind(this) });
+      return this.props.tmdb ? _react2.default.createElement(_tmdbItem2.default, { data: this.props.data, loadClass: this.state.loadClass, image: image, released: this.released.bind(this) }) : _react2.default.createElement(_floxItem2.default, { data: this.props.data, loadClass: this.state.loadClass, image: image, released: this.released.bind(this) });
     }
   }, {
     key: 'released',
@@ -956,7 +956,7 @@ var TMDBItem = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'item-image', style: this.props.bgStyle, onClick: this.addNewItem.bind(this) },
-          this.props.bgStyle.backgroundImage ? '' : _react2.default.createElement('i', { className: 'icon-no-image' })
+          this.props.image ? _react2.default.createElement('img', { src: this.props.image }) : _react2.default.createElement('i', { className: 'icon-no-image' })
         ),
         _react2.default.createElement(
           'div',

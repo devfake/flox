@@ -8,7 +8,7 @@ class TMDBItem extends React.Component {
 
       <div className={'item ' + this.props.loadClass}>
         <div className="item-image" style={this.props.bgStyle} onClick={this.addNewItem.bind(this)}>
-          {this.props.bgStyle.backgroundImage ? '' : <i className="icon-no-image"></i>}
+          {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
         </div>
 
         <div className="item-content">
