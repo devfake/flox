@@ -12,13 +12,9 @@
      */
     public function run()
     {
-      Model::unguard();
-
       $this->call(CategoryTableSeeder::class);
       foreach(range(1,20) as $i) {
         $this->call(ItemTableSeeder::class);
       }
-
-      Model::reguard();
     }
   }
