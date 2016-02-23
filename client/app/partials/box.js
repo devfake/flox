@@ -67,7 +67,6 @@ class Box extends React.Component {
   }
 
   changeFilter(filterBy, category) {
-    console.log(config);
     Api.changeUsersFilterFor(category, filterBy);
 
     this.setState({
@@ -75,7 +74,7 @@ class Box extends React.Component {
     });
 
     setTimeout(() => {
-      Api.items(this.props.type, this.props.category.slug, filterBy, this.props.currentLoaded).then((value) => {
+      Api.items(this.props.type, this.props.category.slug, filterBy).then((value) => {
         this.setState({
           items: value.items
         });

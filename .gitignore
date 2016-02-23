@@ -2,3 +2,5 @@
 /backend/vendor
 /client/node_modules
 .env
+/public/assets/js/app.js
+/public/assets/css/app.css

@@ -15,7 +15,7 @@
       return $this->getItems($category, $orderBy, $loading);
     }
 
-    public function categoryItems($category, $orderBy, $loading)
+    public function categoryItems($category, $orderBy, $loading = 20)
     {
       return $this->getItems($category, $orderBy, $loading);
     }
