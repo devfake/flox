@@ -22,7 +22,7 @@
 
     public function moreCategoryItems($categoryID, $orderBy, $loading, $loaded)
     {
-      return Item::where('category_id', $categoryID)->orderBy($orderBy, 'desc')->take($loading)->skip($loaded)->get();
+      return Item::where('category_id', $categoryID)->where('removed', false)->orderBy($orderBy, 'desc')->take($loading)->skip($loaded)->get();
     }
 
     public function allCategories()
@@ -38,7 +38,7 @@
     private function getItems($category, $orderBy, $count)
     {
       $category = Category::where('slug', $category)->with('itemsCount')->first();
-      $items = Item::where('category_id', $category->id)->orderBy($orderBy, 'desc')->take($count)->get();
+      $items = Item::where('category_id', $category->id)->where('removed', false)->orderBy($orderBy, 'desc')->take($count)->get();
 
       return [
         'items' => $items,
@@ -49,7 +49,7 @@
     public function searchFloxByTitle($title)
     {
       // todo: Implement Levenshtein ;)
-      return Item::where('title', 'LIKE', '%' . $title . '%')->with('categories')->get();
+      return Item::where('title', 'LIKE', '%' . $title . '%')->where('removed', false)->with('categories')->get();
     }
 
     public function newItem()
