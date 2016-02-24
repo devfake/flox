@@ -73,6 +73,20 @@
       $item = Item::find($id);
       $item->removed = $item->removed == false ? true : false; // quick query doesn't work :(
 
+      // todo: DRY
+      if($item->save()) {
+        return response('Success', 200);
+      }
+
+      return response('Internal Server Error', 500);
+    }
+
+    public function updateRating($id)
+    {
+      $item = Item::find($id);
+      $item->rating = Request::input('rating');
+
+      // todo: DRY
       if($item->save()) {
         return response('Success', 200);
       }

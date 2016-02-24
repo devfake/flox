@@ -74,13 +74,17 @@ class FloxItem extends React.Component {
     });
   }
 
-  onChangeRate(value) {
-    value = value.toString();
+  onChangeRate(rating) {
+    Api.updateRating(this.props.id, rating).done((value) => {
+      rating = rating.toString();
 
-    this.setState({
-      rating: value,
-      ratingColor: this.formatRating(value)
-    });
+      this.setState({
+        rating,
+        ratingColor: this.formatRating(rating)
+      });
+    }).fail((value) => {
+      alert("Error");
+    });;
   }
 }
 

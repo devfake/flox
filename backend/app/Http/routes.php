@@ -26,6 +26,7 @@
 
       Route::post('new', 'FloxController@newItem');
       Route::post('handle-item-remove/{id}', 'FloxController@handleItemRemove');
+      Route::post('update-rating/{id}', 'FloxController@updateRating');
 
     });
 
