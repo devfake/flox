@@ -24,6 +24,7 @@ class CreateItemsTable extends Migration
             $table->string('rating');
             $table->integer('released');
             $table->integer('seen');
+            $table->boolean('removed')->default(0);
             $table->integer('created_at');
         });
     }
