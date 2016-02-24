@@ -9,7 +9,8 @@ class FloxItem extends React.Component {
 
     this.state = {
       removed: false,
-      ratingColor: this.formatRating()
+      ratingColor: this.formatRating(),
+      rating: this.props.data.rating
     }
   }
 
@@ -24,7 +25,7 @@ class FloxItem extends React.Component {
           <span className="item-title">{title}</span>
 
           <div className="icons-rating">
-            <Rating empty='fa fa-star-o fa-2x' full='fa fa-star fa-2x' fractions={2} initialRate={+this.props.data.rating} onRate={this.onHoverRate.bind(this)} />
+            <Rating empty='fa fa-star-o fa-2x' full='fa fa-star fa-2x' fractions={2} initialRate={+this.state.rating} onRate={this.onHoverRate.bind(this)} onChange={this.onChangeRate.bind(this)} />
           </div>
 
           <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)}></i>
@@ -38,7 +39,7 @@ class FloxItem extends React.Component {
 
         <div className="item-content">
           <span className="item-title" title={title}>{title}</span>
-          <span className="item-rating">{this.props.data.rating + "/5 Rating"}</span>
+          <span className="item-rating">{this.state.rating + "/5 Rating"}</span>
         </div>
       </div>
 
@@ -69,7 +70,16 @@ class FloxItem extends React.Component {
 
   onHoverRate(value) {
     this.setState({
-      ratingColor: value ? this.formatRating(value.toString()) : this.formatRating()
+      ratingColor: value ? this.formatRating(value.toString()) : this.formatRating(this.state.rating.toString())
+    });
+  }
+
+  onChangeRate(value) {
+    value = value.toString();
+
+    this.setState({
+      rating: value,
+      ratingColor: this.formatRating(value)
     });
   }
 }
