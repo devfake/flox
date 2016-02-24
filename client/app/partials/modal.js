@@ -79,7 +79,7 @@ class Modal extends React.Component {
         searched: false
       });
 
-      Api.search(this.props.type, event.target.value).then((value) => {
+      Api.search(this.props.type, event.target.value).done((value) => {
         setTimeout(() => {
           this.setState({
             searching: false,
@@ -87,6 +87,12 @@ class Modal extends React.Component {
             items: value
           });
         }, 200);
+      }).fail((value) => {
+        if(value.status === 401) {
+          alert('Unauthorized');
+        } else {
+          alert('Server Error');
+        }
       });
     } else if(event.key === 'Escape') {
       this.props.closeModal();

@@ -35,7 +35,7 @@ class Box extends React.Component {
     }
 
     let items = this.state.items.map((value) => {
-      return <Item key={value.id} id={value.id} data={value} category={this.props.category.slug} activeKey={this.state.activeKey} changeActiveKey={this.changeActiveKey.bind(this)} />
+      return <Item key={value.id} id={value.id} data={value} logged={this.props.logged} category={this.props.category.slug} activeKey={this.state.activeKey} changeActiveKey={this.changeActiveKey.bind(this)} />
     });
 
     return (

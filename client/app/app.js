@@ -5,19 +5,37 @@ import {Router, Route, browserHistory, IndexRoute} from 'react-router';
 import Api from './api';
 import Home from './sites/home';
 import Category from './sites/category';
-import Show from './sites/show';
 import Header from './partials/header';
 import Footer from './partials/footer';
 
 class Flox extends React.Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      logged: false
+    };
+
+    this.checkLogin();
+  }
+
   render() {
     return (
       <div>
-        <Header />
+        <Header logged={this.state.logged} />
         {this.props.children}
         <Footer />
       </div>
     );
+  }
+
+  checkLogin() {
+    Api.checkLogin().then((value) => {
+      this.setState({
+        logged: value
+      })
+    });
   }
 }
 
@@ -26,7 +44,6 @@ render((
     <Route component={Flox} path={config.uri}>
       <IndexRoute component={Home} />
       <Route path=":category" component={Category} />
-      <Route path=":category/:item" component={Show} />
     </Route>
   </Router>
 ), document.querySelector('.flox'));

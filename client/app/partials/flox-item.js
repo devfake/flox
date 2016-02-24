@@ -7,6 +7,8 @@ class FloxItem extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log(this.props);
+
     this.state = {
       removed: false,
       ratingColor: this.formatRating(),
@@ -24,13 +26,13 @@ class FloxItem extends React.Component {
           <span className="item-date">{this.props.released().year}</span>
           <span className="item-title">{title}</span>
 
-          <div className="icons-rating">
+          {this.props.logged === 'true' ? <div className="icons-rating">
             <Rating empty='fa fa-star-o fa-2x' full='fa fa-star fa-2x' fractions={2} initialRate={+this.state.rating} onRate={this.onHoverRate.bind(this)} onChange={this.onChangeRate.bind(this)} />
-          </div>
+          </div> : ''}
 
           <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)}></i>
           <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
-          <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>{this.state.removed ? "Bring it back" : "Remove from list"}</span>
+          {this.props.logged === 'true' ? <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>{this.state.removed ? "Bring it back" : "Remove from list"}</span> : ''}
         </div>
         <div className="item-image">
           {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
@@ -64,7 +66,11 @@ class FloxItem extends React.Component {
         removed: ! this.state.removed
       })
     }).fail((value) => {
-      alert("Error");
+      if(value.status === 401) {
+        alert('Unauthorized');
+      } else {
+        alert('Server Error');
+      }
     });
   }
 
@@ -83,8 +89,12 @@ class FloxItem extends React.Component {
         ratingColor: this.formatRating(rating)
       });
     }).fail((value) => {
-      alert("Error");
-    });;
+      if(value.status === 401) {
+        alert('Unauthorized');
+      } else {
+        alert('Server Error');
+      }
+    });
   }
 }
 

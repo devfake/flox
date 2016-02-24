@@ -15,7 +15,7 @@ class Home extends React.Component {
 
   render() {
     let boxes = this.state.items.map((value, key) => {
-      return <Box items={value.items} category={value.category} key={key} type="home" currentLoaded="5" />
+      return <Box items={value.items} category={value.category} key={key} logged={this.props.logged} type="home" currentLoaded="5" />
     });
 
     return (

@@ -5,10 +5,16 @@
   use Flox\Item;
   use Flox\Category;
   use Flox\Http\Controllers\Controller;
+  use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Request;
   use Illuminate\Support\Str;
 
   class FloxController extends Controller {
+
+    public function checkLogin()
+    {
+      return Auth::check() ? 'true' : 'false';
+    }
 
     public function homeItems($category, $orderBy, $loading = 5)
     {

@@ -32,7 +32,7 @@ class Category extends React.Component {
 
       <div>
         {this.state.items.length
-          ? <Box items={this.state.items} category={this.state.category} type="category" />
+          ? <Box items={this.state.items} category={this.state.category} logged={this.props.logged} type="category" />
           : <i className="icon-content-load"></i>}
       </div>
 

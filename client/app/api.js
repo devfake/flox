@@ -2,6 +2,10 @@ import React from 'react';
 
 class Api extends React.Component {
 
+  static checkLogin() {
+    return $.get(config.api + 'check-login');
+  }
+
   static categories() {
     return $.get(config.api + 'all-categories');
   }
