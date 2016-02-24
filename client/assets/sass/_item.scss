@@ -16,6 +16,17 @@
     .item-hidden-content {
       left: auto;
       right: -20px;
+
+      .item-title,
+      .item-date {
+        margin: 0 0 0 25px;
+        max-width: 180px;
+      }
+
+      .icon-close-small {
+        right: auto;
+        left: 15px;
+      }
     }
   }
 }
@@ -132,6 +143,11 @@
   .light-theme & {
     color: #909090;
   }
+
+  .item-hidden-content & {
+    margin: 0 0 0 210px;
+    cursor: default;
+  }
 }
 
 .item-date {
@@ -158,6 +174,7 @@
     margin: 0 0 0 210px;
     overflow: visible;
     white-space: normal;
+    cursor: default;
   }
 }
 

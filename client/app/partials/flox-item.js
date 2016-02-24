@@ -18,6 +18,7 @@ class FloxItem extends React.Component {
 
       <div className={'item ' + this.props.loadClass + (this.props.isActive ? ' active' : '')} onClick={this.props.isActive ? null : this.changeActiveKey.bind(this)}>
         <div className="item-hidden-content">
+          <span className="item-date">{this.props.released().year}</span>
           <span className="item-title">{title}</span>
           <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)}></i>
           <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
@@ -30,7 +31,7 @@ class FloxItem extends React.Component {
 
         <div className="item-content">
           <span className="item-title" title={title}>{title}</span>
-          <span className="item-rating">{this.props.data.rating + "/5 Points"}</span>
+          <span className="item-rating">{this.props.data.rating + "/5 Rating"}</span>
         </div>
       </div>
 
@@ -59,10 +60,6 @@ class FloxItem extends React.Component {
     }).fail((value) => {
       alert("Error");
     });
-
-    /*this.setState({
-      removed: true
-    });*/
   }
 }
 
