@@ -23,7 +23,7 @@ class FloxItem extends React.Component {
           <span className="item-title">{title}</span>
 
           <div className="icons-rating">
-            <Rating empty='fa fa-star-o fa-2x' full='fa fa-star fa-2x' fractions={2} initialRate={this.props.data.rating} onRate={this.onHoverRate.bind(this)} />
+            <Rating empty='fa fa-star-o fa-2x' full='fa fa-star fa-2x' fractions={2} initialRate={+this.props.data.rating} onRate={this.onHoverRate.bind(this)} />
           </div>
 
           <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)}></i>

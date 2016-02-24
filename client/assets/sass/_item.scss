@@ -27,6 +27,11 @@
         right: auto;
         left: 15px;
       }
+
+      .icons-rating {
+        left: auto;
+        right: 240px;
+      }
     }
   }
 }
@@ -43,6 +48,7 @@
   }
 }
 
+.rating-0-5 { background: linear-gradient(#000 20%, #ac1b1b 25%); }
 .rating-1 { background: #ac1b1b; }
 .rating-1-5 { background: linear-gradient(#c15e33 20%, #ac1b1b 25%); }
 .rating-2 { background: #c15e33; }
@@ -94,7 +100,7 @@
   }
 
   &:hover {
-    top: -10px;
+    top: -5px;
     //border: 4px solid $main;
     //transform: translateZ(0) scale(1.05, 1.05);
   }
@@ -256,10 +262,10 @@
   bottom: 100px;
 
   span {
-    margin: 0 4px 0 0;
+    padding: 0 4px 0 0;
 
     &:last-child {
-      margin: 0;
+      padding: 0;
     }
   }
 }
