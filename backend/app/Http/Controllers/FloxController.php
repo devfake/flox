@@ -67,4 +67,16 @@
       $item->created_at = time();
       $item->save();
     }
+
+    public function handleItemRemove($id)
+    {
+      $item = Item::find($id);
+      $item->removed = $item->removed == false ? true : false; // quick query doesn't work :(
+
+      if($item->save()) {
+        return response('Success', 200);
+      }
+
+      return response('Internal Server Error', 500);
+    }
   }

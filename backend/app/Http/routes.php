@@ -25,6 +25,7 @@
       Route::get('search/tmdb/{title}', 'TMDBController@searchTMDBByTitle');
 
       Route::post('new', 'FloxController@newItem');
+      Route::post('handle-item-remove/{id}', 'FloxController@handleItemRemove');
 
     });
 

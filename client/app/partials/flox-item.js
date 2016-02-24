@@ -1,4 +1,5 @@
 import React from 'react';
+import Api from '../api';
 
 class FloxItem extends React.Component {
 
@@ -51,9 +52,17 @@ class FloxItem extends React.Component {
   }
 
   handleItemRemove() {
-    this.setState({
+    Api.handleItemRemove(this.props.id).done((value) => {
+      this.setState({
+        removed: ! this.state.removed
+      })
+    }).fail((value) => {
+      alert("Error");
+    });
+
+    /*this.setState({
       removed: true
-    })
+    });*/
   }
 }
 

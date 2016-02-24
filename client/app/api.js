@@ -38,6 +38,10 @@ class Api extends React.Component {
     return $.post(config.api + 'new', {data, _token: $('meta[name="csrf_token"]').attr('content')});
   }
 
+  static handleItemRemove(id) {
+    return $.post(config.api + 'handle-item-remove/' + id, {_token: $('meta[name="csrf_token"]').attr('content')});
+  }
+
   /*static searchTMDBByID(id) {
     return $.get(config.api + 'search/tmdb/id/' + id);
   }
