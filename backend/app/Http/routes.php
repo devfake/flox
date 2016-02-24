@@ -1,7 +1,7 @@
 <?php
 
   Route::get('import', function() {
-    Excel::load('test.csv', function($reader) {
+    Excel::load('list.csv', function($reader) {
 
       dd($reader->get());
 

@@ -2,7 +2,7 @@
 
 ###[Try Demo](http://80.240.132.120/flox/public/)
 
-Flox is a self hosted Movies, Series and Anime watch list. It's build on top of PHP (Laravel), MySQL and React and uses [The Movie Database](https://www.themoviedb.org/) API.
+Flox is a self hosted Movie watch list. It's build on top of PHP (Laravel), MySQL and React and uses [The Movie Database](https://www.themoviedb.org/) API.
 
 **The current status miss some important features. See Todo.**
 
@@ -40,9 +40,6 @@ There is a light theme option: Add `light-theme` class to `body` in `/client/vie
 
 ### Todo
 
-* Fix load icon jerk.
-* Edit, remove and add items.
-* Login for admin (maybe with options).
-* Detail page for items (rather than direct to youtube).
-* Easy installer.
-* For series and animes a list of episodes.
+* Add movies.
+* Login for admin (create movie categories).
+* Import lists from imdb and letterboxd.

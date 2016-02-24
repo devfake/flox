@@ -4,7 +4,7 @@
 
     <meta charset="utf-8">
     <meta name="csrf_token" content="{{ csrf_token() }}">
-    <title>Flox - Collect your Movies, Series and Anime watch list</title>
+    <title>Flox - Collect Your Movie Watch List</title>
 
     <link href="{{ url('assets/favicon.ico') }}" rel="icon" type="image/x-icon">
     <link href="{{ url('assets/css/app.css') }}" rel="stylesheet">

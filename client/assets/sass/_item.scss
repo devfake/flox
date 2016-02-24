@@ -111,17 +111,14 @@
   width: 444px;
   height: 360px;
   padding: 20px;
-  opacity: 0;
-  visibility: hidden;
+  display: none;
   position: absolute;
   top: -20px;
   left: -20px;
   z-index: 100;
-  transition: opacity .2s ease-in-out 0s;
 
   .active & {
-    opacity: 1;
-    visibility: visible;
+    display: block;
     box-shadow: 0 0 8px 5px rgba(0,0,0,.5);
   }
 }
@@ -263,6 +260,12 @@
 
   span {
     padding: 0 4px 0 0;
+
+    > span {
+      &:active {
+        opacity: .6;
+      }
+    }
 
     &:last-child {
       padding: 0;
