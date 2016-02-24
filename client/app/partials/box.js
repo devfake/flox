@@ -14,7 +14,8 @@ class Box extends React.Component {
       items: this.props.items,
       moreLoaded: false,
       moreToLoad: true,
-      currentLoaded: config.loadingItems
+      currentLoaded: config.loadingItems,
+      activeKey: null
     };
   }
 
@@ -33,8 +34,8 @@ class Box extends React.Component {
       loadContent = <i className="icon-load-more"></i>
     }
 
-    let items = this.state.items.map((value, key) => {
-      return <Item key={key} data={value} category={this.props.category.slug} />
+    let items = this.state.items.map((value) => {
+      return <Item key={value.id} id={value.id} data={value} category={this.props.category.slug} activeKey={this.state.activeKey} changeActiveKey={this.changeActiveKey.bind(this)} />
     });
 
     return (
@@ -99,6 +100,12 @@ class Box extends React.Component {
       });
 
     }, 400);
+  }
+
+  changeActiveKey(key) {
+    this.setState({
+      activeKey: key
+    });
   }
 }
 

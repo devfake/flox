@@ -219,7 +219,8 @@ var Box = function (_React$Component) {
       items: _this.props.items,
       moreLoaded: false,
       moreToLoad: true,
-      currentLoaded: config.loadingItems
+      currentLoaded: config.loadingItems,
+      activeKey: null
     };
     return _this;
   }
@@ -249,8 +250,8 @@ var Box = function (_React$Component) {
         loadContent = _react2.default.createElement('i', { className: 'icon-load-more' });
       }
 
-      var items = this.state.items.map(function (value, key) {
-        return _react2.default.createElement(_item2.default, { key: key, data: value, category: _this2.props.category.slug });
+      var items = this.state.items.map(function (value) {
+        return _react2.default.createElement(_item2.default, { key: value.id, id: value.id, data: value, category: _this2.props.category.slug, activeKey: _this2.state.activeKey, changeActiveKey: _this2.changeActiveKey.bind(_this2) });
       });
 
       return _react2.default.createElement(
@@ -328,6 +329,13 @@ var Box = function (_React$Component) {
           });
         });
       }, 400);
+    }
+  }, {
+    key: 'changeActiveKey',
+    value: function changeActiveKey(key) {
+      this.setState({
+        activeKey: key
+      });
     }
   }]);
 
@@ -433,10 +441,19 @@ var FloxItem = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'item ' + this.props.loadClass },
+        { className: 'item ' + this.props.loadClass + (this.props.isActive ? ' active' : ''), onClick: this.changeActiveKey.bind(this) },
         _react2.default.createElement(
-          'a',
-          { href: "https://www.youtube.com/results?search_query=" + title + " Trailer", target: '_blank', className: 'item-image' },
+          'div',
+          { className: 'item-hidden-content' },
+          _react2.default.createElement(
+            'span',
+            { className: 'item-title', title: title },
+            title
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'item-image' },
           this.props.image ? _react2.default.createElement('img', { src: this.props.image }) : _react2.default.createElement('i', { className: 'icon-no-image' }),
           _react2.default.createElement('div', { className: "rating rating-" + this.formatRating() })
         ),
@@ -462,6 +479,11 @@ var FloxItem = function (_React$Component) {
       var rating = this.props.data.rating;
 
       return rating.replace('.', '-');
+    }
+  }, {
+    key: 'changeActiveKey',
+    value: function changeActiveKey() {
+      this.props.changeActiveKey(this.props.id);
     }
   }]);
 
@@ -729,7 +751,7 @@ var Item = function (_React$Component) {
     value: function render() {
       var image = this.props.data.poster === 'null' || this.props.data.poster === null || typeof this.props.data.poster === 'undefined' ? '' : config.posterSmall + this.props.data.poster;
 
-      return this.props.tmdb ? _react2.default.createElement(_tmdbItem2.default, { data: this.props.data, loadClass: this.state.loadClass, image: image, released: this.released.bind(this) }) : _react2.default.createElement(_floxItem2.default, { data: this.props.data, loadClass: this.state.loadClass, image: image, released: this.released.bind(this) });
+      return this.props.tmdb ? _react2.default.createElement(_tmdbItem2.default, { data: this.props.data, loadClass: this.state.loadClass, id: this.props.id, isActive: this.props.id == this.props.activeKey, changeActiveKey: this.props.changeActiveKey, image: image, released: this.released.bind(this) }) : _react2.default.createElement(_floxItem2.default, { data: this.props.data, loadClass: this.state.loadClass, id: this.props.id, isActive: this.props.id == this.props.activeKey, changeActiveKey: this.props.changeActiveKey, image: image, released: this.released.bind(this) });
     }
   }, {
     key: 'released',
@@ -799,7 +821,8 @@ var Modal = function (_React$Component) {
       items: [],
       searching: false,
       searched: false,
-      loadClass: 'loading'
+      loadClass: 'loading',
+      activeKey: null
     };
     return _this;
   }
@@ -833,8 +856,8 @@ var Modal = function (_React$Component) {
       var _this3 = this;
 
       var content = '';
-      var items = this.state.items.map(function (value, key) {
-        return _react2.default.createElement(_item2.default, { key: key, data: value, category: '', tmdb: _this3.props.type === 'flox' ? '' : 'true' });
+      var items = this.state.items.map(function (value) {
+        return _react2.default.createElement(_item2.default, { key: value.id, id: value.id, data: value, category: '', tmdb: _this3.props.type === 'flox' ? '' : 'true', activeKey: _this3.state.activeKey, changeActiveKey: _this3.changeActiveKey.bind(_this3) });
       });
 
       if (!this.state.items.length && this.state.searched) {
@@ -905,6 +928,13 @@ var Modal = function (_React$Component) {
       } else if (event.key === 'Escape') {
         this.props.closeModal();
       }
+    }
+  }, {
+    key: 'changeActiveKey',
+    value: function changeActiveKey(key) {
+      this.setState({
+        activeKey: key
+      });
     }
   }]);
 

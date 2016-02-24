@@ -44,7 +44,7 @@
   height: 270px;
   position: relative;
   top: 0;
-  overflow: hidden;
+  //overflow: hidden;
   opacity: 1;
   //box-shadow: 0 10px 12px 5px rgba(0,0,0,.4);
   transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s, transform .15s ease-in-out 0s;
@@ -53,6 +53,8 @@
 
   img {
     position: absolute;
+    height: 100%;
+    width: 100%;
   }
 
   .light-theme & {
@@ -64,9 +66,28 @@
     opacity: 0;
   }
 
+  .active & {
+    z-index: 200;
+  }
+
   &:hover {
     //border: 4px solid $main;
-    transform: translateZ(0) scale(1.05, 1.05);
+    //transform: translateZ(0) scale(1.05, 1.05);
+  }
+}
+
+.item-hidden-content {
+  background: #0b0b0b;
+  width: 444px;
+  height: 360px;
+  display: none;
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  z-index: 100;
+
+  .active & {
+    display: block;
   }
 }
 

@@ -7,11 +7,14 @@ class FloxItem extends React.Component {
 
     return (
 
-      <div className={'item ' + this.props.loadClass}>
-        <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="item-image">
+      <div className={'item ' + this.props.loadClass + (this.props.isActive ? ' active' : '')} onClick={this.changeActiveKey.bind(this)}>
+        <div className="item-hidden-content">
+          <span className="item-title" title={title}>{title}</span>
+        </div>
+        <div className="item-image">
           {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
           <div className={"rating rating-" + this.formatRating()}></div>
-        </a>
+        </div>
 
         <div className="item-content">
           <span className="item-title" title={title}>{title}</span>
@@ -26,6 +29,10 @@ class FloxItem extends React.Component {
     let rating = this.props.data.rating;
 
     return rating.replace('.', '-');
+  }
+
+  changeActiveKey() {
+    this.props.changeActiveKey(this.props.id);
   }
 }
 

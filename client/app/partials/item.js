@@ -30,8 +30,8 @@ class Item extends React.Component {
     return (
 
       this.props.tmdb
-        ? <TMDBItem data={this.props.data} loadClass={this.state.loadClass} image={image} released={this.released.bind(this)} />
-        : <FloxItem data={this.props.data} loadClass={this.state.loadClass} image={image} released={this.released.bind(this)} />
+        ? <TMDBItem data={this.props.data} loadClass={this.state.loadClass} id={this.props.id} isActive={this.props.id == this.props.activeKey} changeActiveKey={this.props.changeActiveKey} image={image} released={this.released.bind(this)} />
+        : <FloxItem data={this.props.data} loadClass={this.state.loadClass} id={this.props.id} isActive={this.props.id == this.props.activeKey} changeActiveKey={this.props.changeActiveKey} image={image} released={this.released.bind(this)} />
 
     )
   }

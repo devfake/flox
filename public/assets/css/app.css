@@ -501,7 +501,7 @@ Icon classes can be used entirely standalone. They are named after their origina
   background: rgba(186, 89, 210, 0.95);
   height: 65px;
   overflow: hidden;
-  z-index: 100; }
+  z-index: 300; }
 
 .logo {
   float: left;
@@ -689,7 +689,6 @@ Icon classes can be used entirely standalone. They are named after their origina
   height: 270px;
   position: relative;
   top: 0;
-  overflow: hidden;
   opacity: 1;
   transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s, -webkit-transform .15s ease-in-out 0s;
   transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s, transform .15s ease-in-out 0s;
@@ -697,15 +696,28 @@ Icon classes can be used entirely standalone. They are named after their origina
   filter: blur(0);
   cursor: pointer; }
   .item-image img {
-    position: absolute; }
+    position: absolute;
+    height: 100%;
+    width: 100%; }
   .light-theme .item-image {
     box-shadow: 0 10px 12px 0 rgba(0, 0, 0, 0.3); }
   .loading .item-image {
     top: -5px;
     opacity: 0; }
-  .item-image:hover {
-    -webkit-transform: translateZ(0) scale(1.05, 1.05);
-    transform: translateZ(0) scale(1.05, 1.05); }
+  .active .item-image {
+    z-index: 200; }
+
+.item-hidden-content {
+  background: #0b0b0b;
+  width: 444px;
+  height: 360px;
+  display: none;
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  z-index: 100; }
+  .active .item-hidden-content {
+    display: block; }
 
 .item-image-big {
   width: 300px;
@@ -758,7 +770,7 @@ Icon classes can be used entirely standalone. They are named after their origina
   top: 0;
   height: 100%;
   width: 100%;
-  z-index: 200;
+  z-index: 500;
   opacity: 1;
   transition: opacity .1s ease-in-out 0s; }
   .light-theme .modal-wrap {

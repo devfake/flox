@@ -12,7 +12,8 @@ class Modal extends React.Component {
       items: [],
       searching: false,
       searched: false,
-      loadClass: 'loading'
+      loadClass: 'loading',
+      activeKey: null
     };
   }
 
@@ -37,8 +38,8 @@ class Modal extends React.Component {
 
   render() {
     let content = '';
-    let items = this.state.items.map((value, key) => {
-      return <Item key={key} data={value} category="" tmdb={this.props.type === 'flox' ? '' : 'true'} />
+    let items = this.state.items.map((value) => {
+      return <Item key={value.id} id={value.id} data={value} category="" tmdb={this.props.type === 'flox' ? '' : 'true'} activeKey={this.state.activeKey} changeActiveKey={this.changeActiveKey.bind(this)} />
     });
 
     if( ! this.state.items.length && this.state.searched) {
@@ -90,6 +91,12 @@ class Modal extends React.Component {
     } else if(event.key === 'Escape') {
       this.props.closeModal();
     }
+  }
+
+  changeActiveKey(key) {
+    this.setState({
+      activeKey: key
+    });
   }
 }
 
