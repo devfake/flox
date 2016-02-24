@@ -1,5 +1,6 @@
 import React from 'react';
 import Api from '../api';
+import Rating from 'react-rating';
 
 class FloxItem extends React.Component {
 
@@ -20,6 +21,11 @@ class FloxItem extends React.Component {
         <div className="item-hidden-content">
           <span className="item-date">{this.props.released().year}</span>
           <span className="item-title">{title}</span>
+
+          <div className="icons-rating">
+            <Rating empty='fa fa-star-o fa-2x' full='fa fa-star fa-2x' fractions={2} onRate={this.onHoverRate.bind(this)} />
+          </div>
+
           <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)}></i>
           <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
           <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>{this.state.removed ? "Bring it back" : "Remove from list"}</span>
@@ -60,6 +66,10 @@ class FloxItem extends React.Component {
     }).fail((value) => {
       alert("Error");
     });
+  }
+
+  onHoverRate(value) {
+    console.log(value);
   }
 }
 

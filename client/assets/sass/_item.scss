@@ -99,14 +99,18 @@
   width: 444px;
   height: 360px;
   padding: 20px;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
   position: absolute;
   top: -20px;
   left: -20px;
   z-index: 100;
+  transition: opacity .2s ease-in-out 0s;
 
   .active & {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0 0 8px 5px rgba(0,0,0,.5);
   }
 }
 
@@ -235,5 +239,21 @@
 
   &:active {
     opacity: .8;
+  }
+}
+
+.icons-rating {
+  position: absolute;
+  font-size: 16px;
+  color: #cf9c12;
+  left: 230px;
+  bottom: 100px;
+
+  span {
+    margin: 0 4px 0 0;
+
+    &:last-child {
+      margin: 0;
+    }
   }
 }

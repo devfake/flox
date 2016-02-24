@@ -6,6 +6,7 @@
     <meta name="csrf_token" content="{{ csrf_token() }}">
     <title>Flox - Collect your Movies, Series and Anime watch list</title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="{{ url('assets/favicon.ico') }}" rel="icon" type="image/x-icon">
     <link href="{{ url('assets/css/app.css') }}" rel="stylesheet">
 
