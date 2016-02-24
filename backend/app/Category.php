@@ -28,6 +28,7 @@ class Category extends Model implements SluggableInterface
   {
     return $this->hasOne('Flox\Item')
       ->selectRaw('category_id, count(*) as aggregate')
+      ->where('removed', false)
       ->groupBy('category_id');
   }
 

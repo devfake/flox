@@ -16,9 +16,9 @@
 
 .site-nav {
   float: right;
-  margin: 0 20px 0 0;
-  padding: 0 20px 0 0;
-  border-right: 1px solid #c86ede;
+  //margin: 0 20px 0 0;
+  //padding: 0 20px 0 0;
+  //border-right: 1px solid #c86ede;
 
   li {
     float: left;
@@ -51,6 +51,15 @@
   &:active {
     opacity: .8;
   }
+}
+
+.add-wrap {
+  border-left: 1px solid #c86ede;
+  margin: 0 0 0 20px;
+}
+
+.icon-add {
+  margin: 0 0 0 20px;
 }
 
 .icon-search-wrap {
