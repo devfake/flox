@@ -2,6 +2,14 @@ import React from 'react';
 
 class FloxItem extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      removed: false
+    }
+  }
+
   render() {
     let title = this.props.data.title;
 
@@ -12,6 +20,7 @@ class FloxItem extends React.Component {
           <span className="item-title">{title}</span>
           <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)}></i>
           <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
+          <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>{this.state.removed ? "Bring it back" : "Remove from list"}</span>
         </div>
         <div className="item-image">
           {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
@@ -39,6 +48,12 @@ class FloxItem extends React.Component {
 
   closeHiddenContent() {
     this.props.changeActiveKey(null);
+  }
+
+  handleItemRemove() {
+    this.setState({
+      removed: true
+    })
   }
 }
 

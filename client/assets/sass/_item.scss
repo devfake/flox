@@ -161,7 +161,8 @@
   }
 }
 
-.trailer-btn {
+.trailer-btn,
+.remove-btn {
   background: $main;
   color: #fff;
   text-transform: uppercase;
@@ -179,6 +180,33 @@
 
   &:active {
     background: darken($main, 10%);
+  }
+}
+
+.remove-btn {
+  background: none;
+  color: #555;
+  width: 205px;
+  left: auto;
+  right: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background: #c33939;
+    color: #fff;
+  }
+
+  &:active {
+    background: darken(#c33939, 10%);
+  }
+
+  &.reset {
+    background: #258dca;
+    color: #fff;
+
+    &:active {
+      background: darken(#258dca, 10%);
+    }
   }
 }
 
