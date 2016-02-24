@@ -51,7 +51,7 @@
   top: 0;
   //overflow: hidden;
   opacity: 1;
-  //box-shadow: 0 10px 12px 5px rgba(0,0,0,.4);
+  box-shadow: 0 10px 12px 5px rgba(0,0,0,.4);
   transition: top .4s ease-in-out 0s, opacity .4s ease-in-out 0s, transform .15s ease-in-out 0s;
   filter: blur(0);
   cursor: pointer;
@@ -74,6 +74,7 @@
   .active & {
     z-index: 200;
     cursor: default;
+    box-shadow: none;
   }
 
   &:hover {
