@@ -86,9 +86,15 @@
     z-index: 200;
     cursor: default;
     box-shadow: none;
+    top: 0;
+
+    &:hover {
+      top: 0;
+    }
   }
 
   &:hover {
+    top: -10px;
     //border: 4px solid $main;
     //transform: translateZ(0) scale(1.05, 1.05);
   }
