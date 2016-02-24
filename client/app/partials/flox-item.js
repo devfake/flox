@@ -8,7 +8,8 @@ class FloxItem extends React.Component {
     super(props);
 
     this.state = {
-      removed: false
+      removed: false,
+      ratingColor: this.formatRating()
     }
   }
 
@@ -32,7 +33,7 @@ class FloxItem extends React.Component {
         </div>
         <div className="item-image">
           {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
-          <div className={"rating rating-" + this.formatRating()}></div>
+          <div className={"rating rating-" + this.state.ratingColor}></div>
         </div>
 
         <div className="item-content">
@@ -44,9 +45,7 @@ class FloxItem extends React.Component {
     );
   }
 
-  formatRating() {
-    let rating = this.props.data.rating;
-
+  formatRating(rating = this.props.data.rating) {
     return rating.replace('.', '-');
   }
 
@@ -69,7 +68,9 @@ class FloxItem extends React.Component {
   }
 
   onHoverRate(value) {
-    console.log(value);
+    this.setState({
+      ratingColor: value ? this.formatRating(value.toString()) : this.formatRating()
+    });
   }
 }
 
