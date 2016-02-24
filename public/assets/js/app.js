@@ -441,14 +441,20 @@ var FloxItem = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'item ' + this.props.loadClass + (this.props.isActive ? ' active' : ''), onClick: this.changeActiveKey.bind(this) },
+        { className: 'item ' + this.props.loadClass + (this.props.isActive ? ' active' : ''), onClick: this.props.isActive ? null : this.changeActiveKey.bind(this) },
         _react2.default.createElement(
           'div',
           { className: 'item-hidden-content' },
           _react2.default.createElement(
             'span',
-            { className: 'item-title', title: title },
+            { className: 'item-title' },
             title
+          ),
+          _react2.default.createElement('i', { className: 'icon-close-small', onClick: this.closeHiddenContent.bind(this) }),
+          _react2.default.createElement(
+            'a',
+            { href: "https://www.youtube.com/results?search_query=" + title + " Trailer", target: '_blank', className: 'trailer-btn' },
+            'Watch Trailer'
           )
         ),
         _react2.default.createElement(
@@ -484,6 +490,11 @@ var FloxItem = function (_React$Component) {
     key: 'changeActiveKey',
     value: function changeActiveKey() {
       this.props.changeActiveKey(this.props.id);
+    }
+  }, {
+    key: 'closeHiddenContent',
+    value: function closeHiddenContent() {
+      this.props.changeActiveKey(null);
     }
   }]);
 

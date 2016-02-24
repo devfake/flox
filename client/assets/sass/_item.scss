@@ -12,6 +12,11 @@
 
   &:nth-child(5n) {
     margin: 50px 0 0 0;
+
+    .item-hidden-content {
+      left: auto;
+      right: -20px;
+    }
   }
 }
 
@@ -68,6 +73,7 @@
 
   .active & {
     z-index: 200;
+    cursor: default;
   }
 
   &:hover {
@@ -80,6 +86,7 @@
   background: #0b0b0b;
   width: 444px;
   height: 360px;
+  padding: 20px;
   display: none;
   position: absolute;
   top: -20px;
@@ -143,5 +150,44 @@
 
   .light-theme & {
     color: $dark;
+  }
+
+  .item-hidden-content & {
+    font-size: 20px;
+    margin: 0 0 0 210px;
+    overflow: visible;
+    white-space: normal;
+  }
+}
+
+.trailer-btn {
+  background: $main;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 15px;
+  padding: 10px 0;
+  text-align: center;
+  width: 185px;
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+
+  &:hover {
+    background: darken($main, 5%);
+  }
+
+  &:active {
+    background: darken($main, 10%);
+  }
+}
+
+.icon-close-small {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+
+  &:active {
+    opacity: .8;
   }
 }

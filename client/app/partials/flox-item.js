@@ -7,9 +7,11 @@ class FloxItem extends React.Component {
 
     return (
 
-      <div className={'item ' + this.props.loadClass + (this.props.isActive ? ' active' : '')} onClick={this.changeActiveKey.bind(this)}>
+      <div className={'item ' + this.props.loadClass + (this.props.isActive ? ' active' : '')} onClick={this.props.isActive ? null : this.changeActiveKey.bind(this)}>
         <div className="item-hidden-content">
-          <span className="item-title" title={title}>{title}</span>
+          <span className="item-title">{title}</span>
+          <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)}></i>
+          <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
         </div>
         <div className="item-image">
           {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
@@ -33,6 +35,10 @@ class FloxItem extends React.Component {
 
   changeActiveKey() {
     this.props.changeActiveKey(this.props.id);
+  }
+
+  closeHiddenContent() {
+    this.props.changeActiveKey(null);
   }
 }
 

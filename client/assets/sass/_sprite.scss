@@ -11,13 +11,19 @@ Icon classes can be used entirely standalone. They are named after their origina
 */
 .icon-add {
   background-image: url(../img/sprite.png);
-  background-position: -64px -18px;
+  background-position: -128px -18px;
   width: 32px;
   height: 32px;
 }
+.icon-close-small {
+  background-image: url(../img/sprite.png);
+  background-position: -129px -64px;
+  width: 16px;
+  height: 16px;
+}
 .icon-close {
   background-image: url(../img/sprite.png);
-  background-position: -96px -18px;
+  background-position: -64px -18px;
   width: 32px;
   height: 32px;
 }
@@ -35,31 +41,31 @@ Icon classes can be used entirely standalone. They are named after their origina
 }
 .icon-search {
   background-image: url(../img/sprite.png);
-  background-position: -128px -18px;
+  background-position: -64px -64px;
   width: 32px;
   height: 32px;
 }
 .icon-star-active {
   background-image: url(../img/sprite.png);
-  background-position: -160px -18px;
+  background-position: 0px -64px;
   width: 32px;
   height: 32px;
 }
 .icon-star {
   background-image: url(../img/sprite.png);
-  background-position: 0px -64px;
+  background-position: -32px -64px;
   width: 32px;
   height: 32px;
 }
 .icon-time-active {
   background-image: url(../img/sprite.png);
-  background-position: -32px -64px;
+  background-position: -160px -18px;
   width: 32px;
   height: 32px;
 }
 .icon-time {
   background-image: url(../img/sprite.png);
-  background-position: -64px -64px;
+  background-position: -96px -18px;
   width: 32px;
   height: 32px;
 }
