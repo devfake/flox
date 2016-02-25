@@ -1,7 +1,6 @@
 <?php
 
   use Illuminate\Database\Seeder;
-  use Illuminate\Database\Eloquent\Model;
 
   class DatabaseSeeder extends Seeder {
 
@@ -13,6 +12,8 @@
     public function run()
     {
       $this->call(CategoryTableSeeder::class);
+      $this->call(UserTableSeeder::class);
+
       foreach(range(1,20) as $i) {
         $this->call(ItemTableSeeder::class);
       }
