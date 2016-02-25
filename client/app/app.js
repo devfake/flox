@@ -5,7 +5,7 @@ import {Router, Route, browserHistory, IndexRoute} from 'react-router';
 import Api from './api';
 import Home from './sites/home';
 import Category from './sites/category';
-import Admin from './sites/admin';
+import Auth from './sites/auth/auth';
 import Header from './partials/header';
 import Footer from './partials/footer';
 
@@ -15,7 +15,7 @@ class Flox extends React.Component {
     super();
 
     this.state = {
-      logged: true
+      logged: false
     };
 
     this.checkLogin();
@@ -44,7 +44,7 @@ render((
   <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
     <Route component={Flox} path={config.uri}>
       <IndexRoute component={Home} />
-      <Route path="admin" component={Admin} />
+      <Route path="admin" component={Auth} />
       <Route path=":category" component={Category} />
     </Route>
   </Router>

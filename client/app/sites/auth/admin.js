@@ -1,5 +1,4 @@
 import React from 'react';
-import Api from '../api';
 
 class Admin extends React.Component {
 
@@ -11,7 +10,7 @@ class Admin extends React.Component {
     return (
 
       <div>
-        {this.props.logged ? 'Eingeloggt' : 'Ausgeloggt'}
+        Admin bereich
       </div>
 
     );

@@ -1,0 +1,36 @@
+.login-wrap {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.login-form {
+  float: left;
+  width: 100%;
+  margin: 200px 0 0 0;
+}
+
+.login-input {
+  background: #0e0e0e;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  width: 100%;
+  color: #909090;
+  margin: 0 0 10px 0;
+
+  &:focus {
+    background: lighten(#0e0e0e, 1%);
+  }
+}
+
+.login-submit {
+  float: left;
+  clear: both;
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+  background: $main;
+  border: none;
+  padding: 8px 25px;
+  margin: 20px 0 0 0;
+}
