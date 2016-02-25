@@ -1,6 +1,7 @@
 import React from 'react';
 import Box from '../partials/box';
 import Api from '../api';
+import { browserHistory } from 'react-router'
 
 class Category extends React.Component {
 
@@ -41,11 +42,13 @@ class Category extends React.Component {
 
   loadCategoryItems(props) {
     setTimeout(() => {
-      Api.categoryItems(props.params.category).then((value) => {
+      Api.categoryItems(props.params.category).done((value) => {
         this.setState({
           category: value.category,
           items: value.items
         });
+      }).fail((value) => {
+        browserHistory.push(config.uri);
       });
     }, 200);
   }

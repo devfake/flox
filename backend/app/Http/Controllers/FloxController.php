@@ -13,7 +13,9 @@
 
     public function checkLogin()
     {
-      return Auth::check() ? 'true' : 'false';
+      return [
+        'logged' => Auth::check()
+      ];
     }
 
     public function homeItems($category, $orderBy, $loading = 5)
@@ -44,6 +46,11 @@
     private function getItems($category, $orderBy, $count)
     {
       $category = Category::where('slug', $category)->with('itemsCount')->first();
+
+      if( ! $category) {
+        return response('Not Found', 404);
+      }
+
       $items = Item::where('category_id', $category->id)->where('removed', false)->orderBy($orderBy, 'desc')->take($count)->get();
 
       return [

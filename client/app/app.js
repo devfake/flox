@@ -14,7 +14,7 @@ class Flox extends React.Component {
     super();
 
     this.state = {
-      logged: false
+      logged: true
     };
 
     this.checkLogin();
@@ -24,7 +24,7 @@ class Flox extends React.Component {
     return (
       <div>
         <Header logged={this.state.logged} />
-        {this.props.children}
+        {React.cloneElement(this.props.children, {logged: this.state.logged})}
         <Footer />
       </div>
     );
@@ -33,7 +33,7 @@ class Flox extends React.Component {
   checkLogin() {
     Api.checkLogin().then((value) => {
       this.setState({
-        logged: value
+        logged: value.logged
       })
     });
   }
