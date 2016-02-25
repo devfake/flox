@@ -29,10 +29,18 @@ class Header extends React.Component {
 
         <header className="site-header no-select">
           <div className="wrap">
-            <Link to={config.uri} className="logo"><img src={config.uri + 'assets/img/logo.png'} width="80" height="24" alt="Flox" /></Link>
 
-            {this.props.logged
-              ? <div className="admin-nav-wrap"><div className="add-wrap" title="Search in TMDB" onClick={this.changeModal.bind(this, 'tmdb')}><i className="icon-add"></i></div><Link className="admin-nav-btn" to={config.uri + 'admin'}>Admin</Link></div> : ''}
+            <Link to={config.uri} className="logo">
+              <img src={config.uri + 'assets/img/logo.png'} width="80" height="24" alt="Flox" />
+            </Link>
+
+            {this.props.logged ?
+              <div className="admin-nav-wrap">
+                <div className="add-wrap" title="Search in TMDB" onClick={this.changeModal.bind(this, 'tmdb')}>
+                  <i className="icon-add" />
+                </div>
+                <Link className="admin-nav-btn" to={config.uri + 'admin'}>Admin</Link>
+              </div> : ''}
 
               <nav className="site-nav">
                 <ul>

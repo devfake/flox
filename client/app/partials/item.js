@@ -29,9 +29,28 @@ class Item extends React.Component {
 
     return (
 
-      this.props.tmdb
-        ? <TMDBItem logged={this.props.logged} data={this.props.data} loadClass={this.state.loadClass} id={this.props.id} isActive={this.props.id == this.props.activeKey} changeActiveKey={this.props.changeActiveKey} image={image} released={this.released.bind(this)} />
-        : <FloxItem logged={this.props.logged} data={this.props.data} loadClass={this.state.loadClass} id={this.props.id} isActive={this.props.id == this.props.activeKey} changeActiveKey={this.props.changeActiveKey} image={image} released={this.released.bind(this)} />
+      // todo: Clean up
+      this.props.tmdb ?
+        <TMDBItem
+          logged={this.props.logged}
+          data={this.props.data}
+          loadClass={this.state.loadClass}
+          id={this.props.id}
+          isActive={this.props.id == this.props.activeKey}
+          changeActiveKey={this.props.changeActiveKey}
+          image={image}
+          released={this.released.bind(this)}
+        /> :
+        <FloxItem
+          logged={this.props.logged}
+          data={this.props.data}
+          loadClass={this.state.loadClass}
+          id={this.props.id}
+          isActive={this.props.id == this.props.activeKey}
+          changeActiveKey={this.props.changeActiveKey}
+          image={image}
+          released={this.released.bind(this)}
+        />
 
     )
   }

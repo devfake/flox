@@ -23,7 +23,7 @@ class FloxItem extends React.Component {
         <HiddenContent
           released={this.props.released}
           title={title}
-          logged={this.props.logged} 
+          logged={this.props.logged}
           rating={this.state.rating}
           onHoverRate={this.onHoverRate.bind(this)}
           onChangeRate={this.onChangeRate.bind(this)}

@@ -27,14 +27,18 @@ class Category extends React.Component {
     this.loadCategoryItems(nextProps);
   }
 
-  // todo: fix icon load.
   render() {
     return (
 
       <div>
-        {this.state.items.length
-          ? <Box items={this.state.items} category={this.state.category} logged={this.props.logged} type="category" />
-          : <i className="icon-content-load"></i>}
+        {this.state.items.length ?
+          <Box
+            items={this.state.items}
+            category={this.state.category}
+            logged={this.props.logged}
+            type="category"
+          /> :
+          <i className="icon-content-load"></i>}
       </div>
 
     );

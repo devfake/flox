@@ -63,7 +63,7 @@ return [
             'prefix'    => '',
             'strict'    => false,
             // mamp :P
-            //'unix_socket'   => '/Applications/MAMP/tmp/mysql/mysql.sock',
+            'unix_socket'   => '/Applications/MAMP/tmp/mysql/mysql.sock',
         ],
 
         'pgsql' => [

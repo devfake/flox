@@ -49,10 +49,13 @@ class Box extends React.Component {
               {this.props.category.name} ({this.props.category.items_count.aggregate})
             </Link>
 
-            <FilterOptions category={this.props.category.slug} changeFilter={this.changeFilter.bind(this)} />
+            <FilterOptions
+              category={this.props.category.slug}
+              changeFilter={this.changeFilter.bind(this)}
+            />
 
             <div className="items">
-              { ! this.state.items.length ? <i className="icon-box-load"></i> : items}
+              { ! this.state.items.length ? <i className="icon-box-load" /> : items}
             </div>
 
           </div>

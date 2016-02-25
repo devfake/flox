@@ -18,16 +18,30 @@ class HiddenContent extends React.Component {
     return (
 
       <div className="item-hidden-content">
+
         <span className="item-date" title={"Released on " + this.props.released().full}>{this.props.released().year}</span>
         <span className="item-title">{title}</span>
 
-        {this.props.logged ? <div className="icons-rating">
-          <Rating empty='fa fa-star-o fa-2x' full='fa fa-star fa-2x' fractions={2} initialRate={+this.props.rating} onRate={this.props.onHoverRate} onChange={this.props.onChangeRate} />
+        {this.props.logged ?
+          <div className="icons-rating">
+            <Rating
+              empty='fa fa-star-o fa-2x'
+              full='fa fa-star fa-2x'
+              fractions={2}
+              initialRate={+this.props.rating}
+              onRate={this.props.onHoverRate}
+              onChange={this.props.onChangeRate}
+            />
         </div> : ''}
 
         <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)} />
+
         <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
-        {this.props.logged ? <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>{this.state.removed ? "Bring it back" : "Remove from list"}</span> : ''}
+
+        {this.props.logged ?
+          <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>
+            {this.state.removed ? "Bring it back" : "Remove from list"}
+          </span> : ''}
       </div>
 
     );

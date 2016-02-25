@@ -39,7 +39,15 @@ class Modal extends React.Component {
   render() {
     let content = '';
     let items = this.state.items.map((value) => {
-      return <Item key={value.id} id={value.id} data={value} category="" tmdb={this.props.type === 'flox' ? '' : 'true'} activeKey={this.state.activeKey} changeActiveKey={this.changeActiveKey.bind(this)} />
+      return <Item
+        key={value.id}
+        id={value.id}
+        data={value}
+        category=""
+        tmdb={this.props.type === 'flox' ? '' : 'true'}
+        activeKey={this.state.activeKey}
+        changeActiveKey={this.changeActiveKey.bind(this)}
+      />
     });
 
     if( ! this.state.items.length && this.state.searched) {
@@ -55,7 +63,9 @@ class Modal extends React.Component {
       <section className={'modal-wrap ' + this.state.loadClass}>
         <div className="search-items">
           <div className="wrap">
-            <div className="icon-close-wrap" onClick={this.props.closeModal}><i className="icon-close"></i></div>
+
+            <div className="icon-close-wrap" onClick={this.props.closeModal}><i className="icon-close" /></div>
+
             <div className="search-wrap">
               <label className="modal-label" htmlFor="search">{this.props.type === 'flox' ? 'Search' : 'Add'}</label>
               <input type="text" className="modal-input" id="search" placeholder="Title..." ref="input" onKeyDown={this.searchKeyEvents.bind(this)} />
