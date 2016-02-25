@@ -6,6 +6,10 @@ class Api extends React.Component {
     return $.get(config.api + 'check-login');
   }
 
+  static login(username, password) {
+    return $.post(config.api + 'login', {username, password, _token: $('meta[name="csrf_token"]').attr('content')})
+  }
+
   static categories() {
     return $.get(config.api + 'all-categories');
   }

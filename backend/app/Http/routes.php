@@ -15,7 +15,9 @@
 
     Route::group(['prefix' => 'api'], function() {
 
-      Route::get('check-login', 'FLoxController@checkLogin');
+      Route::post('login', 'AuthController@login');
+      Route::get('logout', 'AuthController@logout');
+      Route::get('check-login', 'AuthController@checkLogin');
 
       Route::get('all-categories', 'FloxController@allCategories');
       Route::get('home-items/{category}/{orderBy}/{loading?}', 'FloxController@homeItems');

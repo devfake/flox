@@ -12,7 +12,7 @@ class Auth extends React.Component {
     return (
 
       <div>
-        {this.props.logged ? <Admin /> : <Login />}
+        {this.props.logged ? <Admin /> : <Login checkLogin={this.props.checkLogin} />}
       </div>
 
     );

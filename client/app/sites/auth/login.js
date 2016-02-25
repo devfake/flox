@@ -9,7 +9,8 @@ class Login extends React.Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      error: ''
     }
   }
 
@@ -24,6 +25,7 @@ class Login extends React.Component {
         <form className="login-form" onSubmit={this.onSubmit.bind(this)}>
           <input type="text" className="login-input" placeholder="Username" ref="username" value={this.state.username} onChange={this.setUsername.bind(this)} />
           <input type="password" className="login-input" placeholder="Password" value={this.state.password} onChange={this.setPassword.bind(this)} />
+          <span className="login-error">{this.state.error}</span>
           <input type="submit" value="Login" className="login-submit" />
         </form>
       </div>
@@ -38,10 +40,20 @@ class Login extends React.Component {
     let password = this.state.password;
 
     if( ! username || ! password) {
-      return;
+      return this.setState({
+        error: 'Username and Password are required'
+      });
     }
 
-    alert("submit");
+    Api.login(username, password).done((value) => {
+      this.props.checkLogin();
+    }).fail((value) => {
+      if(value.status === 422 || value.status === 401) {
+        this.setState({
+          error: 'Login not correct'
+        });
+      }
+    });
   }
 
   setUsername(event) {

@@ -25,7 +25,7 @@ class Flox extends React.Component {
     return (
       <div>
         <Header logged={this.state.logged} />
-        {React.cloneElement(this.props.children, {logged: this.state.logged})}
+        {React.cloneElement(this.props.children, {logged: this.state.logged, checkLogin: this.checkLogin.bind(this)})}
         <Footer />
       </div>
     );

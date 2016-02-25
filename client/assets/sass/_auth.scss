@@ -1,5 +1,5 @@
 .login-wrap {
-  width: 300px;
+  width: 400px;
   margin: 0 auto;
 }
 
@@ -33,4 +33,12 @@
   border: none;
   padding: 8px 25px;
   margin: 20px 0 0 0;
+}
+
+.login-error {
+  float: left;
+  clear: both;
+  color: #c64b4b;
+  font-size: 15px;
+  margin: 10px 0;
 }
