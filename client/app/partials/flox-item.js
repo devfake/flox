@@ -19,7 +19,7 @@ class FloxItem extends React.Component {
 
     return (
 
-      <div className={'item ' + this.props.loadClass + (this.props.isActive ? ' active' : '')} onClick={this.props.isActive ? null : this.changeActiveKey.bind(this)}>
+      <div className={'item ' + this.props.loadClass + (this.props.isActive ? ' active' : '')}>
         <div className="item-hidden-content">
           <span className="item-date">{this.props.released().year}</span>
           <span className="item-title">{title}</span>
@@ -32,7 +32,7 @@ class FloxItem extends React.Component {
           <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
           {this.props.logged ? <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>{this.state.removed ? "Bring it back" : "Remove from list"}</span> : ''}
         </div>
-        <div className="item-image">
+        <div className="item-image" onClick={this.props.isActive ? null : this.changeActiveKey.bind(this)}>
           {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
           <div className={"rating rating-" + this.state.ratingColor}></div>
         </div>

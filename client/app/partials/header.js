@@ -1,6 +1,7 @@
 import React from 'react';
 import {Router, Link} from 'react-router';
 import Modal from './modal';
+import Api from '../api';
 
 class Header extends React.Component {
 
@@ -9,17 +10,24 @@ class Header extends React.Component {
 
     this.state = {
       showModal: false,
-      type: ''
+      type: '',
+      categories: []
     };
+
+    this.loadCategories();
   }
 
   render() {
+    let navigation = this.state.categories.map((value) => {
+      return <li key={value.id}><Link to={config.uri + value.slug} activeClassName="active">{value.name}</Link></li>
+    });
+
     return (
 
       <div>
         {this.state.showModal ? <Modal type={this.state.type} closeModal={this.changeModal.bind(this)} /> : ''}
 
-        <header className="site-header">
+        <header className="site-header no-select">
           <div className="wrap">
             <Link to={config.uri} className="logo"><img src={config.uri + 'assets/img/logo.png'} width="80" height="24" alt="Flox" /></Link>
 
@@ -30,9 +38,9 @@ class Header extends React.Component {
               <nav className="site-nav">
                 <ul>
                   <li><Link to={config.uri}>All</Link></li>
-                  <li><Link to={config.uri + 'movies'} activeClassName="active">Movies</Link></li>
-                  <li><Link to={config.uri + 'series'} activeClassName="active">Series</Link></li>
-                  <li><Link to={config.uri + 'animes'} activeClassName="active">Animes</Link></li>
+
+                  {navigation}
+
                   <li className="icon-search-wrap" onClick={this.changeModal.bind(this, 'flox')} title="Search in Flox">
                     <i className="icon-search"></i>
                   </li>
@@ -50,6 +58,14 @@ class Header extends React.Component {
       showModal: ! this.state.showModal,
       type: type
     })
+  }
+
+  loadCategories() {
+    Api.categories().done((value) => {
+      this.setState({
+        categories: value
+      });
+    });
   }
 }
 

@@ -9,8 +9,8 @@ class Admin extends React.Component {
   render() {
     return (
 
-      <div>
-        Admin bereich
+      <div className="wrap">
+        <h3 className="content-headline no-select">Admin</h3>
       </div>
 
     );

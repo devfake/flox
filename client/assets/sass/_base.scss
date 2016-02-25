@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 
-
 .wrap {
   width: $width;
   margin: 0 auto;
@@ -24,6 +23,10 @@ body {
 
 .light-theme {
   background: #fff;
+}
+
+.no-select {
+  user-select: none;
 }
 
 ::selection {

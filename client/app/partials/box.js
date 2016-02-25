@@ -45,7 +45,7 @@ class Box extends React.Component {
         <section className="box">
           <div className="wrap">
 
-            <Link to={config.uri + this.props.category.slug} className="box-headline">
+            <Link to={config.uri + this.props.category.slug} className="box-headline no-select">
               {this.props.category.name} ({this.props.category.items_count.aggregate})
             </Link>
 
@@ -59,7 +59,7 @@ class Box extends React.Component {
         </section>
 
         {this.state.items.length >= config.loadingItems && this.state.moreToLoad && this.props.category
-          ? <div className="wrap"><div className="load-more-wrap">{loadContent}</div></div>
+          ? <div className="wrap"><div className="load-more-wrap no-select">{loadContent}</div></div>
           : ''}
 
       </div>
