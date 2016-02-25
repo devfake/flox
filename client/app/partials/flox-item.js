@@ -1,6 +1,6 @@
 import React from 'react';
 import Api from '../api';
-import Rating from 'react-rating';
+import HiddenContent from './hidden-content';
 
 class FloxItem extends React.Component {
 
@@ -8,7 +8,6 @@ class FloxItem extends React.Component {
     super(props);
 
     this.state = {
-      removed: false,
       ratingColor: this.formatRating(),
       rating: this.props.data.rating
     }
@@ -20,20 +19,20 @@ class FloxItem extends React.Component {
     return (
 
       <div className={'item ' + this.props.loadClass + (this.props.isActive ? ' active' : '')}>
-        <div className="item-hidden-content">
-          <span className="item-date">{this.props.released().year}</span>
-          <span className="item-title">{title}</span>
 
-          {this.props.logged ? <div className="icons-rating">
-            <Rating empty='fa fa-star-o fa-2x' full='fa fa-star fa-2x' fractions={2} initialRate={+this.state.rating} onRate={this.onHoverRate.bind(this)} onChange={this.onChangeRate.bind(this)} />
-          </div> : ''}
+        <HiddenContent
+          released={this.props.released}
+          title={title}
+          logged={this.props.logged} 
+          rating={this.state.rating}
+          onHoverRate={this.onHoverRate.bind(this)}
+          onChangeRate={this.onChangeRate.bind(this)}
+          id={this.props.id}
+          changeActiveKey={this.props.changeActiveKey}
+        />
 
-          <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)}></i>
-          <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
-          {this.props.logged ? <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>{this.state.removed ? "Bring it back" : "Remove from list"}</span> : ''}
-        </div>
         <div className="item-image" onClick={this.props.isActive ? null : this.changeActiveKey.bind(this)}>
-          {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image"></i>}
+          {this.props.image ? <img src={this.props.image} /> : <i className="icon-no-image" />}
           <div className={"rating rating-" + this.state.ratingColor}></div>
         </div>
 
@@ -52,24 +51,6 @@ class FloxItem extends React.Component {
 
   changeActiveKey() {
     this.props.changeActiveKey(this.props.id);
-  }
-
-  closeHiddenContent() {
-    this.props.changeActiveKey(null);
-  }
-
-  handleItemRemove() {
-    Api.handleItemRemove(this.props.id).done((value) => {
-      this.setState({
-        removed: ! this.state.removed
-      })
-    }).fail((value) => {
-      if(value.status === 401) {
-        alert('Unauthorized');
-      } else {
-        alert('Server Error');
-      }
-    });
   }
 
   onHoverRate(value) {
