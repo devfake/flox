@@ -1,6 +1,8 @@
 import React from 'react';
 import Api from '../api';
+
 import Rating from 'react-rating';
+import Select from 'react-select';
 
 class HiddenContent extends React.Component {
 
@@ -15,6 +17,13 @@ class HiddenContent extends React.Component {
   render() {
     let title = this.props.title;
 
+
+    var options = [
+      { value: 'one', label: 'Movies' },
+      { value: 'two', label: 'Series' },
+      { value: 'three', label: 'Animes' }
+    ];
+
     return (
 
       <div className="item-hidden-content">
@@ -23,16 +32,28 @@ class HiddenContent extends React.Component {
         <span className="item-title">{title}</span>
 
         {this.props.logged ?
-          <div className="icons-rating">
-            <Rating
-              empty='fa fa-star-o fa-2x'
-              full='fa fa-star fa-2x'
-              fractions={2}
-              initialRate={+this.props.rating}
-              onRate={this.props.onHoverRate}
-              onChange={this.props.onChangeRate}
-            />
-        </div> : ''}
+          <div className="edit-mode-wrap">
+            <div className="category-box">
+              <span className="category-label">Category:</span>
+              <Select
+                name="category-select"
+                value="one"
+                clearable={false}
+                searchable={false}
+                options={options}
+              />
+            </div>
+            <div className="icons-rating">
+              <Rating
+                empty='fa fa-star-o fa-2x'
+                full='fa fa-star fa-2x'
+                fractions={2}
+                initialRate={+this.props.rating}
+                onRate={this.props.onHoverRate}
+                onChange={this.props.onChangeRate}
+              />
+            </div>
+          </div>: ''}
 
         <i className="icon-close-small" onClick={this.closeHiddenContent.bind(this)} />
 

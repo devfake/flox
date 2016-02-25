@@ -253,11 +253,9 @@
 }
 
 .icons-rating {
-  position: absolute;
   font-size: 16px;
+  float: left;
   color: #cf9c12;
-  left: 230px;
-  bottom: 100px;
 
   span {
     padding: 0 4px 0 0;
@@ -272,4 +270,22 @@
       padding: 0;
     }
   }
+}
+
+.edit-mode-wrap {
+  position: absolute;
+  left: 230px;
+  bottom: 100px;
+  color: #fff;
+}
+
+.category-box {
+  float: left;
+  margin: 0 0 10px 0;
+  width: 100%;
+}
+
+.category-label {
+  float: left;
+  color: #555;
 }
