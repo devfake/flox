@@ -1,6 +1,4 @@
-import React from 'react';
-
-class Api extends React.Component {
+class Api {
 
   static checkLogin() {
     return $.get(config.api + 'check-login');

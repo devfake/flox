@@ -53,9 +53,14 @@
   }
 }
 
+.admin-nav-wrap {
+  float: right;
+}
+
 .add-wrap {
   border-left: 1px solid #c86ede;
   margin: 0 0 0 20px;
+  float: left;
 }
 
 .icon-add {
@@ -64,4 +69,11 @@
 
 .icon-search-wrap {
   margin: 0 0 0 10px;
+}
+
+.admin-nav-btn {
+  color: #fff;
+  padding: 18px 20px;
+  float: right;
+  font-size: 17px;
 }

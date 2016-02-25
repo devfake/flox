@@ -10,7 +10,7 @@ class Admin extends React.Component {
     return (
 
       <div className="wrap">
-        <h3 className="content-headline no-select">Admin</h3>
+        <h3 className="content-headline no-select">Categories</h3>
       </div>
 
     );
