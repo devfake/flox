@@ -10,7 +10,9 @@ class HiddenContent extends React.Component {
     super(props);
 
     this.state = {
-      removed: false
+      removed: false,
+      category: 'no',
+      saved: false
     }
   }
 
@@ -39,12 +41,13 @@ class HiddenContent extends React.Component {
               <Select
                 name="category-select"
                 clearable={false}
-                value="no"
+                value={this.state.category}
                 placeholder="Select Category"
                 searchable={false}
                 options={options}
                 clearable={false}
                 menuBuffer={10}
+                onChange={this.onSelect.bind(this)}
               />
             </div>
             <div className="icons-rating">
@@ -54,7 +57,7 @@ class HiddenContent extends React.Component {
                 fractions={2}
                 initialRate={+this.props.rating}
                 onRate={this.props.onHoverRate}
-                onChange={this.props.onChangeRate}
+                onChange={this.onChangeRate.bind(this)}
               />
             </div>
           </div>: ''}
@@ -64,9 +67,12 @@ class HiddenContent extends React.Component {
         <a href={"https://www.youtube.com/results?search_query=" + title + " Trailer"} target="_blank" className="trailer-btn">Watch Trailer</a>
 
         {this.props.logged ?
-          <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>
+          this.state.saved ?
+            <span className="saved">Saved</span> :
+            <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>
             {this.state.removed ? "Bring it back" : "Remove from list"}
           </span> : ''}
+        }
       </div>
 
     );
@@ -88,6 +94,32 @@ class HiddenContent extends React.Component {
 
   closeHiddenContent() {
     this.props.changeActiveKey(null);
+  }
+
+  onChangeRate(rating) {
+    this.props.onChangeRate(rating);
+
+    this.saving();
+  }
+
+  onSelect(value) {
+    this.setState({
+      category: value.value
+    });
+
+    this.saving();
+  }
+
+  saving() {
+    this.setState({
+      saved: true
+    });
+
+    setTimeout(() => {
+      this.setState({
+        saved: false
+      })
+    }, 1000);
   }
 }
 
