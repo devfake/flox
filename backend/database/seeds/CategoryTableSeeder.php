@@ -11,19 +11,19 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->insert([
-          'name' => 'Movies',
-          'slug' => 'movies'
+       DB::table('categories')->insert([
+          'name' => 'Horror',
+          'slug' => 'horror'
         ]);
 
         DB::table('categories')->insert([
-          'name' => 'Series',
-          'slug' => 'series'
+          'name' => 'Action',
+          'slug' => 'action'
         ]);
 
         DB::table('categories')->insert([
-          'name' => 'Animes',
-          'slug' => 'animes'
+          'name' => 'Comedy',
+          'slug' => 'comedy'
         ]);
     }
 }

@@ -19,8 +19,9 @@ class CreateItemsTable extends Migration
             $table->index('title');
             $table->string('slug');
             $table->string('poster');
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->integer('category_id')->nullable();
+            //$table->integer('category_id')->unsigned();
+            //$table->foreign('category_id')->references('id')->on('categories');
             $table->string('rating');
             $table->integer('released');
             $table->integer('seen');
