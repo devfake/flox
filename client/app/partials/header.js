@@ -19,6 +19,9 @@ class Header extends React.Component {
 
   render() {
     let navigation = this.state.categories.map((value) => {
+      // All is hardcodet
+      if(value.slug == 'all') return;
+
       return <li key={value.id}><Link to={config.uri + value.slug} activeClassName="active">{value.name}</Link></li>
     });
 
@@ -44,7 +47,7 @@ class Header extends React.Component {
 
               <nav className="site-nav">
                 <ul>
-                  <li><Link to={config.uri}>All</Link></li>
+                  <li><Link to={config.uri + 'all'} activeClassName="active">All</Link></li>
 
                   {navigation}
 
