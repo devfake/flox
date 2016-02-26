@@ -7,15 +7,19 @@ class Category extends React.Component {
 
   constructor(props) {
     super(props);
-    this.loadCategoryItems(props);
 
     this.state = {
       category: {},
       items: [],
+      hasLoaded: false,
       currentLoaded: config.loadingItems,
       moreLoaded: false,
       moreToLoad: true
     };
+  }
+
+  componentDidMount() {
+    this.loadCategoryItems(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,23 +37,29 @@ class Category extends React.Component {
       <div>
         {this.state.items.length ?
           <Box
+            hasLoaded={this.state.hasLoaded}
             items={this.state.items}
             category={this.state.category}
             logged={this.props.logged}
             type="category"
           /> :
-          <i className="icon-content-load"></i>}
+          (this.state.hasLoaded ? <div className="no-items-found">Nothing found :(</div> : <i className="icon-content-load" />)}
       </div>
 
     );
   }
 
   loadCategoryItems(props) {
+    this.setState({
+      hasLoaded: false
+    });
+
     setTimeout(() => {
       Api.categoryItems(props.params.category).done((value) => {
         this.setState({
           category: value.category,
-          items: value.items
+          items: value.items,
+          hasLoaded: true
         });
       }).fail((value) => {
         browserHistory.push(config.uri);

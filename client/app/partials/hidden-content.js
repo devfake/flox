@@ -11,7 +11,7 @@ class HiddenContent extends React.Component {
 
     this.state = {
       removed: false,
-      category: 'no',
+      category: 1,
       saved: false
     }
   }
@@ -21,10 +21,10 @@ class HiddenContent extends React.Component {
 
 
     var options = [
-      { value: 'no', label: 'No Category' },
-      { value: 'one', label: 'Movies' },
-      { value: 'two', label: 'Series' },
-      { value: 'three', label: 'Animes' }
+      { value: 1, label: 'No Category' },
+      { value: 2, label: 'Movies' },
+      { value: 3, label: 'Series' },
+      { value: 4, label: 'Animes' }
     ];
 
     return (
@@ -72,7 +72,6 @@ class HiddenContent extends React.Component {
             <span className={'remove-btn' + (this.state.removed ? ' reset' : '')} onClick={this.handleItemRemove.bind(this)}>
             {this.state.removed ? "Bring it back" : "Remove from list"}
           </span> : ''}
-        }
       </div>
 
     );
@@ -107,6 +106,10 @@ class HiddenContent extends React.Component {
       category: value.value
     });
 
+    //Api.saveCategory(value.value).done((value) => {
+
+    //});
+
     this.saving();
   }
 
@@ -119,7 +122,7 @@ class HiddenContent extends React.Component {
       this.setState({
         saved: false
       })
-    }, 1000);
+    }, 600);
   }
 }
 

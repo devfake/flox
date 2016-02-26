@@ -35,19 +35,29 @@
       return Item::where('slug', $slug)->first();
     }
 
-    private function getItems($category, $orderBy, $count)
+    private function getItems($categoryTyp, $orderBy, $count)
     {
-      $category = Category::where('slug', $category)->with('itemsCount')->first();
+      $category = Category::where('slug', $categoryTyp)->first();
 
       if( ! $category) {
         return response('Not Found', 404);
       }
 
-      $items = Item::where('category_id', $category->id)->where('removed', false)->orderBy($orderBy, 'desc')->take($count)->get();
+      $items = Item::where('removed', false)->orderBy($orderBy, 'desc')->take($count);
+      $itemsCount = Item::where('category_id', $category->id)->get()->count();
+
+      if($categoryTyp != 'all') {
+        $items = $items->where('category_id', $category->id);
+      } else {
+        $itemsCount = Item::get()->count();
+      }
 
       return [
-        'items' => $items,
-        'category' => $category
+        'items' => $items->get(),
+        'category' => [
+          $category,
+          'items_count' => $itemsCount
+        ],
       ];
     }
 

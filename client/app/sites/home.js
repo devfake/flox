@@ -6,17 +6,20 @@ class Home extends React.Component {
 
   constructor() {
     super();
-    this.loadHomeItems();
 
     this.state = {
-      items: []
+      items: [],
+      hasLoaded: false
     };
+
+    this.loadHomeItems();
   }
 
   render() {
     let boxes = this.state.items.map((value, key) => {
       return <Box
         items={value.items}
+        hasLoaded={this.state.hasLoaded}
         category={value.category}
         key={key}
         logged={this.props.logged}
@@ -48,12 +51,13 @@ class Home extends React.Component {
         for(let i = 0; i < arguments.length; i++) {
           items.push({
             category: arguments[i][0].category,
-            items: arguments[i][0].items
+            items: arguments[i][0].items,
           });
         }
 
         self.setState({
-          items: items
+          items: items,
+          hasLoaded: true
         });
       });
     });

@@ -7,8 +7,8 @@ class FilterOptions extends React.Component {
     return (
 
       <div className="box-options">
-        <i className={'icon-time ' + this.setActiveIf('seen')} title="Last Seen" onClick={this.props.changeFilter.bind(null, 'seen', this.props.category)} />
-        <i className={'icon-star ' + this.setActiveIf('rating')} title="Best Rated" onClick={this.props.changeFilter.bind(null, 'rating', this.props.category)} />
+        <i className={'icon-time ' + this.setActiveIf('seen')} title="Last Seen" onClick={this.changeFilter.bind(this, 'seen')} />
+        <i className={'icon-star ' + this.setActiveIf('rating')} title="Best Rated" onClick={this.changeFilter.bind(this, 'rating')} />
       </div>
 
     );
@@ -20,6 +20,10 @@ class FilterOptions extends React.Component {
     }
 
     return '';
+  }
+
+  changeFilter(filterBy) {
+    this.props.changeFilter(filterBy, this.props.category);
   }
 }
 
