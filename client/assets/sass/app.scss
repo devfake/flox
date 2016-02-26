@@ -17,7 +17,7 @@
 .Select {
   position: relative;
   float: left;
-  width: 135px;
+  width: 185px;
 }
 
 .Select.is-disabled > .Select-control {
@@ -61,21 +61,37 @@
   width: 100%;
 }
 
+.is-focused:not(.is-open) > .Select-control {
+  //border-color: #007eff;
+  //box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);
+}
+
 .Select-arrow-zone {
   display: none !important;
 }
 
-.has-value:not(.Select--multi) > .Select-control > .Select-value .Select-value-label,
-.has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value .Select-value-label {
+.Select-value-label {
   color: #909090;
-  padding: 0 0 2px 0;
-  border-bottom: 1px dashed gray;
+  border-bottom: 1px dashed;
+  cursor: pointer;
+
+  &:hover {
+    color: lighten(#909090, 30%);
+  }
 }
 
 .Select-control:hover {
   //box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   //background: lighten(#0b0b0b, 5%);
 }
+
+
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+
 
 .is-searchable.is-open > .Select-control {
   cursor: text;
@@ -92,10 +108,6 @@
 }
 .is-searchable.is-focused:not(.is-open) > .Select-control {
   cursor: text;
-}
-.is-focused:not(.is-open) > .Select-control {
-  border-color: #007eff;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);
 }
 
 .has-value:not(.Select--multi) > .Select-control > .Select-value a.Select-value-label,
@@ -223,17 +235,12 @@
   }
 }
 .Select-menu-outer {
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-top-color: #e6e6e6;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-  box-sizing: border-box;
-  margin-top: -1px;
+  background: #8e8e8e;
+  color: #fff;
+  margin-top: -40px;
   max-height: 200px;
   position: absolute;
-  top: 100%;
+  //top: -100%;
   width: 100%;
   z-index: 1;
   -webkit-overflow-scrolling: touch;
@@ -244,19 +251,19 @@
 }
 .Select-option {
   box-sizing: border-box;
-  background-color: #fff;
-  color: #666666;
+  background: #333;
+  color: #a2a2a2;
   cursor: pointer;
   display: block;
   padding: 8px 10px;
 }
 .Select-option:last-child {
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+  //border-bottom-right-radius: 4px;
+  //border-bottom-left-radius: 4px;
 }
 .Select-option.is-focused {
-  background-color: rgba(0, 126, 255, 0.08);
-  color: #333;
+  background: #555;
+  color: #fff;
 }
 .Select-option.is-disabled {
   color: #cccccc;

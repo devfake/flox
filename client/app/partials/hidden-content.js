@@ -19,6 +19,7 @@ class HiddenContent extends React.Component {
 
 
     var options = [
+      { value: 'no', label: 'No Category' },
       { value: 'one', label: 'Movies' },
       { value: 'two', label: 'Series' },
       { value: 'three', label: 'Animes' }
@@ -34,13 +35,16 @@ class HiddenContent extends React.Component {
         {this.props.logged ?
           <div className="edit-mode-wrap">
             <div className="category-box">
-              <span className="category-label">Category:</span>
+              <span className="category-label">In</span>
               <Select
                 name="category-select"
-                value="one"
                 clearable={false}
+                value="no"
+                placeholder="Select Category"
                 searchable={false}
                 options={options}
+                clearable={false}
+                menuBuffer={10}
               />
             </div>
             <div className="icons-rating">
