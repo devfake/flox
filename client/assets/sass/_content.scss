@@ -1,9 +1,9 @@
 .flox {
   position: relative;
   width: 100%;
-  min-height: calc(100vh + 200px);
+  min-height: calc(100vh + 150px);
   float: left;
-  padding: 0 0 200px 0;
+  padding: 0 0 150px 0;
 }
 
 .box {
@@ -12,7 +12,7 @@
   padding: 60px 0;
   position: relative;
 
-  .box-wrap:nth-of-type(2) & {
+  .box-wrap:nth-of-type(even) & {
     background: #242424;
 
     .light-theme & {
