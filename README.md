@@ -16,9 +16,9 @@ The rating based on an 5-Point system with 0.5 steps.
 
 ### Install
 
-##### Server
+##### Backend
 
-* Download Flox and `cd` into `server`.
+* Download Flox and `cd` into `backend`.
 * Rename `.env.example` to `.env` and fill all your credentials out (your database and TMDb API-Key).
 * Run `composer install`.
 * Give `storage` recursive write access.
