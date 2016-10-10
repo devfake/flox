@@ -1,11 +1,12 @@
-![flox](http://80.240.132.120/flox-demo/public/assets/img/demo-dark.png)
-
 Flox
 ===============
 Flox is a self hosted Movie watch list. It's build on top of PHP (Laravel), MySQL and Vue.js and uses [The Movie Database](https://www.themoviedb.org/) API.
 The rating based on an 3-Point system for `good`, `medium` and `bad`.
 
 [Try live demo](http://80.240.132.120/flox-demo/public/) and [login](http://80.240.132.120/flox-demo/public/login) with `demo / demo` to add new movies or change ratings.
+
+
+![flox](http://80.240.132.120/flox-demo/public/assets/img/demo-dark.png)
 
 ### Requirements
 
