@@ -8,9 +8,11 @@
     Route::get('/items/{orderBy}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
 
+    Route::get('/export', 'ItemController@export');
+
     Route::group(['middleware' => 'auth'], function() {
-      Route::get('/userdata', 'UserController@userData');
-      Route::post('/change-{type}', 'UserController@changeUser');
+      Route::get('/get-userdata', 'UserController@userData');
+      Route::post('/change-userdata', 'UserController@changeUserData');
 
       Route::get('/search-tmdb', 'TMDBController@search');
       Route::post('/add', 'ItemController@add');

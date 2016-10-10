@@ -1441,16 +1441,19 @@ main {
   .load-more:active {
     opacity: .8; }
 
-.user-settings-box {
+.settings-box {
   float: left;
   width: 250px;
-  margin: 0 0 30px 0;
-  clear: both; }
-  .user-settings-box:last-child {
+  margin: 0 100px 0 0; }
+  .settings-box:last-child {
     margin: 0; }
+  .settings-box .login-form {
+    clear: both;
+    margin: 0 0 30px 0; }
   @media (max-width: 740px) {
-    .user-settings-box {
-      width: 100%; } }
+    .settings-box {
+      width: 100%;
+      margin: 0 0 30px 0; } }
 
 .userdata-changed {
   float: left;
@@ -1460,6 +1463,28 @@ main {
     color: #6bb01a;
     margin: 10px 0;
     font-size: 14px; }
+
+.userdata-info {
+  float: left;
+  color: gray;
+  font-size: 13px;
+  margin: 0 0 10px 0; }
+  .dark .userdata-info {
+    color: #5d5d5d; }
+
+.export-btn {
+  background: #f1309a;
+  background: -webkit-linear-gradient(left, #895bff, #f1309a);
+  background: linear-gradient(to right, #895bff, #f1309a);
+  color: #fff;
+  font-size: 17px;
+  border: 0;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  cursor: pointer;
+  text-decoration: none; }
+  .export-btn:active {
+    opacity: .8; }
 
 .login-wrap {
   max-width: 320px;
@@ -1515,6 +1540,8 @@ main {
     text-transform: uppercase;
     padding: 8px 20px;
     cursor: pointer; }
+    .login-form input[type="submit"]:active {
+      opacity: .8; }
 
 .login-error {
   float: left;

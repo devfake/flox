@@ -108,6 +108,16 @@
       $item->delete();
     }
 
+    public function export()
+    {
+      $items = Item::all();
+      $file = date('Y-m-d---H-i') . '.json';
+
+      Storage::disk('export')->put($file, $items);
+
+      return response()->download(base_path('../public/exports/' . $file));
+    }
+
     /**
      * Create the new movie.
      *

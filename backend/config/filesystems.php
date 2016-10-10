@@ -48,6 +48,11 @@
         'root' => base_path('../public/assets/poster'),
       ],
 
+      'export' => [
+        'driver' => 'local',
+        'root' => base_path('../public/exports'),
+      ],
+
       'public' => [
         'driver' => 'local',
         'root' => storage_path('app/public'),

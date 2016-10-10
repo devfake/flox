@@ -50,15 +50,20 @@
     }
 
     /**
-     * @param $type
+     * Save new user credentials.
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function changeUser($type) {
-      $value = $type == 'username' ? Input::get('username') : bcrypt(Input::get('password'));
+    public function changeUserData() {
+      $username = Input::get('username');
+      $password = Input::get('password');
 
       $user = Auth::user();
-      $user->{$type} = $value;
+      $user->username = $username;
+
+      if($password != '') {
+        $user->password = bcrypt($password);
+      }
 
       if($user->save()) {
         return response('Success', 200);

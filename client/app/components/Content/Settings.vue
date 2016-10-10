@@ -1,20 +1,19 @@
 <template>
   <main>
     <div class="wrap-content" v-if=" ! loading">
-      <span class="nothing-found">Settings</span>
-      <div class="user-settings-box">
-        <form class="login-form" @submit.prevent="editUser('username')">
+      <div class="settings-box">
+        <span class="nothing-found">User</span>
+        <form class="login-form" @submit.prevent="editUser()">
           <input type="text" placeholder="Username" v-model="username">
-          <span class="userdata-changed"><span v-if="usernameSuccess">Username changed</span></span>
-          <input type="submit" value="Change username">
+          <input type="password" placeholder="Password" v-model="password" autocomplete="off">
+          <span class="userdata-info">Leave the password field blank if you don't want to change it</span>
+          <span class="userdata-changed"><span v-if="success">Successful changed</span></span>
+          <input type="submit" value="Save">
         </form>
       </div>
-      <div class="user-settings-box">
-        <form class="login-form" @submit.prevent="editUser('password')">
-          <input type="password" placeholder="Password" v-model="password" autocomplete="off">
-          <span class="userdata-changed"><span v-if="passwordSuccess">Password changed</span></span>
-          <input type="submit" value="Change password">
-        </form>
+      <div class="settings-box">
+        <span class="nothing-found">Export / Import</span>
+        <a :href="exportLink" class="export-btn">Export movies</a>
       </div>
     </div>
 
@@ -33,51 +32,40 @@
         loading: true,
         username: '',
         password: '',
-        usernameSuccess: false,
-        passwordSuccess: false
+        success: false
+      }
+    },
+
+    computed: {
+      exportLink() {
+        return config.api + '/export';
       }
     },
 
     methods: {
       fetchUserData() {
-        this.$http.get(`${config.api}/userdata`).then(value => {
+        this.$http.get(`${config.api}/get-userdata`).then(value => {
           const data = value.body;
           this.loading = false;
           this.username = data.username;
         });
       },
 
-      editUser(type) {
-        if((type == 'username' && this.username != '') || (type == 'password' && this.password != '')) {
-          const username = this.username;
-          const password = this.password;
+      editUser() {
+        const username = this.username;
+        const password = this.password;
 
-          this.$http.post(`${config.api}/change-${type}`, {username, password}).then(value => {
-            this.showSuccessMessage(type);
-            this.clearSuccessMessage(type);
-
-            console.log(value);
-          }, error => {
-            console.log(error);
+        if(username != '') {
+          this.$http.post(`${config.api}/change-userdata`, {username, password}).then(value => {
+            this.success = true;
+            this.clearSuccessMessage();
           });
         }
       },
 
-      showSuccessMessage(type) {
-        if(type == 'username') {
-          this.usernameSuccess = true;
-        } else {
-          this.passwordSuccess = true;
-        }
-      },
-
-      clearSuccessMessage(type) {
+      clearSuccessMessage() {
         setTimeout(() => {
-          if(type == 'username') {
-            this.usernameSuccess = false;
-          } else {
-            this.passwordSuccess = false;
-          }
+          this.success = false;
         }, 2000);
       }
     }

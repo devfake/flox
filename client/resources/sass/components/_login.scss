@@ -44,6 +44,10 @@
     text-transform: uppercase;
     padding: 8px 20px;
     cursor: pointer;
+
+    &:active {
+      opacity: .8;
+    }
   }
 }
 
