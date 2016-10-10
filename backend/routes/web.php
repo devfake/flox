@@ -9,6 +9,9 @@
     Route::get('/search-items', 'ItemController@search');
 
     Route::group(['middleware' => 'auth'], function() {
+      Route::get('/userdata', 'UserController@userData');
+      Route::post('/change-{type}', 'UserController@changeUser');
+
       Route::get('/search-tmdb', 'TMDBController@search');
       Route::post('/add', 'ItemController@add');
       Route::patch('/change-rating/{itemID}', 'ItemController@changeRating');

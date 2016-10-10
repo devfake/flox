@@ -3,6 +3,7 @@
   namespace App\Http\Controllers;
 
   use Illuminate\Contracts\Auth\Guard;
+  use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Input;
 
   class UserController {
@@ -34,6 +35,36 @@
       }
 
       return response('Unauthorized', 401);
+    }
+
+    /**
+     * Return user data for frontend. Currently only username is needed.
+     *
+     * @return array
+     */
+    public function userData()
+    {
+      return [
+        'username' => Auth::user()->username
+      ];
+    }
+
+    /**
+     * @param $type
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function changeUser($type) {
+      $value = $type == 'username' ? Input::get('username') : bcrypt(Input::get('password'));
+
+      $user = Auth::user();
+      $user->{$type} = $value;
+
+      if($user->save()) {
+        return response('Success', 200);
+      }
+
+      return response('Server Error', 500);
     }
 
     /**

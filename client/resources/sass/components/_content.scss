@@ -260,3 +260,30 @@ main {
     opacity: .8;
   }
 }
+
+.user-settings-box {
+  float: left;
+  width: 250px;
+  margin: 0 0 30px 0;
+  clear: both;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  @include media(4) {
+    width: 100%;
+  }
+}
+
+.userdata-changed {
+  float: left;
+  width: 100%;
+
+  span {
+    float: left;
+    color: $rating1;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+}

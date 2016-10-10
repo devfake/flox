@@ -1441,6 +1441,26 @@ main {
   .load-more:active {
     opacity: .8; }
 
+.user-settings-box {
+  float: left;
+  width: 250px;
+  margin: 0 0 30px 0;
+  clear: both; }
+  .user-settings-box:last-child {
+    margin: 0; }
+  @media (max-width: 740px) {
+    .user-settings-box {
+      width: 100%; } }
+
+.userdata-changed {
+  float: left;
+  width: 100%; }
+  .userdata-changed span {
+    float: left;
+    color: #6bb01a;
+    margin: 10px 0;
+    font-size: 14px; }
+
 .login-wrap {
   max-width: 320px;
   margin-left: auto;

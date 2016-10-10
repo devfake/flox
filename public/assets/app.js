@@ -641,9 +641,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-3", __vue_options__)
+	    hotAPI.createRecord("data-v-2", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-3", __vue_options__)
+	    hotAPI.reload("data-v-2", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Header.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -1482,7 +1482,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-3", module.exports)
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-2", module.exports)
 	  }
 	}
 
@@ -1524,9 +1524,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-1", __vue_options__)
+	    hotAPI.createRecord("data-v-4", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-1", __vue_options__)
+	    hotAPI.reload("data-v-4", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Search.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -1700,7 +1700,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-1", module.exports)
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-4", module.exports)
 	  }
 	}
 
@@ -1736,9 +1736,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-4", __vue_options__)
+	    hotAPI.createRecord("data-v-3", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-4", __vue_options__)
+	    hotAPI.reload("data-v-3", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Footer.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -1836,7 +1836,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-4", module.exports)
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-3", module.exports)
 	  }
 	}
 
@@ -1872,9 +1872,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-2", __vue_options__)
+	    hotAPI.createRecord("data-v-1", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-2", __vue_options__)
+	    hotAPI.reload("data-v-1", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Login.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -2008,7 +2008,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-2", module.exports)
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-1", module.exports)
 	  }
 	}
 
@@ -3977,9 +3977,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-5", __vue_options__)
+	    hotAPI.createRecord("data-v-7", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-5", __vue_options__)
+	    hotAPI.reload("data-v-7", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Content.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -4307,7 +4307,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-5", module.exports)
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-7", module.exports)
 	  }
 	}
 
@@ -4343,9 +4343,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-6", __vue_options__)
+	    hotAPI.createRecord("data-v-5", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-6", __vue_options__)
+	    hotAPI.reload("data-v-5", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] SearchContent.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -6113,7 +6113,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-6", module.exports)
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-5", module.exports)
 	  }
 	}
 
@@ -6149,9 +6149,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-7", __vue_options__)
+	    hotAPI.createRecord("data-v-6", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-7", __vue_options__)
+	    hotAPI.reload("data-v-6", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Settings.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -6175,7 +6175,10 @@ webpackJsonp([0],[
 	  data: function data() {
 	    return {
 	      loading: true,
-	      username: ''
+	      username: '',
+	      password: '',
+	      usernameSuccess: false,
+	      passwordSuccess: false
 	    };
 	  },
 
@@ -6184,9 +6187,46 @@ webpackJsonp([0],[
 	    fetchUserData: function fetchUserData() {
 	      var _this = this;
 
-	      setTimeout(function () {
+	      this.$http.get(config.api + '/userdata').then(function (value) {
+	        var data = value.body;
 	        _this.loading = false;
-	      }, 800);
+	        _this.username = data.username;
+	      });
+	    },
+	    editUser: function editUser(type) {
+	      var _this2 = this;
+
+	      if (type == 'username' && this.username != '' || type == 'password' && this.password != '') {
+	        var username = this.username;
+	        var password = this.password;
+
+	        this.$http.post(config.api + '/change-' + type, { username: username, password: password }).then(function (value) {
+	          _this2.showSuccessMessage(type);
+	          _this2.clearSuccessMessage(type);
+
+	          console.log(value);
+	        }, function (error) {
+	          console.log(error);
+	        });
+	      }
+	    },
+	    showSuccessMessage: function showSuccessMessage(type) {
+	      if (type == 'username') {
+	        this.usernameSuccess = true;
+	      } else {
+	        this.passwordSuccess = true;
+	      }
+	    },
+	    clearSuccessMessage: function clearSuccessMessage(type) {
+	      var _this3 = this;
+
+	      setTimeout(function () {
+	        if (type == 'username') {
+	          _this3.usernameSuccess = false;
+	        } else {
+	          _this3.passwordSuccess = false;
+	        }
+	      }, 2000);
 	    }
 	  }
 	};
@@ -6198,20 +6238,97 @@ webpackJsonp([0],[
 	module.exports={render:function (){with(this) {
 	  return _h('main', [(!loading) ? _h('div', {
 	    staticClass: "wrap-content"
-	  }, [_m(0)]) : _e(), " ", (loading) ? _h('span', {
+	  }, [_m(0), " ", _h('div', {
+	    staticClass: "user-settings-box"
+	  }, [_h('form', {
+	    staticClass: "login-form",
+	    on: {
+	      "submit": function($event) {
+	        $event.preventDefault();
+	        editUser('username')
+	      }
+	    }
+	  }, [_h('input', {
+	    directives: [{
+	      name: "model",
+	      value: (username),
+	      expression: "username"
+	    }],
+	    attrs: {
+	      "type": "text",
+	      "placeholder": "Username"
+	    },
+	    domProps: {
+	      "value": _s(username)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) return;
+	        username = $event.target.value
+	      }
+	    }
+	  }), " ", _h('span', {
+	    staticClass: "userdata-changed"
+	  }, [(usernameSuccess) ? _h('span', ["Username changed"]) : _e()]), " ", _m(1)])]), " ", _h('div', {
+	    staticClass: "user-settings-box"
+	  }, [_h('form', {
+	    staticClass: "login-form",
+	    on: {
+	      "submit": function($event) {
+	        $event.preventDefault();
+	        editUser('password')
+	      }
+	    }
+	  }, [_h('input', {
+	    directives: [{
+	      name: "model",
+	      value: (password),
+	      expression: "password"
+	    }],
+	    attrs: {
+	      "type": "password",
+	      "placeholder": "Password",
+	      "autocomplete": "off"
+	    },
+	    domProps: {
+	      "value": _s(password)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) return;
+	        password = $event.target.value
+	      }
+	    }
+	  }), " ", _h('span', {
+	    staticClass: "userdata-changed"
+	  }, [(passwordSuccess) ? _h('span', ["Password changed"]) : _e()]), " ", _m(2)])])]) : _e(), " ", (loading) ? _h('span', {
 	    staticClass: "loader fullsize-loader"
-	  }, [_m(1)]) : _e()])
+	  }, [_m(3)]) : _e()])
 	}},staticRenderFns: [function (){with(this) {
 	  return _h('span', {
 	    staticClass: "nothing-found"
-	  }, ["Settings coming soon..."])
+	  }, ["Settings"])
+	}},function (){with(this) {
+	  return _h('input', {
+	    attrs: {
+	      "type": "submit",
+	      "value": "Change username"
+	    }
+	  })
+	}},function (){with(this) {
+	  return _h('input', {
+	    attrs: {
+	      "type": "submit",
+	      "value": "Change password"
+	    }
+	  })
 	}},function (){with(this) {
 	  return _h('i')
 	}}]}
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-7", module.exports)
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-6", module.exports)
 	  }
 	}
 
