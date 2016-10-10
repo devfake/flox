@@ -12,7 +12,7 @@
 
     Route::group(['middleware' => 'auth'], function() {
       Route::get('/get-userdata', 'UserController@userData');
-      Route::post('/change-userdata', 'UserController@changeUserData');
+      Route::patch('/change-userdata', 'UserController@changeUserData');
 
       Route::get('/search-tmdb', 'TMDBController@search');
       Route::post('/add', 'ItemController@add');

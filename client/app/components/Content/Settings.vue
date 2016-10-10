@@ -56,7 +56,7 @@
         const password = this.password;
 
         if(username != '') {
-          this.$http.post(`${config.api}/change-userdata`, {username, password}).then(value => {
+          this.$http.patch(`${config.api}/change-userdata`, {username, password}).then(value => {
             this.success = true;
             this.clearSuccessMessage();
           });
