@@ -1,4 +1,4 @@
-![flox](http://80.240.132.120/flox-demo/public/assets/img/dark.jpg)
+![flox](http://80.240.132.120/flox-demo/public/assets/img/demo-dark.png)
 
 Flox
 ===============
