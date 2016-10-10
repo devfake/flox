@@ -53,7 +53,6 @@ Note: Laravel Scout is on the demo site not active.
 ### Todo
 
 * Settings
-  * Change username / password
   * Export and import
   * Sync scout driver
 * Ajax request for settings
