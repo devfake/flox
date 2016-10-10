@@ -1,5 +1,9 @@
-.idea
-.env
-
-/backend/vendor
 /client/node_modules
+/backend/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+/backend/.env
+
+*/.DS_Store
+/public/assets/poster/*.jpg

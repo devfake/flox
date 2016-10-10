@@ -1,0 +1,104 @@
+.search-wrap {
+  float: left;
+  width: 100%;
+  position: absolute;
+  box-shadow: 0 0 70px 0 rgba(0, 0, 0, .3);
+  background: #fff;
+  opacity: .97;
+
+  .dark & {
+    background: #2f2f2f;
+  }
+
+  &.sticky {
+    @include media(sticky) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+  }
+}
+
+.search-form {
+  float: right;
+  width: 100%;
+  position: relative;
+
+  @include transition(padding);
+
+  .sticky & {
+    padding: 0 0 0 50px;
+  }
+}
+
+.search-input {
+  float: left;
+  background: transparent;
+  width: 100%;
+  border: 0;
+  font-size: 19px;
+  padding: 12px 0 12px 30px;
+  color: $dark;
+
+  .dark & {
+    color: #989898;
+  }
+}
+
+.icon-search {
+  background: url(../../../public/assets/img/search.png);
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  left: 0;
+  top: 15px;
+
+  @include transition(left);
+
+  .dark & {
+    background: url(../../../public/assets/img/search-dark.png);
+  }
+
+  .sticky & {
+    left: 50px;
+  }
+}
+
+.icon-algolia {
+  background: url(../../../public/assets/img/algolia-white.png);
+  height: 25px;
+  width: 80px;
+  position: absolute;
+  right: 0;
+  top: 15px;
+
+  .dark & {
+    background: url(../../../public/assets/img/algolia-dark.png);
+  }
+}
+
+.icon-logo-small {
+  background: url(../../../public/assets/img/logo-small.png);
+  width: 32px;
+  height: 25px;
+  opacity: 0;
+  top: 12px;
+  left: -50px;
+  position: absolute;
+
+  @include transition(opacity, left);
+
+  .sticky & {
+    opacity: 1;
+    left: 0;
+
+    .dark & {
+      opacity: .9;
+    }
+
+    &:active {
+      opacity: .6;
+    }
+  }
+}

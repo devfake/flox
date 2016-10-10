@@ -1,0 +1,153 @@
+$main1: #895bff;
+$main2: #f1309a;
+$dark: #484848;
+$rating1: #6bb01a;
+$rating2: #da9527;
+$rating3: #de2020;
+
+@mixin transition($type, $type2: '') {
+  @if $type2 == '' {
+    transition: $type .2s ease 0s;
+  }
+  @else {
+    transition: $type .2s ease 0s, $type2 .2s ease 0s;
+  }
+}
+
+@mixin media($point) {
+  @if $point == 1 {
+    @media (max-width: 1320px) { @content; }
+  }
+  @else if $point == 2 {
+    @media (max-width: 1140px) { @content; }
+  }
+  @else if $point == 3 {
+    @media (max-width: 860px) { @content; }
+  }
+  @else if $point == 4 {
+    @media (max-width: 740px)  { @content; }
+  }
+  @else if $point == 5 {
+    @media (max-width: 620px)  { @content; }
+  }
+  @else if $point == 6 {
+    @media (max-width: 460px)  { @content; }
+  }
+  @else if $point == sticky {
+    @media (min-width: 901px) { @content; }
+  }
+  @else {
+    @media (max-width: $point) { @content; }
+  }
+}
+
+.loader {
+  width: 29px;
+  height: 29px;
+  display: block;
+  margin: 0 auto;
+  border: 4px solid rgb(241,48,154);
+  animation: cssload-loader 2.3s infinite ease;
+
+  .dark & {
+    opacity: .6;
+  }
+
+  i {
+    vertical-align: top;
+    display: inline-block;
+    width: 100%;
+    background-color: rgb(241,48,154);
+    animation: cssload-loader-inner 2.3s infinite ease-in;
+  }
+}
+
+.fullsize-loader {
+  position: absolute;
+  left: calc(50% - 14px);
+  top: calc(50% - 14px);
+}
+
+.smallsize-loader {
+  border: 4px solid #fff;
+  width: 19px;
+  height: 19px;
+  margin: 15px auto;
+
+  i {
+    background-color: #fff;
+  }
+}
+
+@keyframes cssload-loader {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(180deg); }
+  50% { transform: rotate(180deg); }
+  75% { transform: rotate(360deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes cssload-loader-inner {
+  0% { height: 0; }
+  25% { height: 0; }
+  50% { height: 100%; }
+  75% { height: 100%; }
+  100% { height: 0; }
+}
+
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/K88pR3goAWT7BTt32Z01mxJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/RjgO7rYTmqiVp7vzi-Q5URJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/LWCjsQkB6EMdfHrEVqA1KRJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/xozscpT2726on7jbcb_pAhJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/59ZRklaO5bWGqF5A9baEERJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/u-WUoqrET9fUeobQW7jkRRJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}

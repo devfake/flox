@@ -1,0 +1,61 @@
+footer {
+  padding: 40px 0;
+  width: 100%;
+  float: left;
+  background: $main2;
+  background: linear-gradient(to right, $main1, $main2);
+
+  .dark & {
+    opacity: .9;
+  }
+}
+
+.attribution {
+  color: #fff;
+  float: left;
+}
+
+.icon-tmdb {
+  background: url(../../../public/assets/img/tmdb.png);
+  width: 139px;
+  height: 18px;
+  float: left;
+  margin: 3px 10px 0 0;
+
+  &:active {
+    opacity: .6;
+  }
+}
+
+.icon-github {
+  background: url(../../../public/assets/img/github.png);
+  width: 33px;
+  height: 27px;
+  float: right;
+
+  @include media(3) {
+    float: left;
+    clear: both;
+    margin: 30px 0 0 0;
+  }
+
+  &:active {
+    opacity: .6;
+  }
+}
+
+.sub-links {
+  float: left;
+  clear: both;
+}
+
+.login-btn {
+  float: left;
+  color: #fff;
+  text-decoration: none;
+  margin: 20px 20px 0 0;
+
+  &:active {
+    opacity: .6;
+  }
+}

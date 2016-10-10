@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  overflow-y: scroll;
+  background: #fff;
+
+  &.dark {
+    background: #1c1c1c;
+  }
+}
+
+// todo: webkit placeholder opacity
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+input {
+  -webkit-appearance: none !important;
+}
+
+.wrap,
+.wrap-content {
+  lost-center: 1300px 20px;
+}
+
+.wrap-content {
+  @include media(1) { lost-center: 1120px 20px; }
+  @include media(2) { lost-center: 960px 20px; }
+  @include media(3) { lost-center: 800px 20px; }
+  @include media(4) { lost-center: 620px 20px; }
+  @include media(6) { lost-center: 290px 20px; }
+}
+
+input,
+a {
+  outline: 0
+}
+
+::selection {
+  background: rgba($main1, .99);
+  color: #fff;
+}
