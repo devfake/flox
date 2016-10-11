@@ -62,7 +62,7 @@ Note: Laravel Scout is on the demo site not active.
 
 ### Misc
 
-* Give `backend/storage` and `public/assets` recursive write access.
+* Give `backend/storage`, `public/assets` and `public/exports` recursive write access.
 
 ### Todo
 
