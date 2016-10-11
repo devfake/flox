@@ -11,7 +11,7 @@ The rating based on an 3-Point system for `good`, `medium` and `bad`.
 
 * PHP >=5.6.4
 * [Composer](https://getcomposer.org/)
-* The Movie Database Account for the [API-Key](https://www.themoviedb.org/faq/api)
+* The Movie Database Account for the free [API-Key](https://www.themoviedb.org/faq/api)
 
 ### Install
 
@@ -36,7 +36,7 @@ contains all your movies from your database. This backup file will also be autom
 If you import an backup, all movies in your database will be deleted and replaced. Be sure to make an current backup before you import.
 The import will download all poster images.
 
-Export and import can also be used for the update of flox itself. Export you movies, download a new version of flox, run all commands and import your backup. Done.
+Export and import can also be used for the update of flox itself. Export your movies, download a new version of flox, run all commands and import your backup. Done.
 
 ### Alternative Language
 

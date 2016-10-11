@@ -6,9 +6,9 @@
       </router-link>
 
       <span class="sort-wrap">
-        <i class="icon-sort-time" :class="{active: userFilter == 'created_at'}" @click="setUserFilter('created_at')"></i>
-        <i class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
-        <span class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
+        <i title="Last Seen" class="icon-sort-time" :class="{active: userFilter == 'created_at'}" @click="setUserFilter('created_at')"></i>
+        <i title="Best Rated" class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
+        <span title="Toggle Color" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
       </span>
 
     </div>
