@@ -130,6 +130,10 @@ main {
 
     @include transition(transform, background);
   }
+
+  @include media(3) {
+    transform: translate(-50%, -50%) scale(.8);
+  }
 }
 
 .rating-1 {
@@ -192,6 +196,7 @@ main {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 185px;
 
   @include transition(opacity);
 
@@ -205,7 +210,9 @@ main {
 
   @include media(3) {
     font-size: 12px;
-    text-align: left;
+    padding: 8px 1px;
+    position: static;
+    float: left;
     opacity: 1 !important;
   }
 }
