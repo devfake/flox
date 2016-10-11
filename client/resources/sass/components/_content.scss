@@ -39,6 +39,10 @@ main {
     .item-new {
       display: block;
     }
+
+    .recommend-item {
+      opacity: .9;
+    }
   }
 }
 
@@ -170,6 +174,40 @@ main {
   width: 50px;
   height: 50px;
   display: block;
+}
+
+.recommend-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 3px 0;
+  background: $dark;
+  color: #fff;
+  font-size: 13px;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  opacity: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @include transition(opacity);
+
+  &:hover {
+    opacity: 1 !important;
+  }
+
+  &:active {
+    opacity: .7 !important;
+  }
+
+  @include media(3) {
+    font-size: 12px;
+    text-align: left;
+    opacity: 1 !important;
+  }
 }
 
 .remove-item {
