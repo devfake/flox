@@ -7,7 +7,7 @@ Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAt
 
 const {url, uri, auth, scoutDriver} = document.body.dataset;
 
-export default {
+const config = {
   uri,
   url,
   auth,
@@ -16,3 +16,7 @@ export default {
   posterTMDB: 'http://image.tmdb.org/t/p/w185',
   api: url + '/api'
 };
+
+window.config = config;
+
+export default config;
