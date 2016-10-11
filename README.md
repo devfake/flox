@@ -24,6 +24,20 @@ php artisan flox:db # Running migrations and enter your admin credentials for th
 * Enter your TMDB API-Key in `backend/.env`
 * Set your `CLIENT_URI` in `backend/.env`. If you use something like XAMPP or MAMP, the CLIENT_URI should be `/flox/public`. If you use something like Homestead, the CLIENT_URI should be `/`.
 
+### User Data
+
+You can edit your admin account (username and password) in the settings page (link is in footer).
+
+### Export / Import
+
+Also you can make a backup of all your movies in the settings page. If you click the `EXPORT MOVIES` button, there will be an download for an `json` file. This file
+contains all your movies from your database. This backup file will also be automatically saved in your `public/exports` folder.
+
+If you import an backup, all movies in your database will be deleted and replaced. Be sure to make an current backup before you import.
+The import will download all poster images.
+
+Export and import can also be used for the update of flox itself. Export you movies, download a new version of flox, run all commands and import your backup. Done.
+
 ### Alternative Language
 
 All movie titles are in english by default. You can check if TMDB has an alternative title by setting `ALTERNATIVE_LANGUAGE` in `backend/.env`.
@@ -53,7 +67,6 @@ Note: Laravel Scout is on the demo site not active.
 ### Todo
 
 * Settings
-  * Export and import
   * Sync scout driver
 * Ajax request for settings
 * Better responsive
@@ -63,3 +76,4 @@ Note: Laravel Scout is on the demo site not active.
 * Suggestions based on rated movies
 * Series and Animes?
 * Multi User
+* Laravel installer?

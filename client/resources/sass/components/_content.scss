@@ -293,10 +293,24 @@ main {
   }
 }
 
-.userdata-info {
+.userdata-info,
+.import-info {
   float: left;
   color: gray;
   font-size: 13px;
+  margin: 0 0 10px 0;
+
+  .dark & {
+    color: #5d5d5d;
+  }
+}
+
+.import-info {
+  margin: 30px 0;
+}
+
+.file-btn {
+  float: left;
   margin: 0 0 10px 0;
 
   .dark & {

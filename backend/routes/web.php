@@ -9,6 +9,7 @@
     Route::get('/search-items', 'ItemController@search');
 
     Route::get('/export', 'ItemController@export');
+    Route::post('/import', 'ItemController@import');
 
     Route::group(['middleware' => 'auth'], function() {
       Route::get('/get-userdata', 'UserController@userData');

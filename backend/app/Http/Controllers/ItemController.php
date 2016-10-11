@@ -2,6 +2,7 @@
 
   namespace App\Http\Controllers;
 
+  use App\Http\Requests\ImportRequest;
   use App\Item;
   use App\Services\TMDB;
   use Illuminate\Support\Facades\Input;
@@ -108,14 +109,43 @@
       $item->delete();
     }
 
+    /**
+     * Save all movies as json file and return an download response.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function export()
     {
-      $items = Item::all();
+      $items = json_encode($this->item->all());
       $file = date('Y-m-d---H-i') . '.json';
 
       Storage::disk('export')->put($file, $items);
 
       return response()->download(base_path('../public/exports/' . $file));
+    }
+
+    /**
+     * Reset item table and restore backup. Download every poster image new.
+     *
+     * @param ImportRequest $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function import(ImportRequest $request)
+    {
+      $file = $request->file('import');
+      $extension = $file->getClientOriginalExtension();
+
+      if($extension !== 'json') {
+        return response('Wrong File', 422);
+      }
+
+      $data = json_decode(file_get_contents($file));
+
+      $this->item->truncate();
+      foreach($data as $item) {
+        $this->item->create((array) $item);
+        $this->createPosterFile($item->poster);
+      }
     }
 
     /**

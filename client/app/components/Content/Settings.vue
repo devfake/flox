@@ -14,6 +14,12 @@
       <div class="settings-box">
         <span class="nothing-found">Export / Import</span>
         <a :href="exportLink" class="export-btn">Export movies</a>
+        <form class="login-form" @submit.prevent="importMovies()">
+          <span class="import-info">OR</span>
+          <input type="file" @change="upload" class="file-btn" required>
+          <span class="userdata-changed"><span v-if="uploadSuccess">Movies successful imported</span></span>
+          <input type="submit" value="Import movies">
+        </form>
       </div>
     </div>
 
@@ -32,7 +38,9 @@
         loading: true,
         username: '',
         password: '',
-        success: false
+        success: false,
+        uploadSuccess: false,
+        uploadedFile: null
       }
     },
 
@@ -43,9 +51,34 @@
     },
 
     methods: {
+      upload(event) {
+        const file = event.target.files || event.dataTransfer.files;
+
+        this.uploadedFile = new FormData();
+        this.uploadedFile.append('import', file[0]);
+      },
+
+      importMovies() {
+        if(this.uploadedFile) {
+          const confirm = window.confirm('All movies will be replaced. Be sure you have made an backup!');
+
+          if(confirm) {
+            this.loading = true;
+            this.$http.post(`${config.api}/import`, this.uploadedFile).then(value => {
+              this.loading = false;
+              this.uploadSuccess = true;
+            }, error => {
+              this.loading = false;
+              alert('Error: ' + error.body);
+            });
+          }
+        }
+      },
+
       fetchUserData() {
         this.$http.get(`${config.api}/get-userdata`).then(value => {
           const data = value.body;
+
           this.loading = false;
           this.username = data.username;
         });
