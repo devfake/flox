@@ -31,7 +31,7 @@ $rating3: #cd2727;
     @media (max-width: 620px)  { @content; }
   }
   @else if $point == 6 {
-    @media (max-width: 460px)  { @content; }
+    @media (max-width: 450px)  { @content; }
   }
   @else if $point == sticky {
     @media (min-width: 901px) { @content; }

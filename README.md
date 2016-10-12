@@ -69,7 +69,6 @@ Note: Laravel Scout is on the demo site not active.
 * Settings
   * Sync scout driver
 * Ajax request for settings
-* Better responsive
 
 ### Further Development
 
