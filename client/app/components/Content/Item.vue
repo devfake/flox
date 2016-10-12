@@ -9,8 +9,8 @@
           <span class="loader smallsize-loader" v-if="rated"><i></i></span>
           <i class="icon-add" v-if=" ! rated"></i>
         </span>
-        <a href="#" class="recommend-item">Find Suggestions</a>
-        <span title="Delete Movie" class="remove-item" v-if="localItem.rating && auth" @click="removeItem()"><i class="icon-remove"></i></span>
+        <a href="#" class="recommend-item">Suggestions</a>
+        <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">Delete Movie</span>
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
         <span class="no-image" v-if=" ! localItem.poster"></span>
       </div>

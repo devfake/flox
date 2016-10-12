@@ -43,6 +43,10 @@ main {
     .recommend-item {
       opacity: .9;
     }
+
+    .remove-item {
+      opacity: .9;
+    }
   }
 }
 
@@ -81,6 +85,10 @@ main {
   .dark & {
     color: #626262;
   }
+
+  @include media(3) {
+    font-size: 13px;
+  }
 }
 
 .item-title {
@@ -104,6 +112,10 @@ main {
 
   &:active {
     color: $main1;
+  }
+
+  @include media(3) {
+    font-size: 15px;
   }
 }
 
@@ -193,10 +205,6 @@ main {
   text-align: center;
   text-decoration: none;
   opacity: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 185px;
 
   @include transition(opacity);
 
@@ -223,29 +231,27 @@ main {
   right: 0;
   opacity: 0;
   background: $rating3;
-  padding: 12px;
+  padding: 3px 0;
   cursor: pointer;
-
-  .dark & {
-    background: darken($rating3, 10%);
-  }
+  text-align: center;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #fff;
+  width: 100%;
 
   @include transition(opacity);
 
   &:hover {
-    opacity: 1;
+    opacity: 1 !important;
+  }
+
+  &:active {
+    opacity: .7 !important;
   }
 
   @include media(3) {
     // opacity: 1;
   }
-}
-
-.icon-remove {
-  background: url(../../../public/assets/img/remove.png);
-  width: 17px;
-  height: 17px;
-  display: block;
 }
 
 .fade-enter-active {
