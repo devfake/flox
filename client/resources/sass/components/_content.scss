@@ -44,6 +44,16 @@ main {
       opacity: .9;
     }
 
+    .item-rating {
+      .logged & {
+        transform: translate(-50%, -50%) scale(1.2);
+
+        @include media(3) {
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+    }
+
     .remove-item {
       opacity: .9;
     }
@@ -132,12 +142,8 @@ main {
   .logged & {
     cursor: pointer;
 
-    &:hover {
-      transform: translate(-50%, -50%) scale(1.2);
-    }
-
     &:active {
-      transform: translate(-50%, -50%) scale(1.1);
+      transform: translate(-50%, -50%) scale(1.1) !important;
     }
 
     @include transition(transform, background);
@@ -145,6 +151,12 @@ main {
 
   @include media(3) {
     transform: translate(-50%, -50%) scale(.8);
+
+    .logged & {
+      &:active {
+        transform: translate(-50%, -50%) scale(.8) !important;
+      }
+    }
   }
 }
 

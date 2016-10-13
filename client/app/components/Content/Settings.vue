@@ -28,6 +28,8 @@
 </template>
 
 <script>
+  import { mapState, mapMutations } from 'vuex';
+
   export default {
     created() {
       this.fetchUserData();
@@ -35,7 +37,6 @@
 
     data() {
       return {
-        loading: true,
         username: '',
         password: '',
         success: false,
@@ -45,12 +46,18 @@
     },
 
     computed: {
+      ...mapState({
+        loading: state => state.loading
+      }),
+
       exportLink() {
         return config.api + '/export';
       }
     },
 
     methods: {
+      ...mapMutations([ 'SET_LOADING' ]),
+
       upload(event) {
         const file = event.target.files || event.dataTransfer.files;
 
@@ -63,12 +70,12 @@
           const confirm = window.confirm('All movies will be replaced. Be sure you have made an backup!');
 
           if(confirm) {
-            this.loading = true;
+            this.SET_LOADING(true);
             this.$http.post(`${config.api}/import`, this.uploadedFile).then(value => {
-              this.loading = false;
+              this.SET_LOADING(false);
               this.uploadSuccess = true;
             }, error => {
-              this.loading = false;
+              this.SET_LOADING(false);
               alert('Error: ' + error.body);
             });
           }
@@ -76,10 +83,11 @@
       },
 
       fetchUserData() {
+        this.SET_LOADING(true);
         this.$http.get(`${config.api}/get-userdata`).then(value => {
           const data = value.body;
 
-          this.loading = false;
+          this.SET_LOADING(false);
           this.username = data.username;
         });
       },

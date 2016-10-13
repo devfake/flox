@@ -43,6 +43,10 @@ Export and import can also be used for the update of flox itself. Export your mo
 All movie titles are in english by default. You can check if TMDB has an alternative title by setting `ALTERNATIVE_LANGUAGE` in `backend/.env`.
 The most commons are `DE`, `IT`, `FR`, `ES` and `RU`.
 
+### Suggestions
+
+If you hover over an movie, you can click on `Suggestions` to search for recommendations and similar movies.
+
 ### Better Search
 
 You can use [Laravel Scout](https://laravel.com/docs/master/scout) for better search results with typos. Something like `findg nemo`.
@@ -72,7 +76,8 @@ Note: Laravel Scout is on the demo site not active.
 
 ### Further Development
 
-* Suggestions based on rated movies
-* Series and Animes?
+* Explore upcoming and popular movies
 * Multi User
+* Toggle to display genre or release date?
+* Series and Animes?
 * Laravel installer?

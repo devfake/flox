@@ -9,7 +9,7 @@
           <span class="loader smallsize-loader" v-if="rated"><i></i></span>
           <i class="icon-add" v-if=" ! rated"></i>
         </span>
-        <a href="#" class="recommend-item">Suggestions</a>
+        <router-link :to="'/suggestions?for=' + localItem.tmdb_id" class="recommend-item">Suggestions</router-link>
         <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">Delete Movie</span>
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
         <span class="no-image" v-if=" ! localItem.poster"></span>
@@ -17,7 +17,7 @@
 
       <div class="item-content">
         <span class="item-year">{{ released }}</span>
-        <a :href="'https://www.youtube.com/results?search_query=' + title + ' Trailer'" target="_blank" :title="title" class="item-title">{{ title }}</a>
+        <a :href="`https://www.youtube.com/results?search_query=${title} ${released} Trailer`" target="_blank" :title="title" class="item-title">{{ title }}</a>
       </div>
     </div>
   </transition>

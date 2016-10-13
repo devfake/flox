@@ -1,17 +1,18 @@
 <?php
 
   Route::group(['prefix' => 'api'], function() {
-
     Route::post('/login', 'UserController@login');
     Route::get('/logout', 'UserController@logout');
 
     Route::get('/items/{orderBy}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
 
-    Route::get('/export', 'ItemController@export');
-    Route::post('/import', 'ItemController@import');
+    Route::get('/suggestions/{tmdbID}', 'TMDBController@suggestions');
 
     Route::group(['middleware' => 'auth'], function() {
+      Route::get('/export', 'ItemController@export');
+      Route::post('/import', 'ItemController@import');
+
       Route::get('/get-userdata', 'UserController@userData');
       Route::patch('/change-userdata', 'UserController@changeUserData');
 

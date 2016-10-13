@@ -2,6 +2,7 @@
 
   namespace App\Services;
 
+  use App\Item;
   use DateTime;
   use GuzzleHttp\Client;
 
@@ -27,20 +28,8 @@
      */
     public function search($title)
     {
-      $items = [];
-
       $response = $this->client->get('/3/search/movie', ['query' => ['api_key' => $this->apiKey, 'query' => $title]]);
-      $response = json_decode($response->getBody());
-
-      foreach($response->results as $result) {
-        $dtime = DateTime::createFromFormat('Y-m-d', ($result->release_date ?: '1970-12-1'));
-        $items[] = [
-          'tmdb_id' => $result->id,
-          'title' => $result->title,
-          'poster' => $result->poster_path,
-          'released' => $dtime->getTimestamp(),
-        ];
-      }
+      $items = $this->createItems($response);
 
       return $items;
     }
@@ -66,5 +55,60 @@
 
       // '3D' is often used in the title. We don't need them.
       return trim(str_replace('3D', '', $title->first()->title));
+    }
+
+    /**
+     * Search TMDB for recommendations and similar movies.
+     *
+     * @param $tmdbID
+     * @return \Illuminate\Support\Collection
+     */
+    public function suggestions($tmdbID)
+    {
+      $recommendations = $this->searchSuggestions($tmdbID, 'recommendations');
+      $similar = $this->searchSuggestions($tmdbID, 'similar');
+
+      $items = $recommendations->merge($similar);
+
+      $inDB = Item::all('tmdb_id')->toArray();
+
+      // Remove movies which already are in database.
+      return $items->filter(function($item) use ($inDB) {
+        return ! in_array($item['tmdb_id'], array_column($inDB, 'tmdb_id'));
+      });
+    }
+
+    /**
+     * @param $tmdbID
+     * @param $type
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function searchSuggestions($tmdbID, $type)
+    {
+      $response = $this->client->get('/3/movie/' . $tmdbID . '/' . $type, ['query' => ['api_key' => $this->apiKey]]);
+      return collect($this->createItems($response));
+    }
+
+    /**
+     * @param $response
+     * @return array
+     */
+    private function createItems($response)
+    {
+      $items = [];
+      $response = json_decode($response->getBody());
+
+      foreach($response->results as $result) {
+        $dtime = DateTime::createFromFormat('Y-m-d', ($result->release_date ?: '1970-12-1'));
+        $items[] = [
+          'tmdb_id' => $result->id,
+          'title' => $result->title,
+          'poster' => $result->poster_path,
+          'released' => $dtime->getTimestamp(),
+        ];
+      }
+
+      return $items;
     }
   }

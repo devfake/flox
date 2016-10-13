@@ -15,7 +15,7 @@
   import Item from './Item.vue';
   import Helper from '../../helper';
 
-  import { mapState } from 'vuex'
+  import { mapState, mapMutations } from 'vuex'
 
   export default {
     mixins: [Helper],
@@ -39,13 +39,15 @@
     },
 
     methods: {
+      ...mapMutations([ 'SET_SEARCH_TITLE', 'SET_LOADING' ]),
+
       initSearch() {
-        this.$store.commit('SET_SEARCH_TITLE', this.$route.query.q);
-        this.$store.commit('SET_LOADING', true);
+        this.SET_SEARCH_TITLE(this.$route.query.q);
+        this.SET_LOADING(true);
         this.searchFlox();
         this.searchTMDB().then(() => {
           setTimeout(() => {
-            this.$store.commit('SET_LOADING', false);
+            this.SET_LOADING(false);
           }, 500);
         });
       },
@@ -53,6 +55,8 @@
       searchFlox() {
         this.$http.get(`${config.api}/search-items?q=${this.searchTitle}`).then(value => {
           this.floxItems = value.data;
+        }, error => {
+          console.log(error);
         });
       },
 

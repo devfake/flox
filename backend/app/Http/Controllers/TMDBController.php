@@ -18,4 +18,9 @@
     {
       return $this->tmdb->search(Input::get('q'));
     }
+
+    public function suggestions($tmdbID)
+    {
+      return $this->tmdb->suggestions($tmdbID);
+    }
   }
