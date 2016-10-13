@@ -1,6 +1,6 @@
 Flox
 ===============
-Flox is a self hosted Movie watch list. It's build on top of PHP (Laravel), MySQL and Vue.js and uses [The Movie Database](https://www.themoviedb.org/) API.
+Flox is a self hosted Movie watch list. It's build on top of Laravel and Vue.js and uses [The Movie Database](https://www.themoviedb.org/) API.
 The rating based on an 3-Point system for `good`, `medium` and `bad`.
 
 ###[Try live demo](http://80.240.132.120/flox-demo/public/) and [login](http://80.240.132.120/flox-demo/public/login) with `demo / demo` to add new movies or change ratings.
@@ -10,6 +10,7 @@ The rating based on an 3-Point system for `good`, `medium` and `bad`.
 ### Requirements
 
 * PHP >=5.6.4
+* Database (MySQL or [other](https://laravel.com/docs/5.3/database))
 * [Composer](https://getcomposer.org/)
 * The Movie Database Account for the free [API-Key](https://www.themoviedb.org/faq/api)
 
