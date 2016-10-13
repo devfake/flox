@@ -34,7 +34,7 @@ const App = new Vue({
 
     checkForUserColorScheme() {
       if( ! localStorage.getItem('color')) {
-        localStorage.setItem('color', 'light');
+        localStorage.setItem('color', 'dark');
       }
 
       this.setColorScheme(localStorage.getItem('color'));
