@@ -24,6 +24,16 @@ php artisan flox:db # Running migrations and enter your admin credentials for th
 ```
 * Enter your TMDB API-Key in `backend/.env`
 * Set your `CLIENT_URI` in `backend/.env`. If you use something like XAMPP or MAMP, the CLIENT_URI should be `/flox/public`. If you use something like Homestead, the CLIENT_URI should be `/`.
+```bash
+# CLIENT_URI=/flox/public
+http://localhost:8888/flox/public
+
+# CLIENT_URI=/subfolder/for/flox/public
+http://mydomain.com/subfolder/for/flox/public
+
+# CLIENT_URI=/
+http://mydomain.com
+```
 
 ### User Data
 
