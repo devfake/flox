@@ -36,8 +36,10 @@ main {
   }
 
   &:hover {
-    .item-new {
-      display: block;
+    .logged & {
+      .item-new {
+        display: block;
+      }
     }
 
     .recommend-item {
