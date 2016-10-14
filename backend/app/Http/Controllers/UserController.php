@@ -54,7 +54,8 @@
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function changeUserData() {
+    public function changeUserData()
+    {
       $username = Input::get('username');
       $password = Input::get('password');
 

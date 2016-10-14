@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="wrap-content" v-if=" ! loading">
-      <Item v-for="(item, index) in suggestItems" :item="item" :key="index"></Item>
+      <Item v-for="(item, index) in items" :item="item" :key="index"></Item>
     </div>
 
     <span class="loader fullsize-loader" v-if="loading"><i></i></span>
@@ -18,12 +18,12 @@
     mixins: [Helper],
 
     created() {
-      this.initSuggestions();
+      this.init();
     },
 
     data() {
       return {
-        suggestItems: []
+        items: []
       }
     },
 
@@ -36,14 +36,31 @@
     methods: {
       ...mapMutations([ 'SET_LOADING' ]),
 
-      initSuggestions() {
+      init() {
         this.SET_LOADING(true);
+        const path = this.$route.path;
+
+        if(path == '/trending') {
+          this.initTrending();
+        } else if(path == '/suggestions') {
+          this.initSuggestions();
+        }
+      },
+
+      initSuggestions() {
         const tmdbID = this.$route.query.for;
 
         this.$http.get(`${config.api}/suggestions/${tmdbID}`).then(value => {
-          this.suggestItems = value.body;
+          this.items = value.body;
           this.SET_LOADING(false);
-        })
+        });
+      },
+
+      initTrending() {
+        this.$http.get(`${config.api}/trending`).then(value => {
+          this.items = value.body;
+          this.SET_LOADING(false);
+        });
       }
     },
 
@@ -54,7 +71,7 @@
     watch: {
       $route() {
         this.scrollToTop();
-        this.initSuggestions();
+        this.init();
       }
     }
   }
