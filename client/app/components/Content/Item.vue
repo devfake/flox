@@ -12,7 +12,7 @@
         <router-link :to="'/suggestions?for=' + localItem.tmdb_id" class="recommend-item">Suggestions</router-link>
         <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">Delete Movie</span>
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
-        <span class="no-image" v-if=" ! localItem.poster"></span>
+        <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
       </div>
 
       <div class="item-content">
@@ -48,6 +48,10 @@
         }
 
         return config.posterTMDB + this.localItem.poster;
+      },
+
+      noImage() {
+        return config.url + '/assets/img/no-image.png';
       },
 
       released() {
