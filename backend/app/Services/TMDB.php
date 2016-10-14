@@ -101,7 +101,7 @@
     }
 
     /**
-     * Search TMDB for current popular or upcoming movies .
+     * Search TMDB for current popular or upcoming movies.
      *
      * @param $type
      * @return array
@@ -123,7 +123,7 @@
 
       $merged = $filtered->merge($inDB);
 
-      // Reset array keys to dispxlay inDB items first.
+      // Reset array keys to display inDB items first.
       return array_values($merged->reverse()->toArray());
     }
 
