@@ -96,10 +96,6 @@ header {
   margin: 7px 60px 0 0;
 
   @include media(5) {
-    margin: 7px 20px 0 0;
-  }
-
-  @include media(6) {
     float: left;
     width: 100%;
     margin: 20px 0 0 0;
@@ -125,6 +121,7 @@ header {
     color: #fff;
     text-decoration: none;
     text-transform: uppercase;
+    font-size: 16px;
     border-bottom: 2px solid transparent;
 
     &.router-link-active {
@@ -133,6 +130,10 @@ header {
 
     &:active {
       opacity: .6;
+    }
+
+    @include media(5) {
+      font-size: 14px;
     }
   }
 }

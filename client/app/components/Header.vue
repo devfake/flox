@@ -14,6 +14,7 @@
       <nav class="site-nav">
         <ul>
           <li><router-link to="/trending">Trending</router-link></li>
+          <li><router-link to="/upcoming">Upcoming</router-link></li>
         </ul>
       </nav>
 

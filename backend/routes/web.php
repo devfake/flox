@@ -9,6 +9,7 @@
 
     Route::get('/suggestions/{tmdbID}', 'TMDBController@suggestions');
     Route::get('/trending', 'TMDBController@trending');
+    Route::get('/upcoming', 'TMDBController@upcoming');
 
     Route::group(['middleware' => 'auth'], function() {
       Route::get('/export', 'ItemController@export');

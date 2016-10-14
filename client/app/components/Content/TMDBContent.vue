@@ -44,6 +44,8 @@
           this.initTrending();
         } else if(path == '/suggestions') {
           this.initSuggestions();
+        } else if(path == '/upcoming') {
+          this.initUpcoming();
         }
       },
 
@@ -58,6 +60,13 @@
 
       initTrending() {
         this.$http.get(`${config.api}/trending`).then(value => {
+          this.items = value.body;
+          this.SET_LOADING(false);
+        });
+      },
+
+      initUpcoming() {
+        this.$http.get(`${config.api}/upcoming`).then(value => {
           this.items = value.body;
           this.SET_LOADING(false);
         });

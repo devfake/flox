@@ -43,6 +43,10 @@ If you hover over an movie, you can click on `Suggestions` to search for recomme
 
 `Trending` will display a list of the current popular movies on TMDb. This list updates daily.
 
+### Upcoming Movies
+
+`Upcoming` will display new movies which will be released soon. TMDb do not yet support regional queries but this is coming soon.
+
 ### Export / Import
 
 Also you can make a backup of all your movies in the settings page. If you click the `EXPORT MOVIES` button, there will be an download for an `json` file. This file
@@ -87,11 +91,9 @@ You can edit your admin account (username and password) in the settings page (li
 
 * Settings
   * Sync scout driver
-* Ajax request for settings
 
 ### Further Development
 
-* Explore upcoming and popular movies
 * Multi User
 * Toggle to display genre or release date?
 * Series and Animes?

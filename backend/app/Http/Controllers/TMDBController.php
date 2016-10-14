@@ -28,4 +28,9 @@
     {
       return $this->tmdb->trending();
     }
+
+    public function upcoming()
+    {
+      return $this->tmdb->upcoming();
+    }
   }
