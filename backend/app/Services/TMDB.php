@@ -58,6 +58,32 @@
     }
 
     /**
+     * Search TMDB for current popular movies.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function trending()
+    {
+      $response = $this->client->get('/3/movie/popular', ['query' => ['api_key' => $this->apiKey]]);
+
+      $items = collect($this->createItems($response));
+      $allID = $items->pluck('tmdb_id');
+
+      // Get all movies from trendig which already in database.
+      $inDB = Item::whereIn('tmdb_id', $allID)->get()->toArray();
+
+      // Remove all inDB movies from trending.
+      $filtered = $items->filter(function($item) use ($inDB) {
+        return ! in_array($item['tmdb_id'], array_column($inDB, 'tmdb_id'));
+      });
+
+      $merged = $filtered->merge($inDB);
+
+      // Reset array keys to dispxlay inDB items first.
+      return array_values($merged->reverse()->toArray());
+    }
+
+    /**
      * Search TMDB for recommendations and similar movies.
      *
      * @param $tmdbID

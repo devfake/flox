@@ -23,4 +23,9 @@
     {
       return $this->tmdb->suggestions($tmdbID);
     }
+
+    public function trending()
+    {
+      return $this->tmdb->trending();
+    }
   }

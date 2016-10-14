@@ -90,3 +90,49 @@ header {
     }
   }
 }
+
+.site-nav {
+  float: right;
+  margin: 7px 60px 0 0;
+
+  @include media(5) {
+    margin: 7px 20px 0 0;
+  }
+
+  @include media(6) {
+    float: left;
+    width: 100%;
+    margin: 20px 0 0 0;
+  }
+
+  ul {
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    float: left;
+    margin: 0 20px 0 0;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 2px solid transparent;
+
+    &.router-link-active {
+      border-bottom: 2px solid #fff;
+    }
+
+    &:active {
+      opacity: .6;
+    }
+  }
+}

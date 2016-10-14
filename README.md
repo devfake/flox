@@ -22,7 +22,7 @@ composer install
 php artisan flox:init # Enter here your database credentials
 php artisan flox:db # Running migrations and enter your admin credentials for the site
 ```
-* Enter your TMDB API-Key in `backend/.env`
+* Enter your TMDb API-Key in `backend/.env`
 * Set your `CLIENT_URI` in `backend/.env`. If you use something like XAMPP or MAMP, the CLIENT_URI should be `/flox/public`. If you use something like Homestead, the CLIENT_URI should be `/`.
 ```bash
 # CLIENT_URI=/flox/public
@@ -35,9 +35,13 @@ http://mydomain.com/subfolder/for/flox/public
 http://mydomain.com
 ```
 
-### User Data
+### Suggestions
 
-You can edit your admin account (username and password) in the settings page (link is in footer).
+If you hover over an movie, you can click on `Suggestions` to search for recommendations and similar movies.
+
+### Popular Movies
+
+`Trending` will display a list of the current popular movies on TMDb. This list updates daily.
 
 ### Export / Import
 
@@ -51,12 +55,8 @@ Export and import can also be used for the update of flox itself. Export your mo
 
 ### Alternative Language
 
-All movie titles are in english by default. You can check if TMDB has an alternative title by setting `ALTERNATIVE_LANGUAGE` in `backend/.env`.
+All movie titles are in english by default. You can check if TMDb has an alternative title by setting `ALTERNATIVE_LANGUAGE` in `backend/.env`.
 The most commons are `DE`, `IT`, `FR`, `ES` and `RU`.
-
-### Suggestions
-
-If you hover over an movie, you can click on `Suggestions` to search for recommendations and similar movies.
 
 ### Better Search
 
@@ -68,6 +68,10 @@ To sync your own movie list with your Laravel Scout driver, run `php artisan flo
 [Algolia](https://www.algolia.com/) is a great service and has a free hacker plan.
 
 Note: Laravel Scout is on the demo site not active.
+
+### User Data
+
+You can edit your admin account (username and password) in the settings page (link is in footer).
 
 ### Development
 

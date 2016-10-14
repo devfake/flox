@@ -11,6 +11,12 @@
         <span title="Toggle Color" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
       </span>
 
+      <nav class="site-nav">
+        <ul>
+          <li><router-link to="/trending">Trending</router-link></li>
+        </ul>
+      </nav>
+
     </div>
   </header>
 </template>
