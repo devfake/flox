@@ -20,5 +20,6 @@
       'rating',
       'released',
       'created_at',
+      'genre',
     ];
   }

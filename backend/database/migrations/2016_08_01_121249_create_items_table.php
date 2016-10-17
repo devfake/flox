@@ -18,6 +18,7 @@ class CreateItemsTable extends Migration
             $table->string('title')->index();
             $table->string('alternative_title')->index()->nullable();
             $table->string('poster');
+            $table->string('genre')->nullable();
             $table->string('rating');
             $table->integer('released');
             $table->integer('created_at');

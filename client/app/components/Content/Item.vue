@@ -17,6 +17,7 @@
 
       <div class="item-content">
         <span class="item-year">{{ released }}</span>
+        <span v-if="displayGenre" class="item-genre">{{ localItem.genre }}</span>
         <a :href="`https://www.youtube.com/results?search_query=${title} ${released} Trailer`" target="_blank" :title="title" class="item-title">{{ title }}</a>
       </div>
     </div>
@@ -38,6 +39,10 @@
     },
 
     computed: {
+      displayGenre() {
+        return this.$route.path == '/upcoming';
+      },
+
       title() {
         return this.localItem.alternative_title ? this.localItem.alternative_title : this.localItem.title;
       },
@@ -63,7 +68,7 @@
 
           return released.toLocaleDateString(language, {
             year: 'numeric',
-            month: 'long',
+            month: 'numeric',
             day: 'numeric'
           });
         }

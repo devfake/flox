@@ -89,10 +89,12 @@ main {
   }
 }
 
-.item-year {
+.item-year,
+.item-genre {
   float: left;
   color: #888;
   font-size: 14px;
+  clear: both;
 
   .dark & {
     color: #626262;

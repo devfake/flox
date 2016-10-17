@@ -164,6 +164,7 @@
         'poster' => $data['poster'],
         'rating' => 1,
         'released' => $data['released'],
+        'genre' => $data['genre'],
         'created_at' => time(),
       ]);
     }
