@@ -149,6 +149,34 @@
     }
 
     /**
+     * Parse full genre list of all movies in database and save them.
+     *
+     * @param TMDB $tmdb
+     */
+    public function updateGenre(TMDB $tmdb)
+    {
+      set_time_limit(300);
+
+      $items = Item::all();
+
+      foreach($items as $item) {
+        if( ! $item->genre) {
+          $data = [];
+          $genres = $tmdb->movie($item->tmdb_id)->genres;
+          foreach($genres as $genre) {
+            $data[] = $genre->name;
+          }
+
+          $item->genre = implode($data, ', ');
+          $item->save();
+        }
+
+        // Help for TMDb request limit.
+        sleep(1);
+      }
+    }
+
+    /**
      * Create the new movie.
      *
      * @param $data

@@ -23,6 +23,8 @@
       </div>
       <div class="settings-box">
         <span class="nothing-found">Misc</span>
+        <button @click="updateGenre()" class="export-btn">Update genre</button>
+        <span class="import-info">OR</span>
         <div class="checkbox">
           <input type="checkbox" value="genre" v-model="displayGenre" id="genre" @change="updateSettings"><label for="genre">Display Genre</label>
         </div>
@@ -124,6 +126,15 @@
             this.clearSuccessMessage();
           });
         }
+      },
+
+      updateGenre() {
+        this.SET_LOADING(true);
+
+        this.$http.get(`${config.api}/update-genre`).then(value => {
+          console.log(value);
+          this.SET_LOADING(false);
+        });
       },
 
       clearSuccessMessage() {

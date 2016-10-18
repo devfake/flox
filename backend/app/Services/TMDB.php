@@ -151,6 +151,19 @@
     }
 
     /**
+     * Get full movie details.
+     *
+     * @param $tmdb_id
+     * @return mixed
+     */
+    public function movie($tmdb_id)
+    {
+      $response = $this->client->get('/3/movie/' . $tmdb_id, ['query' => ['api_key' => $this->apiKey]]);
+
+      return json_decode($response->getBody());
+    }
+
+    /**
      * Create genre string from genre_ids.
      *
      * @param $ids
@@ -161,7 +174,7 @@
       $genre = [];
 
       foreach($ids as $id) {
-        $genre[] = $this->genreList()[$id];
+        $genre[] = isset($this->genreList()[$id]) ? $this->genreList()[$id] : '';
       }
 
       return implode($genre, ', ');
