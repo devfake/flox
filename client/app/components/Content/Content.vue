@@ -1,12 +1,16 @@
 <template>
   <main>
     <div class="wrap-content" v-if=" ! loading">
-      <Item :item="item" v-for="(item, index) in items" :key="index"></Item>
+      <Item :item="item" v-for="(item, index) in items"
+            :key="index"
+            :genre="displayGenre"
+            :date="displayDate"
+      ></Item>
 
       <span class="nothing-found" v-if=" ! items.length">No Movies Found</span>
 
       <div class="load-more-wrap">
-        <span class="load-more" v-if=" ! clickedMoreLoading && paginator" @click="loadMore()">LOAD MORE</span>
+        <span class="load-more" v-if=" ! clickedMoreLoading && paginator" @click="loadMore()">Load More</span>
         <span class="loader" v-if="clickedMoreLoading"><i></i></span>
       </div>
     </div>
@@ -22,6 +26,14 @@
   export default {
     created() {
       this.fetchData();
+      this.fetchSettings();
+    },
+
+    data() {
+      return {
+        displayGenre: null,
+        displayDate: null
+      }
     },
 
     computed: {
@@ -42,6 +54,15 @@
         this.setSearchTitle('');
       },
 
+      fetchSettings() {
+        this.$http.get(`${config.api}/settings`).then(value => {
+          const data = value.body;
+
+          this.displayGenre = data.genre;
+          this.displayDate = data.date;
+        });
+      },
+
       loadMore() {
         this.loadMoreItems(this.paginator);
       }
@@ -52,7 +73,9 @@
     },
 
     watch: {
-      '$route': 'fetchData'
+      $route() {
+        this.fetchData();
+      }
     }
   }
 </script>

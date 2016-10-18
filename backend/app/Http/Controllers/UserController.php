@@ -2,6 +2,7 @@
 
   namespace App\Http\Controllers;
 
+  use App\Setting;
   use Illuminate\Contracts\Auth\Guard;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Input;
@@ -38,15 +39,40 @@
     }
 
     /**
-     * Return user data for frontend. Currently only username is needed.
+     * Return user settings for frontend.
      *
      * @return array
      */
-    public function userData()
+    public function settings()
     {
+      $settings = Setting::first();
+
+      // Set default value if settings table is empty.
+      $genre = $settings ? $settings->show_genre : 0;
+      $date = $settings ? $settings->show_date : 1;
+
       return [
-        'username' => Auth::user()->username
+        'username' => Auth::user()->username,
+        'genre' => $genre,
+        'date' => $date
       ];
+    }
+
+    /**
+     * Save new user settings.
+     */
+    public function changeSettings()
+    {
+      $settings = Setting::first();
+
+      if( ! $settings) {
+        $settings = new Setting();
+      }
+
+      $settings->show_date = Input::get('date');
+      $settings->show_genre = Input::get('genre');
+
+      $settings->save();
     }
 
     /**

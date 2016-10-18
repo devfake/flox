@@ -1,7 +1,12 @@
 <template>
   <main>
     <div class="wrap-content" v-if=" ! loading">
-      <Item v-for="(item, index) in items" :item="item" :key="index"></Item>
+      <Item v-for="(item, index) in items"
+            :item="item"
+            :key="index"
+            :genre="true"
+            :date="true"
+      ></Item>
     </div>
 
     <span class="loader fullsize-loader" v-if="loading"><i></i></span>

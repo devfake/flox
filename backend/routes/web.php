@@ -15,8 +15,9 @@
       Route::get('/export', 'ItemController@export');
       Route::post('/import', 'ItemController@import');
 
-      Route::get('/get-userdata', 'UserController@userData');
-      Route::patch('/change-userdata', 'UserController@changeUserData');
+      Route::get('/settings', 'UserController@settings');
+      Route::patch('/settings', 'UserController@changeSettings');
+      Route::patch('/userdata', 'UserController@changeUserData');
 
       Route::get('/search-tmdb', 'TMDBController@search');
       Route::post('/add', 'ItemController@add');

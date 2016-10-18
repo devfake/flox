@@ -73,9 +73,11 @@ To sync your own movie list with your Laravel Scout driver, run `php artisan flo
 
 Note: Laravel Scout is on the demo site not active.
 
-### User Data
+### Settings
 
 You can edit your admin account (username and password) in the settings page (link is in footer).
+
+You can also set options to display release date and/or genre of your own movie list. Both will still display on search, trending and upcoming.
 
 ### Development
 
@@ -95,6 +97,5 @@ You can edit your admin account (username and password) in the settings page (li
 ### Further Development
 
 * Multi User
-* Toggle to display genre or release date?
 * Series and Animes?
 * Laravel installer?

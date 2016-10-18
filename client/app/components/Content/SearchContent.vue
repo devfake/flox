@@ -1,8 +1,18 @@
 <template>
   <main>
     <div class="wrap-content" v-if=" ! loading">
-      <Item v-for="(item, index) in floxItems" :item="item" :key="index"></Item>
-      <Item v-for="(item, index) in tmdbItems" :item="item" :key="index"></Item>
+      <Item v-for="(item, index) in floxItems"
+            :item="item"
+            :key="index"
+            :genre="true"
+            :date="true"
+      ></Item>
+      <Item v-for="(item, index) in tmdbItems"
+            :item="item"
+            :key="index"
+            :genre="true"
+            :date="true"
+      ></Item>
 
       <span class="nothing-found" v-if=" ! floxItems.length && ! tmdbItems.length">Nothing Found</span>
     </div>

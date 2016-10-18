@@ -16,9 +16,9 @@
       </div>
 
       <div class="item-content">
-        <span class="item-year">{{ released }}</span>
-        <span v-if="displayGenre" class="item-genre">{{ localItem.genre }}</span>
+        <span v-if="date == 1" class="item-year">{{ released }}</span>
         <a :href="`https://www.youtube.com/results?search_query=${title} ${released} Trailer`" target="_blank" :title="title" class="item-title">{{ title }}</a>
+        <span v-if="genre == 1" class="item-genre">{{ localItem.genre }}</span>
       </div>
     </div>
   </transition>
@@ -26,7 +26,7 @@
 
 <script>
   export default {
-    props: ['item'],
+    props: ['item', 'genre', 'date'],
 
     data() {
       return {
@@ -39,10 +39,6 @@
     },
 
     computed: {
-      displayGenre() {
-        return this.$route.path == '/upcoming';
-      },
-
       title() {
         return this.localItem.alternative_title ? this.localItem.alternative_title : this.localItem.title;
       },

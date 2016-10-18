@@ -317,6 +317,7 @@ main {
   text-align: center;
   font-size: 15px;
   cursor: pointer;
+  text-transform: uppercase;
 
   .dark & {
     background: #2f2f2f;
@@ -345,6 +346,27 @@ main {
   @include media(4) {
     width: 100%;
     margin: 0 0 50px 0 !important;
+  }
+}
+
+.checkbox {
+  float: left;
+  width: 100%;
+  margin: 0 0 10px 0;
+
+  input {
+    float: left;
+    margin: 5px 0 0 0;
+  }
+
+  label {
+    float: left;
+    font-size: 15px;
+    margin: 0 0 0 10px;
+  }
+
+  .dark & {
+    color: #5d5d5d;
   }
 }
 

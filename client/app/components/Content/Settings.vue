@@ -21,6 +21,15 @@
           <input type="submit" value="Import movies">
         </form>
       </div>
+      <div class="settings-box">
+        <span class="nothing-found">Misc</span>
+        <div class="checkbox">
+          <input type="checkbox" value="genre" v-model="displayGenre" id="genre" @change="updateSettings"><label for="genre">Display Genre</label>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" value="date" v-model="displayDate" id="date" @change="updateSettings"><label for="date">Display Date</label>
+        </div>
+      </div>
     </div>
 
     <span class="loader fullsize-loader" v-if="loading"><i></i></span>
@@ -32,13 +41,15 @@
 
   export default {
     created() {
-      this.fetchUserData();
+      this.fetchSettings();
     },
 
     data() {
       return {
         username: '',
         password: '',
+        displayGenre: null,
+        displayDate: null,
         success: false,
         uploadSuccess: false,
         uploadedFile: null
@@ -65,6 +76,15 @@
         this.uploadedFile.append('import', file[0]);
       },
 
+      updateSettings() {
+        const date = this.displayDate;
+        const genre = this.displayGenre;
+
+        this.$http.patch(`${config.api}/settings`, {date, genre}).catch(error => {
+          alert('Error');
+        });
+      },
+
       importMovies() {
         if(this.uploadedFile) {
           const confirm = window.confirm('All movies will be replaced. Be sure you have made an backup!');
@@ -82,13 +102,15 @@
         }
       },
 
-      fetchUserData() {
+      fetchSettings() {
         this.SET_LOADING(true);
-        this.$http.get(`${config.api}/get-userdata`).then(value => {
+        this.$http.get(`${config.api}/settings`).then(value => {
           const data = value.body;
 
           this.SET_LOADING(false);
           this.username = data.username;
+          this.displayGenre = data.genre;
+          this.displayDate = data.date;
         });
       },
 
@@ -97,7 +119,7 @@
         const password = this.password;
 
         if(username != '') {
-          this.$http.patch(`${config.api}/change-userdata`, {username, password}).then(value => {
+          this.$http.patch(`${config.api}/userdata`, {username, password}).then(value => {
             this.success = true;
             this.clearSuccessMessage();
           });
