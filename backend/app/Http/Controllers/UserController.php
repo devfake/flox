@@ -39,43 +39,6 @@
     }
 
     /**
-     * Return user settings for frontend.
-     *
-     * @return array
-     */
-    public function settings()
-    {
-      $settings = Setting::first();
-
-      // Set default value if settings table is empty.
-      $genre = $settings ? $settings->show_genre : 0;
-      $date = $settings ? $settings->show_date : 1;
-
-      return [
-        'username' => Auth::user()->username,
-        'genre' => $genre,
-        'date' => $date
-      ];
-    }
-
-    /**
-     * Save new user settings.
-     */
-    public function changeSettings()
-    {
-      $settings = Setting::first();
-
-      if( ! $settings) {
-        $settings = new Setting();
-      }
-
-      $settings->show_date = Input::get('date');
-      $settings->show_genre = Input::get('genre');
-
-      $settings->save();
-    }
-
-    /**
      * Save new user credentials.
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response

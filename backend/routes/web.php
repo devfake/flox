@@ -12,12 +12,13 @@
     Route::get('/upcoming', 'TMDBController@upcoming');
 
     Route::group(['middleware' => 'auth'], function() {
-      Route::get('/export', 'ItemController@export');
-      Route::post('/import', 'ItemController@import');
+      Route::get('/export', 'SettingController@export');
+      Route::post('/import', 'SettingController@import');
 
-      Route::get('/update-genre', 'ItemController@updateGenre');
-      Route::get('/settings', 'UserController@settings');
-      Route::patch('/settings', 'UserController@changeSettings');
+      Route::get('/update-genre', 'SettingController@updateGenre');
+      Route::get('/settings', 'SettingController@settings');
+      Route::patch('/settings', 'SettingController@changeSettings');
+
       Route::patch('/userdata', 'UserController@changeUserData');
 
       Route::get('/search-tmdb', 'TMDBController@search');

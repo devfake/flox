@@ -2,26 +2,28 @@
 
   namespace App\Http\Controllers;
 
-  use App\Http\Requests\ImportRequest;
   use App\Item;
+  use App\Services\Storage;
   use App\Services\TMDB;
   use Illuminate\Support\Facades\Input;
-  use Illuminate\Support\Facades\Storage;
 
   class ItemController {
 
     private $loadingItems;
     private $item;
+    private $storage;
 
     /**
      * Get the amout of loading items and create an instance for 'item'.
      *
-     * @param Item $item
+     * @param Item    $item
+     * @param Storage $storage
      */
-    public function __construct(Item $item)
+    public function __construct(Item $item, Storage $storage)
     {
       $this->loadingItems = config('app.LOADING_ITEMS');
       $this->item = $item;
+      $this->storage = $storage;
     }
 
     /**
@@ -85,7 +87,7 @@
     {
       $data = Input::get('item');
 
-      $this->createPosterFile($data['poster']);
+      $this->storage->createPosterFile($data['poster']);
 
       return $this->createItem($data, $tmdb);
     }
@@ -104,76 +106,9 @@
         return response('Not Found', 404);
       }
 
-      $this->removePosterFile($item->poster);
+      $this->storage->removePosterFile($item->poster);
 
       $item->delete();
-    }
-
-    /**
-     * Save all movies as json file and return an download response.
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function export()
-    {
-      $items = json_encode($this->item->all());
-      $file = date('Y-m-d---H-i') . '.json';
-
-      Storage::disk('export')->put($file, $items);
-
-      return response()->download(base_path('../public/exports/' . $file));
-    }
-
-    /**
-     * Reset item table and restore backup. Download every poster image new.
-     *
-     * @param ImportRequest $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    public function import(ImportRequest $request)
-    {
-      $file = $request->file('import');
-      $extension = $file->getClientOriginalExtension();
-
-      if($extension !== 'json') {
-        return response('Wrong File', 422);
-      }
-
-      $data = json_decode(file_get_contents($file));
-
-      $this->item->truncate();
-      foreach($data as $item) {
-        $this->item->create((array) $item);
-        $this->createPosterFile($item->poster);
-      }
-    }
-
-    /**
-     * Parse full genre list of all movies in database and save them.
-     *
-     * @param TMDB $tmdb
-     */
-    public function updateGenre(TMDB $tmdb)
-    {
-      set_time_limit(300);
-
-      $items = Item::all();
-
-      foreach($items as $item) {
-        if( ! $item->genre) {
-          $data = [];
-          $genres = $tmdb->movie($item->tmdb_id)->genres;
-          foreach($genres as $genre) {
-            $data[] = $genre->name;
-          }
-
-          $item->genre = implode($data, ', ');
-          $item->save();
-
-          // Help for TMDb request limit.
-          sleep(1);
-        }
-      }
     }
 
     /**
@@ -195,27 +130,5 @@
         'genre' => $data['genre'],
         'created_at' => time(),
       ]);
-    }
-
-    /**
-     * Create the poster image file.
-     *
-     * @param $poster
-     */
-    private function createPosterFile($poster)
-    {
-      if($poster) {
-        Storage::put($poster, file_get_contents('http://image.tmdb.org/t/p/w185' . $poster));
-      }
-    }
-
-    /**
-     * Delete the poster image file.
-     *
-     * @param $poster
-     */
-    private function removePosterFile($poster)
-    {
-      Storage::delete($poster);
     }
   }
