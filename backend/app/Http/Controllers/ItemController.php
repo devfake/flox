@@ -169,10 +169,10 @@
 
           $item->genre = implode($data, ', ');
           $item->save();
-        }
 
-        // Help for TMDb request limit.
-        sleep(1);
+          // Help for TMDb request limit.
+          sleep(1);
+        }
       }
     }
 
