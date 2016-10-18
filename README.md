@@ -97,5 +97,6 @@ You can also set options to display release date and/or genre of your own movie 
 ### Further Development
 
 * Multi User
+* Change `alternative_title` with `translation`
 * Series and Animes?
 * Laravel installer?

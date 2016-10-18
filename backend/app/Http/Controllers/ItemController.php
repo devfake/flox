@@ -118,7 +118,7 @@
      * @param $tmdb
      * @return Item
      */
-    private function createItem($data, $tmdb)
+    private function createItem($data, TMDB $tmdb)
     {
       return $this->item->create([
         'tmdb_id' => $data['tmdb_id'],
