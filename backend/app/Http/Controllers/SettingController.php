@@ -102,7 +102,7 @@
       $date = $settings ? $settings->show_date : 1;
 
       return [
-        'username' => Auth::user()->username,
+        'username' => Auth::check() ? Auth::user()->username : '',
         'genre' => $genre,
         'date' => $date
       ];

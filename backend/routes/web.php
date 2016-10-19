@@ -11,12 +11,13 @@
     Route::get('/trending', 'TMDBController@trending');
     Route::get('/upcoming', 'TMDBController@upcoming');
 
+    Route::get('/settings', 'SettingController@settings');
+
     Route::group(['middleware' => 'auth'], function() {
       Route::get('/export', 'SettingController@export');
       Route::post('/import', 'SettingController@import');
 
       Route::get('/update-genre', 'SettingController@updateGenre');
-      Route::get('/settings', 'SettingController@settings');
       Route::patch('/settings', 'SettingController@changeSettings');
 
       Route::patch('/userdata', 'UserController@changeUserData');

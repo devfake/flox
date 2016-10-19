@@ -113,10 +113,10 @@
       $items = collect($this->createItems($response));
       $allID = $items->pluck('tmdb_id');
 
-      // Get all movies from trendig which already in database.
+      // Get all movies from trendig / upcoming which already in database.
       $inDB = Item::whereIn('tmdb_id', $allID)->get()->toArray();
 
-      // Remove all inDB movies from trending.
+      // Remove all inDB movies from trending / upcoming.
       $filtered = $items->filter(function($item) use ($inDB) {
         return ! in_array($item['tmdb_id'], array_column($inDB, 'tmdb_id'));
       });
