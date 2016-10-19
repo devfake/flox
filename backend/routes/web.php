@@ -17,6 +17,7 @@
       Route::get('/export', 'SettingController@export');
       Route::post('/import', 'SettingController@import');
 
+      Route::get('/sync-scout', 'SettingController@syncScout');
       Route::get('/update-genre', 'SettingController@updateGenre');
       Route::patch('/settings', 'SettingController@changeSettings');
 

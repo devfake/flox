@@ -7,6 +7,7 @@
   use App\Services\Storage;
   use App\Services\TMDB;
   use App\Setting;
+  use Illuminate\Support\Facades\Artisan;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Input;
 
@@ -86,6 +87,14 @@
           sleep(1);
         }
       }
+    }
+
+    /**
+     * Sync Flox with laravel scout driver in settings.
+     */
+    public function syncScout()
+    {
+      Artisan::call('flox:sync');
     }
 
     /**

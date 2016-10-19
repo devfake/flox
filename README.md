@@ -89,11 +89,6 @@ You can also set options to display release date and/or genre of your own movie 
 
 * Give `backend/storage`, `public/assets` and `public/exports` recursive write access.
 
-### Todo
-
-* Settings
-  * Sync scout driver
-
 ### Further Development
 
 * Multi User

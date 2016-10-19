@@ -20,6 +20,7 @@
 
       try {
         $this->info('TRYING TO SYNC YOUR MOVIES TO ' . strtoupper($scoutDriver));
+        $this->call('scout:flush', ['model' => 'App\\Item']);
         $this->call('scout:import', ['model' => 'App\\Item']);
         $this->info('SYNCHRONIZATION COMPLETED');
       } catch(\Exception $e) {

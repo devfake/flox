@@ -13,7 +13,7 @@
       </div>
       <div class="settings-box">
         <span class="nothing-found">Export / Import</span>
-        <a :href="exportLink" class="export-btn">Export movies</a>
+        <a :href="exportLink" class="export-btn">Export Movies</a>
         <form class="login-form" @submit.prevent="importMovies()">
           <span class="import-info">OR</span>
           <input type="file" @change="upload" class="file-btn" required>
@@ -23,7 +23,9 @@
       </div>
       <div class="settings-box">
         <span class="nothing-found">Misc</span>
-        <button @click="updateGenre()" class="export-btn">Update genre</button>
+        <button @click="updateGenre()" class="export-btn">Update Genre</button>
+        <span class="import-info">OR</span>
+        <button @click="syncScout()" class="export-btn">Sync Laravel Scout</button>
         <span class="import-info">OR</span>
         <div class="checkbox">
           <input type="checkbox" value="genre" v-model="displayGenre" id="genre" @change="updateSettings"><label for="genre">Display Genre</label>
@@ -132,7 +134,14 @@
         this.SET_LOADING(true);
 
         this.$http.get(`${config.api}/update-genre`).then(value => {
-          console.log(value);
+          this.SET_LOADING(false);
+        });
+      },
+
+      syncScout() {
+        this.SET_LOADING(true);
+
+        this.$http.get(`${config.api}/sync-scout`).then(value => {
           this.SET_LOADING(false);
         });
       },
