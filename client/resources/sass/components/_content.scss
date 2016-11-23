@@ -162,6 +162,10 @@ main {
       }
     }
   }
+
+  &.disabled {
+    pointer-events: none;
+  }
 }
 
 .rating-1 {

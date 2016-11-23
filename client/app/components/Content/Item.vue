@@ -5,7 +5,7 @@
         <span v-if="localItem.rating" :class="'item-rating rating-' + localItem.rating" @click="changeRating()">
           <i class="icon-rating"></i>
         </span>
-        <span v-if=" ! localItem.rating" class="item-rating item-new" @click="addNewItem()">
+        <span v-if=" ! localItem.rating" class="item-rating item-new" :class="{disabled: disabled}" @click="addNewItem()">
           <span class="loader smallsize-loader" v-if="rated"><i></i></span>
           <i class="icon-add" v-if=" ! rated"></i>
         </span>
@@ -36,7 +36,8 @@
         saveTimeout: null,
         auth: config.auth,
         prevRating: null,
-        rated: false
+        rated: false,
+        disabled: false
       }
     },
 
@@ -98,10 +99,12 @@
 
       addNewItem() {
         if(this.auth) {
+          this.disabled = true;
           this.rated = true;
 
           http.post(`${config.api}/add`, {item: this.localItem}).then(value => {
             this.localItem = value.data;
+            this.disabled = false;
           }, error => {
             if(error.status == 409) {
               alert(this.title + ' already exists!');
