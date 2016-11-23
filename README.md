@@ -70,7 +70,7 @@ To sync your own movie list with your Laravel Scout driver, run `php artisan flo
 
 [Algolia](https://www.algolia.com/) is a great service and has a free hacker plan.
 
-Note: Laravel Scout is on the demo site not active.
+**Note**: This works only for **your** database.
 
 ### Settings
 
