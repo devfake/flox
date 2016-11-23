@@ -43,6 +43,8 @@
 <script>
   import { mapState, mapMutations } from 'vuex';
 
+  import http from 'axios';
+
   export default {
     created() {
       this.fetchSettings();
@@ -84,7 +86,7 @@
         const date = this.displayDate;
         const genre = this.displayGenre;
 
-        this.$http.patch(`${config.api}/settings`, {date, genre}).catch(error => {
+        http.patch(`${config.api}/settings`, {date, genre}).catch(error => {
           alert('Error');
         });
       },
@@ -95,7 +97,7 @@
 
           if(confirm) {
             this.SET_LOADING(true);
-            this.$http.post(`${config.api}/import`, this.uploadedFile).then(value => {
+            http.post(`${config.api}/import`, this.uploadedFile).then(value => {
               this.SET_LOADING(false);
               this.uploadSuccess = true;
             }, error => {
@@ -108,7 +110,7 @@
 
       fetchSettings() {
         this.SET_LOADING(true);
-        this.$http.get(`${config.api}/settings`).then(value => {
+        http(`${config.api}/settings`).then(value => {
           const data = value.body;
 
           this.SET_LOADING(false);
@@ -123,7 +125,7 @@
         const password = this.password;
 
         if(username != '') {
-          this.$http.patch(`${config.api}/userdata`, {username, password}).then(value => {
+          http.patch(`${config.api}/userdata`, {username, password}).then(value => {
             this.success = true;
             this.clearSuccessMessage();
           });
@@ -133,7 +135,7 @@
       updateGenre() {
         this.SET_LOADING(true);
 
-        this.$http.get(`${config.api}/update-genre`).then(value => {
+        http(`${config.api}/update-genre`).then(value => {
           this.SET_LOADING(false);
         });
       },
@@ -141,7 +143,7 @@
       syncScout() {
         this.SET_LOADING(true);
 
-        this.$http.get(`${config.api}/sync-scout`).then(value => {
+        http(`${config.api}/sync-scout`).then(value => {
           this.SET_LOADING(false);
         });
       },

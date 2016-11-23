@@ -19,6 +19,8 @@
 </template>
 
 <script>
+  import http from 'axios';
+
   export default {
     created() {
       document.body.className += ' dark';
@@ -39,7 +41,7 @@
         const username = this.username;
         const password = this.password;
 
-        this.$http.post(`${config.api}/login`, {username, password}).then(value => {
+        http.post(`${config.api}/login`, {username, password}).then(value => {
           window.location.href = config.url;
         }, error => {
           this.error = true;

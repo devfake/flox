@@ -25,6 +25,8 @@
   import Item from './Item.vue';
   import Helper from '../../helper';
 
+  import http from 'axios';
+
   import { mapState, mapMutations } from 'vuex'
 
   export default {
@@ -63,7 +65,7 @@
       },
 
       searchFlox() {
-        this.$http.get(`${config.api}/search-items?q=${this.searchTitle}`).then(value => {
+        http(`${config.api}/search-items?q=${this.searchTitle}`).then(value => {
           this.floxItems = value.data;
         }, error => {
           console.log(error);
@@ -72,7 +74,7 @@
 
       async searchTMDB() {
         if(config.auth) {
-          await this.$http.get(`${config.api}/search-tmdb?q=${this.searchTitle}`).then(value => {
+          await http(`${config.api}/search-tmdb?q=${this.searchTitle}`).then(value => {
             const floxItems = this.floxItems.map(item => item.tmdb_id);
             this.tmdbItems = value.data.filter(item => ! floxItems.includes(item.tmdb_id));
           }).catch(error => {

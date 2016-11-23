@@ -23,6 +23,8 @@
   import Item from './Item.vue';
   import { mapActions, mapState } from 'vuex'
 
+  import http from 'axios';
+
   export default {
     created() {
       this.fetchData();
@@ -55,8 +57,8 @@
       },
 
       fetchSettings() {
-        this.$http.get(`${config.api}/settings`).then(value => {
-          const data = value.body;
+        http(`${config.api}/settings`).then(value => {
+          const data = value.data;
 
           this.displayGenre = data.genre;
           this.displayDate = data.date;

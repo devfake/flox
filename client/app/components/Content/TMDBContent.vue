@@ -17,6 +17,8 @@
   import Item from './Item.vue';
   import Helper from '../../helper';
 
+  import http from 'axios';
+
   import { mapState, mapMutations } from 'vuex'
 
   export default {
@@ -57,22 +59,22 @@
       initSuggestions() {
         const tmdbID = this.$route.query.for;
 
-        this.$http.get(`${config.api}/suggestions/${tmdbID}`).then(value => {
-          this.items = value.body;
+        http(`${config.api}/suggestions/${tmdbID}`).then(value => {
+          this.items = value.data;
           this.SET_LOADING(false);
         });
       },
 
       initTrending() {
-        this.$http.get(`${config.api}/trending`).then(value => {
-          this.items = value.body;
+        http(`${config.api}/trending`).then(value => {
+          this.items = value.data;
           this.SET_LOADING(false);
         });
       },
 
       initUpcoming() {
-        this.$http.get(`${config.api}/upcoming`).then(value => {
-          this.items = value.body;
+        http(`${config.api}/upcoming`).then(value => {
+          this.items = value.data;
           this.SET_LOADING(false);
         });
       }

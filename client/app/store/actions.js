@@ -1,11 +1,8 @@
-import Vue from 'vue';
-import Resource from 'vue-resource';
-
-Vue.use(Resource);
+import http from 'axios';
 
 export function loadItems({commit}, filter) {
   commit('SET_LOADING', true);
-  Vue.http.get(`${config.api}/items/${filter}`).then(value => {
+  http(`${config.api}/items/${filter}`).then(value => {
     const {data, next_page_url} = value.data;
 
     commit('SET_ITEMS', data);
@@ -23,7 +20,7 @@ export function loadItems({commit}, filter) {
 
 export function loadMoreItems({commit}, next_page_url) {
   commit('SET_CLICKED_LOADING', true);
-  Vue.http.get(next_page_url).then(value => {
+  http(next_page_url).then(value => {
     const {data, next_page_url} = value.data;
 
     commit('SET_PAGINATOR', next_page_url);

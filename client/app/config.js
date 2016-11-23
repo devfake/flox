@@ -1,9 +1,5 @@
-import Vue from 'vue';
-import Resource from 'vue-resource';
-
-Vue.use(Resource);
-
-Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
+import http from 'axios';
+http.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
 
 const {url, uri, auth, scoutDriver} = document.body.dataset;
 

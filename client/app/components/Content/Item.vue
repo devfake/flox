@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import http from 'axios';
+
   export default {
     props: ['item', 'genre', 'date'],
 
@@ -88,7 +90,7 @@
       },
 
       saveNewRating() {
-        this.$http.patch(`${config.api}/change-rating/${this.localItem.id}`, {rating: this.localItem.rating}).catch(error => {
+        http.patch(`${config.api}/change-rating/${this.localItem.id}`, {rating: this.localItem.rating}).catch(error => {
           this.localItem.rating = this.prevRating;
           alert('Error in saveNewRating()');
         });
@@ -98,7 +100,7 @@
         if(this.auth) {
           this.rated = true;
 
-          this.$http.post(`${config.api}/add`, {item: this.localItem}).then(value => {
+          http.post(`${config.api}/add`, {item: this.localItem}).then(value => {
             this.localItem = value.data;
           }, error => {
             if(error.status == 409) {
@@ -113,7 +115,7 @@
           const confirm = window.confirm('Are you sure?');
 
           if(confirm) {
-            this.$http.delete(`${config.api}/remove/${this.localItem.id}`).then(value => {
+            http.delete(`${config.api}/remove/${this.localItem.id}`).then(value => {
               this.localItem.rating = null;
             }, error => {
               alert('Error in removeItem()');
