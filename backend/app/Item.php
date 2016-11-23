@@ -15,7 +15,7 @@
     protected $fillable = [
       'tmdb_id',
       'title',
-      'alternative_title',
+      'original_title',
       'poster',
       'rating',
       'released',

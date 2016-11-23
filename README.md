@@ -57,10 +57,9 @@ The import will download all poster images.
 
 Export and import can also be used for the update of flox itself. Export your movies, download a new version of flox, run all commands and import your backup. Done.
 
-### Alternative Language
+### Translation
 
-All movie titles are in english by default. You can check if TMDb has an alternative title by setting `ALTERNATIVE_LANGUAGE` in `backend/.env`.
-The most commons are `DE`, `IT`, `FR`, `ES` and `RU`.
+All movie titles are in english by default. You can change your language by setting `TRANSLATION` in `backend/.env`. The most commons are `DE`, `IT`, `FR`, `ES` and `RU`. You can try to use your language code. If there isn't a translation for your language, the english title will be used.
 
 ### Better Search
 
@@ -92,6 +91,5 @@ You can also set options to display release date and/or genre of your own movie 
 ### Further Development
 
 * Multi User
-* Change `alternative_title` with `translation`
 * Series and Animes?
 * Laravel installer?

@@ -16,7 +16,7 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->integer('tmdb_id')->unique();
             $table->string('title')->index();
-            $table->string('alternative_title')->index()->nullable();
+            $table->string('original_title')->index();
             $table->string('poster');
             $table->string('genre')->nullable();
             $table->string('rating');

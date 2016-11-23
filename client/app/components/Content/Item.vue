@@ -17,7 +17,7 @@
 
       <div class="item-content">
         <span v-if="date == 1" class="item-year">{{ released }}</span>
-        <a :href="`https://www.youtube.com/results?search_query=${title} ${released} Trailer`" target="_blank" :title="title" class="item-title">{{ title }}</a>
+        <a :href="`https://www.youtube.com/results?search_query=${localItem.title} ${released} Trailer`" target="_blank" :title="localItem.title" class="item-title">{{ localItem.title }}</a>
         <span v-if="genre == 1" class="item-genre">{{ localItem.genre }}</span>
       </div>
     </div>
@@ -42,10 +42,6 @@
     },
 
     computed: {
-      title() {
-        return this.localItem.alternative_title ? this.localItem.alternative_title : this.localItem.title;
-      },
-
       poster() {
         if(this.localItem.rating) {
           return config.poster + this.localItem.poster;
@@ -107,7 +103,7 @@
             this.disabled = false;
           }, error => {
             if(error.status == 409) {
-              alert(this.title + ' already exists!');
+              alert(this.localItem.title + ' already exists!');
             }
           });
         }

@@ -54,7 +54,7 @@
 
       // We don't have an smart search driver and return an simple 'like' query.
       return $this->item->where('title', 'LIKE', '%' . $title . '%')
-        ->orWhere('alternative_title', 'LIKE', '%' . $title . '%')
+        ->orWhere('original_title', 'LIKE', '%' . $title . '%')
         ->get();
     }
 
@@ -115,15 +115,14 @@
      * Create the new movie.
      *
      * @param $data
-     * @param $tmdb
      * @return Item
      */
-    private function createItem($data, TMDB $tmdb)
+    private function createItem($data)
     {
       return $this->item->create([
         'tmdb_id' => $data['tmdb_id'],
         'title' => $data['title'],
-        'alternative_title' => $tmdb->alternativeMovieTitle($data["tmdb_id"]),
+        'original_title' => $data['original_title'],
         'poster' => $data['poster'],
         'rating' => 1,
         'released' => $data['released'],

@@ -28,32 +28,17 @@
      */
     public function search($title)
     {
-      $response = $this->client->get('/3/search/movie', ['query' => ['api_key' => $this->apiKey, 'query' => $title]]);
+      $translation = config('app.TRANSLATION');
+
+      $response = $this->client->get('/3/search/movie', [
+        'query' => [
+          'api_key' => $this->apiKey,
+          'query' => $title,
+          'language' => strtolower($translation)
+        ]
+      ]);
 
       return $this->createItems($response);
-    }
-
-    /**
-     * Make a new request to TMDB to get the 'alternative language' movie title.
-     *
-     * @param $tmdb_id
-     * @return null|string
-     */
-    public function alternativeMovieTitle($tmdb_id)
-    {
-      $alternativeLanguage = config('app.ALTERNATIVE_LANGUAGE');
-
-      $response = $this->client->get('/3/movie/' . $tmdb_id . '/alternative_titles', ['query' => ['api_key' => $this->apiKey]]);
-      $titles = collect(json_decode($response->getBody())->titles);
-
-      $title = $titles->where('iso_3166_1', $alternativeLanguage);
-
-      if($title->isEmpty()) {
-        return null;
-      }
-
-      // '3D' is often used in the title. We don't need them.
-      return trim(str_replace('3D', '', $title->first()->title));
     }
 
     public function trending()
@@ -141,6 +126,7 @@
         $items[] = [
           'tmdb_id' => $result->id,
           'title' => $result->title,
+          'original_title' => $result->original_title,
           'poster' => $result->poster_path,
           'released' => $dtime->getTimestamp(),
           'genre' => $this->parseGenre($result->genre_ids),
