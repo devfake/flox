@@ -81,7 +81,7 @@ You can also set options to display release date and/or genre of your own movie 
 
 ### Development
 
-* Run `npm install` in your `/client` folder.
+* Run `npm install` or `yarn` in your `/client` folder.
 * Make sure you have installed `webpack` globally.
 * Run `npm run dev` or  `npm run build`.
 
