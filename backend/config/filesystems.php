@@ -53,6 +53,11 @@
         'root' => base_path('../public/exports'),
       ],
 
+      'languages' => [
+        'driver' => 'local',
+        'root' => base_path('../client/resources/languages'),
+      ],
+
       'public' => [
         'driver' => 'local',
         'root' => storage_path('app/public'),

@@ -1,0 +1,38 @@
+{
+  "username": "Username",
+  "password": "Password",
+  "login button": "Login",
+  "login error": "Wrong username or password",
+
+  "suggestions": "Suggestions",
+  "delete movie": "Delete Movie",
+  "confirm delete": "Are you sure?",
+  "search": "Search movie",
+  "search or add": "Search or add movie",
+  "load more": "Load More",
+  "nothing found": "Nothing found",
+
+  "trending": "Trending",
+  "upcoming": "Upcoming",
+  "last seen": "Last seen",
+  "best rated": "Best rated",
+  "change color": "Change colors",
+
+  "settings": "Settings",
+  "logout": "Logout",
+  "headline user": "User",
+  "headline export import": "Export / Import",
+  "headline misc": "Misc",
+  "save button": "Save",
+  "password message": "Leave the password field blank if you don't want to change it",
+  "success message": "Successful changed",
+  "export button": "Export movies",
+  "import button": "Import movies",
+  "or divider": "OR",
+  "update genre": "Update genre",
+  "sync scout": "Sync Laravel Scout",
+  "display genre": "Display genre",
+  "display date": "Display date",
+  "success import": "Movies successful imported",
+  "import warn": "All movies will be replaced. Be sure you have made an backup!"
+}

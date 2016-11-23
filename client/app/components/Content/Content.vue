@@ -7,10 +7,10 @@
             :date="displayDate"
       ></Item>
 
-      <span class="nothing-found" v-if=" ! items.length">No Movies Found</span>
+      <span class="nothing-found" v-if=" ! items.length">{{ lang('nothing found') }}</span>
 
       <div class="load-more-wrap">
-        <span class="load-more" v-if=" ! clickedMoreLoading && paginator" @click="loadMore()">Load More</span>
+        <span class="load-more" v-if=" ! clickedMoreLoading && paginator" @click="loadMore()">{{ lang('load more') }}</span>
         <span class="loader" v-if="clickedMoreLoading"><i></i></span>
       </div>
     </div>
@@ -22,10 +22,13 @@
 <script>
   import Item from './Item.vue';
   import { mapActions, mapState } from 'vuex'
+  import Helper from '../../helper';
 
   import http from 'axios';
 
   export default {
+    mixins: [Helper],
+
     created() {
       this.fetchData();
       this.fetchSettings();

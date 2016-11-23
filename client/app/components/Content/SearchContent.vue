@@ -14,7 +14,7 @@
             :date="true"
       ></Item>
 
-      <span class="nothing-found" v-if=" ! floxItems.length && ! tmdbItems.length">Nothing Found</span>
+      <span class="nothing-found" v-if=" ! floxItems.length && ! tmdbItems.length">{{ lang('nothing found') }}</span>
     </div>
 
     <span class="loader fullsize-loader" v-if="loading"><i></i></span>

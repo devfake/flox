@@ -9,8 +9,8 @@
           <span class="loader smallsize-loader" v-if="rated"><i></i></span>
           <i class="icon-add" v-if=" ! rated"></i>
         </span>
-        <router-link :to="'/suggestions?for=' + localItem.tmdb_id" class="recommend-item">Suggestions</router-link>
-        <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">Delete Movie</span>
+        <router-link :to="'/suggestions?for=' + localItem.tmdb_id" class="recommend-item">{{ lang('suggestions') }}</router-link>
+        <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
         <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
       </div>
@@ -26,8 +26,11 @@
 
 <script>
   import http from 'axios';
+  import Helper from '../../helper';
 
   export default {
+    mixins: [Helper],
+
     props: ['item', 'genre', 'date'],
 
     data() {
@@ -111,7 +114,7 @@
 
       removeItem() {
         if(this.auth) {
-          const confirm = window.confirm('Are you sure?');
+          const confirm = window.confirm(this.lang('confirm delete'));
 
           if(confirm) {
             http.delete(`${config.api}/remove/${this.localItem.id}`).then(value => {

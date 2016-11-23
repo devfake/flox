@@ -16,6 +16,7 @@
   data-uri="{{ config('app.CLIENT_URI') }}"
   data-scout-driver="{{ config('scout.driver') }}"
   data-auth="{{ Auth::check() }}"
+  data-language="{{ $lang }}"
   class="{{ Auth::check() ? 'logged' : 'guest' }}"
 >
 

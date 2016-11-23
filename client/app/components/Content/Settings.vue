@@ -2,36 +2,36 @@
   <main>
     <div class="wrap-content" v-if=" ! loading">
       <div class="settings-box">
-        <span class="nothing-found">User</span>
+        <span class="nothing-found">{{ lang('headline user') }}</span>
         <form class="login-form" @submit.prevent="editUser()">
-          <input type="text" placeholder="Username" v-model="username">
-          <input type="password" placeholder="Password" v-model="password" autocomplete="off">
-          <span class="userdata-info">Leave the password field blank if you don't want to change it</span>
-          <span class="userdata-changed"><span v-if="success">Successful changed</span></span>
-          <input type="submit" value="Save">
+          <input type="text" :placeholder="lang('username')" v-model="username">
+          <input type="password" :placeholder="lang('password')" v-model="password" autocomplete="off">
+          <span class="userdata-info">{{ lang('password message') }}</span>
+          <span class="userdata-changed"><span v-if="success">{{ lang('success message') }}</span></span>
+          <input type="submit" :value="lang('save button')">
         </form>
       </div>
       <div class="settings-box">
-        <span class="nothing-found">Export / Import</span>
-        <a :href="exportLink" class="export-btn">Export Movies</a>
+        <span class="nothing-found">{{ lang('headline export import') }}</span>
+        <a :href="exportLink" class="export-btn">{{ lang('export button') }}</a>
         <form class="login-form" @submit.prevent="importMovies()">
-          <span class="import-info">OR</span>
+          <span class="import-info">{{ lang('or divider') }}</span>
           <input type="file" @change="upload" class="file-btn" required>
-          <span class="userdata-changed"><span v-if="uploadSuccess">Movies successful imported</span></span>
-          <input type="submit" value="Import movies">
+          <span class="userdata-changed"><span v-if="uploadSuccess">{{ lang('success import') }}</span></span>
+          <input type="submit" :value="lang('import button')">
         </form>
       </div>
       <div class="settings-box">
-        <span class="nothing-found">Misc</span>
-        <button @click="updateGenre()" class="export-btn">Update Genre</button>
-        <span class="import-info">OR</span>
-        <button @click="syncScout()" class="export-btn">Sync Laravel Scout</button>
-        <span class="import-info">OR</span>
+        <span class="nothing-found">{{ lang('headline misc') }}</span>
+        <button @click="updateGenre()" class="export-btn">{{ lang('update genre') }}</button>
+        <span class="import-info">{{ lang('or divider') }}</span>
+        <button @click="syncScout()" class="export-btn">{{ lang('sync scout') }}</button>
+        <span class="import-info">{{ lang('or divider') }}</span>
         <div class="checkbox">
-          <input type="checkbox" value="genre" v-model="displayGenre" id="genre" @change="updateSettings"><label for="genre">Display Genre</label>
+          <input type="checkbox" value="genre" v-model="displayGenre" id="genre" @change="updateSettings"><label for="genre">{{ lang('display genre') }}</label>
         </div>
         <div class="checkbox">
-          <input type="checkbox" value="date" v-model="displayDate" id="date" @change="updateSettings"><label for="date">Display Date</label>
+          <input type="checkbox" value="date" v-model="displayDate" id="date" @change="updateSettings"><label for="date">{{ lang('display date') }}</label>
         </div>
       </div>
     </div>
@@ -42,10 +42,13 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex';
+  import Helper from '../../helper';
 
   import http from 'axios';
 
   export default {
+    mixins: [Helper],
+
     created() {
       this.fetchSettings();
     },
@@ -93,7 +96,7 @@
 
       importMovies() {
         if(this.uploadedFile) {
-          const confirm = window.confirm('All movies will be replaced. Be sure you have made an backup!');
+          const confirm = window.confirm(this.lang('import warn'));
 
           if(confirm) {
             this.SET_LOADING(true);

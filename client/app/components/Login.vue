@@ -6,12 +6,12 @@
       <img src="../../../public/assets/img/logo-login.png" class="logo-login" alt="Flox" width="108" height="32">
 
       <form class="login-form" @submit.prevent="login()">
-        <input type="text" placeholder="Username" v-model="username" autofocus>
-        <input type="password" placeholder="Password" v-model="password">
+        <input type="text" :placeholder="lang('username')" v-model="username" autofocus>
+        <input type="password" :placeholder="lang('password')" v-model="password">
 
-        <span class="login-error"><span v-if="error">Wrong username or password</span></span>
+        <span class="login-error"><span v-if="error">{{ lang('login error') }}</span></span>
 
-        <input type="submit" :class="errorShake ? 'shake-horizontal shake-constant' : ''" value="Sign In">
+        <input type="submit" :class="errorShake ? 'shake-horizontal shake-constant' : ''" :value="lang('login button')">
       </form>
 
     </div>
@@ -20,8 +20,11 @@
 
 <script>
   import http from 'axios';
+  import Helper from '../helper';
 
   export default {
+    mixins: [Helper],
+
     created() {
       document.body.className += ' dark';
     },

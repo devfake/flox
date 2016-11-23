@@ -30,6 +30,4 @@
     });
   });
 
-  Route::get('/{uri?}', function($uri = null) {
-    return view('app');
-  })->where('uri', '(.*)');
+  Route::get('/{uri?}', 'HomeController@app')->where('uri', '(.*)');

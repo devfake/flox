@@ -59,7 +59,11 @@ Export and import can also be used for the update of flox itself. Export your mo
 
 ### Translation
 
-All movie titles are in english by default. You can change your language by setting `TRANSLATION` in `backend/.env`. The most commons are `DE`, `IT`, `FR`, `ES` and `RU`. You can try to use your language code. If there isn't a translation for your language, the english title will be used.
+All movie titles are in english by default. You can change your language by setting `TRANSLATION` in `backend/.env`. The most commons are `DE`, `IT`, `FR`, `ES` and `RU`. You can try to use your language code.
+
+This will also affect the language of you website. See in `client/resources/languages` if your language is supported. Pull requests are welcome :) 
+
+If there isn't a translation for your language, english will be used.
 
 ### Better Search
 

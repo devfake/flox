@@ -38,4 +38,22 @@
     {
       LaravelStorage::delete($poster);
     }
+
+    /**
+     * Parse language file.
+     *
+     * @return mixed
+     */
+    public function parseLanguage()
+    {
+      $alternative = config('app.TRANSLATION') ?: 'EN';
+      $filename = strtolower($alternative) . '.json';
+
+      // Get english fallback
+      if( ! LaravelStorage::disk('languages')->exists($filename)) {
+        $filename = 'en.json';
+      }
+
+      return LaravelStorage::disk('languages')->get($filename);
+    }
   }

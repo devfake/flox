@@ -6,15 +6,15 @@
       </router-link>
 
       <span class="sort-wrap">
-        <i title="Last Seen" class="icon-sort-time" :class="{active: userFilter == 'created_at'}" @click="setUserFilter('created_at')"></i>
-        <i title="Best Rated" class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
-        <span title="Toggle Color" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
+        <i :title="lang('last seen')" class="icon-sort-time" :class="{active: userFilter == 'created_at'}" @click="setUserFilter('created_at')"></i>
+        <i :title="lang('best rated')" class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
+        <span :title="lang('change color')" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
       </span>
 
       <nav class="site-nav">
         <ul>
-          <li><router-link to="/trending">Trending</router-link></li>
-          <li><router-link to="/upcoming">Upcoming</router-link></li>
+          <li><router-link to="/trending">{{ lang('trending') }}</router-link></li>
+          <li><router-link to="/upcoming">{{ lang('upcoming') }}</router-link></li>
         </ul>
       </nav>
 
@@ -23,10 +23,13 @@
 </template>
 
 <script>
+  import Helper from '../helper';
   import store from '../store/index';
   import { mapActions, mapMutations, mapState } from 'vuex'
 
   export default {
+    mixins: [Helper],
+
     created() {
       this.checkForUserFilter();
     },

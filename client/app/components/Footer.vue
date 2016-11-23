@@ -11,8 +11,8 @@
       <a class="icon-github" href="https://github.com/devfake/flox" target="_blank"></a>
 
       <div class="sub-links">
-        <a v-if="auth" :href="settings" class="login-btn">Settings</a>
-        <a v-if="auth" :href="logout" class="login-btn">Logout</a>
+        <a v-if="auth" :href="settings" class="login-btn">{{ lang('settings') }}</a>
+        <a v-if="auth" :href="logout" class="login-btn">{{ lang('logout') }}</a>
         <a v-if=" ! auth" :href="login" class="login-btn">Login</a>
       </div>
     </div>
@@ -21,8 +21,11 @@
 
 <script>
   import { mapState } from 'vuex';
+  import Helper from '../helper';
 
   export default {
+    mixins: [Helper],
+
     data() {
       return {
         auth: config.auth,

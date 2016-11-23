@@ -45,7 +45,8 @@
       },
 
       placeholder() {
-        return config.auth ? 'Search or add movie' : 'Search movie';
+        //return config.auth ? 'Search or add movie' : 'Search movie';
+        return config.auth ? this.lang('search or add') : this.lang('search');
       }
     },
 

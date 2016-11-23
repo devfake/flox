@@ -18,6 +18,13 @@ export default {
       }
 
       window.requestAnimationFrame(step);
+    },
+
+    // Language helper
+    lang(text) {
+      const language = JSON.parse(config.language);
+
+      return language[text];
     }
   }
 }
