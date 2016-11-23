@@ -102,7 +102,7 @@
               this.uploadSuccess = true;
             }, error => {
               this.SET_LOADING(false);
-              alert('Error: ' + error.body);
+              alert('Error: ' + error.data);
             });
           }
         }
@@ -111,7 +111,7 @@
       fetchSettings() {
         this.SET_LOADING(true);
         http(`${config.api}/settings`).then(value => {
-          const data = value.body;
+          const data = value.data;
 
           this.SET_LOADING(false);
           this.username = data.username;
