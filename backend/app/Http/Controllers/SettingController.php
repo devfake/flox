@@ -30,7 +30,7 @@
     public function export()
     {
       $items = json_encode($this->item->all());
-      $file = date('Y-m-d---H-i') . '.json';
+      $file = 'flox--' . date('Y-m-d---H-i') . '.json';
 
       $this->storage->saveExport($file, $items);
 
