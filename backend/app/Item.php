@@ -17,6 +17,8 @@
       'title',
       'original_title',
       'poster',
+      'media_type',
+      'tv_data',
       'rating',
       'released',
       'created_at',
