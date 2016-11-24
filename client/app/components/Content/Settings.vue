@@ -24,6 +24,7 @@
       <div class="settings-box">
         <span class="nothing-found">{{ lang('headline misc') }}</span>
         <button @click="updateGenre()" class="export-btn">{{ lang('update genre') }}</button>
+        <span class="userdata-info">{{ lang('genre message') }}</span>
         <span class="import-info">{{ lang('or divider') }}</span>
         <button @click="syncScout()" class="export-btn">{{ lang('sync scout') }}</button>
         <span class="import-info">{{ lang('or divider') }}</span>
