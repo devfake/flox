@@ -11,6 +11,7 @@ main {
 
 .item-wrap {
   margin: 0 0 60px 0;
+  position: relative;
 
   lost-column: 1/6;
 
@@ -42,7 +43,12 @@ main {
       }
     }
 
-    .recommend-item {
+    .show-episode {
+      bottom: 24px;
+    }
+
+    .recommend-item,
+    .remove-item {
       opacity: .9;
     }
 
@@ -54,10 +60,6 @@ main {
           transform: translate(-50%, -50%) scale(1);
         }
       }
-    }
-
-    .remove-item {
-      opacity: .9;
     }
   }
 }
@@ -257,6 +259,7 @@ main {
   font-size: 13px;
   text-transform: uppercase;
   color: #fff;
+  height: 24px;
   width: 100%;
 
   @include transition(opacity);
@@ -271,6 +274,49 @@ main {
 
   @include media(3) {
     // opacity: 1;
+  }
+}
+
+.show-episode {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: .9;
+  background: $main2;
+  background: linear-gradient(to right, $main1, $main2);
+  padding: 3px 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
+
+  @include transition(opacity, bottom);
+
+  &:hover {
+    opacity: 1 !important;
+  }
+
+  &:active {
+    opacity: .7 !important;
+  }
+
+  @include media(3) {
+    //opacity: 1 !important;
+    //padding: 8px 6px;
+  }
+
+  i {
+    font-style: normal;
+    opacity: .7;
+  }
+
+  .season-item {
+    float: left;
+  }
+
+  .episode-item {
+    float: right;
   }
 }
 

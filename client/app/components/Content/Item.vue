@@ -9,15 +9,22 @@
           <span class="loader smallsize-loader" v-if="rated"><i></i></span>
           <i class="icon-add" v-if=" ! rated"></i>
         </span>
+
         <router-link :to="'/suggestions?for=' + localItem.tmdb_id" class="recommend-item">{{ lang('suggestions') }}</router-link>
         <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
+
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
         <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
+
+        <span class="show-episode" @click="changeEpisode()" v-if="localItem.type == 'tv'">
+          <span class="season-item"><i>S</i>1/2</span>
+          <span class="episode-item"><i>E</i>03/10</span>
+        </span>
       </div>
 
       <div class="item-content">
         <span v-if="date == 1" class="item-year">{{ released }}</span>
-        <a :href="`https://www.youtube.com/results?search_query=${localItem.title} ${released} Trailer`" target="_blank" :title="localItem.title" class="item-title">{{ localItem.title }}</a>
+        <a :href="youtube" target="_blank" :title="localItem.title" class="item-title">{{ localItem.title }}</a>
         <span v-if="genre == 1" class="item-genre">{{ localItem.genre }}</span>
       </div>
     </div>
@@ -72,10 +79,21 @@
         }
 
         return released.getFullYear();
+      },
+
+      youtube() {
+        return `https://www.youtube.com/results?search_query=${this.localItem.title} ${this.released} Trailer`;
       }
     },
 
     methods: {
+      changeEpisode()
+      {
+        if(this.auth) {
+          console.log("changed");
+        }
+      },
+
       changeRating() {
         if(this.auth) {
           clearTimeout(this.saveTimeout);
