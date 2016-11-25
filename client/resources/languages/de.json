@@ -29,11 +29,11 @@
   "export button": "Exportieren",
   "import button": "Importieren",
   "or divider": "ODER",
-  "update genre": "Genre updaten",
+  "update genre": "Genre aktualisieren",
   "sync scout": "Sync Laravel Scout",
   "display genre": "Genre anzeigen",
   "display date": "Datum anzeigen",
   "success import": "Filme wurden erfolgreich importiert",
   "import warn": "Durch den Import werden alle Filme ersetzt. Erstelle vorher ein Backup!",
-  "genre message": "Um eine alte Version von Flox upzudaten"
+  "genre message": "Um eine alte Version von Flox zu aktualisieren "
 }
