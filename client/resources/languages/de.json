@@ -30,7 +30,7 @@
   "import button": "Importieren",
   "or divider": "ODER",
   "update genre": "Genre aktualisieren",
-  "sync scout": "Sync Laravel Scout",
+  "sync scout": "Synchronisieren Laravel Scout",
   "display genre": "Genre anzeigen",
   "display date": "Datum anzeigen",
   "success import": "Filme wurden erfolgreich importiert",
