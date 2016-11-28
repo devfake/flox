@@ -19,7 +19,6 @@ class CreateItemsTable extends Migration
             $table->string('original_title')->index();
             $table->string('poster');
             $table->string('media_type')->default('movie');
-            $table->longText('tv_data')->nullable();
             $table->string('genre')->nullable();
             $table->string('rating');
             $table->integer('released');
