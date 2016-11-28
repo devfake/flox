@@ -19,6 +19,12 @@
     </div>
 
     <div class="modal-content" v-if=" ! loadingModalData">
+      <!--div class="item-header">
+        <span class="header-episode">#</span>
+        <span class="header-name">Name</span>
+        <span></span>
+      </div-->
+      <!-- todo: mark all as read -->
       <div @click="setSeen(episode)" class="modal-item" v-for="(episode, index) in episodes[seasonActiveModal]">
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
         <span class="modal-name">{{ episode.name }}</span>

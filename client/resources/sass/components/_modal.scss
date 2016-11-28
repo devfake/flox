@@ -82,15 +82,6 @@
   color: $rating1;
 }
 
-.season-completed {
-  float: left;
-  background: $rating1;
-  width: 7px;
-  height: 7px;
-  //margin: 9px 8px 0 -5px;
-  border-radius: 7px;
-}
-
 .modal-content {
   float: left;
   width: 100%;
@@ -104,6 +95,24 @@
   }
 }
 
+.item-header {
+  float: left;
+  width: 100%;
+  padding: 10px 10px 0 10px;
+
+  span {
+    float: left;
+    color: rgba(#fff, .4);
+    font-size: 14px;
+  }
+}
+
+.header-episode {
+  width: 35px;
+  margin: 0 10px 0 0;
+  text-align: right;
+}
+
 .modal-content-loading {
   padding: 100px 0;
 }
@@ -112,7 +121,6 @@
   float: left;
   width: 100%;
   padding: 10px;
-  color: #fff;
   cursor: pointer;
   border-bottom: 1px solid #444;
 
@@ -135,16 +143,14 @@
   float: left;
   width: 35px;
   text-align: right;
-  //color: #a9a9a9;
-  opacity: .4;
+  color: rgba(#fff, .4);
   font-size: 15px;
   margin: 0 10px 0 0;
 }
 
 .modal-name {
   float: left;
-  //color: #d1d1d1;
-  opacity: .7;
+  color: rgba(#fff, .7);
   max-width: calc(100% - 100px);
   font-size: 15px;
   overflow: hidden;
