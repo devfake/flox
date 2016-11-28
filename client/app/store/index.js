@@ -17,6 +17,7 @@ export default new Vuex.Store({
     colorScheme: '',
     overlay: false,
     modalData: {},
+    loadingModalData: true,
     seasonActiveModal: 1,
     modalType: ''
   },

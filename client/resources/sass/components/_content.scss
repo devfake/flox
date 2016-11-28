@@ -327,12 +327,14 @@ main {
 }
 
 .fade-enter-active {
-  transition: opacity .5s ease;
+  transition: opacity .5s ease, top .5s ease;
   opacity: 1;
+  top: 0;
   visibility: visible;
 }
 
 .fade-enter {
+  top: -10px;
   opacity: 0;
   visibility: hidden;
 }

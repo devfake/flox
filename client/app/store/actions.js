@@ -42,10 +42,15 @@ export function setColorScheme({commit}, color) {
 }
 
 export function fetchEpisodes({commit}, data) {
+  commit('SET_LOADING_MODAL_DATA', true);
   http(`${config.api}/episodes/${data.tmdb_id}`).then(response => {
     commit('SET_MODAL_DATA', {
       title: data.title,
       episodes: response.data
     });
+
+    setTimeout(() => {
+      commit('SET_LOADING_MODAL_DATA', false);
+    }, 300);
   });
 }

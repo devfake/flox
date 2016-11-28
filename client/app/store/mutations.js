@@ -47,6 +47,10 @@ export default {
     document.body.className += ' open-modal';
   },
 
+  [type.SET_LOADING_MODAL_DATA](state, bool) {
+    state.loadingModalData = bool;
+  },
+
   [type.SET_SEASON_ACTIVE_MODAL](state, season) {
     state.seasonActiveModal = season;
   },

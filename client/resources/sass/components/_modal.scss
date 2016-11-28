@@ -33,36 +33,68 @@
   padding: 10px 15px;
 }
 
+.close-modal {
+  float: right;
+  padding: 7px;
+  cursor: pointer;
+  opacity: .8;
+
+  &:active {
+    opacity: .5;
+  }
+}
+
+.icon-close {
+  background: url(../../../public/assets/img/close.png) no-repeat;
+  float: left;
+  width: 14px;
+  height: 14px;
+}
+
 .season-tabs {
   float: left;
   width: 100%;
   background: #464646;
+}
 
-  span {
-    float: left;
-    cursor: pointer;
-    font-size: 16px;
-    color: #a9a9a9;
-    padding: 10px 0;
-    width: 10%;
-    text-align: center;
+.season-number {
+  float: left;
+  cursor: pointer;
+  font-size: 16px;
+  color: #a9a9a9;
+  padding: 10px 0;
+  width: 10%;
+  text-align: center;
 
-    @include media(6) {
-      width: 20%;
-    }
-
-    @include transition(background);
-
-    &.active,
-    &:hover {
-      background: #2f2f2f;
-    }
+  @include media(6) {
+    width: 20%;
   }
+
+  @include transition(background);
+
+  &.active,
+  &:hover {
+    background: #2f2f2f;
+  }
+}
+
+.completed {
+  color: $rating1;
+}
+
+.season-completed {
+  float: left;
+  background: $rating1;
+  width: 7px;
+  height: 7px;
+  //margin: 9px 8px 0 -5px;
+  border-radius: 7px;
 }
 
 .modal-content {
   float: left;
   width: 100%;
+  position: relative;
   background: #2f2f2f;
   max-height: calc(60vh - 100px);
   overflow: auto;
@@ -70,6 +102,10 @@
   @include media(4) {
     max-height: calc(100vh - 150px);
   }
+}
+
+.modal-content-loading {
+  padding: 100px 0;
 }
 
 .modal-item {

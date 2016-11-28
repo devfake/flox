@@ -1,7 +1,8 @@
 <template>
   <div class="all-modals">
-    <season></season>
-
+    <transition mode="out-in" name="fade">
+      <season></season>
+    </transition>
     <span class="overlay" v-if="overlay" @click="CLOSE_MODAL()"></span>
   </div>
 </template>
