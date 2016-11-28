@@ -4,10 +4,10 @@
     Route::post('/login', 'UserController@login');
     Route::get('/logout', 'UserController@logout');
 
-    Route::get('/items/{orderBy}', 'ItemController@items');
+    Route::get('/items/{type}/{orderBy}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
 
-    Route::get('/suggestions/{tmdbID}', 'TMDBController@suggestions');
+    Route::get('/suggestions/{tmdbID}/{mediaType}', 'TMDBController@suggestions');
     Route::get('/trending', 'TMDBController@trending');
     Route::get('/upcoming', 'TMDBController@upcoming');
 
@@ -22,6 +22,8 @@
       Route::patch('/settings', 'SettingController@changeSettings');
 
       Route::patch('/userdata', 'UserController@changeUserData');
+      Route::patch('/set-seen/{id}', 'ItemController@setSeen');
+      Route::get('/episodes/{tmdb_id}', 'ItemController@episodes');
 
       Route::get('/search-tmdb', 'TMDBController@search');
       Route::post('/add', 'ItemController@add');

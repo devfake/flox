@@ -2,6 +2,7 @@
 
   namespace App\Http\Controllers;
 
+  use App\Episode;
   use App\Item;
   use App\Services\Storage;
   use App\Services\TMDB;
@@ -27,16 +28,33 @@
     }
 
     /**
-     * Return all items for home with pagination.
+     * Return all items with pagination.
      *
      * @param $orderBy
      * @return mixed
      */
-    public function items($orderBy)
+    public function items($type, $orderBy)
     {
       $orderType = $orderBy == 'rating' ? 'asc' : 'desc';
 
-      return $this->item->orderBy($orderBy, $orderType)->simplePaginate($this->loadingItems);
+      $item = $this->item->orderBy($orderBy, $orderType)->with('latestEpisode');
+
+      if($type != 'home') {
+        $item = $item->where('media_type', $type);
+      }
+
+      return $item->simplePaginate($this->loadingItems);
+    }
+
+    /**
+     * Get all Episodes of an tv show.
+     *
+     * @param $tmdb_id
+     * @return mixed
+     */
+    public function episodes($tmdb_id)
+    {
+      return Episode::where('tmdb_id', $tmdb_id)->get()->groupBy('season_number');
     }
 
     /**
@@ -93,7 +111,7 @@
     }
 
     /**
-     * Delete movie in database and delete the poster image file.
+     * Delete movie or tv show (with episodes) and remove the poster image file.
      *
      * @param $itemID
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
@@ -107,8 +125,13 @@
       }
 
       $this->storage->removePosterFile($item->poster);
+      $tmdb_id = $item->tmdb_id;
 
       $item->delete();
+
+      // Delete all related episodes
+      // todo: Make this possible in migrations
+      Episode::where('tmdb_id', $tmdb_id)->delete();
     }
 
     /**
@@ -117,11 +140,15 @@
      * @param $data
      * @return Item
      */
-    private function createItem($data)
+    private function createItem($data, TMDB $tmdb)
     {
-      return $this->item->create([
-        'tmdb_id' => $data['tmdb_id'],
+      $tmdbId = $data['tmdb_id'];
+      $mediaType = $data['media_type'];
+
+      $item = $this->item->create([
+        'tmdb_id' => $tmdbId,
         'title' => $data['title'],
+        'media_type' => $mediaType,
         'original_title' => $data['original_title'],
         'poster' => $data['poster'],
         'rating' => 1,
@@ -129,5 +156,45 @@
         'genre' => $data['genre'],
         'created_at' => time(),
       ]);
+
+      if($mediaType == 'tv') {
+        $this->createEpisodes($tmdbId, $tmdb);
+      }
+
+      return $item;
+    }
+
+    public function setSeen($id)
+    {
+      $episode = Episode::find($id);
+      $episode->seen = ! $episode->seen;
+
+      if( ! $episode->save()) {
+        return response('Server Error', 500);
+      }
+    }
+
+    /**
+     * Save all episodes of each season.
+     *
+     * @param $seasons
+     * @param $tmdbId
+     */
+    private function createEpisodes($tmdbId, TMDB $tmdb)
+    {
+      $seasons = $tmdb->tvEpisodes($tmdbId);
+
+      foreach($seasons as $season) {
+        foreach($season->episodes as $episode) {
+          $new = new Episode();
+          $new->season_tmdb_id = $season->id;
+          $new->episode_tmdb_id = $episode->id;
+          $new->season_number = $episode->season_number;
+          $new->episode_number = $episode->episode_number;
+          $new->name = $episode->name;
+          $new->tmdb_id = $tmdbId;
+          $new->save();
+        }
+      }
     }
   }

@@ -62,6 +62,10 @@ $rating3: #cd2727;
   }
 }
 
+.no-select {
+  user-select: none;
+}
+
 .fullsize-loader {
   position: absolute;
   left: calc(50% - 14px);

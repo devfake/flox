@@ -5,15 +5,17 @@
   "login error": "Benutzer oder Passwort ist falsch",
 
   "suggestions": "Vorschläge",
-  "delete movie": "Film löschen",
+  "delete movie": "Löschen",
   "confirm delete": "Wirklich löschen?",
-  "search": "Film suchen",
-  "search or add": "Film suchen oder hinzufügen",
+  "search": "Suchen",
+  "search or add": "Suchen oder hinzufügen",
   "load more": "Mehr anzeigen",
   "nothing found": "Nichts gefunden",
 
   "trending": "Beliebt",
   "upcoming": "Kommend",
+  "tv": "TV",
+  "movies": "Filme",
   "last seen": "Zuletzt gesehen",
   "best rated": "Am besten bewertet",
   "change color": "Farbmodus wechseln",
@@ -35,5 +37,5 @@
   "display date": "Datum anzeigen",
   "success import": "Filme wurden erfolgreich importiert",
   "import warn": "Durch den Import werden alle Filme ersetzt. Erstelle vorher ein Backup!",
-  "genre message": "Um eine alte Version von Flox zu aktualisieren "
+  "genre message": "Um eine alte Version von Flox zu aktualisieren"
 }

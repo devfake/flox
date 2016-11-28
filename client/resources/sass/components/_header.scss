@@ -11,6 +11,10 @@ header {
   .dark & {
     opacity: .9;
   }
+
+  .open-modal & {
+    padding: 25px 16px 25px 0;
+  }
 }
 
 .logo {
@@ -59,11 +63,11 @@ header {
 }
 
 .icon-sort-time {
-  background: url(../../../public/assets/img/sort-time.png);
+  background: url(../../../public/assets/img/sort-time.png) no-repeat;
 }
 
 .icon-sort-star {
-  background: url(../../../public/assets/img/sort-star.png);
+  background: url(../../../public/assets/img/sort-star.png) no-repeat;
 }
 
 .icon-constrast {
@@ -91,21 +95,17 @@ header {
   }
 }
 
-.site-nav {
-  float: right;
-  margin: 7px 60px 0 0;
+.site-nav,
+.site-nav-second {
+  float: left;
+  margin: 7px 0 0 40px;
+  list-style: none;
+  padding: 0;
 
-  @include media(5) {
+  @include media(4) {
+    clear: left;
     float: left;
-    width: 100%;
     margin: 20px 0 0 0;
-  }
-
-  ul {
-    float: left;
-    list-style: none;
-    margin: 0;
-    padding: 0;
   }
 
   li {
@@ -135,5 +135,16 @@ header {
     @include media(5) {
       font-size: 14px;
     }
+  }
+}
+
+.site-nav-second {
+  float: right;
+  margin: 7px 60px 0 0;
+
+  @include media(4) {
+    clear: none;
+    float: left;
+    margin: 20px 0 0 20px;
   }
 }

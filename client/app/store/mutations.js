@@ -31,5 +31,27 @@ export default {
 
   [type.SET_COLOR_SCHEME](state, color) {
     state.colorScheme = color;
+  },
+
+  [type.CLOSE_MODAL](state) {
+    state.modalType = false;
+    state.overlay = false;
+    state.seasonActiveModal = 1;
+    document.body.className = document.body.className.replace('open-modal', '');
+  },
+
+  [type.OPEN_MODAL](state, data) {
+    state.overlay = true;
+    state.modalType = data.type;
+    state.modalData = data.data;
+    document.body.className += ' open-modal';
+  },
+
+  [type.SET_SEASON_ACTIVE_MODAL](state, season) {
+    state.seasonActiveModal = season;
+  },
+
+  [type.SET_MODAL_DATA](state, data) {
+    state.modalData = data;
   }
 }

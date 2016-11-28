@@ -10,6 +10,7 @@
 
     private $client;
     private $apiKey;
+    private $translation;
 
     /**
      * Get the API Key for TMDB and create an instance of Guzzle.
@@ -17,24 +18,23 @@
     public function __construct()
     {
       $this->apiKey = config('app.TMDB_API_KEY');
+      $this->translation = config('app.TRANSLATION');
       $this->client = new Client(['base_uri' => 'http://api.themoviedb.org/']);
     }
 
     /**
-     * Search TMDB for an movie by 'title'.
+     * Search TMDB by 'title'.
      *
      * @param $title
      * @return array
      */
     public function search($title)
     {
-      $translation = config('app.TRANSLATION');
-
-      $response = $this->client->get('/3/search/movie', [
+      $response = $this->client->get('/3/search/multi', [
         'query' => [
           'api_key' => $this->apiKey,
           'query' => $title,
-          'language' => strtolower($translation)
+          'language' => strtolower($this->translation)
         ]
       ]);
 
@@ -54,13 +54,14 @@
     /**
      * Search TMDB for recommendations and similar movies.
      *
+     * @param $mediaType
      * @param $tmdbID
      * @return \Illuminate\Support\Collection
      */
-    public function suggestions($tmdbID)
+    public function suggestions($mediaType, $tmdbID)
     {
-      $recommendations = $this->searchSuggestions($tmdbID, 'recommendations');
-      $similar = $this->searchSuggestions($tmdbID, 'similar');
+      $recommendations = $this->searchSuggestions($mediaType, $tmdbID, 'recommendations');
+      $similar = $this->searchSuggestions($mediaType, $tmdbID, 'similar');
 
       $items = $recommendations->merge($similar);
 
@@ -73,16 +74,22 @@
     }
 
     /**
+     * @param $mediaType
      * @param $tmdbID
      * @param $type
      *
      * @return \Illuminate\Support\Collection
      */
-    private function searchSuggestions($tmdbID, $type)
+    private function searchSuggestions($mediaType, $tmdbID, $type)
     {
-      $response = $this->client->get('/3/movie/' . $tmdbID . '/' . $type, ['query' => ['api_key' => $this->apiKey]]);
+      $response = $this->client->get('/3/' . $mediaType . '/' . $tmdbID . '/' . $type, [
+        'query' => [
+          'api_key' => $this->apiKey,
+          'language' => strtolower($this->translation)
+        ]
+      ]);
 
-      return collect($this->createItems($response));
+      return collect($this->createItems($response, $mediaType));
     }
 
     /**
@@ -93,7 +100,12 @@
      */
     private function searchTrendingOrUpcoming($type)
     {
-      $response = $this->client->get('/3/movie/' . $type, ['query' => ['api_key' => $this->apiKey]]);
+      $response = $this->client->get('/3/movie/' . $type, [
+        'query' => [
+          'api_key' => $this->apiKey,
+          'language' => strtolower($this->translation)
+        ]
+      ]);
 
       $items = collect($this->createItems($response));
       $allID = $items->pluck('tmdb_id');
@@ -116,20 +128,32 @@
      * @param $response
      * @return array
      */
-    private function createItems($response)
+    private function createItems($response, $type = null)
     {
       $items = [];
       $response = json_decode($response->getBody());
 
       foreach($response->results as $result) {
-        $dtime = DateTime::createFromFormat('Y-m-d', ($result->release_date ?: '1970-12-1'));
+        // Suggestions doesn't deliver 'media type' by default
+        $mediaType = $type ?: $result->media_type;
+
+        if($mediaType == 'person') continue;
+
+        $dtime = DateTime::createFromFormat('Y-m-d', (array_key_exists('release_date', $result)
+          ? ($result->release_date ?: '1970-12-1')
+          : ($result->first_air_date ?: '1970-12-1')
+        ));
+
+        // 'name' is from tv, 'title' from movies
         $items[] = [
           'tmdb_id' => $result->id,
-          'title' => $result->title,
-          'original_title' => $result->original_title,
+          'title' => array_key_exists('name', $result) ? $result->name : $result->title,
+          'original_title' => array_key_exists('name', $result) ? $result->original_name : $result->original_title,
           'poster' => $result->poster_path,
+          'media_type' => $mediaType,
           'released' => $dtime->getTimestamp(),
           'genre' => $this->parseGenre($result->genre_ids),
+          'episodes' => [],
         ];
       }
 
@@ -144,9 +168,67 @@
      */
     public function movie($tmdb_id)
     {
-      $response = $this->client->get('/3/movie/' . $tmdb_id, ['query' => ['api_key' => $this->apiKey]]);
+      $response = $this->client->get('/3/movie/' . $tmdb_id, [
+        'query' => [
+          'api_key' => $this->apiKey,
+          'language' => strtolower($this->translation)
+        ]
+      ]);
 
       return json_decode($response->getBody());
+    }
+
+    /**
+     * Get current count of seasons.
+     *
+     * @param $result
+     * @return integer | null
+     */
+    private function tvSeasonsCount($id, $mediaType)
+    {
+      if($mediaType == 'tv') {
+        $response = $this->client->get('/3/tv/' . $id, [
+          'query' => [
+            'api_key' => $this->apiKey,
+            'language' => strtolower($this->translation)
+          ]
+        ]);
+
+        $seasons = collect(json_decode($response->getBody())->seasons);
+
+        return $seasons->filter(function ($season) {
+          // We don't need pilots
+          return $season->season_number > 0;
+        })->count();
+      }
+
+      return null;
+    }
+
+    /**
+     * Get all episodes of each season.
+     *
+     * @param $id
+     * @param $seasons
+     * @return array
+     */
+    public function tvEpisodes($id)
+    {
+      $seasons = $this->tvSeasonsCount($id, 'tv');
+      $data = [];
+
+      for($i = 1; $i <= $seasons; $i++) {
+        $response = $this->client->get('/3/tv/' . $id . '/season/' . $i, [
+          'query' => [
+            'api_key' => $this->apiKey,
+            'language' => strtolower($this->translation)
+          ]
+        ]);
+
+        $data[$i] = json_decode($response->getBody());
+      }
+
+      return $data;
     }
 
     /**
@@ -193,6 +275,14 @@
         53 => 'Thriller',
         10752 => 'War',
         37 => 'Western',
+        10759 => 'Action & Adventure',
+        10762 => 'Kids',
+        10763 => 'News',
+        10764 => 'Reality',
+        10765 => 'Sci-Fi & Fantasy',
+        10766 => 'Soap',
+        10767 => 'Talk',
+        10768 => 'War & Politics',
       ];
     }
   }

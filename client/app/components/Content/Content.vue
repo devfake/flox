@@ -55,7 +55,9 @@
       ...mapActions([ 'loadItems', 'loadMoreItems', 'setSearchTitle' ]),
 
       fetchData() {
-        this.loadItems(this.userFilter);
+        let name = this.$route.name;
+
+        this.loadItems({name, filter: this.userFilter});
         this.setSearchTitle('');
       },
 

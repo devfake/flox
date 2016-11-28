@@ -58,8 +58,9 @@
 
       initSuggestions() {
         const tmdbID = this.$route.query.for;
+        const type = this.$route.query.type;
 
-        http(`${config.api}/suggestions/${tmdbID}`).then(value => {
+        http(`${config.api}/suggestions/${tmdbID}/${type}`).then(value => {
           this.items = value.data;
           this.SET_LOADING(false);
         });

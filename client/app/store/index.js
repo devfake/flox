@@ -14,7 +14,11 @@ export default new Vuex.Store({
     loading: false,
     clickedMoreLoading: false,
     paginator: null,
-    colorScheme: ''
+    colorScheme: '',
+    overlay: false,
+    modalData: {},
+    seasonActiveModal: 1,
+    modalType: ''
   },
   mutations,
   actions
