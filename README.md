@@ -1,7 +1,9 @@
 Flox
 ===============
-Flox is a self hosted Movie watch list. It's build on top of Laravel and Vue.js and uses [The Movie Database](https://www.themoviedb.org/) API.
+Flox is a self hosted Movie, Series and Animes watch list. It's build on top of Laravel and Vue.js and uses [The Movie Database](https://www.themoviedb.org/) API.
 The rating based on an 3-Point system for `good`, `medium` and `bad`.
+
+###NEW: Support for Series and Animes!
 
 ###[Try live demo](http://80.240.132.120/flox-demo/public/) and [login](http://80.240.132.120/flox-demo/public/login) with `demo / demo` to add new movies or change ratings.
 
@@ -37,7 +39,7 @@ http://mydomain.com
 
 ### Suggestions
 
-If you hover over an movie, you can click on `Suggestions` to search for recommendations and similar movies.
+If you hover over an item, you can click on `Suggestions` to search for recommendations and similar movies or shows.
 
 ### Popular Movies
 
@@ -49,17 +51,16 @@ If you hover over an movie, you can click on `Suggestions` to search for recomme
 
 ### Export / Import
 
-Also you can make a backup of all your movies in the settings page. If you click the `EXPORT MOVIES` button, there will be an download for an `json` file. This file
-contains all your movies from your database. This backup file will also be automatically saved in your `public/exports` folder.
+Also you can make a backup of all your movies and shows in the settings page. If you click the `EXPORT MOVIES` button, there will be an download for an `json` file. This file contains all your movies and shows from your database. This backup file will also be automatically saved in your `public/exports` folder.
 
-If you import an backup, all movies in your database will be deleted and replaced. Be sure to make an current backup before you import.
+If you import an backup, all movies and shows in your database will be deleted and replaced. Be sure to make an current backup before you import.
 The import will download all poster images.
 
-Export and import can also be used for the update of flox itself. Export your movies, download a new version of flox, run all commands and import your backup. Done.
+Export and import can also be used for the update of flox itself. Export, download a new version of flox, run all commands and import your backup. Done.
 
 ### Translation
 
-All movie titles are in english by default. You can change your language by setting `TRANSLATION` in `backend/.env`. The most commons are `DE`, `IT`, `FR`, `ES` and `RU`. You can try to use your language code.
+All titles are in english by default. You can change your language by setting `TRANSLATION` in `backend/.env`. The most commons are `DE`, `IT`, `FR`, `ES` and `RU`. You can try to use your language code.
 
 This will also affect the language of you website. See in `client/resources/languages` if your language is supported. Pull requests are welcome :) 
 
@@ -70,7 +71,7 @@ If there isn't a translation for your language, english will be used.
 You can use [Laravel Scout](https://laravel.com/docs/master/scout) for better search results with typos. Something like `findg nemo`.
 Add your driver and API-Keys in `backend/.env` and uncomment `use Searchable;` in `backend/app/Item.php` on line 11.
 
-To sync your own movie list with your Laravel Scout driver, run `php artisan flox:sync` (If you using Laravel Scout later).
+To sync your own list with your Laravel Scout driver, run `php artisan flox:sync` (If you using Laravel Scout later).
 
 [Algolia](https://www.algolia.com/) is a great service and has a free hacker plan.
 
@@ -80,7 +81,7 @@ To sync your own movie list with your Laravel Scout driver, run `php artisan flo
 
 You can edit your admin account (username and password) in the settings page (link is in footer).
 
-You can also set options to display release date and/or genre of your own movie list. Both will still display on search, trending and upcoming.
+You can also set options to display release date and/or genre of your own list. Both will still display on search, trending and upcoming.
 
 ### Development
 
@@ -96,5 +97,5 @@ You can also set options to display release date and/or genre of your own movie 
 
 * Multi User
 * Swap own TMDb service with an package
-* Upcoming and trending for tv
+* Upcoming and trending for tv shows
 * Laravel installer?
