@@ -7,6 +7,10 @@ main {
   .dark & {
     background: #1c1c1c;
   }
+
+  .open-modal & {
+    padding: 110px 16px 0 0;
+  }
 }
 
 .item-wrap {
@@ -41,10 +45,10 @@ main {
       .item-new {
         display: block;
       }
-    }
 
-    .show-episode {
-      bottom: 24px;
+      .show-episode {
+        bottom: 24px;
+      }
     }
 
     .recommend-item,

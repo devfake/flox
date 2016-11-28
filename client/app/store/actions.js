@@ -1,8 +1,8 @@
 import http from 'axios';
 
-export function loadItems({commit}, filter) {
+export function loadItems({commit}, response) {
   commit('SET_LOADING', true);
-  http(`${config.api}/items/${filter}`).then(value => {
+  http(`${config.api}/items/${response.name}/${response.filter}`).then(value => {
     const {data, next_page_url} = value.data;
 
     commit('SET_ITEMS', data);
@@ -39,4 +39,13 @@ export function setSearchTitle({commit}, title) {
 export function setColorScheme({commit}, color) {
   localStorage.setItem('color', color);
   commit('SET_COLOR_SCHEME', color);
+}
+
+export function fetchEpisodes({commit}, data) {
+  http(`${config.api}/episodes/${data.tmdb_id}`).then(response => {
+    commit('SET_MODAL_DATA', {
+      title: data.title,
+      episodes: response.data
+    });
+  });
 }

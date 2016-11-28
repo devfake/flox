@@ -20,6 +20,10 @@ export default {
       window.requestAnimationFrame(step);
     },
 
+    addZero(item) {
+      return ('0' + item).slice(-2);
+    },
+
     // Language helper
     lang(text) {
       const language = JSON.parse(config.language);

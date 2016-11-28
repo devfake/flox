@@ -7,13 +7,15 @@
   "suggestions": "Vorschläge",
   "delete movie": "Löschen",
   "confirm delete": "Wirklich löschen?",
-  "search": "Film suchen",
-  "search or add": "Film suchen oder hinzufügen",
+  "search": "Suchen",
+  "search or add": "Suchen oder hinzufügen",
   "load more": "Mehr anzeigen",
   "nothing found": "Nichts gefunden",
 
   "trending": "Beliebt",
   "upcoming": "Kommend",
+  "tv": "TV",
+  "movies": "Filme",
   "last seen": "Zuletzt gesehen",
   "best rated": "Am besten bewertet",
   "change color": "Farbmodus wechseln",
@@ -29,11 +31,11 @@
   "export button": "Exportieren",
   "import button": "Importieren",
   "or divider": "ODER",
-  "update genre": "Genre updaten",
-  "sync scout": "Sync Laravel Scout",
+  "update genre": "Genre aktualisieren",
+  "sync scout": "Synchronisieren Laravel Scout",
   "display genre": "Genre anzeigen",
   "display date": "Datum anzeigen",
   "success import": "Filme wurden erfolgreich importiert",
   "import warn": "Durch den Import werden alle Filme ersetzt. Erstelle vorher ein Backup!",
-  "genre message": "Um eine alte Version von Flox upzudaten"
+  "genre message": "Um eine alte Version von Flox zu aktualisieren "
 }

@@ -7,6 +7,7 @@ import SiteHeader from './components/Header.vue';
 import Search from './components/Search.vue';
 import SiteFooter from './components/Footer.vue';
 import Login from './components/Login.vue';
+import Modal from './components/Modal/Index.vue';
 
 import router from './routes';
 import store from './store/index';
@@ -26,7 +27,7 @@ const App = new Vue({
   },
 
   components: {
-    SiteHeader, Search, SiteFooter, Login
+    SiteHeader, Search, SiteFooter, Login, Modal
   },
 
   methods: {

@@ -24,6 +24,7 @@
     @if(Request::is('login'))
       <login></login>
     @else
+      <modal></modal>
       <site-header></site-header>
       <search></search>
       <router-view></router-view>

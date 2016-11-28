@@ -2,6 +2,7 @@
 
   namespace App\Http\Controllers;
 
+  use App\Episode;
   use App\Http\Requests\ImportRequest;
   use App\Item;
   use App\Services\Storage;
@@ -14,25 +15,29 @@
   class SettingController {
 
     private $item;
+    private $episodes;
     private $storage;
 
-    public function __construct(Item $item, Storage $storage)
+    public function __construct(Item $item, Episode $episodes, Storage $storage)
     {
       $this->item = $item;
+      $this->episodes = $episodes;
       $this->storage = $storage;
     }
 
     /**
-     * Save all movies as json file and return an download response.
+     * Save all movies and series as json file and return an download response.
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export()
     {
-      $items = json_encode($this->item->all());
+      $data['items'] = $this->item->all();
+      $data['episodes'] = $this->episodes->all();
+
       $file = 'flox--' . date('Y-m-d---H-i') . '.json';
 
-      $this->storage->saveExport($file, $items);
+      $this->storage->saveExport($file, json_encode($data));
 
       return response()->download(base_path('../public/exports/' . $file));
     }
@@ -55,9 +60,14 @@
       $data = json_decode(file_get_contents($file));
 
       $this->item->truncate();
-      foreach($data as $item) {
+      foreach($data->items as $item) {
         $this->item->create((array) $item);
         $this->storage->createPosterFile($item->poster);
+      }
+
+      $this->episodes->truncate();
+      foreach($data->episodes as $episode) {
+        $this->episodes->create((array) $episode);
       }
     }
 

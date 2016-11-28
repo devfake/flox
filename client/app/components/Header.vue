@@ -11,12 +11,15 @@
         <span :title="lang('change color')" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
       </span>
 
-      <nav class="site-nav">
-        <ul>
-          <li><router-link to="/trending">{{ lang('trending') }}</router-link></li>
-          <li><router-link to="/upcoming">{{ lang('upcoming') }}</router-link></li>
-        </ul>
-      </nav>
+      <ul class="site-nav">
+        <li><router-link to="/trending">{{ lang('trending') }}</router-link></li>
+        <li><router-link to="/upcoming">{{ lang('upcoming') }}</router-link></li>
+      </ul>
+
+      <ul class="site-nav-second">
+        <li><router-link to="/tv">{{ lang('tv') }}</router-link></li>
+        <li><router-link to="/movies">{{ lang('movies') }}</router-link></li>
+      </ul>
 
     </div>
   </header>
@@ -62,10 +65,12 @@
         this.SET_USER_FILTER(localStorage.getItem('filter'));
       },
 
-      setUserFilter(type) {
-        localStorage.setItem('filter', type);
-        this.SET_USER_FILTER(type);
-        this.loadItems(type);
+      setUserFilter(filter) {
+        let name = this.$route.name;
+
+        localStorage.setItem('filter', filter);
+        this.SET_USER_FILTER(filter);
+        this.loadItems({name, filter});
       }
     }
   }

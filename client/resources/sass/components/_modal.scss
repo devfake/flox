@@ -1,0 +1,132 @@
+.overlay {
+  background: rgba(#333, .7);
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+}
+
+.modal-wrap {
+  left: 50%;
+  max-width: 550px;
+  position: fixed;
+  top: 10%;
+  transform: translateX(-50%);
+  width: 100%;
+  box-shadow: 0 5px 20px 0 rgba(#000, .6);
+  z-index: 100;
+
+  @include media(4) {
+    top: 0;
+  }
+}
+
+.modal-header {
+  background: $main2;
+  background: linear-gradient(to right, $main1, $main2);
+  color: #fff;
+  float: left;
+  font-size: 20px;
+  width: 100%;
+  padding: 10px 15px;
+}
+
+.season-tabs {
+  float: left;
+  width: 100%;
+  background: #464646;
+
+  span {
+    float: left;
+    cursor: pointer;
+    font-size: 16px;
+    color: #a9a9a9;
+    padding: 10px 0;
+    width: 10%;
+    text-align: center;
+
+    @include media(6) {
+      width: 20%;
+    }
+
+    @include transition(background);
+
+    &.active,
+    &:hover {
+      background: #2f2f2f;
+    }
+  }
+}
+
+.modal-content {
+  float: left;
+  width: 100%;
+  background: #2f2f2f;
+  max-height: calc(60vh - 100px);
+  overflow: auto;
+
+  @include media(4) {
+    max-height: calc(100vh - 150px);
+  }
+}
+
+.modal-item {
+  float: left;
+  width: 100%;
+  padding: 10px;
+  color: #fff;
+  cursor: pointer;
+  border-bottom: 1px solid #444;
+
+  @include transition(background);
+
+  &:hover {
+    background: darken(#2f2f2f, 5%);
+  }
+
+  &:active {
+    background: darken(#2f2f2f, 3%);
+  }
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.modal-episode {
+  float: left;
+  width: 35px;
+  text-align: right;
+  //color: #a9a9a9;
+  opacity: .4;
+  font-size: 15px;
+  margin: 0 10px 0 0;
+}
+
+.modal-name {
+  float: left;
+  //color: #d1d1d1;
+  opacity: .7;
+  max-width: calc(100% - 100px);
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.episode-seen {
+  float: right;
+
+  i {
+    float: left;
+    width: 22px;
+    height: 22px;
+    background: url(../../../public/assets/img/seen.png) no-repeat;
+  }
+
+  &.seen i {
+    background: url(../../../public/assets/img/seen-active.png) no-repeat;
+  }
+}

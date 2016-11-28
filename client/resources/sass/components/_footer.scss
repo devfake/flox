@@ -5,6 +5,10 @@ footer {
   background: $main2;
   background: linear-gradient(to right, $main1, $main2);
 
+  .open-modal & {
+    padding: 40px 16px 0 0;
+  }
+
   .dark & {
     opacity: .9;
   }
