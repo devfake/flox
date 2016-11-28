@@ -107,7 +107,7 @@
         ]
       ]);
 
-      $items = collect($this->createItems($response));
+      $items = collect($this->createItems($response, 'movie'));
       $allID = $items->pluck('tmdb_id');
 
       // Get all movies from trendig / upcoming which already in database.
