@@ -207,7 +207,9 @@ main {
   display: none;
 
   @include media(3) {
-    display: block;
+    .logged & {
+      display: block;
+    }
   }
 }
 
