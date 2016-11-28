@@ -95,5 +95,6 @@ You can also set options to display release date and/or genre of your own movie 
 ### Further Development
 
 * Multi User
-* Series and Animes?
+* Swap own TMDb service with an package
+* Upcoming and trending for tv
 * Laravel installer?
