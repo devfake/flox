@@ -10,15 +10,15 @@
           <i class="icon-add" v-if=" ! rated"></i>
         </span>
 
-        <router-link :to="'/suggestions?for=' + localItem.tmdb_id" class="recommend-item">{{ lang('suggestions') }}</router-link>
+        <router-link :to="'/suggestions?for=' + localItem.tmdb_id + '&type=' + localItem.media_type" class="recommend-item">{{ lang('suggestions') }}</router-link>
         <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
 
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
         <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
 
-        <span class="show-episode" @click="changeEpisode()" v-if="localItem.type == 'tv'">
-          <span class="season-item"><i>S</i>1/2</span>
-          <span class="episode-item"><i>E</i>03/10</span>
+        <span class="show-episode" @click="editEpisodes()" v-if="localItem.media_type == 'tv' && localItem.rating">
+          <span class="season-item"><i>S</i>{{ season }}</span>
+          <span class="episode-item"><i>E</i>{{ episode }}</span>
         </span>
       </div>
 
@@ -35,6 +35,8 @@
   import http from 'axios';
   import Helper from '../../helper';
 
+  import { mapMutations, mapActions } from 'vuex';
+
   export default {
     mixins: [Helper],
 
@@ -43,6 +45,7 @@
     data() {
       return {
         localItem: this.item,
+        latestEpisode: this.item.latest_episode,
         saveTimeout: null,
         auth: config.auth,
         prevRating: null,
@@ -83,14 +86,46 @@
 
       youtube() {
         return `https://www.youtube.com/results?search_query=${this.localItem.title} ${this.released} Trailer`;
+      },
+
+      season() {
+        if(this.latestEpisode) {
+          return this.addZero(this.latestEpisode.season_number);
+        }
+
+        return '01';
+      },
+
+      episode() {
+        if(this.latestEpisode) {
+          return this.addZero(this.latestEpisode.episode_number);
+        }
+
+        return '0';
       }
     },
 
     methods: {
-      changeEpisode()
-      {
+      ...mapMutations([ 'OPEN_MODAL' ]),
+      ...mapActions([ 'fetchEpisodes' ]),
+
+      editEpisodes() {
+        this.fetchEpisodes({
+          tmdb_id: this.localItem.tmdb_id,
+          title: this.localItem.title
+        });
+        this.openModal();
+      },
+
+      openModal() {
         if(this.auth) {
-          console.log("changed");
+          this.OPEN_MODAL({
+            type: 'season',
+            data: {
+              tmdb_id: this.localItem.tmdb_id,
+              title: this.localItem.title
+            }
+          });
         }
       },
 
@@ -122,6 +157,7 @@
           http.post(`${config.api}/add`, {item: this.localItem}).then(value => {
             this.localItem = value.data;
             this.disabled = false;
+            this.rated = false;
           }, error => {
             if(error.status == 409) {
               alert(this.localItem.title + ' already exists!');
