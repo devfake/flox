@@ -47,7 +47,15 @@ main {
       }
 
       .show-episode {
+        opacity: .9;
         bottom: 24px;
+      }
+    }
+
+    .guest & {
+      .show-episode {
+        opacity: .9;
+        cursor: default;
       }
     }
 
@@ -287,7 +295,7 @@ main {
   position: absolute;
   bottom: 0;
   right: 0;
-  opacity: .9;
+  opacity: 0;
   background: $main2;
   background: linear-gradient(to right, $main1, $main2);
   padding: 3px 6px;
@@ -299,12 +307,17 @@ main {
 
   @include transition(opacity, bottom);
 
+
   &:hover {
-    opacity: 1 !important;
+    .logged & {
+      opacity: 1 !important;
+    }
   }
 
   &:active {
-    opacity: .7 !important;
+    .logged & {
+      opacity: .7 !important;
+    }
   }
 
   @include media(3) {
@@ -405,6 +418,12 @@ main {
     width: 100%;
     margin: 0 0 50px 0 !important;
   }
+}
+
+.version-wrap {
+  float: left;
+  width: 100%;
+  color: gray;
 }
 
 .checkbox {
