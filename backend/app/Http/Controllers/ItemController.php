@@ -193,6 +193,7 @@
           $new->episode_number = $episode->episode_number;
           $new->name = $episode->name;
           $new->tmdb_id = $tmdbId;
+          $new->created_at = time();
           $new->save();
         }
       }
