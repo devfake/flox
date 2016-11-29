@@ -95,7 +95,10 @@ You can also set options to display release date and/or genre of your own list. 
 
 ### Further Development
 
-* Multi User
-* Swap own TMDb service with an package
+* Mark all episodes at once
+* Fetch new episodes (maybe option with cron to send user an info mail)
 * Upcoming and trending for tv shows
+* Swap own TMDb service with an package
+* Search movies and shows from local files
 * Laravel installer?
+* Multi User?
