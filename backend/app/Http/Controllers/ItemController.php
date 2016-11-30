@@ -164,6 +164,12 @@
       return $item;
     }
 
+    /**
+     * Set an episode as seen/unseen.
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function setSeen($id)
     {
       $episode = Episode::find($id);
@@ -171,6 +177,23 @@
 
       if( ! $episode->save()) {
         return response('Server Error', 500);
+      }
+    }
+
+    /**
+     * Toggle all episodes of an season as seen/unseen.
+     */
+    public function toggleSeason()
+    {
+      $tmdb_id = Input::get('tmdb_id');
+      $season = Input::get('season');
+      $seen = Input::get('seen');
+
+      $episodes = Episode::where('tmdb_id', $tmdb_id)->where('season_number', $season)->get();
+
+      foreach($episodes as $episode) {
+        $episode->seen = $seen;
+        $episode->save();
       }
     }
 

@@ -18,13 +18,13 @@
       </span>
     </div>
 
+    <div class="item-header no-select" v-if=" ! loadingModalData">
+      <span class="header-episode">#</span>
+      <span class="header-name">Name</span>
+      <span class="header-seen" @click="toggleAll()">Toggle all</span>
+    </div>
+
     <div class="modal-content" v-if=" ! loadingModalData">
-      <!--div class="item-header">
-        <span class="header-episode">#</span>
-        <span class="header-name">Name</span>
-        <span></span>
-      </div-->
-      <!-- todo: mark all as read -->
       <div @click="setSeen(episode)" class="modal-item" v-for="(episode, index) in episodes[seasonActiveModal]">
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
         <span class="modal-name">{{ episode.name }}</span>
@@ -44,8 +44,43 @@
   export default {
     mixins: [Helper],
 
+    computed: {
+      ...mapState({
+        modalType: state => state.modalType,
+        modalData: state => state.modalData,
+        loadingModalData: state => state.loadingModalData,
+        seasonActiveModal: state => state.seasonActiveModal
+      }),
+
+      episodes() {
+        return this.modalData.episodes;
+      }
+    },
+
     methods: {
       ...mapMutations([ 'SET_SEASON_ACTIVE_MODAL', 'CLOSE_MODAL' ]),
+
+      toggleAll() {
+        const season = this.seasonActiveModal;
+        const tmdb_id = this.modalData.episodes[1][0].tmdb_id;
+        const seen = this.seasonCompleted(season);
+
+        this.markAllEpisodes(season, seen);
+
+        http.patch(`${config.api}/toggle-season`, {
+          tmdb_id,
+          season,
+          seen: ! seen
+        });
+      },
+
+      markAllEpisodes(season, seen) {
+        const episodes = this.episodes[season];
+
+        for(let episode of episodes) {
+          episode.seen = ! seen;
+        }
+      },
 
       setSeen(episode) {
         episode.seen = ! episode.seen;
@@ -64,19 +99,6 @@
         }
 
         return true;
-      }
-    },
-
-    computed: {
-      ...mapState({
-        modalType: state => state.modalType,
-        modalData: state => state.modalData,
-        loadingModalData: state => state.loadingModalData,
-        seasonActiveModal: state => state.seasonActiveModal
-      }),
-
-      episodes() {
-        return this.modalData.episodes;
       }
     }
   }

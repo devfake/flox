@@ -25,6 +25,7 @@
 
       Route::patch('/userdata', 'UserController@changeUserData');
       Route::patch('/set-seen/{id}', 'ItemController@setSeen');
+      Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::get('/episodes/{tmdb_id}', 'ItemController@episodes');
 
       Route::get('/search-tmdb', 'TMDBController@search');

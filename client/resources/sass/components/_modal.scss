@@ -98,7 +98,8 @@
 .item-header {
   float: left;
   width: 100%;
-  padding: 10px 10px 0 10px;
+  padding: 10px;
+  background: #2f2f2f;
 
   span {
     float: left;
@@ -111,6 +112,21 @@
   width: 35px;
   margin: 0 10px 0 0;
   text-align: right;
+}
+
+.header-seen {
+  float: right !important;
+  cursor: pointer;
+
+  @include transition(color);
+
+  &:hover {
+    color: rgba(#fff, .8);
+  }
+
+  &:active {
+    color: rgba(#fff, .4);
+  }
 }
 
 .modal-content-loading {
