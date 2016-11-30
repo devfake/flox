@@ -21,7 +21,11 @@ export default {
     },
 
     addZero(item) {
-      return ('0' + item).slice(-2);
+      if(item < 10) {
+        return '0' + item;
+      }
+
+      return item;
     },
 
     // Language helper
