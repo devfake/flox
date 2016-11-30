@@ -8,6 +8,7 @@
   use App\Services\Storage;
   use App\Services\TMDB;
   use App\Setting;
+  use GuzzleHttp\Client;
   use Illuminate\Support\Facades\Artisan;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Input;
@@ -17,12 +18,14 @@
     private $item;
     private $episodes;
     private $storage;
+    private $version;
 
     public function __construct(Item $item, Episode $episodes, Storage $storage)
     {
       $this->item = $item;
       $this->episodes = $episodes;
       $this->storage = $storage;
+      $this->version = config('app.version');
     }
 
     /**
@@ -71,6 +74,20 @@
       }
     }
 
+    /**
+     * Check the latest release of flox and compare them to the local version.
+     *
+     * @return string
+     */
+    public function checkUpdate()
+    {
+      $client = new Client();
+      $response = json_decode($client->get('https://api.github.com/repos/devfake/flox/releases')->getBody());
+
+      $lastestVersion = $response[0]->name;
+
+      return version_compare($this->version, $lastestVersion, '<') ? 'true' : 'false';
+    }
     /**
      * Parse full genre list of all movies in database and save them.
      *
@@ -123,7 +140,8 @@
       return [
         'username' => Auth::check() ? Auth::user()->username : '',
         'genre' => $genre,
-        'date' => $date
+        'date' => $date,
+        'version' => $this->version
       ];
     }
 

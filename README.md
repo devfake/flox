@@ -18,12 +18,14 @@ The rating based on an 3-Point system for `good`, `medium` and `bad`.
 
 ### Install
 
-* Download Flox and `cd` into `backend` and run
 ```bash
+git clone https://github.com/devfake/flox
+cd flox/backend
 composer install
 php artisan flox:init # Enter here your database credentials
 php artisan flox:db # Running migrations and enter your admin credentials for the site
 ```
+* Give `backend/storage`, `public/assets` and `public/exports` recursive write access.
 * Enter your TMDb API-Key in `backend/.env`
 * Set your `CLIENT_URI` in `backend/.env`. If you use something like XAMPP or MAMP, the CLIENT_URI should be `/flox/public`. If you use something like Homestead, the CLIENT_URI should be `/`.
 ```bash
@@ -49,14 +51,26 @@ If you hover over an item, you can click on `Suggestions` to search for recommen
 
 `Upcoming` will display new movies which will be released soon. TMDb do not yet support regional queries but this is coming soon.
 
+### Update
+
+For each update i will make an extra [release](https://github.com/devfake/flox/releases).
+These are the common steps to upgrade flox:
+```bash
+git fetch
+git checkout x.x.x
+cd backend
+composer install
+php artisan migrate
+```
+
+If you go to the settings page of your installation, flox will automatically check for new updates.
+
 ### Export / Import
 
 Also you can make a backup of all your movies and shows in the settings page. If you click the `EXPORT MOVIES` button, there will be an download for an `json` file. This file contains all your movies and shows from your database. This backup file will also be automatically saved in your `public/exports` folder.
 
 If you import an backup, all movies and shows in your database will be deleted and replaced. Be sure to make an current backup before you import.
 The import will download all poster images.
-
-Export and import can also be used for the update of flox itself. Export, download a new version of flox, run all commands and import your backup. Done.
 
 ### Translation
 
@@ -89,13 +103,8 @@ You can also set options to display release date and/or genre of your own list. 
 * Make sure you have installed `webpack` globally.
 * Run `npm run dev` or  `npm run build`.
 
-### Misc
-
-* Give `backend/storage`, `public/assets` and `public/exports` recursive write access.
-
 ### Further Development
 
-* Simpler workflow for update
 * Mark all episodes at once
 * Fetch new episodes (maybe option with cron to send user an info mail)
 * Upcoming and trending for tv shows

@@ -2,6 +2,8 @@
 
   return [
 
+    'version' => '1.0.0',
+
     'TMDB_API_KEY' => env('TMDB_API_KEY'),
     'TRANSLATION' => env('TRANSLATION'),
     'LOADING_ITEMS' => env('LOADING_ITEMS'),

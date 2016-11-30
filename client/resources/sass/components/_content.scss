@@ -364,12 +364,54 @@ main {
   }
 }
 
-.nothing-found {
+.nothing-found,
+.current-version {
   float: left;
   width: 100%;
   font-size: 32px;
   margin: 0 0 30px 0;
   color: $dark;
+}
+
+.current-version {
+  margin: 0 0 10px 0;
+
+  span {
+    color: gray;
+  }
+}
+
+.version-wrap {
+  float: left;
+  width: 100%;
+  margin: 0 0 30px 0;
+  color: gray;
+}
+
+.update-check {
+  float: left;
+  font-size: 14px;
+  color: gray;
+
+  span {
+    float: left;
+  }
+}
+
+.new-update {
+  color: $rating1;
+  width: 100%;
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom: 1px solid $rating1;
+  }
+
+  &:active {
+    opacity: .6;
+  }
 }
 
 .load-more-wrap {
@@ -418,12 +460,6 @@ main {
     width: 100%;
     margin: 0 0 50px 0 !important;
   }
-}
-
-.version-wrap {
-  float: left;
-  width: 100%;
-  color: gray;
 }
 
 .checkbox {

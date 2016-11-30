@@ -1,6 +1,14 @@
 <template>
   <main>
     <div class="wrap-content" v-if=" ! loading">
+      <div class="version-wrap">
+        <span class="current-version">Current version: <span>{{ version }}</span></span>
+        <span class="update-check" v-if=" ! isUpdate">{{ updateMessage }}</span>
+        <span class="update-check" v-if="isUpdate">
+          <a href="https://github.com/devfake/flox/releases" target="_blank" class="new-update">There is a new update for flox!</a>
+        </span>
+      </div>
+
       <div class="settings-box">
         <span class="nothing-found">{{ lang('headline user') }}</span>
         <form class="login-form" @submit.prevent="editUser()">
@@ -51,6 +59,7 @@
     mixins: [Helper],
 
     created() {
+      this.checkUpdate();
       this.fetchSettings();
     },
 
@@ -58,6 +67,8 @@
       return {
         username: '',
         password: '',
+        version: '',
+        isUpdate: null,
         displayGenre: null,
         displayDate: null,
         success: false,
@@ -73,6 +84,14 @@
 
       exportLink() {
         return config.api + '/export';
+      },
+
+      updateMessage() {
+        if(this.isUpdate === false) {
+          return 'Nothing to update';
+        }
+
+        return 'Checking for updates...';
       }
     },
 
@@ -112,6 +131,12 @@
         }
       },
 
+      checkUpdate() {
+        http(`${config.api}/check-update`).then(response => {
+          this.isUpdate = response.data;
+        });
+      },
+
       fetchSettings() {
         this.SET_LOADING(true);
         http(`${config.api}/settings`).then(value => {
@@ -121,6 +146,7 @@
           this.username = data.username;
           this.displayGenre = data.genre;
           this.displayDate = data.date;
+          this.version = data.version;
         });
       },
 
