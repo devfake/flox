@@ -37,5 +37,9 @@
   "display date": "عرض التاريخ",
   "success import": "تم استراد الأفلام بناجاح",
   "import warn": "سيتم استبدال جميع الأفلام. تأكد من أنك قد قدمت نسخة احتياطية!",
-  "genre message": "لتحديث نسخة قديمة من flox"
+  "genre message": "لتحديث نسخة قديمة من flox",
+  "current version": "النسخة الحالية:",
+  "new update": "هناك تحديثا جديدا لflox!",
+  "no update": "لا شيء لتحديث",
+  "checking update": "البحث عن تحديثات..."
 }

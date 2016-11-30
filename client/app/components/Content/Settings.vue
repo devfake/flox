@@ -2,10 +2,10 @@
   <main>
     <div class="wrap-content" v-if=" ! loading">
       <div class="version-wrap">
-        <span class="current-version">Current version: <span>{{ version }}</span></span>
+        <span class="current-version">{{ lang('current version') }} <span>{{ version }}</span></span>
         <span class="update-check" v-if=" ! isUpdate">{{ updateMessage }}</span>
         <span class="update-check" v-if="isUpdate">
-          <a href="https://github.com/devfake/flox/releases" target="_blank" class="new-update">There is a new update for flox!</a>
+          <a href="https://github.com/devfake/flox/releases" target="_blank" class="new-update">{{ lang('new update') }}</a>
         </span>
       </div>
 
@@ -88,10 +88,10 @@
 
       updateMessage() {
         if(this.isUpdate === false) {
-          return 'Nothing to update';
+          return this.lang('no update');
         }
 
-        return 'Checking for updates...';
+        return this.lang('checking update');
       }
     },
 

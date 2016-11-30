@@ -37,5 +37,9 @@
   "display date": "Weergeef datum",
   "success import": "Films successful geïmporteerd",
   "import warn": "Alle films worden vervangen. Zorg dat je een backup hebt!",
-  "genre message": "Om een oude versie van Flox te updaten"
+  "genre message": "Om een oude versie van Flox te updaten",
+  "current version": "Huidige versie:",
+  "new update": "Er is een nieuwe update voor Flox!",
+  "no update": "Niets te actualiseren",
+  "checking update": "Controleren op updates ..."
 }

@@ -37,5 +37,9 @@
   "display date": "Display date",
   "success import": "Movies successful imported",
   "import warn": "All movies will be replaced. Be sure you have made an backup!",
-  "genre message": "For updating an old version of flox"
+  "genre message": "For updating an old version of flox",
+  "current version": "Current version:",
+  "new update": "There is a new update for flox!",
+  "no update": "Nothing to update",
+  "checking update": "Checking for updates..."
 }

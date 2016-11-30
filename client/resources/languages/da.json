@@ -37,5 +37,9 @@
   "display date": "Vis dato",
   "success import": "Film succesfuldt importeret",
   "import warn": "Alle film vil blive erstattet. Vær sikker på du laver en sikkerhedskopi!",
-  "genre message": "Til at opdatere en gammel version af flox"
+  "genre message": "Til at opdatere en gammel version af flox",
+  "current version": "Nuværende version:",
+  "new update": "Der er en ny opdatering til flox!",
+  "no update": "Intet at opdatere",
+  "checking update": "Kontrollerer for opdateringer ..."
 }
