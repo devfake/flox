@@ -7,7 +7,7 @@ The rating based on an 3-Point system for `good`, `medium` and `bad`.
 
 ###[Try live demo](http://80.240.132.120/flox-demo/public/) and [login](http://80.240.132.120/flox-demo/public/login) with `demo / demo` to add new movies or change ratings.
 
-![flox](http://80.240.132.120/flox-demo/public/assets/img/demo-dark.png)
+![flox](http://80.240.132.120/flox-demo/public/assets/screenshot.png)
 
 ### Requirements
 
