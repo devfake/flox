@@ -37,14 +37,14 @@ export default {
     state.modalType = false;
     state.overlay = false;
     state.seasonActiveModal = 1;
-    document.body.className = document.body.className.replace('open-modal', '');
+    document.body.classList.remove('open-modal');
   },
 
   [type.OPEN_MODAL](state, data) {
     state.overlay = true;
     state.modalType = data.type;
     state.modalData = data.data;
-    document.body.className += ' open-modal';
+    document.body.classList.add('open-modal');
   },
 
   [type.SET_LOADING_MODAL_DATA](state, bool) {

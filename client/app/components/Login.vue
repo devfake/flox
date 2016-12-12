@@ -26,7 +26,7 @@
     mixins: [Helper],
 
     created() {
-      document.body.className += ' dark';
+      document.body.classList.add('dark');
     },
 
     data() {
