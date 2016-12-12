@@ -97,6 +97,10 @@ You can edit your admin account (username and password) in the settings page (li
 
 You can also set options to display release date and/or genre of your own list. Both will still display on search, trending and upcoming.
 
+There is an option to enable or disable spoiler protection for episode names.
+
+![spoiler](http://80.240.132.120/flox-demo/public/assets/spoiler.png)
+
 ### Development
 
 * Run `npm install` or `yarn` in your `/client` folder.
