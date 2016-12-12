@@ -27,7 +27,7 @@
     <div class="modal-content" v-if=" ! loadingModalData">
       <div @click="setSeen(episode)" class="modal-item" v-for="(episode, index) in episodes[seasonActiveModal]">
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
-        <span class="modal-name">{{ episode.name }}</span>
+        <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen}">{{ episode.name }}</span>
         <span class="episode-seen" :class="{seen: episode.seen}"><i></i></span>
       </div>
     </div>
@@ -54,6 +54,10 @@
 
       episodes() {
         return this.modalData.episodes;
+      },
+
+      spoiler() {
+        return this.modalData.spoiler;
       }
     },
 

@@ -6,6 +6,7 @@
   use App\Item;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use App\Setting;
   use Illuminate\Support\Facades\Input;
 
   class ItemController {
@@ -54,7 +55,10 @@
      */
     public function episodes($tmdb_id)
     {
-      return Episode::where('tmdb_id', $tmdb_id)->get()->groupBy('season_number');
+      return [
+        'episodes' => Episode::where('tmdb_id', $tmdb_id)->get()->groupBy('season_number'),
+        'spoiler' => Setting::find(1)->episode_spoiler_protection
+      ];
     }
 
     /**

@@ -46,7 +46,8 @@ export function fetchEpisodes({commit}, data) {
   http(`${config.api}/episodes/${data.tmdb_id}`).then(response => {
     commit('SET_MODAL_DATA', {
       title: data.title,
-      episodes: response.data
+      episodes: response.data.episodes,
+      spoiler: response.data.spoiler
     });
 
     setTimeout(() => {

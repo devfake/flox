@@ -476,6 +476,11 @@ main {
     float: left;
     font-size: 15px;
     margin: 0 0 0 10px;
+    max-width: 200px;
+
+    @include media(4) {
+      max-width: none;
+    }
   }
 
   .dark & {

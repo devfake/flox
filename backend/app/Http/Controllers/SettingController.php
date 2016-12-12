@@ -136,12 +136,14 @@
       // Set default value if settings table is empty.
       $genre = $settings ? $settings->show_genre : 0;
       $date = $settings ? $settings->show_date : 1;
+      $spoiler = $settings ? $settings->episode_spoiler_protection : 1;
 
       return [
         'username' => Auth::check() ? Auth::user()->username : '',
         'genre' => $genre,
         'date' => $date,
-        'version' => $this->version
+        'version' => $this->version,
+        'spoiler' => $spoiler
       ];
     }
 
@@ -158,6 +160,7 @@
 
       $settings->show_date = Input::get('date');
       $settings->show_genre = Input::get('genre');
+      $settings->episode_spoiler_protection = Input::get('spoiler');
 
       $settings->save();
     }

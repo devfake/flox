@@ -42,6 +42,9 @@
         <div class="checkbox">
           <input type="checkbox" value="date" v-model="displayDate" id="date" @change="updateSettings"><label for="date">{{ lang('display date') }}</label>
         </div>
+        <div class="checkbox">
+          <input type="checkbox" value="spoiler" v-model="spoilerProtection" id="spoiler" @change="updateSettings"><label for="spoiler">{{ lang('spoiler') }}</label>
+        </div>
       </div>
     </div>
 
@@ -71,6 +74,7 @@
         isUpdate: null,
         displayGenre: null,
         displayDate: null,
+        spoilerProtection: null,
         success: false,
         uploadSuccess: false,
         uploadedFile: null
@@ -108,8 +112,9 @@
       updateSettings() {
         const date = this.displayDate;
         const genre = this.displayGenre;
+        const spoiler = this.spoilerProtection;
 
-        http.patch(`${config.api}/settings`, {date, genre}).catch(error => {
+        http.patch(`${config.api}/settings`, {date, genre, spoiler}).catch(error => {
           alert('Error');
         });
       },
@@ -147,6 +152,7 @@
           this.displayGenre = data.genre;
           this.displayDate = data.date;
           this.version = data.version;
+          this.spoilerProtection = data.spoiler;
         });
       },
 

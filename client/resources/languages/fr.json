@@ -41,5 +41,6 @@
   "current version": "Version actuelle:",
   "new update": "Il existe une nouvelle mise à jour pour flox!",
   "no update": "Rien à mettre à jour",
-  "checking update": "Vérification des mises à jour ..."
+  "checking update": "Vérification des mises à jour ...",
+  "spoiler": "Protection des spoilers pour les noms d'épisodes"
 }

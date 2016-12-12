@@ -38,6 +38,7 @@
   padding: 7px;
   cursor: pointer;
   opacity: .8;
+  margin: 0 -5px 0 0px;
 
   &:active {
     opacity: .5;
@@ -172,6 +173,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  &.spoiler-protect {
+    background: rgba(#fff, .4);
+    color: transparent;
+  }
 }
 
 .episode-seen {
