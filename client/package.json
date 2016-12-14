@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "dev": "webpack -w"
+    "dev": "webpack -w",
+    "dev-poll": "webpack -w --watch-poll"
   },
   "dependencies": {
     "axios": "^0.15.2",
