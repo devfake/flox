@@ -1,10 +1,10 @@
-<?php
+<?php74211_add_episode_spoiler_protection_field.php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddShowSpoilerField extends Migration
+class AddEpisodeSpoilerProtectionField extends Migration
 {
     /**
      * Run the migrations.
