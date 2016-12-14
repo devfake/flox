@@ -1,0 +1,27 @@
+{
+  "name": "flox-file-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register './app/**/*.spec.js'",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha 'app/**/*.js' -- --require babel-register",
+    "test-watch": "NODE_ENV=test mocha --reporter min --watch --compilers js:babel-core/register './app/**/*.spec.js'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-latest": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.6",
+    "istanbul": "1.1.0-alpha.1",
+    "supertest": "^2.0.1"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "video-name-parser": "^1.4.0"
+  }
+}
