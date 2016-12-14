@@ -1,4 +1,4 @@
-<?php74211_add_episode_spoiler_protection_field.php
+<?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
