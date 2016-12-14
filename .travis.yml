@@ -12,12 +12,14 @@ env:
   QUEUE_DRIVER: sync
   APP_KEY: 16efa6c23c2e8c705826b0e66778fbe7
   DB_CONNECTION: sqlite
-
-before_install:
-  - cd backend
-
-install:
-  - composer install --prefer-source --no-interaction
+  FLOX_FILE_PARSER: flox-file-parser
 
 script:
-  - phpunit
+  - (cd backend && phpunit)
+  - (cd $FLOX_FILE_PARSER && npm test)
+
+install:
+  - (cd backend && composer install --prefer-source --no-interaction)
+  - nvm install 7.1
+  - (cd $FLOX_FILE_PARSER && ./generate_fixtures.sh)
+  - (cd $FLOX_FILE_PARSER && npm install)
