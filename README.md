@@ -106,12 +106,3 @@ There is an option to enable or disable spoiler protection for episode names.
 * Run `npm install` or `yarn` in your `/client` folder.
 * Make sure you have installed `webpack` globally.
 * Run `npm run dev` or  `npm run build`.
-
-### Further Development
-
-* Fetch new episodes (maybe option with cron to send user an info mail)
-* Upcoming and trending for tv shows
-* Swap own TMDb service with an package
-* Search movies and shows from local files
-* Laravel installer?
-* Multi User?
