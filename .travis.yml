@@ -1,0 +1,20 @@
+language: php
+
+php:
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - hhvm
+
+env:
+  APP_ENV: testing
+  CACHE_DRIVER: array
+  SESSION_DRIVER: array
+  QUEUE_DRIVER: sync
+  DB_CONNECTION: sqlite
+
+script:
+  - phpunit
+
+install:
+  - composer install --prefer-source --no-interaction
