@@ -3,8 +3,6 @@ Flox
 Flox is a self hosted Movie, Series and Animes watch list. It's build on top of Laravel and Vue.js and uses [The Movie Database](https://www.themoviedb.org/) API.
 The rating based on an 3-Point system for `good`, `medium` and `bad`.
 
-###NEW: Support for Series and Animes!
-
 ###[Try live demo](http://80.240.132.120/flox-demo/public/) and [login](http://80.240.132.120/flox-demo/public/login) with `demo / demo` to add new movies or change ratings.
 
 ![flox](http://80.240.132.120/flox-demo/public/assets/screenshot.png)
@@ -106,3 +104,15 @@ There is an option to enable or disable spoiler protection for episode names.
 * Run `npm install` or `yarn` in your `/client` folder.
 * Make sure you have installed `webpack` globally.
 * Run `npm run dev` or  `npm run build`.
+
+### Contribution
+
+Like this project? Want to contribute? Awesome! Feel free to open some pull requests or just open an issue. See [Projects](https://github.com/devfake/flox/projects/1) for the current roadmap.
+
+### Changelog
+
+Detailed changes for each release are documented in the [release notes](https://github.com/devfake/flox/releases).
+
+### License
+
+Flox is published under the MIT license. See LICENSE for more information.
