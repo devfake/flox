@@ -14,7 +14,7 @@ env:
   DB_CONNECTION: sqlite
 
 script:
-  - phpunit
+  - cd backend && phpunit
 
 install:
-  - composer install --prefer-source --no-interaction
+  - cd backend && composer install --prefer-source --no-interaction
