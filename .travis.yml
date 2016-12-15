@@ -13,8 +13,10 @@ env:
   QUEUE_DRIVER: sync
   DB_CONNECTION: sqlite
 
+before_script: cd backend
+
 script:
-  - cd backend && phpunit
+  - phpunit
 
 install:
-  - cd backend && composer install --prefer-source --no-interaction
+  - composer install --prefer-source --no-interaction
