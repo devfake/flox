@@ -9,7 +9,8 @@
         "laravel/framework": "5.3.*",
         "laravel/scout": "^1.1",
         "guzzlehttp/guzzle": "^6.2",
-        "algolia/algoliasearch-client-php": "^1.10"
+        "algolia/algoliasearch-client-php": "^1.10",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

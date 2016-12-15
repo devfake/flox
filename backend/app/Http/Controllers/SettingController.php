@@ -53,6 +53,8 @@
      */
     public function import(ImportRequest $request)
     {
+      set_time_limit(300);
+
       $file = $request->file('import');
       $extension = $file->getClientOriginalExtension();
 

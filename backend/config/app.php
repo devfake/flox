@@ -2,7 +2,8 @@
 
   return [
 
-    'version' => '1.2.0',
+    // Current version. Is synced with git releases.
+    'version' => '1.2.2',
 
     'TMDB_API_KEY' => env('TMDB_API_KEY'),
     'TRANSLATION' => env('TRANSLATION'),
