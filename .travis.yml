@@ -4,19 +4,18 @@ php:
   - '5.6'
   - '7.0'
   - '7.1'
-  - hhvm
 
 env:
   APP_ENV: testing
   CACHE_DRIVER: array
   SESSION_DRIVER: array
   QUEUE_DRIVER: sync
+  APP_KEY: 16efa6c23c2e8c705826b0e66778fbe7
   DB_CONNECTION: sqlite
-
-before_script: cd backend
 
 script:
   - phpunit
 
 install:
-  - composer install --prefer-source --no-interaction
+  - cd backend && composer install --prefer-source --no-interaction
+  - touch database/test.sqlite
