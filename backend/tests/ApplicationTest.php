@@ -7,7 +7,8 @@
 
     use DatabaseMigrations;
 
-    public function testMigrations()
+    /** @test */
+    public function it_can_create_migrations()
     {
       $this->assertTrue(Schema::hasTable('users'));
       $this->assertTrue(Schema::hasTable('items'));
@@ -16,7 +17,8 @@
       $this->assertTrue(Schema::hasColumn('settings', 'episode_spoiler_protection'));
     }
 
-    public function testWebsiteRequest()
+    /** @test */
+    public function it_can_call_homepage_successfully()
     {
       $response = $this->call('GET', '/');
 
