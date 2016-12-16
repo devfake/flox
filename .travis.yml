@@ -22,4 +22,5 @@ install:
   - (cd backend && composer install --prefer-source --no-interaction)
   - (cd backend && touch database/test.sqlite)
   - nvm install 7.1
+  - (cd $FLOX_FILE_PARSER && ./generate_fixtures.sh)
   - (cd $FLOX_FILE_PARSER && npm install)

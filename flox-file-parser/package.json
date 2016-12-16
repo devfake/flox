@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "NODE_ENV=test mocha --require ./spec_setup.js --compilers js:babel-core/register './app/**/*.spec.js'",
     "test-watch": "NODE_ENV=test mocha --reporter min --watch --require ./spec_setup.js --compilers js:babel-core/register './app/**/*.spec.js'"
   },

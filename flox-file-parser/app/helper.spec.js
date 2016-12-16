@@ -2,17 +2,17 @@ import sinon from "sinon"
 
 const supertest = require("supertest")        
 const app = require("../server.js")           
-const request = supertest(app)                
-const config = require("./config.js")
+const config = require("../config.js")
 
-const port = config.server.port               
-const addr = config.server.host               
+const port = config.app.port               
+const addr = config.app.host               
 
 let current_app                               
 global.sandbox                                
 
 beforeEach(() => {                            
   current_app = app.listen(port, addr)        
+  global.request = supertest(current_app)
   global.sandbox = sinon.sandbox.create()     
 })                                            
 
