@@ -1,5 +1,7 @@
 Flox
 ===============
+[![Build Status](https://travis-ci.org/devfake/flox.svg?branch=master)](https://travis-ci.org/devfake/flox)
+
 Flox is a self hosted Movie, Series and Animes watch list. It's build on top of Laravel and Vue.js and uses [The Movie Database](https://www.themoviedb.org/) API.
 The rating based on an 3-Point system for `good`, `medium` and `bad`.
 

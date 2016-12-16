@@ -1,9 +1,9 @@
 language: php
 
 php:
-  - '5.6'
-  - '7.0'
-  - '7.1'
+  - 5.6
+  - 7.0
+  - 7.1
 
 env:
   APP_ENV: testing
@@ -13,9 +13,12 @@ env:
   APP_KEY: 16efa6c23c2e8c705826b0e66778fbe7
   DB_CONNECTION: sqlite
 
-script:
-  - phpunit
+before_install:
+  - cd backend
+  - touch database/test.sqlite
 
 install:
-  - cd backend && composer install --prefer-source --no-interaction
-  - touch database/test.sqlite
+  - composer install --prefer-source --no-interaction
+
+script:
+  - phpunit
