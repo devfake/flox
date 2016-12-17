@@ -2,6 +2,7 @@
 
   namespace App\Http\Controllers;
 
+  use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
   use App\Services\Storage;
@@ -136,6 +137,7 @@
       // Delete all related episodes
       // todo: Make this possible in migrations
       Episode::where('tmdb_id', $tmdb_id)->delete();
+      AlternativeTitle::where('tmdb_id', $tmdb_id)->delete();
     }
 
     /**
@@ -165,7 +167,45 @@
         $this->createEpisodes($tmdbId, $tmdb);
       }
 
+      $this->addAlternativeTitles($item, $tmdb);
+
       return $item;
+    }
+
+    /**
+     * Update alternative titles for all tv shows and movies or specific item.
+     * For old versions of flox or hold all alternative titles up to date.
+     *
+     * @param TMDB $tmdb
+     */
+    public function updateAlternativeTitles(TMDB $tmdb, $tmdbID = null)
+    {
+      set_time_limit(3000);
+
+      $items = $tmdbID ? Item::where('tmdb_id', $tmdbID)->get() : Item::all();
+
+      $items->each(function($item) use ($tmdb) {
+        $this->addAlternativeTitles($item, $tmdb);
+      });
+    }
+
+    /**
+     * Store all alternative titles for tv shows and movies.
+     *
+     * @param      $item
+     * @param TMDB $tmdb
+     */
+    private function addAlternativeTitles($item, TMDB $tmdb)
+    {
+      $alternativeTitles = $tmdb->getAlternativeTitles($item);
+
+      foreach($alternativeTitles as $title) {
+        AlternativeTitle::firstOrCreate([
+          'title' => $title->title,
+          'tmdb_id' => $item['tmdb_id'],
+          'country' => $title->iso_3166_1,
+        ]);
+      }
     }
 
     /**

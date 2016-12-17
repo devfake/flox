@@ -34,6 +34,8 @@
         <button @click="updateGenre()" class="export-btn">{{ lang('update genre') }}</button>
         <span class="userdata-info">{{ lang('genre message') }}</span>
         <span class="import-info">{{ lang('or divider') }}</span>
+        <button @click="updateAlternativeTitles()" class="export-btn">Update alternative titles</button>
+        <span class="import-info">{{ lang('or divider') }}</span>
         <button @click="syncScout()" class="export-btn">{{ lang('sync scout') }}</button>
         <span class="import-info">{{ lang('or divider') }}</span>
         <div class="checkbox">
@@ -171,7 +173,15 @@
       updateGenre() {
         this.SET_LOADING(true);
 
-        http(`${config.api}/update-genre`).then(value => {
+        http.patch(`${config.api}/update-genre`).then(value => {
+          this.SET_LOADING(false);
+        });
+      },
+
+      updateAlternativeTitles() {
+        this.SET_LOADING(true);
+
+        http.patch(`${config.api}/update-alternative-titles`).then(value => {
           this.SET_LOADING(false);
         });
       },
