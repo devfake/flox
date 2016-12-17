@@ -194,6 +194,17 @@ describe("Parser", () => {
             expect(bb_s2_e2).to.have.property("episode_number", 2)
           })
 
+          it("each episode has a property extension", () => {
+            expect(got_s1_e1).to.have.property("extension", "mkv")
+            expect(got_s1_e2).to.have.property("extension", "mkv")
+            expect(got_s2_e1).to.have.property("extension", "mkv")
+            expect(got_s2_e2).to.have.property("extension", "mkv")
+            expect(bb_s1_e1).to.have.property("extension", "mkv")
+            expect(bb_s1_e2).to.have.property("extension", "mkv")
+            expect(bb_s2_e1).to.have.property("extension", "mkv")
+            expect(bb_s2_e2).to.have.property("extension", "mkv")
+          })
+
           it("each episode has a property src", () => {
             const absoluteRoot = path.normalize(__dirname + "/../")
             const absolutePath_got = absoluteRoot + "fixtures/tv/" + game_of_thrones

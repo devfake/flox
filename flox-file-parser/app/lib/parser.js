@@ -24,7 +24,6 @@ const addSeasonsToTv = (path, tv) => {
   const seasons = fs.readdirSync(path) || []
 
   seasons.forEach((seasonName) => {
-    const episodes = []
     const season = { 
       season_number: Parser.normalizeNumber(seasonName)
     } 
@@ -36,13 +35,15 @@ const addSeasonsToTv = (path, tv) => {
   })
 }
 
-const addEpisodesToSeason = (path, season) => {
-  const episode_files = fs.readdirSync(path)
+const addEpisodesToSeason = (episodesPath, season) => {
+  const episode_files = fs.readdirSync(episodesPath)
 
   season.episodes = episode_files.map((e) => {
+    const absolutePath = fs.realpathSync(episodesPath + "/" + e)  
     return {
+      extension: path.extname(absolutePath).replace(".", ""),
       episode_number: Parser.normalizeNumber(e),
-      src: fs.realpathSync(path + "/" + e) 
+      src: absolutePath
     }
   })
 }
