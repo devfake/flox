@@ -175,7 +175,13 @@
         ]
       ]);
 
-      return json_decode($response->getBody());
+      if($this->hasLimitRemaining($response)) {
+        return json_decode($response->getBody());
+      }
+
+      // After 10 seconds the TMDB request limit is resetted.
+      sleep(10);
+      return $this->movie($tmdb_id);
     }
 
     /**
@@ -232,6 +238,32 @@
     }
 
     /**
+     * Make a new request to TMDb to get the alternative titles.
+     */
+    public function getAlternativeTitles($item)
+    {
+      $response = $this->client->get('/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles', [
+        'query' => [
+          'api_key' => $this->apiKey
+        ]
+      ]);
+
+      if($this->hasLimitRemaining($response)) {
+        $body = json_decode($response->getBody());
+
+        if(property_exists($body, 'titles')) {
+          return $body->titles;
+        }
+
+        return [];
+      }
+
+      // After 10 seconds the TMDB request limit is resetted.
+      sleep(10);
+      return $this->getAlternativeTitles($item);
+    }
+
+    /**
      * Create genre string from genre_ids.
      *
      * @param $ids
@@ -284,5 +316,14 @@
         10767 => 'Talk',
         10768 => 'War & Politics',
       ];
+    }
+
+    /**
+     * @param $response
+     * @return int
+     */
+    private function hasLimitRemaining($response)
+    {
+      return (int) $response->getHeader('X-RateLimit-Remaining')[0] > 1;
     }
   }

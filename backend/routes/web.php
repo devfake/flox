@@ -20,8 +20,9 @@
       Route::get('/check-update', 'SettingController@checkUpdate');
 
       Route::get('/sync-scout', 'SettingController@syncScout');
-      Route::get('/update-genre', 'SettingController@updateGenre');
+      Route::patch('/update-genre', 'SettingController@updateGenre');
       Route::patch('/settings', 'SettingController@changeSettings');
+      Route::patch('/update-alternative-titles/{tmdbID?}', 'ItemController@updateAlternativeTitles');
 
       Route::patch('/userdata', 'UserController@changeUserData');
       Route::patch('/set-seen/{id}', 'ItemController@setSeen');

@@ -29,6 +29,11 @@
       return $this->hasMany(Episode::class, 'tmdb_id', 'tmdb_id');
     }
 
+    public function alternativeTitles()
+    {
+      return $this->hasMany(AlternativeTitle::class, 'tmdb_id', 'tmdb_id');
+    }
+
     public function latestEpisode()
     {
       return $this->hasOne(Episode::class, 'tmdb_id', 'tmdb_id')
