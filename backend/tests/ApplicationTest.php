@@ -15,6 +15,7 @@
       $this->assertTrue(Schema::hasTable('settings'));
       $this->assertTrue(Schema::hasTable('episodes'));
       $this->assertTrue(Schema::hasColumn('settings', 'episode_spoiler_protection'));
+      $this->assertTrue(Schema::hasColumn('episodes', 'src'));
     }
 
     /** @test */
