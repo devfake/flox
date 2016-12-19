@@ -109,7 +109,7 @@ There is an option to enable or disable spoiler protection for episode names.
 
 ### Contribution
 
-Like this project? Want to contribute? Awesome! Feel free to open some pull requests or just open an issue. See [Projects](https://github.com/devfake/flox/projects/1) for the current roadmap.
+Like this project? Want to contribute? Awesome! Feel free to open some pull requests or just open an issue.
 
 ### Changelog
 

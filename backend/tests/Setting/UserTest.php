@@ -1,6 +1,7 @@
 <?php
 
   use Illuminate\Foundation\Testing\DatabaseMigrations;
+  use Illuminate\Support\Facades\Hash;
 
   class UserTest extends TestCase {
 
@@ -42,14 +43,12 @@
     /** @test */
     public function save_new_password()
     {
-      $oldPassword = $this->user->password;
-
       $this->actingAs($this->user)->json('PATCH', 'api/userdata', [
         'username' => 'Ganta',
         'password' => 'Igarashi'
       ]);
 
-      $this->assertNotEquals($oldPassword, $this->user->password);
+      $this->assertTrue(Hash::check('Igarashi', $this->user->password));
     }
 
     /** @test */
