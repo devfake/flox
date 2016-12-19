@@ -22,6 +22,7 @@
       Route::get('/sync-scout', 'SettingController@syncScout');
       Route::get('/update-genre', 'SettingController@updateGenre');
       Route::patch('/settings', 'SettingController@changeSettings');
+      Route::get('/update-alternative-titles/{tmdbID?}', 'ItemController@updateAlternativeTitles');
 
       Route::patch('/userdata', 'UserController@changeUserData');
       Route::patch('/set-seen/{id}', 'ItemController@setSeen');

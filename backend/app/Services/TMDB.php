@@ -232,6 +232,20 @@
     }
 
     /**
+     * Make a new request to TMDb to get the alternative titles.
+     */
+    public function getAlternativeTitles($item)
+    {
+      $response = $this->client->get('/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles', [
+        'query' => [
+          'api_key' => $this->apiKey
+        ]
+      ]);
+
+      return collect(json_decode($response->getBody())->titles);
+    }
+
+    /**
      * Create genre string from genre_ids.
      *
      * @param $ids

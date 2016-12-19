@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+  namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+  use Illuminate\Database\Eloquent\Model;
 
-class AlternativeTitle extends Model
-{
-    //
-}
+  class AlternativeTitle extends Model {
+
+    public $timestamps = false;
+  }
