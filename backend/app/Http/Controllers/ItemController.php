@@ -184,12 +184,9 @@
 
       $items = $tmdbID ? Item::where('tmdb_id', $tmdbID)->get() : Item::all();
 
-      foreach($items as $item) {
+      $items->each(function($item) use ($tmdb) {
         $this->addAlternativeTitles($item, $tmdb);
-
-        // Help for TMDb request limit.
-        sleep(1);
-      }
+      });
     }
 
     /**

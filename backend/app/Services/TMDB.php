@@ -175,7 +175,14 @@
         ]
       ]);
 
-      return json_decode($response->getBody());
+      // TMDb request limit.
+      if($this->limitRemaining($response) > 1) {
+        return json_decode($response->getBody());
+      }
+
+      // After 10 seconds the TMDB request limit is resetted.
+      sleep(10);
+      return $this->movie($tmdb_id);
     }
 
     /**
@@ -242,13 +249,20 @@
         ]
       ]);
 
-      $body = json_decode($response->getBody());
+      // TMDb request limit.
+      if($this->limitRemaining($response) > 1) {
+        $body = json_decode($response->getBody());
 
-      if(property_exists($body, 'titles')) {
-        return json_decode($response->getBody())->titles;
+        if(property_exists($body, 'titles')) {
+          return $body->titles;
+        }
+
+        return [];
       }
 
-      return [];
+      // After 10 seconds the TMDB request limit is resetted.
+      sleep(10);
+      return $this->getAlternativeTitles($item);
     }
 
     /**
@@ -304,5 +318,16 @@
         10767 => 'Talk',
         10768 => 'War & Politics',
       ];
+    }
+
+    /**
+     * Return current TMDb request limit.
+     *
+     * @param $response
+     * @return int
+     */
+    private function limitRemaining($response)
+    {
+      return (int) $response->getHeader('X-RateLimit-Remaining')[0];
     }
   }

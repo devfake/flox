@@ -97,7 +97,7 @@
      */
     public function updateGenre(TMDB $tmdb)
     {
-      set_time_limit(300);
+      set_time_limit(3000);
 
       $items = Item::all();
 
@@ -111,9 +111,6 @@
 
           $item->genre = implode($data, ', ');
           $item->save();
-
-          // Help for TMDb request limit.
-          sleep(1);
         }
       }
     }

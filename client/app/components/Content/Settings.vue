@@ -173,7 +173,7 @@
       updateGenre() {
         this.SET_LOADING(true);
 
-        http(`${config.api}/update-genre`).then(value => {
+        http.patch(`${config.api}/update-genre`).then(value => {
           this.SET_LOADING(false);
         });
       },
@@ -181,7 +181,7 @@
       updateAlternativeTitles() {
         this.SET_LOADING(true);
 
-        http(`${config.api}/update-alternative-titles`).then(value => {
+        http.patch(`${config.api}/update-alternative-titles`).then(value => {
           this.SET_LOADING(false);
         });
       },
