@@ -242,7 +242,13 @@
         ]
       ]);
 
-      return collect(json_decode($response->getBody())->titles);
+      $body = json_decode($response->getBody());
+
+      if(property_exists($body, 'titles')) {
+        return json_decode($response->getBody())->titles;
+      }
+
+      return [];
     }
 
     /**

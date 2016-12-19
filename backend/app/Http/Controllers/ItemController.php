@@ -203,11 +203,11 @@
       $alternativeTitles = $tmdb->getAlternativeTitles($item);
 
       foreach($alternativeTitles as $title) {
-        $alternativeTitle = new AlternativeTitle();
-        $alternativeTitle->tmdb_id = $item['tmdb_id'];
-        $alternativeTitle->title = $title->title;
-        $alternativeTitle->country = $title->iso_3166_1;
-        $alternativeTitle->save();
+        AlternativeTitle::firstOrCreate([
+          'title' => $title->title,
+          'tmdb_id' => $item['tmdb_id'],
+          'country' => $title->iso_3166_1,
+        ]);
       }
     }
 

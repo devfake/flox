@@ -7,4 +7,6 @@
   class AlternativeTitle extends Model {
 
     public $timestamps = false;
+
+    protected $fillable = ['title', 'tmdb_id', 'country'];
   }
