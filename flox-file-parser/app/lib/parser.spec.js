@@ -20,6 +20,7 @@ describe("Parser", () => {
 
     beforeEach(() => {
       sandbox.spy(fs, "readdirSync")
+      sandbox.spy(fs, "existsSync")
       parser = new Parser
     })
 
@@ -153,16 +154,110 @@ describe("Parser", () => {
         context("episodes", () => {
           let got_s1_e1, got_s1_e2, got_s2_e1, got_s2_e2
           let bb_s1_e1, bb_s1_e2, bb_s2_e1, bb_s2_e2
+          let episodes = []
+          const absolutePath = path.normalize(__dirname + "/../")
+          const absolutePath_got = absolutePath + "fixtures/tv/" + game_of_thrones
+          const absolutePath_got_s1 = absolutePath_got + "/" + "s1"
+          const absolutePath_got_s2 = absolutePath_got + "/" + "S2"
+          const absolutePath_bb = absolutePath + "fixtures/tv/" + breaking_bad
+          const absolutePath_bb_s1 = absolutePath_bb + "/" + "S1"
+          const absolutePath_bb_s2 = absolutePath_bb + "/" + "s2"
+
+          let paths = []
 
           beforeEach(() => {
-            got_s1_e1 = got_s1.episodes[0]
-            got_s1_e2 = got_s1.episodes[1]
-            got_s2_e1 = got_s2.episodes[0]
-            got_s2_e2 = got_s2.episodes[1]
-            bb_s1_e1 = bb_s1.episodes[0]
-            bb_s1_e2 = bb_s1.episodes[1]
-            bb_s2_e1 = bb_s2.episodes[0]
-            bb_s2_e2 = bb_s2.episodes[1]
+            episodes = []
+            paths = []
+
+            paths.push(absolutePath_got_s1 + "/1.mkv")
+            paths.push(absolutePath_got_s1 + "/2.mp4")
+            paths.push(absolutePath_got_s2 + "/1.mkv")
+            paths.push(absolutePath_got_s2 + "/2.mkv")
+            paths.push(absolutePath_bb_s1 + "/1.mkv")
+            paths.push(absolutePath_bb_s1 + "/2.mkv")
+            paths.push(absolutePath_bb_s2 + "/1.mp4")
+            paths.push(absolutePath_bb_s2 + "/2.mkv")
+
+            episodes.push({
+              expected: {
+                fileType: "mkv",
+                episode_number: 1,
+                hasSubtitles: false,
+              },
+              actual: {
+                episode: got_s1.episodes[0]
+              }
+            })
+            episodes.push({
+              expected: {
+                fileType: "mp4",
+                episode_number: 2,
+                hasSubtitles: false,
+              },
+              actual: {
+                episode: got_s1.episodes[1]
+              }
+            })
+            episodes.push({
+              expected: {
+                fileType: "mkv",
+                episode_number: 1,
+                hasSubtitles: false,
+              },
+              actual: {
+                episode: got_s2.episodes[0]
+              }
+            })
+            episodes.push({
+              expected: {
+                fileType: "mkv",
+                episode_number: 2,
+                hasSubtitles: false,
+              },
+              actual: {
+                episode: got_s2.episodes[1]
+              }
+            })
+            episodes.push({
+              expected: {
+                fileType: "mkv",
+                episode_number: 1,
+                hasSubtitles: true,
+              },
+              actual: {
+                episode: bb_s1.episodes[0]
+              }
+            })
+            episodes.push({
+              expected: {
+                fileType: "mkv",
+                episode_number: 2,
+                hasSubtitles: true,
+              },
+              actual: {
+                episode: bb_s1.episodes[1]
+              }
+            })
+            episodes.push({
+              expected: {
+                fileType: "mp4",
+                episode_number: 1,
+                hasSubtitles: true,
+              },
+              actual: {
+                episode: bb_s2.episodes[0]
+              }
+            })
+            episodes.push({
+              expected: {
+                fileType: "mkv",
+                episode_number: 2,
+                hasSubtitles: true,
+              },
+              actual: {
+                episode: bb_s2.episodes[1]
+              }
+            })
           })
 
           it("each season should have 2 episodes", () => {
@@ -171,66 +266,88 @@ describe("Parser", () => {
             expect(bb_s1.episodes.length).to.be.equal(2)
             expect(bb_s2.episodes.length).to.be.equal(2)
           })
-          
+
           it("each episode is an object", () => {
-            expect(typeof got_s1_e1).to.be.equal("object")
-            expect(typeof got_s1_e2).to.be.equal("object")
-            expect(typeof got_s2_e1).to.be.equal("object")
-            expect(typeof got_s2_e2).to.be.equal("object")
-            expect(typeof bb_s1_e1).to.be.equal("object")
-            expect(typeof bb_s1_e2).to.be.equal("object")
-            expect(typeof bb_s2_e1).to.be.equal("object")
-            expect(typeof bb_s2_e2).to.be.equal("object")
+            episodes.forEach(e => {
+              expect(typeof e.actual.episode).to.be.equal("object")
+            })
           })
 
           it("each episode has a property episde_number", () => {
-            expect(got_s1_e1).to.have.property("episode_number", 1)
-            expect(got_s1_e2).to.have.property("episode_number", 2)
-            expect(got_s2_e1).to.have.property("episode_number", 1)
-            expect(got_s2_e2).to.have.property("episode_number", 2)
-            expect(bb_s1_e1).to.have.property("episode_number", 1)
-            expect(bb_s1_e2).to.have.property("episode_number", 2)
-            expect(bb_s2_e1).to.have.property("episode_number", 1)
-            expect(bb_s2_e2).to.have.property("episode_number", 2)
+            episodes.forEach(e => {
+              expect(e.actual.episode).to.have.property("episode_number", e.expected.episode_number)
+            })
           })
 
           it("each episode has a property extension", () => {
-            expect(got_s1_e1).to.have.property("extension", "mkv")
-            expect(got_s1_e2).to.have.property("extension", "mkv")
-            expect(got_s2_e1).to.have.property("extension", "mkv")
-            expect(got_s2_e2).to.have.property("extension", "mkv")
-            expect(bb_s1_e1).to.have.property("extension", "mkv")
-            expect(bb_s1_e2).to.have.property("extension", "mkv")
-            expect(bb_s2_e1).to.have.property("extension", "mkv")
-            expect(bb_s2_e2).to.have.property("extension", "mkv")
+            episodes.forEach(e => {
+              expect(e.actual.episode).to.have.property("extension", e.expected.fileType)
+            })
           })
 
           it("each episode has a property src", () => {
-            const absoluteRoot = path.normalize(__dirname + "/../")
-            const absolutePath_got = absoluteRoot + "fixtures/tv/" + game_of_thrones
-            const absolutePath_got_s1 = absolutePath_got + "/" + "s01"
-            const absolutePath_got_s2 = absolutePath_got + "/" + "s02"
-            const absolutePath_bb = absoluteRoot + "fixtures/tv/" + breaking_bad
-            const absolutePath_bb_s1 = absolutePath_bb + "/" + "s01"
-            const absolutePath_bb_s2 = absolutePath_bb + "/" + "s02"
+            episodes.forEach((e, i) => {
+              expect(e.actual.episode).to.have.property("src", paths[i]) 
+            })
+          })
 
-            const absolutePath_got_s1_e1 = absolutePath_got_s1 + "/01.mkv"
-            const absolutePath_got_s1_e2 = absolutePath_got_s1 + "/02.mkv"
-            const absolutePath_got_s2_e1 = absolutePath_got_s2 + "/01.mkv"
-            const absolutePath_got_s2_e2 = absolutePath_got_s2 + "/02.mkv"
-            const absolutePath_bb_s1_e1 = absolutePath_bb_s1 + "/01.mkv"
-            const absolutePath_bb_s1_e2 = absolutePath_bb_s1 + "/02.mkv"
-            const absolutePath_bb_s2_e1 = absolutePath_bb_s2 + "/01.mkv"
-            const absolutePath_bb_s2_e2 = absolutePath_bb_s2 + "/02.mkv"
+          it("each episode has a property filename", () => {
+            episodes.forEach((e, i) => {
+              expect(e.actual.episode).to.have.property("filename", '' + e.expected.episode_number) 
+            })
+          })
 
-            expect(got_s1_e1).to.have.property("src", absolutePath_got_s1_e1)
-            expect(got_s1_e2).to.have.property("src", absolutePath_got_s1_e2)
-            expect(got_s2_e1).to.have.property("src", absolutePath_got_s2_e1)
-            expect(got_s2_e2).to.have.property("src", absolutePath_got_s2_e2)
-            expect(bb_s1_e1).to.have.property("src", absolutePath_bb_s1_e1)
-            expect(bb_s1_e2).to.have.property("src", absolutePath_bb_s1_e2)
-            expect(bb_s2_e1).to.have.property("src", absolutePath_bb_s2_e1)
-            expect(bb_s2_e2).to.have.property("src", absolutePath_bb_s2_e2)
+          context("subtitles", () => {
+            it("each episode has a property subtitles", () => {
+              episodes.forEach(e => {
+                expect(e.actual.episode).to.have.property("subtitles")
+              })
+            })
+
+            it("each episode has the expected amount of subtitles", () => {
+              episodes.forEach(e => {
+                if (!e.expected.hasSubtitles) {
+                  expect(e.actual.episode.subtitles.length).to.be.equal(0)
+                } else {
+                  expect(e.actual.episode.subtitles.length).to.be.equal(1)
+                }
+              })
+            })
+
+            it("each subtitle has the expected properties", () => {
+              episodes.forEach(e => {
+                if (!e.expected.hasSubtitles) return
+                expect(e.actual.episode.subtitles[0].extension).to.exist
+                expect(e.actual.episode.subtitles[0].src).to.exist
+                expect(e.actual.episode.subtitles[0].filename).to.exist
+              })
+            })
+
+            it("each subtitle has the same filename as the video", () => {
+              episodes.forEach(e => {
+                if (!e.expected.hasSubtitles) return
+                expect(e.actual.episode.subtitles[0].filename).to.be.equal('' + e.expected.episode_number)
+              })
+            })
+
+            it("each subtitle should have the right extension", () => {
+              episodes.forEach(e => {
+                if (!e.expected.hasSubtitles) return
+                expect(e.actual.episode.subtitles[0].extension).to.be.equal("srt")
+              })
+            })
+
+            it("each subtitle should have the right src", () => {
+              episodes.forEach(e => {
+                if (!e.expected.hasSubtitles) return
+                const srcMatch = "^" + absolutePath + ".+\.srt"
+                expect(e.actual.episode.subtitles[0].src).to.match(new RegExp(srcMatch))
+              })
+            })
+
+            it("should check if subtitles exist", () => {
+              expect(fs.existsSync.callCount).to.be.equal(8)
+            })
           })
         })
       })

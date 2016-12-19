@@ -1,6 +1,7 @@
 #!/bin/bash
 
-declare -a tv_series=('Game of Thrones' 'Breaking Bad')
+GOT="Game of Thrones"
+BB="Breaking Bad"
 
 # cleanup
 mkdir -p app/fixtures
@@ -9,21 +10,46 @@ rm -rf app/fixtures/*
 mkdir app/fixtures/tv
 mkdir app/fixtures/movies
 
-# generate tv, seasons and episodes
-for tv in "${tv_series[@]}"; do
-  mkdir app/fixtures/tv/"$tv"
-  
-  pushd app/fixtures/tv/"$tv" > /dev/null
-  for season in 1 2; do
-    mkdir s0${season}
+# tv
+(
+  cd app/fixtures/tv 
+  mkdir "$GOT"
+  (
+    cd "$GOT"
+    mkdir s1
+    (
+      cd s1
+      touch 1.mkv
+      touch 2.mp4
+    )
+    mkdir S2
+    (
+      cd S2
+      touch 1.mkv
+      touch 2.mkv
+    )
+  )
 
-    pushd s0${season} > /dev/null
-      for episode in 1 2; do
-        touch 0${episode}.mkv
-      done
-    popd > /dev/null
-  done
-  popd > /dev/null  
-done
+  mkdir "$BB"
+  (
+    cd "$BB"
+    mkdir S1
+    (
+      cd S1
+      touch 1.mkv
+      touch 1.srt
+      touch 2.mkv
+      touch 2.srt
+    )
+    mkdir s2
+    (
+      cd s2
+      touch 1.mp4
+      touch 1.srt
+      touch 2.mkv
+      touch 2.srt
+    )
+  )
+)
 
 find app/fixtures

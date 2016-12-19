@@ -1,6 +1,9 @@
 const fs = require("fs")
 const path = require("path")
 
+const supportedSubtitleFileTypes = ["srt"]
+const supportedVideoFileTypes = ["mkv", "mp4"]
+
 const fetchTv = (tvPath) => {
   const result = []
   const tvSeries = fs.readdirSync(tvPath)
@@ -35,17 +38,41 @@ const addSeasonsToTv = (path, tv) => {
   })
 }
 
+const fetchSubtitles = (episodesPath, fileName) => {
+  const subtitles = []
+  const subtitlePath = episodesPath + "/" + fileName + ".srt" 
+
+  if (fs.existsSync(subtitlePath)) {
+    const absolutePathSubtitle = fs.realpathSync(subtitlePath)  
+
+    subtitles.push({
+      filename: fileName,
+      src: absolutePathSubtitle,
+      extension: "srt"
+    })
+  }
+
+  return subtitles
+}
+
 const addEpisodesToSeason = (episodesPath, season) => {
   const episode_files = fs.readdirSync(episodesPath)
 
   season.episodes = episode_files.map((e) => {
-    const absolutePath = fs.realpathSync(episodesPath + "/" + e)  
+    const absolutePathEpisode = fs.realpathSync(episodesPath + "/" + e)  
+    const fileType = path.extname(absolutePathEpisode).replace(".", "") 
+    const fileName = path.parse(absolutePathEpisode).name
+
+    if (!supportedVideoFileTypes.includes(fileType)) return false
+
     return {
-      extension: path.extname(absolutePath).replace(".", ""),
+      extension: fileType,
+      filename: fileName,
+      subtitles: fetchSubtitles(episodesPath, fileName),
       episode_number: Parser.normalizeNumber(e),
-      src: absolutePath
+      src: absolutePathEpisode
     }
-  })
+  }).filter(e => e !== false)
 }
 
 const normalizePaths = (rootPath) => {
