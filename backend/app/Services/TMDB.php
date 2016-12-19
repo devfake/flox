@@ -175,8 +175,7 @@
         ]
       ]);
 
-      // TMDb request limit.
-      if($this->limitRemaining($response) > 1) {
+      if($this->hasLimitRemaining($response)) {
         return json_decode($response->getBody());
       }
 
@@ -249,8 +248,7 @@
         ]
       ]);
 
-      // TMDb request limit.
-      if($this->limitRemaining($response) > 1) {
+      if($this->hasLimitRemaining($response)) {
         $body = json_decode($response->getBody());
 
         if(property_exists($body, 'titles')) {
@@ -321,13 +319,11 @@
     }
 
     /**
-     * Return current TMDb request limit.
-     *
      * @param $response
      * @return int
      */
-    private function limitRemaining($response)
+    private function hasLimitRemaining($response)
     {
-      return (int) $response->getHeader('X-RateLimit-Remaining')[0];
+      return (int) $response->getHeader('X-RateLimit-Remaining')[0] > 1;
     }
   }
