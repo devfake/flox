@@ -15,7 +15,6 @@ env:
 
 before_install:
   - cd backend
-  - touch database/test.sqlite
 
 install:
   - composer install --prefer-source --no-interaction

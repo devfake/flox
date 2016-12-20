@@ -57,7 +57,7 @@
     {
       return [
         'episodes' => Episode::where('tmdb_id', $tmdb_id)->get()->groupBy('season_number'),
-        'spoiler' => Setting::find(1)->episode_spoiler_protection
+        'spoiler' => Setting::first()->episode_spoiler_protection
       ];
     }
 

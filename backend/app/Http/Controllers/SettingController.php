@@ -135,17 +135,20 @@
     {
       $settings = Setting::first();
 
-      // Set default value if settings table is empty.
-      $genre = $settings ? $settings->show_genre : 0;
-      $date = $settings ? $settings->show_date : 1;
-      $spoiler = $settings ? $settings->episode_spoiler_protection : 1;
+      if( ! $settings) {
+        $settings = Setting::create([
+          'show_genre' => 0,
+          'show_date' => 1,
+          'episode_spoiler_protection' => 1,
+        ]);
+      }
 
       return [
         'username' => Auth::check() ? Auth::user()->username : '',
-        'genre' => $genre,
-        'date' => $date,
+        'genre' => $settings->show_genre,
+        'date' => $settings->show_date,
+        'spoiler' => $settings->episode_spoiler_protection,
         'version' => $this->version,
-        'spoiler' => $spoiler
       ];
     }
 
@@ -154,16 +157,10 @@
      */
     public function changeSettings()
     {
-      $settings = Setting::first();
-
-      if( ! $settings) {
-        $settings = new Setting();
-      }
-
-      $settings->show_date = Input::get('date');
-      $settings->show_genre = Input::get('genre');
-      $settings->episode_spoiler_protection = Input::get('spoiler');
-
-      $settings->save();
+      Setting::first()->update([
+        'show_genre' => Input::get('genre'),
+        'show_date' => Input::get('date'),
+        'episode_spoiler_protection' => Input::get('spoiler'),
+      ]);
     }
   }

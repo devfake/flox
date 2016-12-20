@@ -2,7 +2,6 @@
 
   namespace App\Http\Controllers;
 
-  use App\Setting;
   use Illuminate\Contracts\Auth\Guard;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Input;

@@ -7,4 +7,6 @@
   class Setting extends Model {
 
     public $timestamps = false;
+
+    protected $fillable  = ['show_date', 'show_genre', 'episode_spoiler_protection'];
   }
