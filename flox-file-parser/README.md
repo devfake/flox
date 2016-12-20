@@ -22,6 +22,160 @@ tv
 │       └── 02.mkv
 ```
 
+    $ curl localhost:3000/fetch_movies
+
+returns:
+```json
+[
+  {
+    "name": "starwars episode vi return of the jedi",
+    "extension": "mp4",
+    "filename": "StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip",
+    "src": "/vagrant/flox-file-parser/app/fixtures/movies/Star Wars/StarWars Episode VI Return of The Jedi 1080p BDRip/StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip.mp4",
+    "tags": [
+      "hd",
+      "1080p"
+    ],
+    "subtitles": []
+  },
+  {
+    "name": "warcraft",
+    "extension": "mkv",
+    "filename": "Warcraft.2016.720p.WEB-DL",
+    "src": "/vagrant/flox-file-parser/app/fixtures/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.mkv",
+    "year": 2016,
+    "tags": [
+      "720p"
+    ],
+    "subtitles": [
+      {
+        "filename": "Warcraft.2016.720p.WEB-DL",
+        "src": "/vagrant/flox-file-parser/app/fixtures/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt",
+        "extension": "srt"
+      }
+    ]
+  }
+]
+```
+
+    $ curl localhost:3000/fetch_tv
+
+returns:
+```json
+[
+  {
+    "title": "Breaking Bad",
+    "seasons": [
+      {
+        "season_number": 1,
+        "episodes": [
+          {
+            "extension": "mkv",
+            "filename": "1",
+            "subtitles": [
+              {
+                "filename": "1",
+                "src": "/vagrant/flox-file-parser/app/fixtures/tv/Breaking Bad/S1/1.srt",
+                "extension": "srt"
+              }
+            ],
+            "episode_number": 1,
+            "src": "/vagrant/flox-file-parser/app/fixtures/tv/Breaking Bad/S1/1.mkv"
+          },
+          {
+            "extension": "mkv",
+            "filename": "2",
+            "subtitles": [
+              {
+                "filename": "2",
+                "src": "/vagrant/flox-file-parser/app/fixtures/tv/Breaking Bad/S1/2.srt",
+                "extension": "srt"
+              }
+            ],
+            "episode_number": 2,
+            "src": "/vagrant/flox-file-parser/app/fixtures/tv/Breaking Bad/S1/2.mkv"
+          }
+        ]
+      },
+      {
+        "season_number": 2,
+        "episodes": [
+          {
+            "extension": "mp4",
+            "filename": "1",
+            "subtitles": [
+              {
+                "filename": "1",
+                "src": "/vagrant/flox-file-parser/app/fixtures/tv/Breaking Bad/s2/1.srt",
+                "extension": "srt"
+              }
+            ],
+            "episode_number": 1,
+            "src": "/vagrant/flox-file-parser/app/fixtures/tv/Breaking Bad/s2/1.mp4"
+          },
+          {
+            "extension": "mkv",
+            "filename": "2",
+            "subtitles": [
+              {
+                "filename": "2",
+                "src": "/vagrant/flox-file-parser/app/fixtures/tv/Breaking Bad/s2/2.srt",
+                "extension": "srt"
+              }
+            ],
+            "episode_number": 2,
+            "src": "/vagrant/flox-file-parser/app/fixtures/tv/Breaking Bad/s2/2.mkv"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Game of Thrones",
+    "seasons": [
+      {
+        "season_number": 2,
+        "episodes": [
+          {
+            "extension": "mkv",
+            "filename": "1",
+            "subtitles": [],
+            "episode_number": 1,
+            "src": "/vagrant/flox-file-parser/app/fixtures/tv/Game of Thrones/S2/1.mkv"
+          },
+          {
+            "extension": "mkv",
+            "filename": "2",
+            "subtitles": [],
+            "episode_number": 2,
+            "src": "/vagrant/flox-file-parser/app/fixtures/tv/Game of Thrones/S2/2.mkv"
+          }
+        ]
+      },
+      {
+        "season_number": 1,
+        "episodes": [
+          {
+            "extension": "mkv",
+            "filename": "1",
+            "subtitles": [],
+            "episode_number": 1,
+            "src": "/vagrant/flox-file-parser/app/fixtures/tv/Game of Thrones/s1/1.mkv"
+          },
+          {
+            "extension": "mp4",
+            "filename": "2",
+            "subtitles": [],
+            "episode_number": 2,
+            "src": "/vagrant/flox-file-parser/app/fixtures/tv/Game of Thrones/s1/2.mp4"
+          }
+        ]
+      }
+    ]
+  }
+]
+```
+
     $ curl 127.0.0.1:3000/fetch_files
 
 Returns

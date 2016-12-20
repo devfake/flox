@@ -6,4 +6,16 @@ module.exports = (app) => {
     const data = parser.fetch(__dirname + "/fixtures")
     res.send(data)
   })
+
+  app.get("/fetch_tv", (req, res) => {
+    const parser = new Parser
+    const data = parser.fetch(__dirname + "/fixtures")
+    res.send(data.tv)
+  })
+
+  app.get("/fetch_movies", (req, res) => {
+    const parser = new Parser
+    const data = parser.fetch(__dirname + "/fixtures")
+    res.send(data.movies)
+  })
 }
