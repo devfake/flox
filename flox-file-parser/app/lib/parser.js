@@ -1,6 +1,8 @@
 const fs = require("fs")
 const path = require("path")
 
+const videoNameParser = require("video-name-parser")
+
 const supportedSubtitleFileTypes = ["srt"]
 const supportedVideoFileTypes = ["mkv", "mp4"]
 
@@ -85,6 +87,51 @@ const normalizePaths = (rootPath) => {
   }
 }
 
+const searchDirectory = (path) => {
+  const files = fs.readdirSync(path)
+  const foundFiles = []
+
+  files.forEach(file => {
+    const currentFile = path + "/" + file
+    const fileInfo = fs.statSync(currentFile)
+
+    if (fileInfo.isDirectory()) {
+      return foundFiles.push(...searchDirectory(currentFile))
+    }
+
+    return foundFiles.push(currentFile)
+  })
+
+  return foundFiles
+}
+
+const fetchMovies = (moviesPath) => {
+  const allFiles = searchDirectory(moviesPath) 
+  const movies = []
+
+  allFiles.forEach(file => {
+    const pathInfo = path.parse(file)
+    const ext = pathInfo.ext.replace(".", "")
+
+    if(!supportedVideoFileTypes.includes(ext)) return
+
+    const fileInfo = videoNameParser(pathInfo.name) 
+    const filePath = pathInfo.dir + "/" + pathInfo.base
+
+    movies.push({
+      name: fileInfo.name,
+      extension: ext,
+      filename: pathInfo.name,
+      src: fs.realpathSync(filePath),
+      year: fileInfo.year,
+      tags: fileInfo.tag,
+      subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name)
+    })
+  })
+
+  return movies
+}
+
 class Parser {
   fetch(rootPath) {
     if(!rootPath || typeof rootPath != "string") throw(Error)
@@ -92,7 +139,7 @@ class Parser {
     const result = {} 
 
     result.tv = fetchTv(tvPath)
-    result.movies = {}
+    result.movies = fetchMovies(moviesPath)
 
     return result
   }

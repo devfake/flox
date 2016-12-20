@@ -17,6 +17,7 @@ describe("Parser", () => {
     const bb_seasons = ["s01", "s02"]
     const gotSeasonsPath = tvPath + game_of_thrones
     const bbSeasonsPath = tvPath + breaking_bad
+    const absolutePath = path.normalize(__dirname + "/../")
 
     beforeEach(() => {
       sandbox.spy(fs, "readdirSync")
@@ -78,21 +79,22 @@ describe("Parser", () => {
 
       parser.fetch(rootPath)
       expect(fs.readdirSync.firstCall.args[0]).to.be.equal("app/fixtures/tv/")
+      expect(fs.readdirSync.secondCall.args[0]).to.be.equal("app/fixtures/movies/")
 
       parser.fetch(rootPath + "/../")
-      expect(fs.readdirSync.secondCall.args[0]).to.be.equal("app/tv/")
 
-      expect(fs.readdirSync.secondCall.args[0]).to.be.equal("app/tv/")
+      expect(fs.readdirSync.thirdCall.args[0]).to.be.equal("app/tv/")
+      expect(fs.readdirSync.getCall(3).args[0]).to.be.equal("app/movies/")
     })
 
-    context("using fixtures", () => {
+    context("using tv fixtures", () => {
       beforeEach(() => {
         result = parser.fetch(rootPath)
       })
 
       it("calls fs.readdirSync with the expected call count and path", () => {
         const normalizedTvPath = path.normalize(tvPath)
-        expect(fs.readdirSync.callCount).to.equal(7)
+        expect(fs.readdirSync.callCount).to.equal(13)
         expect(fs.readdirSync.args[0][0]).to.equal(normalizedTvPath)
       })
 
@@ -155,7 +157,6 @@ describe("Parser", () => {
           let got_s1_e1, got_s1_e2, got_s2_e1, got_s2_e2
           let bb_s1_e1, bb_s1_e2, bb_s2_e1, bb_s2_e2
           let episodes = []
-          const absolutePath = path.normalize(__dirname + "/../")
           const absolutePath_got = absolutePath + "fixtures/tv/" + game_of_thrones
           const absolutePath_got_s1 = absolutePath_got + "/" + "s1"
           const absolutePath_got_s2 = absolutePath_got + "/" + "S2"
@@ -346,10 +347,97 @@ describe("Parser", () => {
             })
 
             it("should check if subtitles exist", () => {
-              expect(fs.existsSync.callCount).to.be.equal(8)
+              expect(fs.existsSync.callCount).to.be.equal(10)
             })
           })
         })
+      })
+    })
+
+    context("using movie fixtures", () => {
+      let movies
+      let expectedStarWarsResult, expectedWarcraftResult
+      let absoluteMoviePath = absolutePath + "fixtures/movies"
+
+      beforeEach(() => {
+        expectedStarWarsResult = {
+          name: "starwars episode vi return of the jedi",
+          extension: "mp4",
+          tags: ["hd", "1080p"],
+          year: undefined,
+          filename: "StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip",
+          src: absoluteMoviePath + "/Star Wars/StarWars Episode VI Return of The Jedi 1080p BDRip/StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip.mp4",
+          subtitles: []
+        }
+        expectedWarcraftResult = {
+          name: "warcraft",
+          extension: "mkv",
+          filename: "Warcraft.2016.720p.WEB-DL",
+          tags: ["720p"],
+          src: absoluteMoviePath + "/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.mkv",
+          year: 2016,
+          subtitles: [{
+            src: absoluteMoviePath + "/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt",
+            filename: "Warcraft.2016.720p.WEB-DL",
+            extension: "srt"
+          }]
+        }
+        movies = []
+        result = parser.fetch(rootPath)
+      })
+
+      it("returns movies as an array", () => {
+        expect(result.movies).to.be.a("array")
+      })
+
+      it("should contain 2 movies", () => {
+        expect(result.movies.length).to.be.equal(2)
+      })
+
+      it("each movie is a object", () => {
+        expect(result.movies[0]).to.be.a("object")
+        expect(result.movies[1]).to.be.a("object")
+      })
+
+      it("each movie has the expected property keys", () => {
+        expect(result.movies[0].subtitles).to.be.a("array")
+        expect(result.movies[1].subtitles).to.be.a("array")
+        expect(result.movies[0].extension).to.be.a("string")
+        expect(result.movies[1].extension).to.be.a("string")
+        expect(result.movies[0].filename).to.be.a("string")
+        expect(result.movies[1].filename).to.be.a("string")
+        expect(result.movies[0].src).to.be.a("string")
+        expect(result.movies[1].src).to.be.a("string")
+        expect(result.movies[0].name).to.be.a("string")
+        expect(result.movies[1].name).to.be.a("string")
+        expect(result.movies[0].tags).to.be.a("array")
+        expect(result.movies[1].tags).to.be.a("array")
+        expect(result.movies[0].year).to.be.a("undefined")
+        expect(result.movies[1].year).to.be.a("number")
+      })
+
+      it("should contain all data for Star Wars", () => {
+        const resultSw = result.movies[0]
+
+        expect(resultSw.name).to.be.equal(expectedStarWarsResult.name)
+        expect(resultSw.extension).to.be.equal(expectedStarWarsResult.extension)
+        expect(resultSw.filename).to.be.equal(expectedStarWarsResult.filename)
+        expect(resultSw.src).to.be.equal(expectedStarWarsResult.src)
+        expect(resultSw.year).to.be.equal(expectedStarWarsResult.year)
+        expect(resultSw.tags).to.be.deep.equal(expectedStarWarsResult.tags)
+        expect(resultSw.subtitles).to.be.deep.equal(expectedStarWarsResult.subtitles)
+      })
+
+      it("should contain all data for Warcraft", () => {
+        const resultWc = result.movies[1]
+
+        expect(resultWc.name).to.be.equal(expectedWarcraftResult.name)
+        expect(resultWc.extension).to.be.equal(expectedWarcraftResult.extension)
+        expect(resultWc.filename).to.be.equal(expectedWarcraftResult.filename)
+        expect(resultWc.src).to.be.equal(expectedWarcraftResult.src)
+        expect(resultWc.year).to.be.equal(expectedWarcraftResult.year)
+        expect(resultWc.tags).to.be.deep.equal(expectedWarcraftResult.tags)
+        expect(resultWc.subtitles).to.be.deep.equal(expectedWarcraftResult.subtitles)
       })
     })
   })

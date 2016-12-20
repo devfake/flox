@@ -139,6 +139,35 @@ Returns
       ]
     }
   ],
-  "movies": {}
+  "movies": [
+    {
+      "name": "starwars episode vi return of the jedi",
+      "extension": "mp4",
+      "filename": "StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip",
+      "src": "/vagrant/flox-file-parser/app/fixtures/movies/Star Wars/StarWars Episode VI Return of The Jedi 1080p BDRip/StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip.mp4",
+      "tags": [
+        "hd",
+        "1080p"
+      ],
+      "subtitles": []
+    },
+    {
+      "name": "warcraft",
+      "extension": "mkv",
+      "filename": "Warcraft.2016.720p.WEB-DL",
+      "src": "/vagrant/flox-file-parser/app/fixtures/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.mkv",
+      "year": 2016,
+      "tags": [
+        "720p"
+      ],
+      "subtitles": [
+        {
+          "filename": "Warcraft.2016.720p.WEB-DL",
+          "src": "/vagrant/flox-file-parser/app/fixtures/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt",
+          "extension": "srt"
+        }
+      ]
+    }
+  ]
 }
 ```
