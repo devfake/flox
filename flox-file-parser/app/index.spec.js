@@ -1,6 +1,11 @@
 import chai, { expect } from "chai"
 
 describe("HTTP Server", () => {
+  beforeEach(() => {
+    process.env.TV_ROOT = __dirname + "/fixtures/tv"
+    process.env.MOVIES_ROOT = __dirname + "/fixtures/movies"
+  })
+
   describe("GET: fetch_files", () => {
     const path = "/fetch_files"
 

@@ -4,8 +4,21 @@ import fs from "fs"
 import path from "path"
 
 describe("Parser", () => {
+  beforeEach(() => {
+    process.env.TV_ROOT = undefined
+    process.env.MOVIES_ROOT = undefined
+  })
+
   it("exists", () => {
     const parser = new Parser
+  })
+
+  it("requires 2 env variables", () => {
+    process.env.TV_ROOT = __dirname + "/../fixtures/tv"
+    process.env.MOVIES_ROOT = __dirname + "/../fixtures/movies"
+
+    const parser = new Parser
+    expect(parser.fetch()).to.be.ok
   })
 
   describe(".fetch()", () => {
@@ -22,6 +35,8 @@ describe("Parser", () => {
     beforeEach(() => {
       sandbox.spy(fs, "readdirSync")
       sandbox.spy(fs, "existsSync")
+      process.env.TV_ROOT = __dirname + "/../fixtures/tv"
+      process.env.MOVIES_ROOT = __dirname + "/../fixtures/movies"
       parser = new Parser
     })
 
@@ -29,47 +44,19 @@ describe("Parser", () => {
       expect(typeof parser.fetch).to.eql("function")
     })
 
-    context("with different root", () => {
-      beforeEach(() => {
-        fs.readdirSync.restore()
-        sandbox.stub(fs, "readdirSync").returns([])
-      })
-
-      it("tests 'test'", () => {
-        expect(parser.fetch.bind(null, "test")).to.not.throw()
-      })
-
-      it("tests '.'", () => {
-        expect(parser.fetch.bind(null, ".")).to.not.throw()
-      })
-
-      it("tests '/'", () => {
-        expect(parser.fetch.bind(null, "/")).to.not.throw()
-      })
-
-      it("tests './app/tv/../..'", () => {
-        expect(parser.fetch.bind(null, "./app/tv/../..")).to.not.throw()
-      })
-
-      it("should not throw", () => {
-        expect(parser.fetch).to.throw()
-        expect(parser.fetch.bind(null, "")).to.throw()
-        expect(parser.fetch.bind(null, 1)).to.throw()
-        expect(parser.fetch.bind(null, 0)).to.throw()
-        expect(parser.fetch.bind(null, null)).to.throw()
-        expect(parser.fetch.bind(null, undefined)).to.throw()
-        expect(parser.fetch.bind(null, {})).to.throw()
-        expect(parser.fetch.bind(null, [])).to.throw()
-      })
+    it("should take no params", () => {
+      fs.readdirSync.restore()
+      sandbox.stub(fs, "readdirSync").returns([])
+      expect(parser.fetch.bind(null, "test")).to.throw()
     })
 
     it("returns a valid json object", () => {
-      const result = parser.fetch(rootPath)
+      const result = parser.fetch()
       expect(typeof result).to.be.eql("object")
     })
 
     it("returns a object with only tv and movies key", () => {
-      const result = parser.fetch(rootPath)
+      const result = parser.fetch()
       expect(Object.keys(result)).to.be.eql(["tv", "movies"])
     })
 
@@ -77,23 +64,18 @@ describe("Parser", () => {
       fs.readdirSync.restore()
       sandbox.stub(fs, "readdirSync").returns([])
 
-      parser.fetch(rootPath)
-      expect(fs.readdirSync.firstCall.args[0]).to.be.equal("app/fixtures/tv/")
-      expect(fs.readdirSync.secondCall.args[0]).to.be.equal("app/fixtures/movies/")
-
-      parser.fetch(rootPath + "/../")
-
-      expect(fs.readdirSync.thirdCall.args[0]).to.be.equal("app/tv/")
-      expect(fs.readdirSync.getCall(3).args[0]).to.be.equal("app/movies/")
+      parser.fetch()
+      expect(fs.readdirSync.firstCall.args[0]).to.be.equal(path.normalize(process.env.TV_ROOT))
+      expect(fs.readdirSync.secondCall.args[0]).to.be.equal(path.normalize(process.env.MOVIES_ROOT))
     })
 
     context("using tv fixtures", () => {
       beforeEach(() => {
-        result = parser.fetch(rootPath)
+        result = parser.fetch()
       })
 
       it("calls fs.readdirSync with the expected call count and path", () => {
-        const normalizedTvPath = path.normalize(tvPath)
+        const normalizedTvPath = fs.realpathSync(path.normalize(tvPath))
         expect(fs.readdirSync.callCount).to.equal(13)
         expect(fs.readdirSync.args[0][0]).to.equal(normalizedTvPath)
       })
@@ -383,7 +365,7 @@ describe("Parser", () => {
           }]
         }
         movies = []
-        result = parser.fetch(rootPath)
+        result = parser.fetch()
       })
 
       it("returns movies as an array", () => {

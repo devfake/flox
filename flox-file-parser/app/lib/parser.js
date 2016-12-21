@@ -78,8 +78,8 @@ const addEpisodesToSeason = (episodesPath, season) => {
 }
 
 const normalizePaths = (rootPath) => {
-  const tvPath = path.normalize(rootPath + "/tv/")
-  const moviesPath = path.normalize(rootPath + "/movies/")
+  const tvPath = path.normalize(process.env.TV_ROOT)
+  const moviesPath = path.normalize(process.env.MOVIES_ROOT)
 
   return {
     tvPath,
@@ -133,9 +133,9 @@ const fetchMovies = (moviesPath) => {
 }
 
 class Parser {
-  fetch(rootPath) {
-    if(!rootPath || typeof rootPath != "string") throw(Error)
-    const { tvPath, moviesPath } = normalizePaths(rootPath)
+  fetch() {
+    if(arguments.length > 0) throw(Error)
+    const { tvPath, moviesPath } = normalizePaths()
     const result = {} 
 
     result.tv = fetchTv(tvPath)
