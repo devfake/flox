@@ -74,7 +74,7 @@ const addEpisodesToSeason = (episodesPath, season) => {
       episode_number: Parser.normalizeNumber(e),
       src: absolutePathEpisode
     }
-  }).filter(e => e !== false)
+  }).filter((e) => e !== false)
 }
 
 const normalizePaths = (rootPath) => {
@@ -91,7 +91,7 @@ const searchDirectory = (path) => {
   const files = fs.readdirSync(path)
   const foundFiles = []
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const currentFile = path + "/" + file
     const fileInfo = fs.statSync(currentFile)
 
@@ -109,7 +109,7 @@ const fetchMovies = (moviesPath) => {
   const allFiles = searchDirectory(moviesPath) 
   const movies = []
 
-  allFiles.forEach(file => {
+  allFiles.forEach((file) => {
     const pathInfo = path.parse(file)
     const ext = pathInfo.ext.replace(".", "")
 

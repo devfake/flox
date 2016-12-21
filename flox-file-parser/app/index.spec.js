@@ -1,4 +1,4 @@
-import chai, { expect } from "chai"
+import { expect } from "chai"
 
 describe("HTTP Server", () => {
   beforeEach(() => {

@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "NODE_ENV=test mocha --require ./spec_setup.js --compilers js:babel-core/register './app/**/*.spec.js'",
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register './app/**/*.spec.js'",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha 'app/**/*.js' -- --require babel-register",
-    "test-watch": "NODE_ENV=test mocha --reporter min --watch --require ./spec_setup.js --compilers js:babel-core/register './app/**/*.spec.js'"
+    "test-watch": "NODE_ENV=test mocha --reporter min --watch --compilers js:babel-core/register './app/**/*.spec.js'"
   },
   "author": "",
   "license": "ISC",

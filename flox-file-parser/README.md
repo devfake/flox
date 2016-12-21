@@ -1,5 +1,6 @@
 # Flox-file-parser
 
+Needs TV_ROOT and MOVIES_ROOT env variables to be set with an absolute path.
 Takes root directory and returns a JSON tree file.
 
 ```
