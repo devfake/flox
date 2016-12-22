@@ -6,8 +6,8 @@ describe("HTTP Server", () => {
     process.env.MOVIES_ROOT = __dirname + "/fixtures/movies"
   })
 
-  describe("GET: fetch_files", () => {
-    const path = "/fetch_files"
+  describe("GET: fetch", () => {
+    const path = "/fetch"
 
     it("should succeed", (done) => {
       request.get(path)
@@ -55,8 +55,8 @@ describe("HTTP Server", () => {
     })
   })
 
-  describe("GET: fetch_tv", () => {
-    const path = "/fetch_tv"
+  describe("GET: fetch/tv", () => {
+    const path = "/fetch/tv"
 
     it("should succeed", (done) => {
       request.get(path)
@@ -91,8 +91,8 @@ describe("HTTP Server", () => {
     })
   })
 
-  describe("GET: fetch_movies", () => {
-    const path = "/fetch_movies"
+  describe("GET: fetch/movies", () => {
+    const path = "/fetch/movies"
 
     it("should succeed", (done) => {
       request.get(path)

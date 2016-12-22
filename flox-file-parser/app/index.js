@@ -1,24 +1,15 @@
 const Parser = require("./lib/parser")
 
 module.exports = (app) => {
-  app.get("/fetch_files", (req, res) => {
+  app.get("/fetch/:type?", (req, res) => {
     const parser = new Parser
     const data = parser.fetch()
+    const allowedTypes = ["tv", "movies"]
+
+    if (allowedTypes.includes(req.params.type)) {
+      return res.send(data[req.params.type])
+    }
 
     res.send(data)
-  })
-
-  app.get("/fetch_tv", (req, res) => {
-    const parser = new Parser
-    const { tv } = parser.fetch()
-
-    res.send(tv)
-  })
-
-  app.get("/fetch_movies", (req, res) => {
-    const parser = new Parser
-    const { movies } = parser.fetch()
-
-    res.send(movies)
   })
 }
