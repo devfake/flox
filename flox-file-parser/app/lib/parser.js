@@ -6,9 +6,10 @@ const videoNameParser = require("video-name-parser")
 const supportedVideoFileTypes = ["mkv", "mp4"]
 const env = process.env
 
-const fetchTv = (tvPath) => {
+const fetchTv = () => {
+  const { TV_ROOT } = env
   const result = []
-  const tvSeries = fs.readdirSync(tvPath)
+  const tvSeries = fs.readdirSync(TV_ROOT)
 
   tvSeries.forEach((tvName) => {
     const tv = {
@@ -18,7 +19,7 @@ const fetchTv = (tvPath) => {
 
     result.push(tv)
 
-    const seasonPath = tvPath + "/" + tvName
+    const seasonPath = TV_ROOT + "/" + tvName
     addSeasonsToTv(seasonPath, tv)
   })
 
@@ -77,17 +78,6 @@ const addEpisodesToSeason = (episodesPath, season) => {
   }).filter((e) => e !== false)
 }
 
-const normalizePaths = (rootPath) => {
-  const { TV_ROOT, MOVIES_ROOT } = env
-  const tvPath = path.normalize(TV_ROOT)
-  const moviesPath = path.normalize(MOVIES_ROOT)
-
-  return {
-    tvPath,
-    moviesPath
-  }
-}
-
 const searchDirectory = (path) => {
   const files = fs.readdirSync(path)
   const foundFiles = []
@@ -106,8 +96,9 @@ const searchDirectory = (path) => {
   return foundFiles
 }
 
-const fetchMovies = (moviesPath) => {
-  const allFiles = searchDirectory(moviesPath) 
+const fetchMovies = () => {
+  const { MOVIES_ROOT } = env
+  const allFiles = searchDirectory(MOVIES_ROOT)
   const movies = []
 
   allFiles.forEach((file) => {
@@ -136,11 +127,10 @@ const fetchMovies = (moviesPath) => {
 class Parser {
   fetch() {
     if(arguments.length > 0) throw(Error)
-    const { tvPath, moviesPath } = normalizePaths()
 
     return {
-      tv: fetchTv(tvPath),
-      movies: fetchMovies(moviesPath)
+      tv: fetchTv(),
+      movies: fetchMovies()
     }
   }
 
