@@ -23,7 +23,7 @@ tv
 │       └── 02.mkv
 ```
 
-    $ curl localhost:3000/fetch_movies
+    $ curl localhost:3000/fetch/movies
 
 returns:
 ```json
@@ -59,7 +59,7 @@ returns:
 ]
 ```
 
-    $ curl localhost:3000/fetch_tv
+    $ curl localhost:3000/fetch/tv
 
 returns:
 ```json
@@ -177,7 +177,7 @@ returns:
 ]
 ```
 
-    $ curl 127.0.0.1:3000/fetch_files
+    $ curl 127.0.0.1:3000/fetch
 
 Returns
 ```json

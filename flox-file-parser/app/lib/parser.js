@@ -3,8 +3,8 @@ const path = require("path")
 
 const videoNameParser = require("video-name-parser")
 
-const supportedSubtitleFileTypes = ["srt"]
 const supportedVideoFileTypes = ["mkv", "mp4"]
+const env = process.env
 
 const fetchTv = (tvPath) => {
   const result = []
@@ -78,8 +78,9 @@ const addEpisodesToSeason = (episodesPath, season) => {
 }
 
 const normalizePaths = (rootPath) => {
-  const tvPath = path.normalize(process.env.TV_ROOT)
-  const moviesPath = path.normalize(process.env.MOVIES_ROOT)
+  const { TV_ROOT, MOVIES_ROOT } = env
+  const tvPath = path.normalize(TV_ROOT)
+  const moviesPath = path.normalize(MOVIES_ROOT)
 
   return {
     tvPath,
@@ -136,12 +137,11 @@ class Parser {
   fetch() {
     if(arguments.length > 0) throw(Error)
     const { tvPath, moviesPath } = normalizePaths()
-    const result = {} 
 
-    result.tv = fetchTv(tvPath)
-    result.movies = fetchMovies(moviesPath)
-
-    return result
+    return {
+      tv: fetchTv(tvPath),
+      movies: fetchMovies(moviesPath)
+    }
   }
 
   static normalizeNumber(nr = "") {

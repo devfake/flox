@@ -4,14 +4,13 @@ const supertest = require("supertest")
 const app = require("../server.js")           
 const config = require("../config.js")
 
-const port = config.app.port               
-const addr = config.app.host               
+const { port, host } = config.app
 
 let current_app                               
 global.sandbox                                
 
 beforeEach(() => {                            
-  current_app = app.listen(port, addr)        
+  current_app = app.listen(port, host) 
   global.request = supertest(current_app)
   global.sandbox = sinon.sandbox.create()     
 })                                            
