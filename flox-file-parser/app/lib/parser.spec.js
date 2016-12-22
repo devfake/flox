@@ -14,8 +14,8 @@ describe("Parser", () => {
   })
 
   it("requires 2 env variables", () => {
-    process.env.TV_ROOT = __dirname + "/../fixtures/tv"
-    process.env.MOVIES_ROOT = __dirname + "/../fixtures/movies"
+    process.env.TV_ROOT = path.normalize(__dirname + "/../fixtures/tv")
+    process.env.MOVIES_ROOT = path.normalize(__dirname + "/../fixtures/movies")
 
     const parser = new Parser
     expect(parser.fetch()).to.be.ok
@@ -35,8 +35,8 @@ describe("Parser", () => {
     beforeEach(() => {
       sandbox.spy(fs, "readdirSync")
       sandbox.spy(fs, "existsSync")
-      process.env.TV_ROOT = __dirname + "/../fixtures/tv"
-      process.env.MOVIES_ROOT = __dirname + "/../fixtures/movies"
+      process.env.TV_ROOT = path.normalize(__dirname + "/../fixtures/tv")
+      process.env.MOVIES_ROOT = path.normalize(__dirname + "/../fixtures/movies")
       parser = new Parser
     })
 
@@ -58,15 +58,6 @@ describe("Parser", () => {
     it("returns a object with only tv and movies key", () => {
       const result = parser.fetch()
       expect(Object.keys(result)).to.be.eql(["tv", "movies"])
-    })
-
-    it("should normalize the path", () => {
-      fs.readdirSync.restore()
-      sandbox.stub(fs, "readdirSync").returns([])
-
-      parser.fetch()
-      expect(fs.readdirSync.firstCall.args[0]).to.be.equal(path.normalize(process.env.TV_ROOT))
-      expect(fs.readdirSync.secondCall.args[0]).to.be.equal(path.normalize(process.env.MOVIES_ROOT))
     })
 
     context("using tv fixtures", () => {

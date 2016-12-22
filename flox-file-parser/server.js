@@ -2,11 +2,10 @@ const express = require("express")
 const app = express()
 
 const config = require("./config.js")
-let port = config.app.port
-let addr = config.app.host
+const { port, host } = config.app
 
-if(!module.parent) { app.listen(port, addr) }
-console.log("App is running on %s with port %d", addr, port)
+if(!module.parent) { app.listen(port, host) }
+console.log("App is running on %s with port %d", host, port)
 console.log("TV_ROOT: ", process.env.TV_ROOT)
 console.log("MOVIES_ROOT: ", process.env.MOVIES_ROOT)
 
