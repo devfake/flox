@@ -41,4 +41,13 @@
         ->where('seen', true)
         ->latest();
     }
+
+    public function scopeSearchTitle($query, $title)
+    {
+      return $query->where('title', 'like', '%' . $title . '%')
+        ->orWhere('original_title', 'like', '%' . $title . '%')
+        ->orWhereHas('alternativeTitles', function($query) use ($title) {
+          $query->where('title', 'like', '%' . $title . '%');
+        });
+    }
   }

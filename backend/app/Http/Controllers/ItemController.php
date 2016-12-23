@@ -76,9 +76,7 @@
       }
 
       // We don't have an smart search driver and return an simple 'like' query.
-      return $this->item->where('title', 'LIKE', '%' . $title . '%')
-        ->orWhere('original_title', 'LIKE', '%' . $title . '%')
-        ->get();
+      return $this->item->searchTitle($title)->get();
     }
 
     /**
