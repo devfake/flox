@@ -42,6 +42,11 @@
         ->latest();
     }
 
+    public function scopeSearchTmdbId($query, $tmdb_id)
+    {
+      return $query->where('tmdb_id', $tmdb_id);
+    }
+
     public function scopeSearchTitle($query, $title)
     {
       return $query->where('title', 'like', '%' . $title . '%')

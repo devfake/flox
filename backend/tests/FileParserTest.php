@@ -1,5 +1,7 @@
 <?php
 
+  use App\Item;
+  use App\Services\TMDB;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
 
   use App\Services\FileParser;
@@ -15,33 +17,34 @@
       parent::setUp();
 
       $this->createFactory();
-      $this->response = file_get_contents(__DIR__ . '/fixtures/media_files.json');
-      $this->parser = new FileParser();
+
+      $this->response = json_decode(file_get_contents(__DIR__ . '/fixtures/media_files.json'));
+      $this->item = new Item();
+      $this->tmdb = new TMDB();
+      $this->parser = new FileParser($this->item, $this->tmdb);
     }
 
     /** @test */
-    public function it_can_parse_tmdb_id_by_name()
+    public function it_should_store_src_for_a_movie_if_item_found_in_database()
     {
-      $tmdbId = $this->parser->getTmdbId('Breaking Bad');
+      $item = $this->item->first();
 
-      $this->assertEquals(1396, $tmdbId);
-    }
+      $this->assertNull($item->src);
 
-    /** @test */
-    public function it_returns_null_if_tmdb_id_not_found_by_name()
-    {
-      $tmdbId = $this->parser->getTmdbId('Not Found');
+      $this->parser->store($this->response);
 
-      $this->assertNull($tmdbId);
+      $item = $this->item->first();
+
+      $this->assertNotNull($item->src);
     }
 
     private function createFactory()
     {
       factory(App\Item::class)->create([
-        'title' => 'Breaking Bad',
-        'original_title' => 'Breaking Bad',
-        'tmdb_id' => 1396,
-        'media_type' => 'tv',
+        'title' => 'Krieg der Sterne',
+        'original_title' => 'Star Wars',
+        'tmdb_id' => 11,
+        'media_type' => 'movie',
       ]);
     }
   }

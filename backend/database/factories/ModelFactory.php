@@ -16,7 +16,8 @@
       'rating' => 1,
       'genre' => '',
       'released' => time(),
-      'created_at' => time(),      
+      'created_at' => time(),
+      'src' => null,
     ];
   });
 

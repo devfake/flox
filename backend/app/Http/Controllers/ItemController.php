@@ -180,7 +180,7 @@
     {
       set_time_limit(3000);
 
-      $items = $tmdbID ? Item::where('tmdb_id', $tmdbID)->get() : Item::all();
+      $items = $tmdbID ? Item::searchTmdbId($tmdbID)->get() : Item::all();
 
       $items->each(function($item) use ($tmdb) {
         $this->addAlternativeTitles($item, $tmdb);
