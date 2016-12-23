@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   var file_history = sequelize.define('file_history', {
     src: DataTypes.TEXT,
     added: DataTypes.DATE,
-    removed: DataTypes.DATE
+    removed: DataTypes.DATE,
+    category: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

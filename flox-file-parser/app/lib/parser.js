@@ -53,6 +53,7 @@ const addEpisodesToSeason = (episodesPath, season, promises) => {
     promises.push(file_history.findOrCreate({
       where: { src: absolutePathEpisode },
       defaults: {
+        category: "tv",
         added: Date.now()
       }
     }))
@@ -85,42 +86,71 @@ const searchDirectory = (path) => {
   return foundFiles
 }
 
+const addMovie = (file, promises, movies) => {
+  const pathInfo = path.parse(file)
+  const ext = pathInfo.ext.replace(".", "")
+
+  if(!supportedVideoFileTypes.includes(ext)) return
+
+  const fileInfo = videoNameParser(pathInfo.name) 
+  const filePath = pathInfo.dir + "/" + pathInfo.base
+
+  const src = fs.realpathSync(filePath)
+  promises.push(file_history.findOrCreate({
+    where: { src },
+    defaults: {
+      category: "movies",
+      added: Date.now()
+    }
+  }))
+
+  movies.push({
+    name: fileInfo.name,
+    extension: ext,
+    filename: pathInfo.name,
+    src: src,
+    year: fileInfo.year,
+    tags: fileInfo.tag,
+    subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name)
+  })
+}
+
+const removeMovies = (list, dbPromises) => {
+  list.forEach((missingMovie) => {
+    dbPromises.push(file_history.update({ removed: Date.now() }, {
+      where: { src: missingMovie }
+    }))
+  })
+}
+
 const fetchMovies = () => {
   const { MOVIES_ROOT } = env
+  const listOfMoviesInDB = Parser.list().filter((file) => file.category === "movies" && file.removed == null)
   const allFiles = searchDirectory(MOVIES_ROOT)
 
   const movies = []
-  const promises = []
+  const dbPromises = []
 
-  allFiles.forEach((file) => {
-    const pathInfo = path.parse(file)
-    const ext = pathInfo.ext.replace(".", "")
+  return listOfMoviesInDB.then((l) => {
+    const list = l.map((m) => m.src)
 
-    if(!supportedVideoFileTypes.includes(ext)) return
+    allFiles.forEach((file) => {
+      const found = list.indexOf(file)
 
-    const fileInfo = videoNameParser(pathInfo.name) 
-    const filePath = pathInfo.dir + "/" + pathInfo.base
-
-    const src = fs.realpathSync(filePath)
-    promises.push(file_history.findOrCreate({
-      where: { src },
-      defaults: {
-        added: Date.now()
+      if(found >= 0) {
+        list.splice(found, 1)
       }
-    }))
 
-    movies.push({
-      name: fileInfo.name,
-      extension: ext,
-      filename: pathInfo.name,
-      src: src,
-      year: fileInfo.year,
-      tags: fileInfo.tag,
-      subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name)
+      addMovie(file, dbPromises, movies)
     })
-  })
 
-  return Promise.all(promises).then(() => movies)
+    // handle missing movies
+    if (list.length) {
+      removeMovies(list, dbPromises)
+    }
+
+    return Promise.all(dbPromises).then(() => movies)
+  })
 }
 
 const fetchTv = () => {
@@ -152,6 +182,12 @@ class Parser {
       tv: fetchTv(),
       movies: fetchMovies()
     }
+  }
+
+  static list() {
+    return file_history.findAll().then((rows) => {
+      return rows
+    })
   }
 
   static normalizeNumber(nr = "") {

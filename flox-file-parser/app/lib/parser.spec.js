@@ -4,6 +4,7 @@ import fs from "fs"
 import path from "path"
 import db from "../../database/models"
 import fixturesResultFetch from "../fixtures/fixturesResultFetch"
+import { execFile } from "child_process"
 
 const file_history = db.sequelize.models.file_history
 
@@ -96,23 +97,23 @@ describe("Parser", () => {
           })
         })
 
-        it("should wait until each result is successfully saved", () => {
-          let expectedToBeResolved = false
+        // xit("should wait until each result is successfully saved", () => {
+        //   let expectedToBeResolved = false
 
-          sandbox.stub(file_history, "findOrCreate", () => { 
-            return new Promise((res, rej) => { 
-              setTimeout(() => {
-                expectedToBeResolved = true
-                res()
-              }, 1000) 
-            })
-          })
+        //   sandbox.stub(file_history, "findOrCreate", () => { 
+        //     return new Promise((res, rej) => { 
+        //       setTimeout(() => {
+        //         expectedToBeResolved = true
+        //         res()
+        //       }, 1000) 
+        //     })
+        //   })
 
-          const { tv } = parser.fetch()
-          return tv.then((res) => {
-            return expect(expectedToBeResolved).to.be.true
-          })
-        })
+        //   const { tv } = parser.fetch()
+        //   return tv.then((res) => {
+        //     return expect(expectedToBeResolved).to.be.true
+        //   })
+        // })
 
         it("should save the current time in 'added'", () => {
           const getAdded = (rows) => rows.map((e) => e.added)
@@ -469,6 +470,61 @@ describe("Parser", () => {
           }
         }
 
+        context("deleting files", () => {
+          beforeEach(() => {
+            const expectedTimestamp = Date.parse("01 Jan 2000")
+            sandbox.stub(Date, "now").returns(expectedTimestamp)
+            return parser.fetch().movies
+          })
+
+          afterEach((done) => {
+            execFile("./generate_fixtures.sh", done)
+          })
+
+          it("should have 2 entries")
+
+          it("should mark warcraft as removed after deleting src file", () => {
+            const getWc = { where: { src: fixturesResultFetch.expected_wc.src } }
+            const getRemovedField = (row) => row.removed
+
+            const expectedTimestamp = Date.parse("01 Jan 2000")
+            const expectedTime = new Date(expectedTimestamp)
+
+            fs.unlinkSync(fixturesResultFetch.expected_wc.src)
+
+            const { movies } = parser.fetch()
+            return movies.then((res) => {
+              return Promise.all([
+                expect(file_history.count(getWc)).to.be.eventually.equal(1),
+                expect(file_history.findOne(getWc).then(getRemovedField)).to.eventually.be.eql(expectedTime)
+              ])
+            })
+          })
+
+          it("should mark warcraft as removed after renaming the src file", () => {
+            const getRemovedField = (row) => row.removed
+
+            const expectedTimestamp = Date.parse("01 Jan 2000")
+            const expectedTime = new Date(expectedTimestamp)
+            const expectedNewSrc = fixturesResultFetch.expected_wc.src.replace("mkv", "mp4")
+
+            const getWc = { where: { src: fixturesResultFetch.expected_wc.src } }
+            const getRenamedWc = { where: { src: expectedNewSrc } }
+
+            fs.renameSync(fixturesResultFetch.expected_wc.src, expectedNewSrc)
+
+            const { movies } = parser.fetch()
+
+            return movies.then((res) => {
+              return Promise.all([
+                expect(file_history.count(getWc)).to.be.eventually.equal(1),
+                expect(file_history.findOne(getWc).then(getRemovedField)).to.eventually.be.eql(expectedTime),
+                expect(file_history.findOne(getRenamedWc).then(getRemovedField)).to.eventually.be.null
+              ])
+            })
+          })
+        })
+
         it("should have 2 entries", () => {
           const { movies } = parser.fetch()
           return movies.then((res) => {
@@ -505,24 +561,6 @@ describe("Parser", () => {
           })
         })
 
-        it("should wait until each result is successfully saved", () => {
-          let expectedToBeResolved = false
-
-          sandbox.stub(file_history, "findOrCreate", () => { 
-            return new Promise((res, rej) => { 
-              setTimeout(() => {
-                expectedToBeResolved = true
-                res()
-              }, 1000) 
-            })
-          })
-
-          const result = parser.fetch()
-          return result.movies.then((res) => {
-            return expect(expectedToBeResolved).to.be.true
-          })
-        })
-
         it("should save the current time in 'added'", () => {
           const srcSw = fixturesResultFetch.expected_sw.src
           const srcWc = fixturesResultFetch.expected_wc.src
@@ -546,7 +584,7 @@ describe("Parser", () => {
           const srcSw = fixturesResultFetch.expected_sw.src
           const srcWc = fixturesResultFetch.expected_wc.src
 
-          const expectedTimestamp = Date.parse("01 Jan 2000")
+          const expectedTimestamp = Date.parse("01 Jan 2001")
           const expectedTime = new Date(expectedTimestamp)
 
           sandbox.stub(Date, "now").returns(expectedTimestamp)
@@ -579,6 +617,59 @@ describe("Parser", () => {
         })
       })
     })
+  })
+
+  describe(".list", () => {
+    beforeEach(() => {
+      process.env.TV_ROOT = path.normalize(__dirname + "/../fixtures/tv")
+      process.env.MOVIES_ROOT = path.normalize(__dirname + "/../fixtures/movies")
+
+      const parser = new Parser
+      const { tv, movies } = parser.fetch()
+      return Promise.all([tv, movies])
+    })
+
+    it("should be a function", () => {
+      expect(Parser.list).to.be.a("function")
+    })
+
+    it("should return an array", () => {
+      expect(Parser.list()).to.eventually.be.a("array")
+    })
+
+    it("returns the expected length", () => {
+      const result = Parser.list()
+      const expectedLength = fixturesResultFetch.allEpisodes.length + fixturesResultFetch.expectedMovies.length
+
+      expect(result).to.eventually.be.lengthOf(expectedLength)
+    })
+
+    it("each returned object has the expected properties", () => {
+      const result = Parser.list()
+
+      result.then((rows) => {
+        rows.forEach((row) => {
+          expect(row).to.have.property("src")
+          expect(row).to.have.property("category")
+          expect(row).to.have.property("added")
+          expect(row).to.have.property("removed")
+        })
+      })
+    })
+
+//     context("with argument", () => {
+//       it("should only return removed files", () => {
+//         fs.unlinkSync(fixturesResultFetch.expected_wc.src)
+//         const parser = new Parser
+//         const { tv, movies } = parser.fetch()
+//         const getSrc = (rows) => rows.map((r) => r.src)
+
+//         return Promise.all([tv, movies]).then(() => {
+//           return expect(file_history.findAll().then(getSrc)).to.eventually.not.contain(fixturesResultFetch.expected_wc.src)
+//         })
+//         expect(false).to.be.true
+//       })
+//     })
   })
 
   describe(".normalizeNumber()", () => {
