@@ -1,8 +1,15 @@
-import { expect } from "chai"
+import chai, { expect } from "chai"
 import db from "../database/models"
+import chaiAsPromised from "chai-as-promised"
+chai.use(chaiAsPromised)
+
+const file_history = db.sequelize.models.file_history
 
 describe("HTTP Server", () => {
   beforeEach(() => {
+    sandbox.stub(file_history, "create").returns(() => {
+      return new Promise((res, rej) => res())
+    }) 
     process.env.TV_ROOT = __dirname + "/fixtures/tv"
     process.env.MOVIES_ROOT = __dirname + "/fixtures/movies"
   })
@@ -127,17 +134,66 @@ describe("HTTP Server", () => {
         })
     })
   })
-})
 
-describe("db", () => {
-  beforeEach((done) => {
-    db.sequelize.models.file_history.destroy({where: {id: {gt: -1}}}).finally(done)
-  })
+  describe("using db", () => {
+    let promise
 
-  it("test", () => {
-    db.sequelize.models.file_history.create({
-      src: __dirname,
-      added: Date()
+    beforeEach((done) => {
+      file_history.create.restore()
+      sandbox.spy(file_history, "create")
+      file_history.destroy({where: {}}).then(()=>{}).then(done)
+      promise = request.get("/fetch/movies")
+    })
+
+    it("should have 2 entries", (done) => {
+      promise.then((res) => {
+        expect(file_history.count()).to.be.eventually.equal(2).notify(done)
+      })
+    })
+
+    it("firstCall should save the expected src", (done) => {
+      const expectedSrc = __dirname + "/fixtures/movies/Star Wars/StarWars Episode VI Return of The Jedi 1080p BDRip/StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip.mp4"
+
+      promise.then((res) => {
+        const result = file_history.findOne({
+          where: {
+            src: expectedSrc
+          }
+        })
+        expect(result).to.eventually.have.deep.property("dataValues.src", expectedSrc).then(() => {}).then(done).catch(done)
+      })
+    })
+
+    it("secondCall should save the expected src", (done) => {
+      const expectedSrc = __dirname + "/fixtures/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.mkv"
+
+      promise.then((res) => {
+        const result = file_history.findOne({
+          where: {
+            src: expectedSrc
+          }
+        })
+        expect(result).to.eventually.have.deep.property("dataValues.src", expectedSrc).then(() => {}).then(done).catch(done)
+      })
+    })
+
+    it("should wait until each result is successfully saved", (done) => {
+      file_history.create.restore()
+
+      let expectedToBeResolved = false
+
+      sandbox.stub(file_history, "create", () => { 
+        return new Promise((res, rej) => { 
+          setTimeout(() => {
+            expectedToBeResolved = true
+            res()
+          }, 1000) 
+        })
+      })
+
+      request.get("/fetch/movies").then((res) => {
+        expect(expectedToBeResolved).to.be.true
+      }).then(done).catch(done)
     })
   })
 })

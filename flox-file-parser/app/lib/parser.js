@@ -1,10 +1,12 @@
 const fs = require("fs")
 const path = require("path")
+const db = require("../../database/models")
 
 const videoNameParser = require("video-name-parser")
 
 const supportedVideoFileTypes = ["mkv", "mp4"]
 const env = process.env
+const { file_history } = db.sequelize.models
 
 const fetchTv = () => {
   const { TV_ROOT } = env
@@ -99,7 +101,9 @@ const searchDirectory = (path) => {
 const fetchMovies = () => {
   const { MOVIES_ROOT } = env
   const allFiles = searchDirectory(MOVIES_ROOT)
+
   const movies = []
+  const promises = []
 
   allFiles.forEach((file) => {
     const pathInfo = path.parse(file)
@@ -110,18 +114,21 @@ const fetchMovies = () => {
     const fileInfo = videoNameParser(pathInfo.name) 
     const filePath = pathInfo.dir + "/" + pathInfo.base
 
+    const src = fs.realpathSync(filePath)
+    promises.push(file_history.create({src: src}))
+
     movies.push({
       name: fileInfo.name,
       extension: ext,
       filename: pathInfo.name,
-      src: fs.realpathSync(filePath),
+      src: src,
       year: fileInfo.year,
       tags: fileInfo.tag,
       subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name)
     })
   })
 
-  return movies
+  return Promise.all(promises).then(() => movies)
 }
 
 class Parser {

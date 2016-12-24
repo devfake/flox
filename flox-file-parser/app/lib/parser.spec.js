@@ -2,9 +2,14 @@ import Parser from "./parser"
 import { expect } from "chai"
 import fs from "fs"
 import path from "path"
+import db from "../../database/models"
 
 describe("Parser", () => {
   beforeEach(() => {
+    const file_history = db.sequelize.models.file_history
+    sandbox.stub(file_history, "create", () => {
+      return new Promise((res, rej) => res())
+    })    
     process.env.TV_ROOT = undefined
     process.env.MOVIES_ROOT = undefined
   })
@@ -360,57 +365,61 @@ describe("Parser", () => {
       })
 
       it("returns movies as an array", () => {
-        expect(result.movies).to.be.a("array")
+        return expect(result.movies).to.be.eventually.a("array")
       })
 
       it("should contain 2 movies", () => {
-        expect(result.movies.length).to.be.equal(2)
+        return expect(result.movies).to.be.eventually.have.lengthOf(2)
       })
 
       it("each movie is a object", () => {
-        expect(result.movies[0]).to.be.a("object")
-        expect(result.movies[1]).to.be.a("object")
+        return Promise.all([
+          expect(result.movies.then((m) => m[0])).to.be.eventually.a("object"),
+          expect(result.movies.then((m) => m[1])).to.be.eventually.a("object")
+        ])
       })
 
       it("each movie has the expected property keys", () => {
-        expect(result.movies[0].subtitles).to.be.a("array")
-        expect(result.movies[1].subtitles).to.be.a("array")
-        expect(result.movies[0].extension).to.be.a("string")
-        expect(result.movies[1].extension).to.be.a("string")
-        expect(result.movies[0].filename).to.be.a("string")
-        expect(result.movies[1].filename).to.be.a("string")
-        expect(result.movies[0].src).to.be.a("string")
-        expect(result.movies[1].src).to.be.a("string")
-        expect(result.movies[0].name).to.be.a("string")
-        expect(result.movies[1].name).to.be.a("string")
-        expect(result.movies[0].tags).to.be.a("array")
-        expect(result.movies[1].tags).to.be.a("array")
-        expect(result.movies[0].year).to.be.a("undefined")
-        expect(result.movies[1].year).to.be.a("number")
+        return Promise.all([
+          expect(result.movies.then((m) => m[0].subtitles)).to.be.eventually.a("array"),
+          expect(result.movies.then((m) => m[1].subtitles)).to.be.eventually.a("array"),
+          expect(result.movies.then((m) => m[0].extension)).to.be.eventually.a("string"),
+          expect(result.movies.then((m) => m[1].extension)).to.be.eventually.a("string"),
+          expect(result.movies.then((m) => m[0].filename)).to.be.eventually.a("string"),
+          expect(result.movies.then((m) => m[1].filename)).to.be.eventually.a("string"),
+          expect(result.movies.then((m) => m[0].src)).to.be.eventually.a("string"),
+          expect(result.movies.then((m) => m[1].src)).to.be.eventually.a("string"),
+          expect(result.movies.then((m) => m[0].name)).to.be.eventually.a("string"),
+          expect(result.movies.then((m) => m[1].name)).to.be.eventually.a("string"),
+          expect(result.movies.then((m) => m[0].tags)).to.be.eventually.a("array"),
+          expect(result.movies.then((m) => m[1].tags)).to.be.eventually.a("array"),
+          expect(result.movies.then((m) => m[0].year)).to.be.eventually.a("undefined"),
+          expect(result.movies.then((m) => m[1].year)).to.be.eventually.a("number")
+        ])
       })
 
       it("should contain all data for Star Wars", () => {
-        const resultSw = result.movies[0]
-
-        expect(resultSw.name).to.be.equal(expectedStarWarsResult.name)
-        expect(resultSw.extension).to.be.equal(expectedStarWarsResult.extension)
-        expect(resultSw.filename).to.be.equal(expectedStarWarsResult.filename)
-        expect(resultSw.src).to.be.equal(expectedStarWarsResult.src)
-        expect(resultSw.year).to.be.equal(expectedStarWarsResult.year)
-        expect(resultSw.tags).to.be.deep.equal(expectedStarWarsResult.tags)
-        expect(resultSw.subtitles).to.be.deep.equal(expectedStarWarsResult.subtitles)
+        return Promise.all([
+          expect(result.movies.then((m) => m[0].name)).to.be.eventually.equal(expectedStarWarsResult.name),
+          expect(result.movies.then((m) => m[0].extension)).to.be.eventually.equal(expectedStarWarsResult.extension),
+          expect(result.movies.then((m) => m[0].filename)).to.be.eventually.equal(expectedStarWarsResult.filename),
+          expect(result.movies.then((m) => m[0].src)).to.be.eventually.equal(expectedStarWarsResult.src),
+          expect(result.movies.then((m) => m[0].year)).to.be.eventually.equal(expectedStarWarsResult.year),
+          expect(result.movies.then((m) => m[0].tags)).to.be.eventually.deep.equal(expectedStarWarsResult.tags),
+          expect(result.movies.then((m) => m[0].subtitles)).to.be.eventually.deep.equal(expectedStarWarsResult.subtitles)
+        ])
       })
 
       it("should contain all data for Warcraft", () => {
-        const resultWc = result.movies[1]
-
-        expect(resultWc.name).to.be.equal(expectedWarcraftResult.name)
-        expect(resultWc.extension).to.be.equal(expectedWarcraftResult.extension)
-        expect(resultWc.filename).to.be.equal(expectedWarcraftResult.filename)
-        expect(resultWc.src).to.be.equal(expectedWarcraftResult.src)
-        expect(resultWc.year).to.be.equal(expectedWarcraftResult.year)
-        expect(resultWc.tags).to.be.deep.equal(expectedWarcraftResult.tags)
-        expect(resultWc.subtitles).to.be.deep.equal(expectedWarcraftResult.subtitles)
+        return Promise.all([
+          expect(result.movies.then((m) => m[1].name)).to.be.eventually.equal(expectedWarcraftResult.name),
+          expect(result.movies.then((m) => m[1].extension)).to.be.eventually.equal(expectedWarcraftResult.extension),
+          expect(result.movies.then((m) => m[1].filename)).to.be.eventually.equal(expectedWarcraftResult.filename),
+          expect(result.movies.then((m) => m[1].src)).to.be.eventually.equal(expectedWarcraftResult.src),
+          expect(result.movies.then((m) => m[1].year)).to.be.eventually.equal(expectedWarcraftResult.year),
+          expect(result.movies.then((m) => m[1].tags)).to.be.eventually.deep.equal(expectedWarcraftResult.tags),
+          expect(result.movies.then((m) => m[1].subtitles)).to.be.eventually.deep.equal(expectedWarcraftResult.subtitles)
+        ])
       })
     })
   })
