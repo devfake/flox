@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
 DOCUMENT_ROOT='/vagrant/public' # change if using a subdirectory in your project
-MYSQL_ROOT_PASSWORD='root'
-DROP_DB_IF_EXISTS=0 # Set to 1 to drop databases that exist
-DATABASES=(crafttest) # Space delimited
 SMTP_RELAY='1.2.3.4'
 
 ### Bookeeping ###
@@ -43,36 +40,14 @@ update-rc.d apache2 defaults
 
 ### MYSQL ###
  DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server mysql-client
-if [ -f /root/.provisioning/mysql_root_password ]; then
-	_old_pass=$(cat /root/.provisioning/mysql_root_password)
-	mysqladmin -u root --password=${_old_pass} password ${MYSQL_ROOT_PASSWORD}
-else
-	mysqladmin -u root password ${MYSQL_ROOT_PASSWORD}
-fi
-echo -n ${MYSQL_ROOT_PASSWORD} > /root/.provisioning/mysql_root_password
+ mysqladmin -u root
 
 sed -i "s/^bind-address.*/bind-address = 0.0.0.0/g" /etc/mysql/my.cnf
 service mysql restart
 update-rc.d mysql defaults
 
-# if [ ${DROP_DB_IF_EXISTS} -eq 1 ]; then
-# 	for DB in ${DATABASES[@]}; do
-# 		echo "Dropping database if exists: ${DB}"
-# 		mysql -u root --password=${MYSQL_ROOT_PASSWORD} <<-DROPMSQL
-# 			DROP DATABASE IF EXISTS ${DB};
-# 		DROPMSQL
-# 	done
-# fi
-
-# for DB in ${DATABASES[@]}; do
-# 	echo "Create database if not exists: ${DB}"
-# 	mysql -u root --password=${MYSQL_ROOT_PASSWORD} <<-MSQL
-# 		CREATE DATABASE IF NOT EXISTS ${DB}; 
-# 	MSQL
-# done
-
-mysql -u root --password=${MYSQL_ROOT_PASSWORD} <<-MSQL
-	GRANT ALL PRIVILEGES ON *.* TO root@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+mysql -u root <<-MSQL
+	GRANT ALL PRIVILEGES ON *.* TO root@'%';
 	FLUSH PRIVILEGES;
 MSQL
 
