@@ -3,13 +3,12 @@ import { expect } from "chai"
 import fs from "fs"
 import path from "path"
 import db from "../../database/models"
+import fixturesResultFetch from "../fixtures/fixturesResultFetch"
+
+const file_history = db.sequelize.models.file_history
 
 describe("Parser", () => {
   beforeEach(() => {
-    const file_history = db.sequelize.models.file_history
-    sandbox.stub(file_history, "create", () => {
-      return new Promise((res, rej) => res())
-    })    
     process.env.TV_ROOT = undefined
     process.env.MOVIES_ROOT = undefined
   })
@@ -77,7 +76,7 @@ describe("Parser", () => {
       })
 
       it("returns the found tv-series and puts it into tv", () => {
-        expect(result.tv.length).to.be.equal(2)
+        expect(result.tv.length).to.be.equal(fixturesResultFetch.expectedTv.length)
         expect(result.tv[0].title).to.be.equal(breaking_bad)
         expect(result.tv[1].title).to.be.equal(game_of_thrones)
       })
@@ -106,8 +105,8 @@ describe("Parser", () => {
         })
 
         it("has 2 seasons in got and 2 in bb", () => {
-          expect(got.seasons.length).to.be.equal(2)
-          expect(bb.seasons.length).to.be.equal(2)
+          expect(got.seasons.length).to.be.equal(fixturesResultFetch.expected_got.seasons.length)
+          expect(bb.seasons.length).to.be.equal(fixturesResultFetch.expected_bb.seasons.length)
         })
 
         it("each season should be an object", () => {
@@ -118,10 +117,10 @@ describe("Parser", () => {
         })
 
         it("each season should have a season_number property", () => {
-          expect(got_s1).to.have.property("season_number", 1)
-          expect(got_s2).to.have.property("season_number", 2)
-          expect(bb_s1).to.have.property("season_number", 1)
-          expect(bb_s2).to.have.property("season_number", 2)
+          expect(got_s1).to.have.property("season_number", fixturesResultFetch.expected_got_s1.season_number)
+          expect(got_s2).to.have.property("season_number", fixturesResultFetch.expected_got_s2.season_number)
+          expect(bb_s1).to.have.property("season_number", fixturesResultFetch.expected_bb_s1.season_number)
+          expect(bb_s2).to.have.property("season_number", fixturesResultFetch.expected_bb_s2.season_number)
         })
 
         it("each season should have an episodes property", () => {
@@ -146,93 +145,51 @@ describe("Parser", () => {
 
           beforeEach(() => {
             episodes = []
-            paths = []
-
-            paths.push(absolutePath_got_s1 + "/1.mkv")
-            paths.push(absolutePath_got_s1 + "/2.mp4")
-            paths.push(absolutePath_got_s2 + "/1.mkv")
-            paths.push(absolutePath_got_s2 + "/2.mkv")
-            paths.push(absolutePath_bb_s1 + "/1.mkv")
-            paths.push(absolutePath_bb_s1 + "/2.mkv")
-            paths.push(absolutePath_bb_s2 + "/1.mp4")
-            paths.push(absolutePath_bb_s2 + "/2.mkv")
 
             episodes.push({
-              expected: {
-                fileType: "mkv",
-                episode_number: 1,
-                hasSubtitles: false,
-              },
+              expected: fixturesResultFetch.expected_got_s1_e1,
               actual: {
                 episode: got_s1.episodes[0]
               }
             })
             episodes.push({
-              expected: {
-                fileType: "mp4",
-                episode_number: 2,
-                hasSubtitles: false,
-              },
+              expected: fixturesResultFetch.expected_got_s1_e2,
               actual: {
                 episode: got_s1.episodes[1]
               }
             })
             episodes.push({
-              expected: {
-                fileType: "mkv",
-                episode_number: 1,
-                hasSubtitles: false,
-              },
+              expected: fixturesResultFetch.expected_got_s2_e1,
               actual: {
                 episode: got_s2.episodes[0]
               }
             })
             episodes.push({
-              expected: {
-                fileType: "mkv",
-                episode_number: 2,
-                hasSubtitles: false,
-              },
+              expected: fixturesResultFetch.expected_got_s2_e2,
               actual: {
                 episode: got_s2.episodes[1]
               }
             })
             episodes.push({
-              expected: {
-                fileType: "mkv",
-                episode_number: 1,
-                hasSubtitles: true,
-              },
+              expected: fixturesResultFetch.expected_bb_s1_e1,
               actual: {
                 episode: bb_s1.episodes[0]
               }
             })
             episodes.push({
-              expected: {
-                fileType: "mkv",
-                episode_number: 2,
-                hasSubtitles: true,
-              },
+              expected: fixturesResultFetch.expected_bb_s1_e2,
               actual: {
                 episode: bb_s1.episodes[1]
               }
             })
             episodes.push({
-              expected: {
-                fileType: "mp4",
-                episode_number: 1,
-                hasSubtitles: true,
-              },
+              expected: fixturesResultFetch.expected_bb_s2_e1,
               actual: {
                 episode: bb_s2.episodes[0]
               }
             })
             episodes.push({
-              expected: {
-                fileType: "mkv",
-                episode_number: 2,
-                hasSubtitles: true,
-              },
+              expected: fixturesResultFetch.expected_bb_s2_e2,
               actual: {
                 episode: bb_s2.episodes[1]
               }
@@ -240,10 +197,10 @@ describe("Parser", () => {
           })
 
           it("each season should have 2 episodes", () => {
-            expect(got_s1.episodes.length).to.be.equal(2)
-            expect(got_s2.episodes.length).to.be.equal(2)
-            expect(bb_s1.episodes.length).to.be.equal(2)
-            expect(bb_s2.episodes.length).to.be.equal(2)
+            expect(got_s1.episodes.length).to.be.equal(fixturesResultFetch.expected_got_s1.episodes.length)
+            expect(got_s2.episodes.length).to.be.equal(fixturesResultFetch.expected_got_s2.episodes.length)
+            expect(bb_s1.episodes.length).to.be.equal(fixturesResultFetch.expected_bb_s1.episodes.length)
+            expect(bb_s2.episodes.length).to.be.equal(fixturesResultFetch.expected_bb_s2.episodes.length)
           })
 
           it("each episode is an object", () => {
@@ -252,7 +209,7 @@ describe("Parser", () => {
             })
           })
 
-          it("each episode has a property episde_number", () => {
+          it("each episode has a property episode_number", () => {
             episodes.forEach(e => {
               expect(e.actual.episode).to.have.property("episode_number", e.expected.episode_number)
             })
@@ -260,13 +217,13 @@ describe("Parser", () => {
 
           it("each episode has a property extension", () => {
             episodes.forEach(e => {
-              expect(e.actual.episode).to.have.property("extension", e.expected.fileType)
+              expect(e.actual.episode).to.have.property("extension", e.expected.extension)
             })
           })
 
           it("each episode has a property src", () => {
             episodes.forEach((e, i) => {
-              expect(e.actual.episode).to.have.property("src", paths[i]) 
+              expect(e.actual.episode).to.have.property("src", e.expected.src) 
             })
           })
 
@@ -285,42 +242,29 @@ describe("Parser", () => {
 
             it("each episode has the expected amount of subtitles", () => {
               episodes.forEach(e => {
-                if (!e.expected.hasSubtitles) {
-                  expect(e.actual.episode.subtitles.length).to.be.equal(0)
-                } else {
-                  expect(e.actual.episode.subtitles.length).to.be.equal(1)
-                }
-              })
-            })
-
-            it("each subtitle has the expected properties", () => {
-              episodes.forEach(e => {
-                if (!e.expected.hasSubtitles) return
-                expect(e.actual.episode.subtitles[0].extension).to.exist
-                expect(e.actual.episode.subtitles[0].src).to.exist
-                expect(e.actual.episode.subtitles[0].filename).to.exist
+                expect(e.actual.episode.subtitles.length).to.be.equal(e.expected.subtitles.length)
+                  .and.be.below(2) //currently max one subtitle supported
               })
             })
 
             it("each subtitle has the same filename as the video", () => {
               episodes.forEach(e => {
-                if (!e.expected.hasSubtitles) return
-                expect(e.actual.episode.subtitles[0].filename).to.be.equal('' + e.expected.episode_number)
+                if (!e.actual.subtitles) return
+                expect(e.actual.episode.subtitles[0].filename).to.be.equal(e.expected.subtitles[0].filename)
               })
             })
 
             it("each subtitle should have the right extension", () => {
               episodes.forEach(e => {
-                if (!e.expected.hasSubtitles) return
-                expect(e.actual.episode.subtitles[0].extension).to.be.equal("srt")
+                if (!e.actual.subtitles) return
+                expect(e.actual.episode.subtitles[0].extension).to.be.equal(e.expected.subtitles[0].extension)
               })
             })
 
             it("each subtitle should have the right src", () => {
               episodes.forEach(e => {
-                if (!e.expected.hasSubtitles) return
-                const srcMatch = "^" + absolutePath + ".+\.srt"
-                expect(e.actual.episode.subtitles[0].src).to.match(new RegExp(srcMatch))
+                if (!e.actual.subtitles) return
+                expect(e.actual.episode.subtitles[0].src).to.be.equal(e.expected.subtitles[0].src)
               })
             })
 
@@ -334,33 +278,9 @@ describe("Parser", () => {
 
     context("using movie fixtures", () => {
       let movies
-      let expectedStarWarsResult, expectedWarcraftResult
       let absoluteMoviePath = absolutePath + "fixtures/movies"
 
       beforeEach(() => {
-        expectedStarWarsResult = {
-          name: "starwars episode vi return of the jedi",
-          extension: "mp4",
-          tags: ["hd", "1080p"],
-          year: undefined,
-          filename: "StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip",
-          src: absoluteMoviePath + "/Star Wars/StarWars Episode VI Return of The Jedi 1080p BDRip/StarWars.Episode.VI.Return.of.The.Jedi.1080p.BDRip.mp4",
-          subtitles: []
-        }
-        expectedWarcraftResult = {
-          name: "warcraft",
-          extension: "mkv",
-          filename: "Warcraft.2016.720p.WEB-DL",
-          tags: ["720p"],
-          src: absoluteMoviePath + "/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.mkv",
-          year: 2016,
-          subtitles: [{
-            src: absoluteMoviePath + "/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt",
-            filename: "Warcraft.2016.720p.WEB-DL",
-            extension: "srt"
-          }]
-        }
-        movies = []
         result = parser.fetch()
       })
 
@@ -369,7 +289,7 @@ describe("Parser", () => {
       })
 
       it("should contain 2 movies", () => {
-        return expect(result.movies).to.be.eventually.have.lengthOf(2)
+        return expect(result.movies).to.be.eventually.have.lengthOf(fixturesResultFetch.expectedMovies.length)
       })
 
       it("each movie is a object", () => {
@@ -400,26 +320,77 @@ describe("Parser", () => {
 
       it("should contain all data for Star Wars", () => {
         return Promise.all([
-          expect(result.movies.then((m) => m[0].name)).to.be.eventually.equal(expectedStarWarsResult.name),
-          expect(result.movies.then((m) => m[0].extension)).to.be.eventually.equal(expectedStarWarsResult.extension),
-          expect(result.movies.then((m) => m[0].filename)).to.be.eventually.equal(expectedStarWarsResult.filename),
-          expect(result.movies.then((m) => m[0].src)).to.be.eventually.equal(expectedStarWarsResult.src),
-          expect(result.movies.then((m) => m[0].year)).to.be.eventually.equal(expectedStarWarsResult.year),
-          expect(result.movies.then((m) => m[0].tags)).to.be.eventually.deep.equal(expectedStarWarsResult.tags),
-          expect(result.movies.then((m) => m[0].subtitles)).to.be.eventually.deep.equal(expectedStarWarsResult.subtitles)
+          expect(result.movies.then((m) => m[0].name)).to.be.eventually.equal(fixturesResultFetch.expected_sw.name),
+          expect(result.movies.then((m) => m[0].extension)).to.be.eventually.equal(fixturesResultFetch.expected_sw.extension),
+          expect(result.movies.then((m) => m[0].filename)).to.be.eventually.equal(fixturesResultFetch.expected_sw.filename),
+          expect(result.movies.then((m) => m[0].src)).to.be.eventually.equal(fixturesResultFetch.expected_sw.src),
+          expect(result.movies.then((m) => m[0].year)).to.be.eventually.equal(fixturesResultFetch.expected_sw.year),
+          expect(result.movies.then((m) => m[0].tags)).to.be.eventually.deep.equal(fixturesResultFetch.expected_sw.tags),
+          expect(result.movies.then((m) => m[0].subtitles)).to.be.eventually.deep.equal(fixturesResultFetch.expected_sw.subtitles)
         ])
       })
 
       it("should contain all data for Warcraft", () => {
         return Promise.all([
-          expect(result.movies.then((m) => m[1].name)).to.be.eventually.equal(expectedWarcraftResult.name),
-          expect(result.movies.then((m) => m[1].extension)).to.be.eventually.equal(expectedWarcraftResult.extension),
-          expect(result.movies.then((m) => m[1].filename)).to.be.eventually.equal(expectedWarcraftResult.filename),
-          expect(result.movies.then((m) => m[1].src)).to.be.eventually.equal(expectedWarcraftResult.src),
-          expect(result.movies.then((m) => m[1].year)).to.be.eventually.equal(expectedWarcraftResult.year),
-          expect(result.movies.then((m) => m[1].tags)).to.be.eventually.deep.equal(expectedWarcraftResult.tags),
-          expect(result.movies.then((m) => m[1].subtitles)).to.be.eventually.deep.equal(expectedWarcraftResult.subtitles)
+          expect(result.movies.then((m) => m[1].name)).to.be.eventually.equal(fixturesResultFetch.expected_wc.name),
+          expect(result.movies.then((m) => m[1].extension)).to.be.eventually.equal(fixturesResultFetch.expected_wc.extension),
+          expect(result.movies.then((m) => m[1].filename)).to.be.eventually.equal(fixturesResultFetch.expected_wc.filename),
+          expect(result.movies.then((m) => m[1].src)).to.be.eventually.equal(fixturesResultFetch.expected_wc.src),
+          expect(result.movies.then((m) => m[1].year)).to.be.eventually.equal(fixturesResultFetch.expected_wc.year),
+          expect(result.movies.then((m) => m[1].tags)).to.be.eventually.deep.equal(fixturesResultFetch.expected_wc.tags),
+          expect(result.movies.then((m) => m[1].subtitles)).to.be.eventually.deep.equal(fixturesResultFetch.expected_wc.subtitles)
         ])
+      })
+
+      it("should have 2 entries", () => {
+        return result.movies.then((res) => {
+          return expect(file_history.count()).to.be.eventually.equal(fixturesResultFetch.expectedMovies.length)
+        })
+      })
+
+      it("firstCall should save the expected src", () => {
+        const expectedSrc = fixturesResultFetch.expected_sw.src
+
+        return result.movies.then((res) => {
+          const result = file_history.findOne({
+            where: {
+              src: expectedSrc
+            }
+          })
+          return expect(result).to.eventually.have.deep.property("dataValues.src", expectedSrc)
+        })
+      })
+
+      it("secondCall should save the expected src", () => {
+        const expectedSrc = fixturesResultFetch.expected_wc.src
+
+        return result.movies.then((res) => {
+          const result = file_history.findOne({
+            where: {
+              src: expectedSrc
+            }
+          })
+
+          return expect(result).to.eventually.have.deep.property("dataValues.src", expectedSrc)
+        })
+      })
+
+      it("should wait until each result is successfully saved", () => {
+        let expectedToBeResolved = false
+
+        sandbox.stub(file_history, "create", () => { 
+          return new Promise((res, rej) => { 
+            setTimeout(() => {
+              expectedToBeResolved = true
+              res()
+            }, 1000) 
+          })
+        })
+
+        result = parser.fetch()
+        return result.movies.then((res) => {
+          return expect(expectedToBeResolved).to.be.true
+        })
       })
     })
   })
