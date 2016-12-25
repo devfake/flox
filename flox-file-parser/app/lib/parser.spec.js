@@ -66,22 +66,25 @@ describe("Parser", () => {
 
     context("using tv fixtures", () => {
       beforeEach(() => {
-        result = parser.fetch()
+        result = undefined
       })
 
       it("calls fs.readdirSync with the expected call count and path", () => {
+        result = parser.fetch()
         const normalizedTvPath = fs.realpathSync(path.normalize(tvPath))
         expect(fs.readdirSync.callCount).to.equal(13)
         expect(fs.readdirSync.args[0][0]).to.equal(normalizedTvPath)
       })
 
       it("returns the found tv-series and puts it into tv", () => {
+        result = parser.fetch()
         expect(result.tv.length).to.be.equal(fixturesResultFetch.expectedTv.length)
         expect(result.tv[0].title).to.be.equal(breaking_bad)
         expect(result.tv[1].title).to.be.equal(game_of_thrones)
       })
 
       it("each tv serie has an array of seasons", () => {
+        result = parser.fetch()
         const got = result.tv.find((t) => t.title === game_of_thrones)
         const bb = result.tv.find((t) => t.title === breaking_bad)
 
@@ -95,6 +98,7 @@ describe("Parser", () => {
         let bb_s1, bb_s2
 
         beforeEach(() => {
+          result = parser.fetch()
           got = result.tv.find((t) => t.title === game_of_thrones)
           bb = result.tv.find((t) => t.title === breaking_bad)
 
@@ -281,18 +285,21 @@ describe("Parser", () => {
       let absoluteMoviePath = absolutePath + "fixtures/movies"
 
       beforeEach(() => {
-        result = parser.fetch()
+        result = undefined
       })
 
       it("returns movies as an array", () => {
+        result = parser.fetch()
         return expect(result.movies).to.be.eventually.a("array")
       })
 
       it("should contain 2 movies", () => {
+        result = parser.fetch()
         return expect(result.movies).to.be.eventually.have.lengthOf(fixturesResultFetch.expectedMovies.length)
       })
 
       it("each movie is a object", () => {
+        result = parser.fetch()
         return Promise.all([
           expect(result.movies.then((m) => m[0])).to.be.eventually.a("object"),
           expect(result.movies.then((m) => m[1])).to.be.eventually.a("object")
@@ -300,6 +307,7 @@ describe("Parser", () => {
       })
 
       it("each movie has the expected property keys", () => {
+        result = parser.fetch()
         return Promise.all([
           expect(result.movies.then((m) => m[0].subtitles)).to.be.eventually.a("array"),
           expect(result.movies.then((m) => m[1].subtitles)).to.be.eventually.a("array"),
@@ -319,6 +327,7 @@ describe("Parser", () => {
       })
 
       it("should contain all data for Star Wars", () => {
+        result = parser.fetch()
         return Promise.all([
           expect(result.movies.then((m) => m[0].name)).to.be.eventually.equal(fixturesResultFetch.expected_sw.name),
           expect(result.movies.then((m) => m[0].extension)).to.be.eventually.equal(fixturesResultFetch.expected_sw.extension),
@@ -331,6 +340,7 @@ describe("Parser", () => {
       })
 
       it("should contain all data for Warcraft", () => {
+        result = parser.fetch()
         return Promise.all([
           expect(result.movies.then((m) => m[1].name)).to.be.eventually.equal(fixturesResultFetch.expected_wc.name),
           expect(result.movies.then((m) => m[1].extension)).to.be.eventually.equal(fixturesResultFetch.expected_wc.extension),
@@ -343,12 +353,14 @@ describe("Parser", () => {
       })
 
       it("should have 2 entries", () => {
+        result = parser.fetch()
         return result.movies.then((res) => {
           return expect(file_history.count()).to.be.eventually.equal(fixturesResultFetch.expectedMovies.length)
         })
       })
 
       it("firstCall should save the expected src", () => {
+        result = parser.fetch()
         const expectedSrc = fixturesResultFetch.expected_sw.src
 
         return result.movies.then((res) => {
@@ -363,6 +375,7 @@ describe("Parser", () => {
 
       it("secondCall should save the expected src", () => {
         const expectedSrc = fixturesResultFetch.expected_wc.src
+        result = parser.fetch()
 
         return result.movies.then((res) => {
           const result = file_history.findOne({
@@ -377,6 +390,7 @@ describe("Parser", () => {
 
       it("should wait until each result is successfully saved", () => {
         let expectedToBeResolved = false
+        result = parser.fetch()
 
         sandbox.stub(file_history, "create", () => { 
           return new Promise((res, rej) => { 
@@ -390,6 +404,44 @@ describe("Parser", () => {
         result = parser.fetch()
         return result.movies.then((res) => {
           return expect(expectedToBeResolved).to.be.true
+        })
+      })
+
+      it("should save the current time in 'added'", () => {
+        const srcSw = fixturesResultFetch.expected_sw.src
+        const srcWc = fixturesResultFetch.expected_wc.src
+
+        const expectedTimestamp = Date.parse("01 Jan 2000")
+        const expectedTime = new Date(expectedTimestamp)
+
+        sandbox.stub(Date, "now").returns(expectedTimestamp)
+
+        result = parser.fetch()
+
+        return result.movies.then(() => {
+          return Promise.all([
+            expect(file_history.findOne({where: {src: srcSw}}).then((r) => r.added)).to.eventually.be.eql(expectedTime),
+            expect(file_history.findOne({where: {src: srcWc}}).then((r) => r.added)).to.eventually.be.eql(expectedTime),
+          ])
+        })
+      })
+
+      it("should left 'removed' as null", () => {
+        const srcSw = fixturesResultFetch.expected_sw.src
+        const srcWc = fixturesResultFetch.expected_wc.src
+
+        const expectedTimestamp = Date.parse("01 Jan 2000")
+        const expectedTime = new Date(expectedTimestamp)
+
+        sandbox.stub(Date, "now").returns(expectedTimestamp)
+
+        result = parser.fetch()
+
+        return result.movies.then(() => {
+          return Promise.all([
+            expect(file_history.findOne({where: {src: srcSw}}).then((r) => r.removed)).to.eventually.be.eql(null),
+            expect(file_history.findOne({where: {src: srcWc}}).then((r) => r.removed)).to.eventually.be.eql(null),
+          ])
         })
       })
     })

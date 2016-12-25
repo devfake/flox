@@ -115,7 +115,10 @@ const fetchMovies = () => {
     const filePath = pathInfo.dir + "/" + pathInfo.base
 
     const src = fs.realpathSync(filePath)
-    promises.push(file_history.create({src: src}))
+    promises.push(file_history.create({
+      src: src,
+      added: Date.now()
+    }))
 
     movies.push({
       name: fileInfo.name,
