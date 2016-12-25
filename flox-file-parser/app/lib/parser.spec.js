@@ -390,9 +390,8 @@ describe("Parser", () => {
 
       it("should wait until each result is successfully saved", () => {
         let expectedToBeResolved = false
-        result = parser.fetch()
 
-        sandbox.stub(file_history, "create", () => { 
+        sandbox.stub(file_history, "findOrCreate", () => { 
           return new Promise((res, rej) => { 
             setTimeout(() => {
               expectedToBeResolved = true
@@ -427,6 +426,23 @@ describe("Parser", () => {
       })
 
       it("should left 'removed' as null", () => {
+        const srcSw = fixturesResultFetch.expected_sw.src
+        const srcWc = fixturesResultFetch.expected_wc.src
+
+        return Promise.all([
+          file_history.create({src: srcSw, added: Date.now()}),
+          file_history.create({src: srcWc, added: Date.now()}),
+        ]).then(() => {
+          result = parser.fetch()
+          return result.movies.then(() => {
+            return Promise.all([
+              expect(file_history.count()).to.eventually.be.equal(2)
+            ])
+          })
+        })        
+      })
+
+      it("should not insert into db if the src already exists", () => {
         const srcSw = fixturesResultFetch.expected_sw.src
         const srcWc = fixturesResultFetch.expected_wc.src
 
