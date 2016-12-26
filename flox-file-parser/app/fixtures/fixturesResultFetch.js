@@ -165,6 +165,17 @@ var expected_got_s1_e2 = module.exports.expected_got_s1_e2 = expected_got_s1.epi
 var expected_got_s2_e1 = module.exports.expected_got_s2_e1 = expected_got_s2.episodes[0]
 var expected_got_s2_e2 = module.exports.expected_got_s2_e2 = expected_got_s2.episodes[1]
 
+var allEpisodes = module.exports.allEpisodes = [
+  expected_bb_s1_e1,
+  expected_bb_s1_e2,
+  expected_bb_s2_e1,
+  expected_bb_s2_e2,
+  expected_got_s1_e1,
+  expected_got_s1_e2,
+  expected_got_s2_e1,
+  expected_got_s2_e2,
+]
+
 var expected_sw = module.exports.expected_sw = expectedMovies[0]
 var expected_wc = module.exports.expected_wc = expectedMovies[1]
 

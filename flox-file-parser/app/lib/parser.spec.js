@@ -65,31 +65,135 @@ describe("Parser", () => {
     })
 
     context("using tv fixtures", () => {
-      beforeEach(() => {
-        result = undefined
+      const filterMovies = {
+        where: {
+          src: { 
+            $and: [
+              { $ne: fixturesResultFetch.expected_wc.src },
+              { $ne: fixturesResultFetch.expected_sw.src }
+            ]
+          } 
+        }
+      }
+
+      context("database", () => {
+        it("should have 8 entries", () => {
+          const { tv } = parser.fetch()
+
+          return tv.then(() => {
+            return expect(file_history.count(filterMovies)).to.eventually.be.equal(fixturesResultFetch.allEpisodes.length)
+          })
+        })
+
+        it("each episode should be successfully saved with their expected src", () => {
+          const { tv } = parser.fetch()
+
+          return tv.then(() => {
+            const expectedSrc = fixturesResultFetch.allEpisodes.map((e) => e.src).sort()
+            const getSrc = (rows) => rows.map((e) => e.src).sort()
+
+            return expect(file_history.findAll(filterMovies).then(getSrc)).to.eventually.be.eql(expectedSrc)
+          })
+        })
+
+        it("should wait until each result is successfully saved", () => {
+          let expectedToBeResolved = false
+
+          sandbox.stub(file_history, "findOrCreate", () => { 
+            return new Promise((res, rej) => { 
+              setTimeout(() => {
+                expectedToBeResolved = true
+                res()
+              }, 1000) 
+            })
+          })
+
+          const { tv } = parser.fetch()
+          return tv.then((res) => {
+            return expect(expectedToBeResolved).to.be.true
+          })
+        })
+
+        it("should save the current time in 'added'", () => {
+          const getAdded = (rows) => rows.map((e) => e.added)
+
+          const expectedTimestamp = Date.parse("01 Jan 2000")
+          const expectedTime = new Date(expectedTimestamp)
+          const expectedAdded = fixturesResultFetch.allEpisodes.map((e) => expectedTime)
+
+          sandbox.stub(Date, "now").returns(expectedTimestamp)
+
+          const { tv } = parser.fetch()
+
+          return tv.then(() => {
+            return expect(file_history.findAll(filterMovies).then(getAdded)).to.eventually.be.eql(expectedAdded)
+          })
+        })
+
+        it("should left 'removed' as null", () => {
+          const expectedTimestamp = Date.parse("01 Jan 2000")
+          const expectedTime = new Date(expectedTimestamp)
+          const getRemoved = (rows) => rows.map((e) => e.removed)
+          const expectedResult = fixturesResultFetch.allEpisodes.map(() => null)
+
+          sandbox.stub(Date, "now").returns(expectedTimestamp)
+
+          const { tv } = parser.fetch()
+
+          return tv.then(() => {
+            return expect(file_history.findAll(filterMovies).then(getRemoved)).to.eventually.be.eql(expectedResult)
+          })
+
+        })
+
+        it("should not insert into db if the src already exists", () => {
+          const createEpisodes = () => {
+            return fixturesResultFetch.allEpisodes.map((e) => {
+              return { 
+                src: e.src,
+                added: Date.now()
+              }
+            })
+          }
+          const fh = file_history.bulkCreate(createEpisodes())
+
+          return fh.then(() => {
+            const { tv } = parser.fetch()
+
+            return tv.then(() => {
+              return expect(file_history.count(filterMovies)).to.eventually.be.equal(8)
+            })
+          })        
+        })
       })
 
       it("calls fs.readdirSync with the expected call count and path", () => {
-        result = parser.fetch()
+        const result = parser.fetch()
         const normalizedTvPath = fs.realpathSync(path.normalize(tvPath))
         expect(fs.readdirSync.callCount).to.equal(13)
         expect(fs.readdirSync.args[0][0]).to.equal(normalizedTvPath)
       })
 
       it("returns the found tv-series and puts it into tv", () => {
-        result = parser.fetch()
-        expect(result.tv.length).to.be.equal(fixturesResultFetch.expectedTv.length)
-        expect(result.tv[0].title).to.be.equal(breaking_bad)
-        expect(result.tv[1].title).to.be.equal(game_of_thrones)
+        const { tv } = parser.fetch()
+
+        return tv.then((res) => {
+          expect(res.length).to.be.equal(fixturesResultFetch.expectedTv.length)
+          expect(res[0].title).to.be.equal(breaking_bad)
+          expect(res[1].title).to.be.equal(game_of_thrones)
+        })
       })
 
       it("each tv serie has an array of seasons", () => {
-        result = parser.fetch()
-        const got = result.tv.find((t) => t.title === game_of_thrones)
-        const bb = result.tv.find((t) => t.title === breaking_bad)
+        const { tv } = parser.fetch()
 
-        expect(Array.isArray(got.seasons)).to.be.true
-        expect(Array.isArray(bb.seasons)).to.be.true
+        return tv.then((res) => {
+          const got = res.find((t) => t.title === game_of_thrones)
+          const bb = res.find((t) => t.title === breaking_bad)
+
+          expect(Array.isArray(got.seasons)).to.be.true
+          expect(Array.isArray(bb.seasons)).to.be.true
+        })
       })
 
       context("seasons", () => {
@@ -99,18 +203,23 @@ describe("Parser", () => {
 
         beforeEach(() => {
           result = parser.fetch()
-          got = result.tv.find((t) => t.title === game_of_thrones)
-          bb = result.tv.find((t) => t.title === breaking_bad)
 
-          got_s1 = got.seasons.find((e) => e.season_number === 1)
-          got_s2 = got.seasons.find((e) => e.season_number === 2)
-          bb_s1 = bb.seasons.find((e) => e.season_number === 1)
-          bb_s2 = bb.seasons.find((e) => e.season_number === 2)
+          return result.tv.then((res) => {
+            got = res.find((t) => t.title === game_of_thrones)
+            bb = res.find((t) => t.title === breaking_bad)
+
+            got_s1 = got.seasons.find((e) => e.season_number === 1)
+            got_s2 = got.seasons.find((e) => e.season_number === 2)
+            bb_s1 = bb.seasons.find((e) => e.season_number === 1)
+            bb_s2 = bb.seasons.find((e) => e.season_number === 2)
+          })
         })
 
         it("has 2 seasons in got and 2 in bb", () => {
-          expect(got.seasons.length).to.be.equal(fixturesResultFetch.expected_got.seasons.length)
-          expect(bb.seasons.length).to.be.equal(fixturesResultFetch.expected_bb.seasons.length)
+          return result.tv.then(() => {
+            expect(got.seasons.length).to.be.equal(fixturesResultFetch.expected_got.seasons.length)
+            expect(bb.seasons.length).to.be.equal(fixturesResultFetch.expected_bb.seasons.length)
+          })
         })
 
         it("each season should be an object", () => {
@@ -284,22 +393,18 @@ describe("Parser", () => {
       let movies
       let absoluteMoviePath = absolutePath + "fixtures/movies"
 
-      beforeEach(() => {
-        result = undefined
-      })
-
       it("returns movies as an array", () => {
-        result = parser.fetch()
+        const result = parser.fetch()
         return expect(result.movies).to.be.eventually.a("array")
       })
 
       it("should contain 2 movies", () => {
-        result = parser.fetch()
+        const result = parser.fetch()
         return expect(result.movies).to.be.eventually.have.lengthOf(fixturesResultFetch.expectedMovies.length)
       })
 
       it("each movie is a object", () => {
-        result = parser.fetch()
+        const result = parser.fetch()
         return Promise.all([
           expect(result.movies.then((m) => m[0])).to.be.eventually.a("object"),
           expect(result.movies.then((m) => m[1])).to.be.eventually.a("object")
@@ -307,7 +412,7 @@ describe("Parser", () => {
       })
 
       it("each movie has the expected property keys", () => {
-        result = parser.fetch()
+        const result = parser.fetch()
         return Promise.all([
           expect(result.movies.then((m) => m[0].subtitles)).to.be.eventually.a("array"),
           expect(result.movies.then((m) => m[1].subtitles)).to.be.eventually.a("array"),
@@ -327,7 +432,7 @@ describe("Parser", () => {
       })
 
       it("should contain all data for Star Wars", () => {
-        result = parser.fetch()
+        const result = parser.fetch()
         return Promise.all([
           expect(result.movies.then((m) => m[0].name)).to.be.eventually.equal(fixturesResultFetch.expected_sw.name),
           expect(result.movies.then((m) => m[0].extension)).to.be.eventually.equal(fixturesResultFetch.expected_sw.extension),
@@ -340,7 +445,7 @@ describe("Parser", () => {
       })
 
       it("should contain all data for Warcraft", () => {
-        result = parser.fetch()
+        const result = parser.fetch()
         return Promise.all([
           expect(result.movies.then((m) => m[1].name)).to.be.eventually.equal(fixturesResultFetch.expected_wc.name),
           expect(result.movies.then((m) => m[1].extension)).to.be.eventually.equal(fixturesResultFetch.expected_wc.extension),
@@ -352,112 +457,125 @@ describe("Parser", () => {
         ])
       })
 
-      it("should have 2 entries", () => {
-        result = parser.fetch()
-        return result.movies.then((res) => {
-          return expect(file_history.count()).to.be.eventually.equal(fixturesResultFetch.expectedMovies.length)
-        })
-      })
-
-      it("firstCall should save the expected src", () => {
-        result = parser.fetch()
-        const expectedSrc = fixturesResultFetch.expected_sw.src
-
-        return result.movies.then((res) => {
-          const result = file_history.findOne({
-            where: {
-              src: expectedSrc
+      context("database", () => {
+        const filterTv = {
+          where: {
+            src: {
+              $or: [
+                fixturesResultFetch.expected_sw.src,
+                fixturesResultFetch.expected_wc.src
+              ]
             }
-          })
-          return expect(result).to.eventually.have.deep.property("dataValues.src", expectedSrc)
-        })
-      })
+          }
+        }
 
-      it("secondCall should save the expected src", () => {
-        const expectedSrc = fixturesResultFetch.expected_wc.src
-        result = parser.fetch()
-
-        return result.movies.then((res) => {
-          const result = file_history.findOne({
-            where: {
-              src: expectedSrc
-            }
-          })
-
-          return expect(result).to.eventually.have.deep.property("dataValues.src", expectedSrc)
-        })
-      })
-
-      it("should wait until each result is successfully saved", () => {
-        let expectedToBeResolved = false
-
-        sandbox.stub(file_history, "findOrCreate", () => { 
-          return new Promise((res, rej) => { 
-            setTimeout(() => {
-              expectedToBeResolved = true
-              res()
-            }, 1000) 
+        it("should have 2 entries", () => {
+          const { movies } = parser.fetch()
+          return movies.then((res) => {
+            return expect(file_history.count(filterTv)).to.be.eventually.equal(fixturesResultFetch.expectedMovies.length)
           })
         })
 
-        result = parser.fetch()
-        return result.movies.then((res) => {
-          return expect(expectedToBeResolved).to.be.true
+        it("firstCall should save the expected src", () => {
+          const result = parser.fetch()
+          const expectedSrc = fixturesResultFetch.expected_sw.src
+
+          return result.movies.then((res) => {
+            const result = file_history.findOne({
+              where: {
+                src: expectedSrc
+              }
+            })
+            return expect(result).to.eventually.have.deep.property("dataValues.src", expectedSrc)
+          })
         })
-      })
 
-      it("should save the current time in 'added'", () => {
-        const srcSw = fixturesResultFetch.expected_sw.src
-        const srcWc = fixturesResultFetch.expected_wc.src
+        it("secondCall should save the expected src", () => {
+          const expectedSrc = fixturesResultFetch.expected_wc.src
+          const result = parser.fetch()
 
-        const expectedTimestamp = Date.parse("01 Jan 2000")
-        const expectedTime = new Date(expectedTimestamp)
+          return result.movies.then((res) => {
+            const result = file_history.findOne({
+              where: {
+                src: expectedSrc
+              }
+            })
 
-        sandbox.stub(Date, "now").returns(expectedTimestamp)
-
-        result = parser.fetch()
-
-        return result.movies.then(() => {
-          return Promise.all([
-            expect(file_history.findOne({where: {src: srcSw}}).then((r) => r.added)).to.eventually.be.eql(expectedTime),
-            expect(file_history.findOne({where: {src: srcWc}}).then((r) => r.added)).to.eventually.be.eql(expectedTime),
-          ])
+            return expect(result).to.eventually.have.deep.property("dataValues.src", expectedSrc)
+          })
         })
-      })
 
-      it("should left 'removed' as null", () => {
-        const srcSw = fixturesResultFetch.expected_sw.src
-        const srcWc = fixturesResultFetch.expected_wc.src
+        it("should wait until each result is successfully saved", () => {
+          let expectedToBeResolved = false
 
-        return Promise.all([
-          file_history.create({src: srcSw, added: Date.now()}),
-          file_history.create({src: srcWc, added: Date.now()}),
-        ]).then(() => {
-          result = parser.fetch()
+          sandbox.stub(file_history, "findOrCreate", () => { 
+            return new Promise((res, rej) => { 
+              setTimeout(() => {
+                expectedToBeResolved = true
+                res()
+              }, 1000) 
+            })
+          })
+
+          const result = parser.fetch()
+          return result.movies.then((res) => {
+            return expect(expectedToBeResolved).to.be.true
+          })
+        })
+
+        it("should save the current time in 'added'", () => {
+          const srcSw = fixturesResultFetch.expected_sw.src
+          const srcWc = fixturesResultFetch.expected_wc.src
+
+          const expectedTimestamp = Date.parse("01 Jan 2000")
+          const expectedTime = new Date(expectedTimestamp)
+
+          sandbox.stub(Date, "now").returns(expectedTimestamp)
+
+          const result = parser.fetch()
+
           return result.movies.then(() => {
             return Promise.all([
-              expect(file_history.count()).to.eventually.be.equal(2)
+              expect(file_history.findOne({where: {src: srcSw}}).then((r) => r.added)).to.eventually.be.eql(expectedTime),
+              expect(file_history.findOne({where: {src: srcWc}}).then((r) => r.added)).to.eventually.be.eql(expectedTime),
             ])
           })
-        })        
-      })
+        })
 
-      it("should not insert into db if the src already exists", () => {
-        const srcSw = fixturesResultFetch.expected_sw.src
-        const srcWc = fixturesResultFetch.expected_wc.src
+        it("should left 'removed' as null", () => {
+          const srcSw = fixturesResultFetch.expected_sw.src
+          const srcWc = fixturesResultFetch.expected_wc.src
 
-        const expectedTimestamp = Date.parse("01 Jan 2000")
-        const expectedTime = new Date(expectedTimestamp)
+          const expectedTimestamp = Date.parse("01 Jan 2000")
+          const expectedTime = new Date(expectedTimestamp)
 
-        sandbox.stub(Date, "now").returns(expectedTimestamp)
+          sandbox.stub(Date, "now").returns(expectedTimestamp)
 
-        result = parser.fetch()
+          const result = parser.fetch()
 
-        return result.movies.then(() => {
+          return result.movies.then(() => {
+            return Promise.all([
+              expect(file_history.findOne({where: {src: srcSw}}).then((r) => r.removed)).to.eventually.be.eql(null),
+              expect(file_history.findOne({where: {src: srcWc}}).then((r) => r.removed)).to.eventually.be.eql(null),
+            ])
+          })
+        })
+
+        it("should not insert into db if the src already exists", () => {
+          const srcSw = fixturesResultFetch.expected_sw.src
+          const srcWc = fixturesResultFetch.expected_wc.src
+
           return Promise.all([
-            expect(file_history.findOne({where: {src: srcSw}}).then((r) => r.removed)).to.eventually.be.eql(null),
-            expect(file_history.findOne({where: {src: srcWc}}).then((r) => r.removed)).to.eventually.be.eql(null),
-          ])
+            file_history.create({src: srcSw, added: Date.now()}),
+            file_history.create({src: srcWc, added: Date.now()}),
+          ]).then(() => {
+            const result = parser.fetch()
+            return result.movies.then(() => {
+              return Promise.all([
+                expect(file_history.count(filterTv)).to.eventually.be.equal(2)
+              ])
+            })
+          })        
         })
       })
     })
