@@ -9,18 +9,17 @@ Takes root directory and returns a JSON tree file.
     $ cp database/config/config.json.example database/config/config.json
     $ export TV_ROOT="/media/tv"
     $ export MOVIES_ROOT="/media/movies"
-    $ mysql -u root -p
-    $ create database flox_file_parser_development;
+    $ mysql -u root -e "create database flox_file_parser_development;"
     $ cd database 
-    $ sequalize db:migrate
+    $ sequelize db:migrate
 
     $ npm start
 
 ## tests
 
-    $ mysql -u root -p
-    $ create database flox_file_parser_test;
-    $ cd database && sequalize db:migrate --env test
+    $ mysql -u root -e "create database flox_file_parser_test;"
+    $ cd database 
+    $ sequelize db:migrate --env test
     
     $ npm test 
 
