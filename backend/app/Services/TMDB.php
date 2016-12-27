@@ -251,8 +251,8 @@
       if($this->hasLimitRemaining($response)) {
         $body = json_decode($response->getBody());
 
-        if(property_exists($body, 'titles')) {
-          return $body->titles;
+        if(property_exists($body, 'titles') || property_exists($body, 'results')) {
+          return isset($body->titles) ? $body->titles : $body->results;
         }
 
         return [];
