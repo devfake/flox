@@ -247,7 +247,7 @@
      * @param $seasons
      * @param $tmdbId
      */
-    private function createEpisodes($tmdbId, TMDB $tmdb)
+    protected function createEpisodes($tmdbId, TMDB $tmdb)
     {
       $seasons = $tmdb->tvEpisodes($tmdbId);
 
