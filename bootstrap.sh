@@ -10,7 +10,7 @@ mkdir -p /root/.provisioning
 apt-add-repository ppa:ondrej/php -y
 apt-get update -y
 apt-get install -y apache2
-apt-get install -y php7.0-cli php7.0-common libapache2-mod-php7.0 php7.0 php7.0-mysql php7.0-fpm php7.0-curl php7.0-gd php7.0-bz2 php7.0-mbstring php-xml
+apt-get install -y php7.0-cli php7.0-common libapache2-mod-php7.0 php7.0 php7.0-mysql php7.0-fpm php7.0-curl php7.0-gd php7.0-bz2 php7.0-mbstring php-xml phpunit php7.0-sqlite
 
 cat <<CONFIG > /etc/apache2/sites-enabled/000-default.conf
 <VirtualHost *:80>
