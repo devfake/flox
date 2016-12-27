@@ -242,11 +242,7 @@
      */
     public function getAlternativeTitles($item)
     {
-      $response = $this->client->get('/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles', [
-        'query' => [
-          'api_key' => $this->apiKey
-        ]
-      ]);
+      $response = $this->fetchAlternativeTitles($item);
 
       if($this->hasLimitRemaining($response)) {
         $body = json_decode($response->getBody());
@@ -261,6 +257,15 @@
       // After 10 seconds the TMDB request limit is resetted.
       sleep(10);
       return $this->getAlternativeTitles($item);
+    }
+
+    public function fetchAlternativeTitles($item)
+    {
+      return $this->client->get('/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles', [
+        'query' => [
+          'api_key' => $this->apiKey
+        ]
+      ]);
     }
 
     /**
@@ -322,7 +327,7 @@
      * @param $response
      * @return int
      */
-    private function hasLimitRemaining($response)
+    public function hasLimitRemaining($response)
     {
       return (int) $response->getHeader('X-RateLimit-Remaining')[0] > 1;
     }
