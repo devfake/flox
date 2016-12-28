@@ -1,8 +1,8 @@
 import sinon from "sinon"                     
 
-const supertest = require("supertest")        
-const app = require("../server.js")           
-const config = require("../config.js")
+import supertest from "supertest"        
+import app from "../server.js"           
+import config from "../config.js"
 
 const { port, host } = config.app
 

@@ -1,2 +1,3 @@
 app/fixtures/*
 coverage/
+database/config/config.json
