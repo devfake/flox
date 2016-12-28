@@ -1,4 +1,5 @@
 import { expect } from "chai"
+import db from "../database/models"
 
 describe("HTTP Server", () => {
   beforeEach(() => {
@@ -124,6 +125,19 @@ describe("HTTP Server", () => {
           if (err) return done(err)
           done()
         })
+    })
+  })
+})
+
+describe("db", () => {
+  beforeEach((done) => {
+    db.sequelize.models.file_history.destroy({where: {id: {gt: -1}}}).finally(done)
+  })
+
+  it("test", () => {
+    db.sequelize.models.file_history.create({
+      src: __dirname,
+      added: Date()
     })
   })
 })

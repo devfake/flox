@@ -14,12 +14,20 @@ env:
   DB_CONNECTION: sqlite
   FLOX_FILE_PARSER: flox-file-parser
 
+services:
+  - mysql
+
 script:
   - (cd backend && phpunit)
   - (cd $FLOX_FILE_PARSER && npm test)
+
+before_install:
+  - mysql -e 'create database flox_file_parser_test;'
 
 install:
   - (cd backend && composer install --prefer-source --no-interaction)
   - nvm install 7.1
   - (cd $FLOX_FILE_PARSER && ./generate_fixtures.sh)
-  - (cd $FLOX_FILE_PARSER && npm install)
+  - (cd $FLOX_FILE_PARSER && npm install && npm install -g sequelize-cli)
+  - (cd $FLOX_FILE_PARSER/database && cp config/config.json.example config/config.json)
+  - (cd $FLOX_FILE_PARSER/database && sequelize db:migrate --env test)
