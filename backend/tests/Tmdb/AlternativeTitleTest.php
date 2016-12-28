@@ -5,16 +5,16 @@
   use App\Item;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use GuzzleHttp\Client;
+  use GuzzleHttp\Handler\MockHandler;
+  use GuzzleHttp\HandlerStack;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
   use Illuminate\Support\Facades\Input;
-  use GuzzleHttp\Psr7;
   use GuzzleHttp\Psr7\Response;
 
   class AlternativeTitleTest extends TestCase {
 
     use DatabaseMigrations;
-
-    protected $mock;
 
     protected $movie;
     protected $tv;
@@ -26,14 +26,8 @@
     {
       parent::setUp();
 
-      $this->mock = $this->getMockBuilder(TMDB::class)->setMethods(['fetchAlternativeTitles', 'hasLimitRemaining'])->getMock();
-      $this->mock->method('hasLimitRemaining')->willReturn(40);
-
-      $this->movie = factory(App\Item::class)->make(['title' => 'Findet Nemo', 'media_type' => 'movie', 'tmdb_id' => 12]);
-      $this->tv = factory(App\Item::class)->make(['title' => 'Dragonball Z', 'media_type' => 'tv', 'tmdb_id' => 12971]);
-
-      $this->movieFixture = file_get_contents(__DIR__ . '/../fixtures/alternative_titles_movie.json');
-      $this->tvFixture = file_get_contents(__DIR__ . '/../fixtures/alternative_titles_tv.json');
+      $this->createFactories();
+      $this->createFixtures();
     }
 
     /** @test */
@@ -41,17 +35,13 @@
     {
       Input::replace(['item' => $this->movie]);
 
-      $this->assertCount(0, AlternativeTitle::all());
-
-      $stream = Psr7\stream_for($this->movieFixture);
-      $response = new Response(200, ['Content-Type' => 'application/json'], $stream);
-
-      $this->mock->method('fetchAlternativeTitles')->willReturn($response);
+      $tmdbMock = $this->createTmdbMock($this->movieFixture);
 
       $itemController = new ItemController(new Item(), new Storage());
-      $itemController->add($this->mock);
+      $itemController->add($tmdbMock);
 
       $this->assertCount(4, AlternativeTitle::all());
+
       $this->seeInDatabase('alternative_titles', [
         'title' => 'Disney Pixar Finding Nemo'
       ]);
@@ -62,21 +52,59 @@
     {
       Input::replace(['item' => $this->tv]);
 
-      $this->assertCount(0, AlternativeTitle::all());
+      $tmdbMock = $this->createTmdbMock($this->tvFixture);
 
-      $stream = Psr7\stream_for($this->tvFixture);
-      $response = new Response(200, ['Content-Type' => 'application/json'], $stream);
+      $itemControllerMock = $this->getMockBuilder(ItemController::class)
+        ->setConstructorArgs([new Item(), new Storage()])
+        ->setMethods(['createEpisodes'])
+        ->getMock();
 
-      $this->mock->method('fetchAlternativeTitles')->willReturn($response);
-
-      $itemControllerMock = $this->getMockBuilder(ItemController::class)->setConstructorArgs([new Item(), new Storage()])->setMethods(['createEpisodes'])->getMock();
       $itemControllerMock->method('createEpisodes')->willReturn(null);
 
-      $itemControllerMock->add($this->mock);
+      $itemControllerMock->add($tmdbMock);
 
       $this->assertCount(3, AlternativeTitle::all());
+
       $this->seeInDatabase('alternative_titles', [
         'title' => 'DBZ'
       ]);
+    }
+
+    private function createTmdbMock($fixture)
+    {
+      $mock = new MockHandler([
+        new Response(200, ['Content-Type' => 'application/json'], $fixture),
+      ]);
+
+      $handler = HandlerStack::create($mock);
+      $client = new Client(['handler' => $handler]);
+
+      $tmdbMock = $this->getMockBuilder(TMDB::class)
+        ->setConstructorArgs([$client])
+        ->setMethods(['hasLimitRemaining'])
+        ->getMock();
+
+      $tmdbMock->method('hasLimitRemaining')->willReturn(40);
+
+      return $tmdbMock;
+    }
+
+    private function createFactories()
+    {
+      $this->movie = factory(App\Item::class)->states('movie')->make([
+        'title' => 'Findet Nemo',
+        'tmdb_id' => 12
+      ]);
+
+      $this->tv = factory(App\Item::class)->states('tv')->make([
+        'title' => 'Dragonball Z',
+        'tmdb_id' => 12971
+      ]);
+    }
+
+    private function createFixtures()
+    {
+      $this->movieFixture = file_get_contents(__DIR__ . '/../fixtures/alternative_titles_movie.json');
+      $this->tvFixture = file_get_contents(__DIR__ . '/../fixtures/alternative_titles_tv.json');
     }
   }
