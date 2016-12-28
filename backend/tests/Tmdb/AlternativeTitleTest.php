@@ -35,7 +35,7 @@
     {
       Input::replace(['item' => $this->movie]);
 
-      $tmdbMock = $this->createTmdbMock($this->movieFixture);
+      $tmdbMock = $this->createTmdb($this->movieFixture);
 
       $itemController = new ItemController(new Item(), new Storage());
       $itemController->add($tmdbMock);
@@ -52,7 +52,7 @@
     {
       Input::replace(['item' => $this->tv]);
 
-      $tmdbMock = $this->createTmdbMock($this->tvFixture);
+      $tmdbMock = $this->createTmdb($this->tvFixture);
 
       $itemControllerMock = $this->getMockBuilder(ItemController::class)
         ->setConstructorArgs([new Item(), new Storage()])
@@ -70,23 +70,19 @@
       ]);
     }
 
-    private function createTmdbMock($fixture)
+    private function createTmdb($fixture)
     {
       $mock = new MockHandler([
-        new Response(200, ['Content-Type' => 'application/json'], $fixture),
+        new Response(200, [
+          'Content-Type' => 'application/json',
+          'X-RateLimit-Remaining' => [40],
+        ], $fixture),
       ]);
 
       $handler = HandlerStack::create($mock);
       $client = new Client(['handler' => $handler]);
 
-      $tmdbMock = $this->getMockBuilder(TMDB::class)
-        ->setConstructorArgs([$client])
-        ->setMethods(['hasLimitRemaining'])
-        ->getMock();
-
-      $tmdbMock->method('hasLimitRemaining')->willReturn(40);
-
-      return $tmdbMock;
+      return new TMDB($client);
     }
 
     private function createFactories()
