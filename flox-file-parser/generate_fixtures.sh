@@ -4,8 +4,8 @@ GOT="Game of Thrones"
 BB="Breaking Bad"
 
 # cleanup
-mkdir -p app/fixtures
-rm -rf app/fixtures/*
+rm -rf app/fixtures/tv
+rm -rf app/fixtures/movies
 
 # tv
 (

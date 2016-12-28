@@ -1,32 +1,14 @@
 const fs = require("fs")
 const path = require("path")
+const db = require("../../database/models")
 
 const videoNameParser = require("video-name-parser")
 
 const supportedVideoFileTypes = ["mkv", "mp4"]
 const env = process.env
+const { file_history } = db.sequelize.models
 
-const fetchTv = () => {
-  const { TV_ROOT } = env
-  const result = []
-  const tvSeries = fs.readdirSync(TV_ROOT)
-
-  tvSeries.forEach((tvName) => {
-    const tv = {
-      title: tvName,
-      seasons: []
-    }
-
-    result.push(tv)
-
-    const seasonPath = TV_ROOT + "/" + tvName
-    addSeasonsToTv(seasonPath, tv)
-  })
-
-  return result
-}
-
-const addSeasonsToTv = (path, tv) => {
+const addSeasonsToTv = (path, tv, promises) => {
   const seasons = fs.readdirSync(path) || []
 
   seasons.forEach((seasonName) => {
@@ -35,7 +17,7 @@ const addSeasonsToTv = (path, tv) => {
     } 
 
     const episodesPath = path + "/" + seasonName
-    addEpisodesToSeason(episodesPath, season)
+    addEpisodesToSeason(episodesPath, season, promises)
 
     tv.seasons.push(season)
   })
@@ -58,7 +40,7 @@ const fetchSubtitles = (episodesPath, fileName) => {
   return subtitles
 }
 
-const addEpisodesToSeason = (episodesPath, season) => {
+const addEpisodesToSeason = (episodesPath, season, promises) => {
   const episode_files = fs.readdirSync(episodesPath)
 
   season.episodes = episode_files.map((e) => {
@@ -67,6 +49,13 @@ const addEpisodesToSeason = (episodesPath, season) => {
     const fileName = path.parse(absolutePathEpisode).name
 
     if (!supportedVideoFileTypes.includes(fileType)) return false
+
+    promises.push(file_history.findOrCreate({
+      where: { src: absolutePathEpisode },
+      defaults: {
+        added: Date.now()
+      }
+    }))
 
     return {
       extension: fileType,
@@ -99,7 +88,9 @@ const searchDirectory = (path) => {
 const fetchMovies = () => {
   const { MOVIES_ROOT } = env
   const allFiles = searchDirectory(MOVIES_ROOT)
+
   const movies = []
+  const promises = []
 
   allFiles.forEach((file) => {
     const pathInfo = path.parse(file)
@@ -110,18 +101,47 @@ const fetchMovies = () => {
     const fileInfo = videoNameParser(pathInfo.name) 
     const filePath = pathInfo.dir + "/" + pathInfo.base
 
+    const src = fs.realpathSync(filePath)
+    promises.push(file_history.findOrCreate({
+      where: { src },
+      defaults: {
+        added: Date.now()
+      }
+    }))
+
     movies.push({
       name: fileInfo.name,
       extension: ext,
       filename: pathInfo.name,
-      src: fs.realpathSync(filePath),
+      src: src,
       year: fileInfo.year,
       tags: fileInfo.tag,
       subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name)
     })
   })
 
-  return movies
+  return Promise.all(promises).then(() => movies)
+}
+
+const fetchTv = () => {
+  const { TV_ROOT } = env
+  const result = []
+  const tvSeries = fs.readdirSync(TV_ROOT)
+  const promises = []
+
+  tvSeries.forEach((tvName) => {
+    const tv = {
+      title: tvName,
+      seasons: []
+    }
+
+    result.push(tv)
+
+    const seasonPath = TV_ROOT + "/" + tvName
+    addSeasonsToTv(seasonPath, tv, promises)
+  })
+
+  return Promise.all(promises).then(() => result)
 }
 
 class Parser {

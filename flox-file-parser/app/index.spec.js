@@ -1,5 +1,9 @@
-import { expect } from "chai"
+import chai, { expect } from "chai"
 import db from "../database/models"
+import chaiAsPromised from "chai-as-promised"
+chai.use(chaiAsPromised)
+
+const file_history = db.sequelize.models.file_history
 
 describe("HTTP Server", () => {
   beforeEach(() => {
@@ -125,19 +129,6 @@ describe("HTTP Server", () => {
           if (err) return done(err)
           done()
         })
-    })
-  })
-})
-
-describe("db", () => {
-  beforeEach((done) => {
-    db.sequelize.models.file_history.destroy({where: {id: {gt: -1}}}).finally(done)
-  })
-
-  it("test", () => {
-    db.sequelize.models.file_history.create({
-      src: __dirname,
-      added: Date()
     })
   })
 })
