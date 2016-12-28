@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       src: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       added: {
         type: Sequelize.DATE

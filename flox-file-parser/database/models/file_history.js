@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var file_history = sequelize.define('file_history', {
-    src: DataTypes.STRING,
+    src: DataTypes.TEXT,
     added: DataTypes.DATE,
     removed: DataTypes.DATE
   }, {
