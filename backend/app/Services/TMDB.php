@@ -12,14 +12,16 @@
     private $apiKey;
     private $translation;
 
+    private $base = 'http://api.themoviedb.org';
+
     /**
      * Get the API Key for TMDB and create an instance of Guzzle.
      */
-    public function __construct()
+    public function __construct(Client $client)
     {
       $this->apiKey = config('app.TMDB_API_KEY');
       $this->translation = config('app.TRANSLATION');
-      $this->client = new Client(['base_uri' => 'http://api.themoviedb.org/']);
+      $this->client = $client;
     }
 
     /**
@@ -30,7 +32,7 @@
      */
     public function search($title)
     {
-      $response = $this->client->get('/3/search/multi', [
+      $response = $this->client->get($this->base . '/3/search/multi', [
         'query' => [
           'api_key' => $this->apiKey,
           'query' => $title,
@@ -82,7 +84,7 @@
      */
     private function searchSuggestions($mediaType, $tmdbID, $type)
     {
-      $response = $this->client->get('/3/' . $mediaType . '/' . $tmdbID . '/' . $type, [
+      $response = $this->client->get($this->base . '/3/' . $mediaType . '/' . $tmdbID . '/' . $type, [
         'query' => [
           'api_key' => $this->apiKey,
           'language' => strtolower($this->translation)
@@ -100,7 +102,7 @@
      */
     private function searchTrendingOrUpcoming($type)
     {
-      $response = $this->client->get('/3/movie/' . $type, [
+      $response = $this->client->get($this->base . '/3/movie/' . $type, [
         'query' => [
           'api_key' => $this->apiKey,
           'language' => strtolower($this->translation)
@@ -168,7 +170,7 @@
      */
     public function movie($tmdb_id)
     {
-      $response = $this->client->get('/3/movie/' . $tmdb_id, [
+      $response = $this->client->get($this->base . '/3/movie/' . $tmdb_id, [
         'query' => [
           'api_key' => $this->apiKey,
           'language' => strtolower($this->translation)
@@ -193,7 +195,7 @@
     private function tvSeasonsCount($id, $mediaType)
     {
       if($mediaType == 'tv') {
-        $response = $this->client->get('/3/tv/' . $id, [
+        $response = $this->client->get($this->base . '/3/tv/' . $id, [
           'query' => [
             'api_key' => $this->apiKey,
             'language' => strtolower($this->translation)
@@ -224,7 +226,7 @@
       $data = [];
 
       for($i = 1; $i <= $seasons; $i++) {
-        $response = $this->client->get('/3/tv/' . $id . '/season/' . $i, [
+        $response = $this->client->get($this->base . '/3/tv/' . $id . '/season/' . $i, [
           'query' => [
             'api_key' => $this->apiKey,
             'language' => strtolower($this->translation)
@@ -242,17 +244,13 @@
      */
     public function getAlternativeTitles($item)
     {
-      $response = $this->client->get('/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles', [
-        'query' => [
-          'api_key' => $this->apiKey
-        ]
-      ]);
+      $response = $this->fetchAlternativeTitles($item);
 
       if($this->hasLimitRemaining($response)) {
         $body = json_decode($response->getBody());
 
-        if(property_exists($body, 'titles')) {
-          return $body->titles;
+        if(property_exists($body, 'titles') || property_exists($body, 'results')) {
+          return isset($body->titles) ? $body->titles : $body->results;
         }
 
         return [];
@@ -261,6 +259,15 @@
       // After 10 seconds the TMDB request limit is resetted.
       sleep(10);
       return $this->getAlternativeTitles($item);
+    }
+
+    public function fetchAlternativeTitles($item)
+    {
+      return $this->client->get($this->base . '/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles', [
+        'query' => [
+          'api_key' => $this->apiKey
+        ]
+      ]);
     }
 
     /**
@@ -322,7 +329,7 @@
      * @param $response
      * @return int
      */
-    private function hasLimitRemaining($response)
+    public function hasLimitRemaining($response)
     {
       return (int) $response->getHeader('X-RateLimit-Remaining')[0] > 1;
     }

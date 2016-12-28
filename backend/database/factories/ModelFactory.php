@@ -19,3 +19,15 @@
       'created_at' => time(),      
     ];
   });
+
+  $factory->state(App\Item::class, 'movie', function() {
+    return [
+      'media_type' => 'movie',
+    ];
+  });
+
+  $factory->state(App\Item::class, 'tv', function() {
+    return [
+      'media_type' => 'tv',
+    ];
+  });
