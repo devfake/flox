@@ -1,0 +1,21 @@
+{
+  "id": 12,
+  "titles": [
+    {
+      "iso_3166_1": "CA",
+      "title": "Trouver Nemo"
+    },
+    {
+      "iso_3166_1": "SE",
+      "title": "Hitta Nemo"
+    },
+    {
+      "iso_3166_1": "DE",
+      "title": "Findet Nemo 3D"
+    },
+    {
+      "iso_3166_1": "US",
+      "title": "Disney Pixar Finding Nemo"
+    }
+  ]
+}
