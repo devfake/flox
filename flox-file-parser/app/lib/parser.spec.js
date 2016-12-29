@@ -68,12 +68,7 @@ describe("Parser", () => {
     context("using tv fixtures", () => {
       const filterMovies = {
         where: {
-          src: { 
-            $and: [
-              { $ne: fixturesResultFetch.expected_wc.src },
-              { $ne: fixturesResultFetch.expected_sw.src }
-            ]
-          } 
+          category: "tv"
         }
       }
 
@@ -96,24 +91,6 @@ describe("Parser", () => {
             return expect(file_history.findAll(filterMovies).then(getSrc)).to.eventually.be.eql(expectedSrc)
           })
         })
-
-        // xit("should wait until each result is successfully saved", () => {
-        //   let expectedToBeResolved = false
-
-        //   sandbox.stub(file_history, "findOrCreate", () => { 
-        //     return new Promise((res, rej) => { 
-        //       setTimeout(() => {
-        //         expectedToBeResolved = true
-        //         res()
-        //       }, 1000) 
-        //     })
-        //   })
-
-        //   const { tv } = parser.fetch()
-        //   return tv.then((res) => {
-        //     return expect(expectedToBeResolved).to.be.true
-        //   })
-        // })
 
         it("should save the current time in 'added'", () => {
           const getAdded = (rows) => rows.map((e) => e.added)
@@ -144,7 +121,6 @@ describe("Parser", () => {
           return tv.then(() => {
             return expect(file_history.findAll(filterMovies).then(getRemoved)).to.eventually.be.eql(expectedResult)
           })
-
         })
 
         it("should not insert into db if the src already exists", () => {
@@ -152,7 +128,8 @@ describe("Parser", () => {
             return fixturesResultFetch.allEpisodes.map((e) => {
               return { 
                 src: e.src,
-                added: Date.now()
+                added: Date.now(),
+                category: "tv"
               }
             })
           }
@@ -161,17 +138,102 @@ describe("Parser", () => {
           return fh.then(() => {
             const { tv } = parser.fetch()
 
-            return tv.then(() => {
+            return tv.then((res) => {
               return expect(file_history.count(filterMovies)).to.eventually.be.equal(8)
             })
           })        
         })
+
+        context("deleting files", () => {
+          beforeEach(() => {
+            const expectedTimestamp = Date.parse("01 Jan 2000")
+            sandbox.stub(Date, "now").returns(expectedTimestamp)
+            return parser.fetch().tv
+          })
+
+          afterEach((done) => {
+            execFile("./generate_fixtures.sh", done)
+          })
+
+          it("should remove breaking bad", () => {
+            const getBB = { where: { src: { $like: "%Breaking Bad%" }} }
+            const getGOT = { where: { src: { $like: "%Game of Thrones%" }} }
+            const getRemovedField = (rows) => rows.map((row) => row.removed)
+
+            const expectedTimestamp = Date.parse("01 Jan 2000")
+            const expectedTime = new Date(expectedTimestamp)
+
+            fs.unlinkSync(fixturesResultFetch.expected_bb_s1_e1.src)
+            fs.unlinkSync(fixturesResultFetch.expected_bb_s1_e2.src)
+            fs.unlinkSync(fixturesResultFetch.expected_bb_s2_e1.src)
+            fs.unlinkSync(fixturesResultFetch.expected_bb_s2_e2.src)
+
+            const expectedResultBB = [expectedTime, expectedTime, expectedTime, expectedTime]
+            const expectedResultGot = [null, null, null, null]
+
+            const { tv } = parser.fetch()
+            return tv.then((res) => {
+              return Promise.all([
+                expect(file_history.count(getBB)).to.eventually.be.equal(4),
+                expect(file_history.findAll(getBB).then(getRemovedField)).to.eventually.be.eql(expectedResultBB),
+                expect(file_history.findAll(getGOT).then(getRemovedField)).to.eventually.be.eql(expectedResultGot)
+              ])
+            })
+          })
+
+          it("should remove game of thrones when renaming the src file", () => {
+            const getRemovedField = (row) => row.removed
+
+            const expectedTimestamp = Date.parse("01 Jan 2000")
+            const expectedTime = new Date(expectedTimestamp)
+            const expectedNewSrc = fixturesResultFetch.expected_got_s1_e1.src.replace("mkv", "mp4")
+
+            const getGOT = { where: { src: fixturesResultFetch.expected_got_s1_e1.src } }
+            const getRenamedGOT = { where: { src: expectedNewSrc } }
+
+            fs.renameSync(fixturesResultFetch.expected_got_s1_e1.src, expectedNewSrc)
+
+            const { tv } = parser.fetch()
+
+            return tv.then((res) => {
+              return Promise.all([
+                expect(file_history.count(getGOT)).to.be.eventually.equal(1),
+                expect(file_history.findOne(getGOT).then(getRemovedField)).to.eventually.be.eql(expectedTime),
+                expect(file_history.findOne(getRenamedGOT).then(getRemovedField)).to.eventually.be.null
+              ])
+            })
+          })
+
+          it("fetches a file which is already in db and marked as removed", () => {
+            const getBB = { where: { src: fixturesResultFetch.expected_bb_s1_e1.src } }
+            const getRemovedField = (row) => row.removed
+
+            const expectedTimestamp = Date.parse("01 Jan 2000")
+            const expectedTime = new Date(expectedTimestamp)
+
+            fs.unlinkSync(fixturesResultFetch.expected_bb_s1_e1.src)
+            const preprareDB = file_history.update({ removed: expectedTime }, { where: {
+              src: fixturesResultFetch.expected_bb_s1_e1.src
+            }})
+
+            return preprareDB.then(() => {
+              fs.writeFileSync(fixturesResultFetch.expected_bb_s1_e1.src, "")
+              const { movies } = parser.fetch()
+
+              return movies.then((res) => {
+                return Promise.all([
+                  expect(file_history.count(getBB)).to.be.eventually.equal(2),
+                  expect(file_history.findOne(getBB).then(getRemovedField)).to.eventually.be.eql(expectedTime)
+                ])
+              })
+            })
+          })
+        })
       })
 
-      it("calls fs.readdirSync with the expected call count and path", () => {
+      it("calls fs.readdirSync with the expected path", () => {
         const result = parser.fetch()
         const normalizedTvPath = fs.realpathSync(path.normalize(tvPath))
-        expect(fs.readdirSync.callCount).to.equal(13)
         expect(fs.readdirSync.args[0][0]).to.equal(normalizedTvPath)
       })
 
@@ -461,12 +523,7 @@ describe("Parser", () => {
       context("database", () => {
         const filterTv = {
           where: {
-            src: {
-              $or: [
-                fixturesResultFetch.expected_sw.src,
-                fixturesResultFetch.expected_wc.src
-              ]
-            }
+            category: "movies"
           }
         }
 
@@ -480,8 +537,6 @@ describe("Parser", () => {
           afterEach((done) => {
             execFile("./generate_fixtures.sh", done)
           })
-
-          it("should have 2 entries")
 
           it("should mark warcraft as removed after deleting src file", () => {
             const getWc = { where: { src: fixturesResultFetch.expected_wc.src } }
@@ -521,6 +576,31 @@ describe("Parser", () => {
                 expect(file_history.findOne(getWc).then(getRemovedField)).to.eventually.be.eql(expectedTime),
                 expect(file_history.findOne(getRenamedWc).then(getRemovedField)).to.eventually.be.null
               ])
+            })
+          })
+
+          it("fetches a file which is already in db and marked as removed", () => {
+            const getWc = { where: { src: fixturesResultFetch.expected_wc.src } }
+            const getRemovedField = (row) => row.removed
+
+            const expectedTimestamp = Date.parse("01 Jan 2000")
+            const expectedTime = new Date(expectedTimestamp)
+
+            fs.unlinkSync(fixturesResultFetch.expected_wc.src)
+            const preprareDB = file_history.update({ removed: expectedTime }, { where: {
+              src: fixturesResultFetch.expected_wc.src
+            }})
+
+            return preprareDB.then(() => {
+              fs.writeFileSync(fixturesResultFetch.expected_wc.src, "")
+              const { movies } = parser.fetch()
+
+              return movies.then((res) => {
+                return Promise.all([
+                  expect(file_history.count(getWc)).to.be.eventually.equal(2),
+                  expect(file_history.findOne(getWc).then(getRemovedField)).to.eventually.be.eql(expectedTime)
+                ])
+              })
             })
           })
         })
@@ -604,8 +684,8 @@ describe("Parser", () => {
           const srcWc = fixturesResultFetch.expected_wc.src
 
           return Promise.all([
-            file_history.create({src: srcSw, added: Date.now()}),
-            file_history.create({src: srcWc, added: Date.now()}),
+            file_history.create({src: srcSw, added: Date.now(), category: "movies"}),
+            file_history.create({src: srcWc, added: Date.now(), category: "movies"}),
           ]).then(() => {
             const result = parser.fetch()
             return result.movies.then(() => {
@@ -656,20 +736,6 @@ describe("Parser", () => {
         })
       })
     })
-
-//     context("with argument", () => {
-//       it("should only return removed files", () => {
-//         fs.unlinkSync(fixturesResultFetch.expected_wc.src)
-//         const parser = new Parser
-//         const { tv, movies } = parser.fetch()
-//         const getSrc = (rows) => rows.map((r) => r.src)
-
-//         return Promise.all([tv, movies]).then(() => {
-//           return expect(file_history.findAll().then(getSrc)).to.eventually.not.contain(fixturesResultFetch.expected_wc.src)
-//         })
-//         expect(false).to.be.true
-//       })
-//     })
   })
 
   describe(".normalizeNumber()", () => {
