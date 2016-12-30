@@ -104,24 +104,38 @@ const updateMovies = (ParserList) => {
   })
 }
 
-const fetchMovies = () => {
-  return file_history.findAll({
+const fetchMovies = (since = null) => {
+  const query = {
     where: {
       category: "movies"
-    }
-  }).map((m) => {
-    const status = m.removed ? "removed" : "added"
+    },
+    order: "createdAt DESC"
+  }
 
-    return {
-      subtitles: m.subtitles,
-      extension: m.extension,
-      src: m.src,
-      name: m.name,
-      status: status,
-      year: m.year,
-      tags: m.tags ? m.tags.split(",") : [],
-      filename: m.filename
+  if(since) {
+    query.where.$and = {
+      $or: {
+        added: { $gte: since },
+        removed: { $gte: since },
+      } 
     }
+  }
+
+  return file_history.findAll(query).then((res) => {
+    return res.map((m) => {
+      const status = m.removed ? "removed" : "added"
+
+      return {
+        subtitles: m.subtitles,
+        extension: m.extension,
+        src: m.src,
+        name: m.name,
+        status: status,
+        year: m.year,
+        tags: m.tags ? m.tags.split(",") : [],
+        filename: m.filename
+      }
+    })
   })
 }
 

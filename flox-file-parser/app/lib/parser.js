@@ -14,10 +14,11 @@ class Parser {
   fetch(since = null) {
     const tvUpdated = updateTv(Parser.list, Parser.normalizeNumber)
     const moviesUpdated = updateMovies(Parser.list)
+    since = since * 1 //parse int
 
     return {
       tv: tvUpdated.then(fetchTv),
-      movies: moviesUpdated.then(fetchMovies)
+      movies: moviesUpdated.then(fetchMovies.bind(null, since))
     }
   }
 
