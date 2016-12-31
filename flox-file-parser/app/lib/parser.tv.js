@@ -6,36 +6,24 @@ const supportedVideoFileTypes = ["mkv", "mp4"]
 const env = process.env
 const { file_history } = db.sequelize.models
 
-const addSeasonsToTv = (path, tv, promises, listOfTvInDB) => {
+const addSeasonsToTv = (path, tvTitle, promises, listOfTvInDB) => {
   const seasons = fs.readdirSync(path) || []
 
   seasons.forEach((seasonName) => {
-    const season = { 
-      season_number: ParserNormalizeNumber(seasonName)
-    } 
+    const season_number = ParserNormalizeNumber(seasonName)
 
     const episodesPath = path + "/" + seasonName
-    addEpisodesToSeason(episodesPath, season, promises, listOfTvInDB, tv.title)
-
-    tv.seasons.push(season)
+    addEpisodesToSeason(episodesPath, season_number, promises, listOfTvInDB, tvTitle)
   })
 }
 
 const fetchSubtitles = (episodesPath, fileName) => {
-  const subtitles = []
   const subtitlePath = episodesPath + "/" + fileName + ".srt" 
 
   if (fs.existsSync(subtitlePath)) {
-    const absolutePathSubtitle = fs.realpathSync(subtitlePath)  
-
-    subtitles.push({
-      filename: fileName,
-      src: absolutePathSubtitle,
-      extension: "srt"
-    })
+    return fs.realpathSync(subtitlePath)  
   }
-
-  return subtitles
+  return null
 }
 
 const removeTv = (list, dbPromises) => {
@@ -64,7 +52,7 @@ const addEpisode = (episodesPath, episodeName, promises, season_number, tv_title
       category: "tv",
       extension: fileType,
       filename: fileName,
-      // subtitles: fetchSubtitles(episodesPath, fileName),
+      subtitles: fetchSubtitles(episodesPath, fileName),
       name: tv_title,
       episode_number: ParserNormalizeNumber(episodeName),
       season_number: season_number,
@@ -83,41 +71,33 @@ const addEpisode = (episodesPath, episodeName, promises, season_number, tv_title
   }
 }
 
-const addEpisodesToSeason = (episodesPath, season, promises, list, tv_title) => {
+const addEpisodesToSeason = (episodesPath, season_number, promises, list, tv_title) => {
   const episode_files = fs.readdirSync(episodesPath)
 
-  season.episodes = episode_files.map((file) => {
+  episode_files.map((file) => {
     const found = list.indexOf(episodesPath + "/" + file)
 
     if(found >= 0) {
       list.splice(found, 1)
     } 
 
-    return addEpisode(episodesPath, file, promises, season.season_number, tv_title)
+    return addEpisode(episodesPath, file, promises, season_number, tv_title)
   }).filter((file) => file !== false)
 }
 
 let ParserList, ParserNormalizeNumber
-const fetchTv = (parserList, parserNormalizeNumber) => {
+const updateTv = (parserList, parserNormalizeNumber) => {
   ParserList = parserList
   ParserNormalizeNumber = parserNormalizeNumber
   const { TV_ROOT } = env
-  const result = []
   const tvSeries = fs.readdirSync(TV_ROOT)
   const promises = []
   const listOfTvInDB = ParserList().then((l) => l.filter((e) => e.category === "tv" && e.removed == null)).map((e) => e.src)
 
   return listOfTvInDB.then((list) => {
     tvSeries.forEach((tvName) => {
-      const tv = {
-        title: tvName,
-        seasons: []
-      }
-
-      result.push(tv)
-
       const seasonPath = TV_ROOT + "/" + tvName
-      addSeasonsToTv(seasonPath, tv, promises, list)
+      addSeasonsToTv(seasonPath, tvName, promises, list)
     })
 
     // handle missing episodes
@@ -125,8 +105,31 @@ const fetchTv = (parserList, parserNormalizeNumber) => {
       removeTv(list, promises)
     }
 
-    return Promise.all(promises).then(() => result)
+    return Promise.all(promises)
   })
 }
 
-module.exports = fetchTv
+const fetchTv = () => {
+  return file_history.findAll({
+    where: {
+      category: "tv"
+    }
+  }).map((tv) => {
+    return {
+      episode_number: tv.episode_number,
+      subtitles: tv.subtitles,
+      extension: tv.extension,
+      src: tv.src,
+      season_number: tv.season_number,
+      tv_title: tv.tv_title,
+      year: tv.year,
+      tags: tv.tags ? tv.tags.split(",") : [],
+      filename: tv.filename
+    }
+  })
+}
+
+module.exports = {
+  fetchTv,
+  updateTv
+}

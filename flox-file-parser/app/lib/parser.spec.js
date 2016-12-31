@@ -6,7 +6,7 @@ import db from "../../database/models"
 import fixturesResultFetch from "../fixtures/fixturesResultFetch"
 import { execFile } from "child_process"
 
-const file_history = db.sequelize.models.file_history
+const { file_history } = db.sequelize.models
 
 describe("Parser", () => {
   beforeEach(() => {
@@ -37,11 +37,6 @@ describe("Parser", () => {
 
     it("has a fetch method", () => {
       expect(typeof parser.fetch).to.eql("function")
-    })
-
-    it("should take no params", () => {
-      sandbox.stub(fs, "readdirSync").returns([])
-      expect(parser.fetch.bind(null, "test")).to.throw()
     })
 
     it("returns a valid json object", () => {
@@ -75,7 +70,7 @@ describe("Parser", () => {
 
     it("returns the expected length", () => {
       const result = Parser.list()
-      const expectedLength = fixturesResultFetch.allEpisodes.length + fixturesResultFetch.expectedMovies.length
+      const expectedLength = fixturesResultFetch.expectedTv.length + fixturesResultFetch.expectedMovies.length
 
       expect(result).to.eventually.be.lengthOf(expectedLength)
     })

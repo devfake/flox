@@ -7,16 +7,17 @@ const videoNameParser = require("video-name-parser")
 const supportedVideoFileTypes = ["mkv", "mp4"]
 const env = process.env
 const { file_history } = db.sequelize.models
-const fetchMovies = require("./parser.movies.js")
-const fetchTv = require("./parser.tv.js")
+const { fetchMovies, updateMovies } = require("./parser.movies.js")
+const { fetchTv, updateTv } = require("./parser.tv.js")
 
 class Parser {
-  fetch() {
-    if(arguments.length > 0) throw(Error)
+  fetch(since = null) {
+    const tvUpdated = updateTv(Parser.list, Parser.normalizeNumber)
+    const moviesUpdated = updateMovies(Parser.list)
 
     return {
-      tv: fetchTv(Parser.list, Parser.normalizeNumber),
-      movies: fetchMovies(Parser.list)
+      tv: tvUpdated.then(fetchTv),
+      movies: moviesUpdated.then(fetchMovies)
     }
   }
 

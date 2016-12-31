@@ -49,7 +49,8 @@ describe("HTTP Server", () => {
         .expect(res => {
           const stringified = JSON.stringify(res.body)
 
-          expect(stringified).to.match(/season/)
+          expect(stringified).to.match(/Game of Thrones/)
+          expect(stringified).to.match(/Breaking Bad/)
           expect(res.body).to.have.property("tv")
           expect(res.body).to.be.a("object")
         })
@@ -118,7 +119,8 @@ describe("HTTP Server", () => {
         .expect(res => {
           const stringified = JSON.stringify(res.body)
 
-          expect(stringified).to.not.match(/season/)
+          expect(stringified).to.not.match(/Breaking Bad/)
+          expect(stringified).to.not.match(/Game of Thrones/)
           expect(stringified).to.match(/Warcraft/)
           expect(stringified).to.match(/Star Wars/)
           expect(res.body).to.not.have.property("tv")

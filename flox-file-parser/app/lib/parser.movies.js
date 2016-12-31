@@ -9,20 +9,13 @@ const env = process.env
 const { file_history } = db.sequelize.models
 
 const fetchSubtitles = (episodesPath, fileName) => {
-  const subtitles = []
   const subtitlePath = episodesPath + "/" + fileName + ".srt" 
 
   if (fs.existsSync(subtitlePath)) {
-    const absolutePathSubtitle = fs.realpathSync(subtitlePath)  
-
-    subtitles.push({
-      filename: fileName,
-      src: absolutePathSubtitle,
-      extension: "srt"
-    })
+    return fs.realpathSync(subtitlePath)  
   }
 
-  return subtitles
+  return null
 }
 
 const searchDirectory = (path) => {
@@ -43,7 +36,7 @@ const searchDirectory = (path) => {
   return foundFiles
 }
 
-const addMovie = (file, promises, movies) => {
+const addMovie = (file, promises) => {
   const pathInfo = path.parse(file)
   const ext = pathInfo.ext.replace(".", "")
 
@@ -67,21 +60,11 @@ const addMovie = (file, promises, movies) => {
       src: src,
       year: fileInfo.year,
       tags: fileInfo.tag.toString(),
-      // subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name),
+      subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name),
       category: "movies",
       added: Date.now()
     }
   }))
-
-  movies.push({
-    name: fileInfo.name,
-    extension: ext,
-    filename: pathInfo.name,
-    src: src,
-    year: fileInfo.year,
-    tags: fileInfo.tag,
-    subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name)
-  })
 }
 
 const removeMovies = (list, dbPromises) => {
@@ -92,12 +75,11 @@ const removeMovies = (list, dbPromises) => {
   })
 }
 
-const fetchMovies = (ParserList) => {
+const updateMovies = (ParserList) => {
   const { MOVIES_ROOT } = env
   const listOfMoviesInDB = ParserList().filter((file) => file.category === "movies" && file.removed == null)
   const allFiles = searchDirectory(MOVIES_ROOT)
 
-  const movies = []
   const dbPromises = []
 
   return listOfMoviesInDB.then((l) => {
@@ -110,7 +92,7 @@ const fetchMovies = (ParserList) => {
         list.splice(found, 1)
       }
 
-      addMovie(file, dbPromises, movies)
+      addMovie(file, dbPromises)
     })
 
     // handle missing movies
@@ -118,8 +100,29 @@ const fetchMovies = (ParserList) => {
       removeMovies(list, dbPromises)
     }
 
-    return Promise.all(dbPromises).then(() => movies)
+    return Promise.all(dbPromises)
   })
 }
 
-module.exports = fetchMovies
+const fetchMovies = () => {
+  return file_history.findAll({
+    where: {
+      category: "movies"
+    }
+  }).map((m) => {
+    return {
+      subtitles: m.subtitles,
+      extension: m.extension,
+      src: m.src,
+      name: m.name,
+      year: m.year,
+      tags: m.tags ? m.tags.split(",") : [],
+      filename: m.filename
+    }
+  })
+}
+
+module.exports = {
+  fetchMovies,
+  updateMovies
+}

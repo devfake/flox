@@ -51,20 +51,33 @@ describe("Parser (tv)", () => {
 
         return tv.then((res) => {
           expect(res.length).to.be.equal(fixturesResultFetch.expectedTv.length)
-          expect(res[0].title).to.be.equal(breaking_bad)
-          expect(res[1].title).to.be.equal(game_of_thrones)
+          res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+            expect(episode.tv_title).to.be.equal(fixturesResultFetch.expectedTv[index].tv_title)
+          })
         })
       })
 
-      it("each tv serie has an array of seasons", () => {
+      it("should return the expected episodes", () => {
+        const { tv } = parser.fetch()
+
+        return tv.then((result) => {
+          result.sort((a, b) => a.src > b.src).forEach((tv, index) => {
+            const expectedTv = fixturesResultFetch.expectedTv[index]
+
+            expect(tv).to.be.deep.equal(expectedTv)
+          })
+        })
+
+      })
+
+      it("each tv episode has the expected season number", () => {
         const { tv } = parser.fetch()
 
         return tv.then((res) => {
-          const got = res.find((t) => t.title === game_of_thrones)
-          const bb = res.find((t) => t.title === breaking_bad)
-
-          expect(Array.isArray(got.seasons)).to.be.true
-          expect(Array.isArray(bb.seasons)).to.be.true
+          res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+            const expectedEpisode = fixturesResultFetch.expectedTv[index] 
+            expect(episode.season_number).to.be.eql(expectedEpisode.season_number)
+          })
         })
       })
 
@@ -72,53 +85,55 @@ describe("Parser (tv)", () => {
         let got, bb
         let got_s1, got_s2
         let bb_s1, bb_s2
+        let got_seasons, bb_seasons
 
         beforeEach(() => {
           result = parser.fetch()
 
           return result.tv.then((res) => {
-            got = res.find((t) => t.title === game_of_thrones)
-            bb = res.find((t) => t.title === breaking_bad)
+            got = res.filter((t) => t.tv_title === game_of_thrones)
+            bb = res.filter((t) => t.tv_title === breaking_bad)
 
-            got_s1 = got.seasons.find((e) => e.season_number === 1)
-            got_s2 = got.seasons.find((e) => e.season_number === 2)
-            bb_s1 = bb.seasons.find((e) => e.season_number === 1)
-            bb_s2 = bb.seasons.find((e) => e.season_number === 2)
+            got_s1 = got.filter((e) => e.season_number === 1)
+            got_s2 = got.filter((e) => e.season_number === 2)
+            bb_s1 = bb.filter((e) => e.season_number === 1)
+            bb_s2 = bb.filter((e) => e.season_number === 2)
+
+            got_seasons = got.map(e => e.season_number).filter((e, index, self) => {
+              return index == self.indexOf(e)
+            })
+            bb_seasons = bb.map(e => e.season_number).filter((e, index, self) => {
+              return index == self.indexOf(e)
+            })
           })
         })
 
         it("has 2 seasons in got and 2 in bb", () => {
           return result.tv.then(() => {
-            expect(got.seasons.length).to.be.equal(fixturesResultFetch.expected_got.seasons.length)
-            expect(bb.seasons.length).to.be.equal(fixturesResultFetch.expected_bb.seasons.length)
+            expect(got_seasons.length).to.be.equal(fixturesResultFetch.expected_got_seasons)
+            expect(bb_seasons.length).to.be.equal(fixturesResultFetch.expected_bb_seasons)
           })
         })
 
-        it("each season should be an object", () => {
-          expect(typeof got_s1).to.be.equal("object")
-          expect(typeof got_s2).to.be.equal("object")
-          expect(typeof bb_s1).to.be.equal("object")
-          expect(typeof bb_s2).to.be.equal("object")
+        it("each season should be an array", () => {
+          expect(got_s1).to.be.a("array")
+          expect(got_s2).to.be.a("array")
+          expect(bb_s1).to.be.a("array")
+          expect(bb_s2).to.be.a("array")
         })
 
-        it("each season should have a season_number property", () => {
-          expect(got_s1).to.have.property("season_number", fixturesResultFetch.expected_got_s1.season_number)
-          expect(got_s2).to.have.property("season_number", fixturesResultFetch.expected_got_s2.season_number)
-          expect(bb_s1).to.have.property("season_number", fixturesResultFetch.expected_bb_s1.season_number)
-          expect(bb_s2).to.have.property("season_number", fixturesResultFetch.expected_bb_s2.season_number)
-        })
-
-        it("each season should have an episodes property", () => {
-          expect(got_s1).to.have.property("episodes")
-          expect(got_s2).to.have.property("episodes")
-          expect(bb_s1).to.have.property("episodes")
-          expect(bb_s2).to.have.property("episodes")
+        it("each episode should have a season_number property", () => {
+          return result.tv.then((res) => {
+            res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+              const expectedEpisode = fixturesResultFetch.expectedTv[index]
+              expect(episode).to.have.property("season_number", expectedEpisode.season_number)
+            })
+          })
         })
 
         context("episodes", () => {
           let got_s1_e1, got_s1_e2, got_s2_e1, got_s2_e2
           let bb_s1_e1, bb_s1_e2, bb_s2_e1, bb_s2_e2
-          let episodes = []
           const absolutePath_got = absolutePath + "fixtures/tv/" + game_of_thrones
           const absolutePath_got_s1 = absolutePath_got + "/" + "s1"
           const absolutePath_got_s2 = absolutePath_got + "/" + "S2"
@@ -126,135 +141,78 @@ describe("Parser (tv)", () => {
           const absolutePath_bb_s1 = absolutePath_bb + "/" + "S1"
           const absolutePath_bb_s2 = absolutePath_bb + "/" + "s2"
 
-          let paths = []
-
-          beforeEach(() => {
-            episodes = []
-
-            episodes.push({
-              expected: fixturesResultFetch.expected_got_s1_e1,
-              actual: {
-                episode: got_s1.episodes[0]
-              }
-            })
-            episodes.push({
-              expected: fixturesResultFetch.expected_got_s1_e2,
-              actual: {
-                episode: got_s1.episodes[1]
-              }
-            })
-            episodes.push({
-              expected: fixturesResultFetch.expected_got_s2_e1,
-              actual: {
-                episode: got_s2.episodes[0]
-              }
-            })
-            episodes.push({
-              expected: fixturesResultFetch.expected_got_s2_e2,
-              actual: {
-                episode: got_s2.episodes[1]
-              }
-            })
-            episodes.push({
-              expected: fixturesResultFetch.expected_bb_s1_e1,
-              actual: {
-                episode: bb_s1.episodes[0]
-              }
-            })
-            episodes.push({
-              expected: fixturesResultFetch.expected_bb_s1_e2,
-              actual: {
-                episode: bb_s1.episodes[1]
-              }
-            })
-            episodes.push({
-              expected: fixturesResultFetch.expected_bb_s2_e1,
-              actual: {
-                episode: bb_s2.episodes[0]
-              }
-            })
-            episodes.push({
-              expected: fixturesResultFetch.expected_bb_s2_e2,
-              actual: {
-                episode: bb_s2.episodes[1]
-              }
-            })
-          })
-
           it("each season should have 2 episodes", () => {
-            expect(got_s1.episodes.length).to.be.equal(fixturesResultFetch.expected_got_s1.episodes.length)
-            expect(got_s2.episodes.length).to.be.equal(fixturesResultFetch.expected_got_s2.episodes.length)
-            expect(bb_s1.episodes.length).to.be.equal(fixturesResultFetch.expected_bb_s1.episodes.length)
-            expect(bb_s2.episodes.length).to.be.equal(fixturesResultFetch.expected_bb_s2.episodes.length)
+            expect(got_s1.length).to.be.equal(2)
+            expect(got_s2.length).to.be.equal(2)
+            expect(bb_s1.length).to.be.equal(2)
+            expect(bb_s2.length).to.be.equal(2)
           })
 
           it("each episode is an object", () => {
-            episodes.forEach(e => {
-              expect(typeof e.actual.episode).to.be.equal("object")
+            return result.tv.then((res) => {
+              res.forEach((episode) => {
+                expect(episode).to.be.a("object")
+              })
             })
           })
 
           it("each episode has a property episode_number", () => {
-            episodes.forEach(e => {
-              expect(e.actual.episode).to.have.property("episode_number", e.expected.episode_number)
+            return result.tv.then((res) => {
+              res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+                const expectedEpisode = fixturesResultFetch.expectedTv[index]
+                expect(episode).to.have.property("episode_number", expectedEpisode.episode_number)
+              })
             })
           })
 
           it("each episode has a property extension", () => {
-            episodes.forEach(e => {
-              expect(e.actual.episode).to.have.property("extension", e.expected.extension)
+            return result.tv.then((res) => {
+              res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+                const expectedEpisode = fixturesResultFetch.expectedTv[index]
+                expect(episode).to.have.property("extension", expectedEpisode.extension)
+              })
             })
           })
 
           it("each episode has a property src", () => {
-            episodes.forEach((e, i) => {
-              expect(e.actual.episode).to.have.property("src", e.expected.src) 
+            return result.tv.then((res) => {
+              res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+                const expectedEpisode = fixturesResultFetch.expectedTv[index]
+                expect(episode).to.have.property("src", expectedEpisode.src)
+              })
             })
           })
 
           it("each episode has a property filename", () => {
-            episodes.forEach((e, i) => {
-              expect(e.actual.episode).to.have.property("filename", '' + e.expected.episode_number) 
+            return result.tv.then((res) => {
+              res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+                const expectedEpisode = fixturesResultFetch.expectedTv[index]
+                expect(episode).to.have.property("filename", expectedEpisode.filename)
+              })
             })
           })
 
           context("subtitles", () => {
             it("each episode has a property subtitles", () => {
-              episodes.forEach(e => {
-                expect(e.actual.episode).to.have.property("subtitles")
-              })
-            })
-
-            it("each episode has the expected amount of subtitles", () => {
-              episodes.forEach(e => {
-                expect(e.actual.episode.subtitles.length).to.be.equal(e.expected.subtitles.length)
-                  .and.be.below(2) //currently max one subtitle supported
+              return result.tv.then((res) => {
+                res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+                  const expectedEpisode = fixturesResultFetch.expectedTv[index]
+                  expect(episode).to.have.property("subtitles", expectedEpisode.subtitles)
+                })
               })
             })
 
             it("each subtitle has the same filename as the video", () => {
-              episodes.forEach(e => {
-                if (!e.actual.subtitles) return
-                expect(e.actual.episode.subtitles[0].filename).to.be.equal(e.expected.subtitles[0].filename)
-              })
-            })
+              return result.tv.then((res) => {
+                res.sort((a, b) => a.src > b.src).forEach((episode, index) => {
+                  const expectedEpisode = fixturesResultFetch.expectedTv[index]
 
-            it("each subtitle should have the right extension", () => {
-              episodes.forEach(e => {
-                if (!e.actual.subtitles) return
-                expect(e.actual.episode.subtitles[0].extension).to.be.equal(e.expected.subtitles[0].extension)
-              })
-            })
+                  if(expectedEpisode.subtitles == null && episode.subtitles == null) return
 
-            it("each subtitle should have the right src", () => {
-              episodes.forEach(e => {
-                if (!e.actual.subtitles) return
-                expect(e.actual.episode.subtitles[0].src).to.be.equal(e.expected.subtitles[0].src)
+                  const subtitles_filename = path.parse(episode.subtitles).name
+                  expect(subtitles_filename).to.be.equal(expectedEpisode.filename)
+                })
               })
-            })
-
-            it("should check if subtitles exist", () => {
-              expect(fs.existsSync.callCount).to.be.equal(10)
             })
           })
         })
@@ -266,7 +224,7 @@ describe("Parser (tv)", () => {
         const { tv } = parser.fetch()
 
         return tv.then(() => {
-          return expect(file_history.count(filterMovies)).to.eventually.be.equal(fixturesResultFetch.allEpisodes.length)
+          return expect(file_history.count(filterMovies)).to.eventually.be.equal(fixturesResultFetch.expectedTv.length)
         })
       })
 
@@ -274,7 +232,7 @@ describe("Parser (tv)", () => {
         const { tv } = parser.fetch()
 
         return tv.then(() => {
-          const expectedSrc = fixturesResultFetch.allEpisodes.map((e) => e.src).sort()
+          const expectedSrc = fixturesResultFetch.expectedTv.map((e) => e.src).sort()
           const getSrc = (rows) => rows.map((e) => e.src).sort()
 
           return expect(file_history.findAll(filterMovies).then(getSrc)).to.eventually.be.eql(expectedSrc)
@@ -286,7 +244,7 @@ describe("Parser (tv)", () => {
 
         const expectedTimestamp = Date.parse("01 Jan 2000")
         const expectedTime = new Date(expectedTimestamp)
-        const expectedAdded = fixturesResultFetch.allEpisodes.map((e) => expectedTime)
+        const expectedAdded = fixturesResultFetch.expectedTv.map((e) => expectedTime)
 
         sandbox.stub(Date, "now").returns(expectedTimestamp)
 
@@ -301,7 +259,7 @@ describe("Parser (tv)", () => {
         const expectedTimestamp = Date.parse("01 Jan 2000")
         const expectedTime = new Date(expectedTimestamp)
         const getRemoved = (rows) => rows.map((e) => e.removed)
-        const expectedResult = fixturesResultFetch.allEpisodes.map(() => null)
+        const expectedResult = fixturesResultFetch.expectedTv.map(() => null)
 
         sandbox.stub(Date, "now").returns(expectedTimestamp)
 
@@ -314,7 +272,7 @@ describe("Parser (tv)", () => {
 
       it("should not insert into db if the src already exists", () => {
         const createEpisodes = () => {
-          return fixturesResultFetch.allEpisodes.map((e) => {
+          return fixturesResultFetch.expectedTv.map((e) => {
             return { 
               src: e.src,
               added: Date.now(),
