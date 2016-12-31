@@ -15,7 +15,7 @@ const addSeasonsToTv = (path, tv, promises, listOfTvInDB) => {
     } 
 
     const episodesPath = path + "/" + seasonName
-    addEpisodesToSeason(episodesPath, season, promises, listOfTvInDB)
+    addEpisodesToSeason(episodesPath, season, promises, listOfTvInDB, tv.title)
 
     tv.seasons.push(season)
   })
@@ -46,7 +46,7 @@ const removeTv = (list, dbPromises) => {
   })
 }
 
-const addEpisode = (episodesPath, episodeName, promises) => {
+const addEpisode = (episodesPath, episodeName, promises, season_number, tv_title) => {
   const absolutePathEpisode = fs.realpathSync(episodesPath + "/" + episodeName)  
   const fileType = path.extname(absolutePathEpisode).replace(".", "") 
   const fileName = path.parse(absolutePathEpisode).name
@@ -62,6 +62,14 @@ const addEpisode = (episodesPath, episodeName, promises) => {
     },
     defaults: {
       category: "tv",
+      extension: fileType,
+      filename: fileName,
+      // subtitles: fetchSubtitles(episodesPath, fileName),
+      name: tv_title,
+      episode_number: ParserNormalizeNumber(episodeName),
+      season_number: season_number,
+      tv_title: tv_title,
+      src: absolutePathEpisode,
       added: Date.now()
     }
   }))
@@ -75,7 +83,7 @@ const addEpisode = (episodesPath, episodeName, promises) => {
   }
 }
 
-const addEpisodesToSeason = (episodesPath, season, promises, list) => {
+const addEpisodesToSeason = (episodesPath, season, promises, list, tv_title) => {
   const episode_files = fs.readdirSync(episodesPath)
 
   season.episodes = episode_files.map((file) => {
@@ -85,7 +93,7 @@ const addEpisodesToSeason = (episodesPath, season, promises, list) => {
       list.splice(found, 1)
     } 
 
-    return addEpisode(episodesPath, file, promises)
+    return addEpisode(episodesPath, file, promises, season.season_number, tv_title)
   }).filter((file) => file !== false)
 }
 

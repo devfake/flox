@@ -61,6 +61,13 @@ const addMovie = (file, promises, movies) => {
       }
     },
     defaults: {
+      extension: ext,
+      filename: pathInfo.name,
+      name: fileInfo.name,
+      src: src,
+      year: fileInfo.year,
+      tags: fileInfo.tag.toString(),
+      // subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name),
       category: "movies",
       added: Date.now()
     }

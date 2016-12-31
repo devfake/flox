@@ -6,6 +6,7 @@ module.exports = function(sequelize, DataTypes) {
     removed: DataTypes.DATE,
     extension: DataTypes.STRING,
     filename: DataTypes.TEXT,
+    name: DataTypes.TEXT,
     year: DataTypes.INTEGER,
     tags: DataTypes.TEXT,
     episode_number: DataTypes.INTEGER,
