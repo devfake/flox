@@ -2,114 +2,100 @@ var fetch = module.exports.fetch = {
   "tv": [
     {
       "title": "Breaking Bad",
-      "seasons": [
+      "season_number": 1,
+      "episode_number": 1,
+      "extension": "mkv",
+      "filename": "1",
+      "subtitles": [
         {
-          "season_number": 1,
-          "episodes": [
-            {
-              "extension": "mkv",
-              "filename": "1",
-              "subtitles": [
-                {
-                  "filename": "1",
-                  "src": __dirname + "/tv/Breaking Bad/S1/1.srt",
-                  "extension": "srt"
-                }
-              ],
-              "episode_number": 1,
-              "src": __dirname + "/tv/Breaking Bad/S1/1.mkv"
-            },
-            {
-              "extension": "mkv",
-              "filename": "2",
-              "subtitles": [
-                {
-                  "filename": "2",
-                  "src": __dirname + "/tv/Breaking Bad/S1/2.srt",
-                  "extension": "srt"
-                }
-              ],
-              "episode_number": 2,
-              "src": __dirname + "/tv/Breaking Bad/S1/2.mkv"
-            }
-          ]
-        },
-        {
-          "season_number": 2,
-          "episodes": [
-            {
-              "extension": "mp4",
-              "filename": "1",
-              "subtitles": [
-                {
-                  "filename": "1",
-                  "src": __dirname + "/tv/Breaking Bad/s2/1.srt",
-                  "extension": "srt"
-                }
-              ],
-              "episode_number": 1,
-              "src": __dirname + "/tv/Breaking Bad/s2/1.mp4"
-            },
-            {
-              "extension": "mkv",
-              "filename": "2",
-              "subtitles": [
-                {
-                  "filename": "2",
-                  "src": __dirname + "/tv/Breaking Bad/s2/2.srt",
-                  "extension": "srt"
-                }
-              ],
-              "episode_number": 2,
-              "src": __dirname + "/tv/Breaking Bad/s2/2.mkv"
-            }
-          ]
+          "filename": "1",
+          "src": __dirname + "/tv/Breaking Bad/S1/1.srt",
+          "extension": "srt"
         }
-      ]
+      ],
+      "src": __dirname + "/tv/Breaking Bad/S1/1.mkv"
+    },
+    {
+      "title": "Breaking Bad",
+      "season_number": 1,
+      "episode_number": 2,
+      "extension": "mkv",
+      "filename": "2",
+      "subtitles": [
+        {
+          "filename": "2",
+          "src": __dirname + "/tv/Breaking Bad/S1/2.srt",
+          "extension": "srt"
+        }
+      ],
+      "src": __dirname + "/tv/Breaking Bad/S1/2.mkv"
+    },
+    {
+      "title": "Breaking Bad",
+      "season_number": 2,
+      "episode_number": 1,
+      "extension": "mp4",
+      "filename": "1",
+      "subtitles": [
+        {
+          "filename": "1",
+          "src": __dirname + "/tv/Breaking Bad/S2/1.srt",
+          "extension": "srt"
+        }
+      ],
+      "src": __dirname + "/tv/Breaking Bad/S2/1.mp4"
+    },
+    {
+      "title": "Breaking Bad",
+      "season_number": 2,
+      "episode_number": 2,
+      "extension": "mkv",
+      "filename": "2",
+      "subtitles": [
+        {
+          "filename": "2",
+          "src": __dirname + "/tv/Breaking Bad/S2/2.srt",
+          "extension": "srt"
+        }
+      ],
+      "src": __dirname + "/tv/Breaking Bad/S2/2.mkv"
     },
     {
       "title": "Game of Thrones",
-      "seasons": [
-        {
-          "season_number": 2,
-          "episodes": [
-            {
-              "extension": "mkv",
-              "filename": "1",
-              "subtitles": [],
-              "episode_number": 1,
-              "src": __dirname + "/tv/Game of Thrones/S2/1.mkv"
-            },
-            {
-              "extension": "mkv",
-              "filename": "2",
-              "subtitles": [],
-              "episode_number": 2,
-              "src": __dirname + "/tv/Game of Thrones/S2/2.mkv"
-            }
-          ]
-        },
-        {
-          "season_number": 1,
-          "episodes": [
-            {
-              "extension": "mkv",
-              "filename": "1",
-              "subtitles": [],
-              "episode_number": 1,
-              "src": __dirname + "/tv/Game of Thrones/s1/1.mkv"
-            },
-            {
-              "extension": "mp4",
-              "filename": "2",
-              "subtitles": [],
-              "episode_number": 2,
-              "src": __dirname + "/tv/Game of Thrones/s1/2.mp4"
-            }
-          ]
-        }
-      ]
-    }
+      "season_number": 1,
+      "episode_number": 1,
+      "extension": "mkv",
+      "filename": "1",
+      "subtitles": [],
+      "src": __dirname + "/tv/Game of Thrones/S1/1.mkv"
+    },
+    {
+      "title": "Game of Thrones",
+      "season_number": 1,
+      "episode_number": 2,
+      "extension": "mp4",
+      "filename": "2",
+      "subtitles": [],
+      "src": __dirname + "/tv/Game of Thrones/S1/2.mp4"
+    },
+    {
+      "title": "Game of Thrones",
+      "season_number": 2,
+      "episode_number": 1,
+      "extension": "mkv",
+      "filename": "1",
+      "subtitles": [],
+      "src": __dirname + "/tv/Game of Thrones/S2/1.mkv"
+    },
+    {
+      "title": "Game of Thrones",
+      "season_number": 2,
+      "episode_number": 2,
+      "extension": "mkv",
+      "filename": "2",
+      "subtitles": [],
+      "src": __dirname + "/tv/Game of Thrones/S2/2.mkv"
+    },
   ],
   "movies": [
     {
