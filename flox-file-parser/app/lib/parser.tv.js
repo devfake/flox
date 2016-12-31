@@ -115,11 +115,14 @@ const fetchTv = () => {
       category: "tv"
     }
   }).map((tv) => {
+    const status = tv.removed ? "removed" : "added"
+
     return {
       episode_number: tv.episode_number,
       subtitles: tv.subtitles,
       extension: tv.extension,
       src: tv.src,
+      status: status,
       season_number: tv.season_number,
       tv_title: tv.tv_title,
       year: tv.year,

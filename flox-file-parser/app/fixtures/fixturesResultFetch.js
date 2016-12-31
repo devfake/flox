@@ -7,6 +7,7 @@ var fetch = module.exports.fetch = {
       "extension": "mkv",
       "year": null,
       "filename": "1",
+      "status": "added",
       "tags": [],
       "subtitles": __dirname + "/tv/Breaking Bad/S1/1.srt",
       "src": __dirname + "/tv/Breaking Bad/S1/1.mkv"
@@ -17,6 +18,7 @@ var fetch = module.exports.fetch = {
       "episode_number": 2,
       "extension": "mkv",
       "tags": [],
+      "status": "added",
       "filename": "2",
       "year": null,
       "subtitles": __dirname + "/tv/Breaking Bad/S1/2.srt",
@@ -26,6 +28,7 @@ var fetch = module.exports.fetch = {
       "tv_title": "Breaking Bad",
       "season_number": 2,
       "episode_number": 1,
+      "status": "added",
       "extension": "mp4",
       "tags": [],
       "year": null,
@@ -40,6 +43,7 @@ var fetch = module.exports.fetch = {
       "tags": [],
       "extension": "mkv",
       "year": null,
+      "status": "added",
       "filename": "2",
       "subtitles": __dirname + "/tv/Breaking Bad/s2/2.srt",
       "src": __dirname + "/tv/Breaking Bad/s2/2.mkv"
@@ -48,6 +52,7 @@ var fetch = module.exports.fetch = {
       "tv_title": "Game of Thrones",
       "season_number": 2,
       "episode_number": 1,
+      "status": "added",
       "extension": "mkv",
       "tags": [],
       "year": null,
@@ -60,6 +65,7 @@ var fetch = module.exports.fetch = {
       "season_number": 2,
       "episode_number": 2,
       "tags": [],
+      "status": "added",
       "extension": "mkv",
       "year": null,
       "filename": "2",
@@ -71,6 +77,7 @@ var fetch = module.exports.fetch = {
       "season_number": 1,
       "episode_number": 1,
       "extension": "mkv",
+      "status": "added",
       "filename": "1",
       "tags": [],
       "subtitles": null,
@@ -82,6 +89,7 @@ var fetch = module.exports.fetch = {
       "season_number": 1,
       "tags": [],
       "episode_number": 2,
+      "status": "added",
       "extension": "mp4",
       "filename": "2",
       "year": null,
@@ -100,6 +108,7 @@ var fetch = module.exports.fetch = {
         "1080p"
       ],
       "year": null,
+      "status": "added",
       "subtitles": null
     },
     {
@@ -111,6 +120,7 @@ var fetch = module.exports.fetch = {
       "tags": [
         "720p"
       ],
+      "status": "added",
       "subtitles": __dirname + "/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt",
     }
   ]

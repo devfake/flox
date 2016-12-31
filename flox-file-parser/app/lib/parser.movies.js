@@ -110,11 +110,14 @@ const fetchMovies = () => {
       category: "movies"
     }
   }).map((m) => {
+    const status = m.removed ? "removed" : "added"
+
     return {
       subtitles: m.subtitles,
       extension: m.extension,
       src: m.src,
       name: m.name,
+      status: status,
       year: m.year,
       tags: m.tags ? m.tags.split(",") : [],
       filename: m.filename

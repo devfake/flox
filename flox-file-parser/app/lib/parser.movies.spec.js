@@ -57,6 +57,32 @@ describe("Parser (movies)", () => {
           })
         })
       })
+
+      it("returns the status 'removed' for files", () => {
+        const removeDate = new Date("01.01.2000")
+        const { movies } = parser.fetch()
+
+        return movies.then((result) => {
+          const dbPrepared = file_history.update({ removed: removeDate }, {
+            where: {
+              src: fixturesResultFetch.expected_wc.src
+            }
+          })
+
+          return dbPrepared.then((res) => {
+            const { movies } = parser.fetch()
+            return movies.then((res) => {
+              const sw_added = res[0]
+              const wc_removed = res[1]
+              const wc_added = res[2]
+
+              expect(sw_added).to.have.property("status", "added")
+              expect(wc_removed).to.have.property("status", "removed")
+              expect(wc_added).to.have.property("status", "added")
+            })
+          })
+        })
+      })
     })
 
     context("database", () => {

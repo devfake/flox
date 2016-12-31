@@ -81,6 +81,33 @@ describe("Parser (tv)", () => {
         })
       })
 
+      it("returns the status 'removed' for files", () => {
+        const removeDate = new Date("01.01.2000")
+        const { tv } = parser.fetch()
+
+        return tv.then((result) => {
+          const dbPrepared = file_history.update({ removed: removeDate }, {
+            where: {
+              src: fixturesResultFetch.expected_bb_s1_e1.src
+            }
+          })
+
+          return dbPrepared.then(() => {
+            const { tv } = parser.fetch()
+            return tv.then((res) => {
+              res = res.sort((a, b) => a.src > b.src)
+              const bb_s1_e1_removed = res[0]
+              const bb_s1_e2_added = res[1]
+              const bb_s1_e1_added = res[8]
+
+              expect(bb_s1_e1_removed).to.have.property("status", "removed")
+              expect(bb_s1_e2_added).to.have.property("status", "added")
+              expect(bb_s1_e1_added).to.have.property("status", "added")
+            })
+          })
+        })
+      })
+
       context("seasons", () => {
         let got, bb
         let got_s1, got_s2
