@@ -109,12 +109,24 @@ const updateTv = (parserList, parserNormalizeNumber) => {
   })
 }
 
-const fetchTv = () => {
-  return file_history.findAll({
+const fetchTv = (since = null) => {
+  const query = {
     where: {
       category: "tv"
+    },
+    order: "createdAt DESC"
+  }
+
+  if(since) {
+    query.where.$and = {
+      $or: {
+        added: { $gte: since },
+        removed: { $gte: since },
+      } 
     }
-  }).map((tv) => {
+  }
+
+  return file_history.findAll(query).map((tv) => {
     const status = tv.removed ? "removed" : "added"
 
     return {

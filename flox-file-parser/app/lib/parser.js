@@ -17,7 +17,7 @@ class Parser {
     since = since * 1 //parse int
 
     return {
-      tv: tvUpdated.then(fetchTv),
+      tv: tvUpdated.then(fetchTv.bind(null, since)),
       movies: moviesUpdated.then(fetchMovies.bind(null, since))
     }
   }
