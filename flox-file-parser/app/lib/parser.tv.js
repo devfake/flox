@@ -114,7 +114,7 @@ const fetchTv = (since = null) => {
     where: {
       category: "tv"
     },
-    order: "createdAt DESC"
+    order: "createdAt ASC"
   }
 
   if(since) {

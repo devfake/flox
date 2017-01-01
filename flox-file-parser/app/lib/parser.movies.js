@@ -109,7 +109,7 @@ const fetchMovies = (since = null) => {
     where: {
       category: "movies"
     },
-    order: "createdAt DESC"
+    order: "createdAt ASC"
   }
 
   if(since) {
