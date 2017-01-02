@@ -78,11 +78,10 @@ describe("Parser", () => {
     it("each returned object has the expected properties", () => {
       const result = Parser.list()
 
-      result.then((rows) => {
+      return result.then((rows) => {
         rows.forEach((row) => {
           expect(row).to.have.property("src")
           expect(row).to.have.property("category")
-          expect(row).to.have.property("added")
           expect(row).to.have.property("removed")
         })
       })

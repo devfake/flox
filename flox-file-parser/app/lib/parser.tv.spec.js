@@ -81,33 +81,6 @@ describe("Parser (tv)", () => {
         })
       })
 
-      it("returns the status 'removed' for files", () => {
-        const removeDate = new Date("01.01.2000")
-        const { tv } = parser.fetch()
-
-        return tv.then((result) => {
-          const dbPrepared = file_history.update({ removed: removeDate }, {
-            where: {
-              src: fixturesResultFetch.expected_bb_s1_e1.src
-            }
-          })
-
-          return dbPrepared.then(() => {
-            const { tv } = parser.fetch()
-            return tv.then((res) => {
-              res = res.sort((a, b) => a.src > b.src)
-              const bb_s1_e1_removed = res[0]
-              const bb_s1_e2_added = res[1]
-              const bb_s1_e1_added = res[8]
-
-              expect(bb_s1_e1_removed).to.have.property("status", "removed")
-              expect(bb_s1_e2_added).to.have.property("status", "added")
-              expect(bb_s1_e1_added).to.have.property("status", "added")
-            })
-          })
-        })
-      })
-
       context("seasons", () => {
         let got, bb
         let got_s1, got_s2
@@ -247,6 +220,17 @@ describe("Parser (tv)", () => {
     })
 
     context("database", () => {
+      beforeEach(() => {
+        let i = 0
+        file_history.addHook('beforeCreate', 'stubCreatedAt', (row, options) => {
+          row.createdAt = Date.parse(new Date("01.01.2000")) + (i += 1000)
+        })
+      })
+
+      afterEach(() => {
+        file_history.removeHook('afterCreate', 'stubCreatedAt')
+      })
+
       it("should have 8 entries", () => {
         const { tv } = parser.fetch()
 
@@ -266,19 +250,19 @@ describe("Parser (tv)", () => {
         })
       })
 
-      it("should save the current time in 'added'", () => {
-        const getAdded = (rows) => rows.map((e) => e.added)
-
+      it("should save the current time in 'createdAt'", () => {
         const expectedTimestamp = Date.parse("01 Jan 2000")
-        const expectedTime = new Date(expectedTimestamp)
+        const expectedTime = new Date(expectedTimestamp) * 1
         const expectedAdded = fixturesResultFetch.expectedTv.map((e) => expectedTime)
-
-        sandbox.stub(Date, "now").returns(expectedTimestamp)
 
         const { tv } = parser.fetch()
 
-        return tv.then(() => {
-          return expect(file_history.findAll(filterMovies).then(getAdded)).to.eventually.be.eql(expectedAdded)
+        return tv.then((res) => {
+          return file_history.findAll(filterMovies).then((rows) => {
+            rows.forEach((row) => {
+              expect(row.createdAt * 1).to.be.closeTo(expectedTime, 10000)
+            })
+          })
         })
       })
 

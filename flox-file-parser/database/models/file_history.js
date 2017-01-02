@@ -2,7 +2,6 @@
 module.exports = function(sequelize, DataTypes) {
   var file_history = sequelize.define('file_history', {
     src: DataTypes.TEXT,
-    added: DataTypes.DATE,
     removed: DataTypes.DATE,
     extension: DataTypes.STRING,
     filename: DataTypes.TEXT,
@@ -13,7 +12,10 @@ module.exports = function(sequelize, DataTypes) {
     season_number: DataTypes.INTEGER,
     tv_title: DataTypes.TEXT,
     subtitles: DataTypes.TEXT,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
     category: DataTypes.STRING
   });
+
   return file_history;
 };

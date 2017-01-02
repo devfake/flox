@@ -61,8 +61,7 @@ const addMovie = (file, promises) => {
       year: fileInfo.year,
       tags: fileInfo.tag.toString(),
       subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name),
-      category: "movies",
-      added: Date.now()
+      category: "movies"
     }
   }))
 }
@@ -70,7 +69,7 @@ const addMovie = (file, promises) => {
 const removeMovies = (list, dbPromises) => {
   list.forEach((missingMovie) => {
     dbPromises.push(file_history.update({ removed: Date.now() }, {
-      where: { src: missingMovie }
+      where: { src: missingMovie, $and: { removed: null } }
     }))
   })
 }
@@ -104,42 +103,6 @@ const updateMovies = (ParserList) => {
   })
 }
 
-const fetchMovies = (since = null) => {
-  const query = {
-    where: {
-      category: "movies"
-    },
-    order: "createdAt ASC"
-  }
-
-  if(since) {
-    query.where.$and = {
-      $or: {
-        added: { $gte: since },
-        removed: { $gte: since },
-      } 
-    }
-  }
-
-  return file_history.findAll(query).then((res) => {
-    return res.map((m) => {
-      const status = m.removed ? "removed" : "added"
-
-      return {
-        subtitles: m.subtitles,
-        extension: m.extension,
-        src: m.src,
-        name: m.name,
-        status: status,
-        year: m.year,
-        tags: m.tags ? m.tags.split(",") : [],
-        filename: m.filename
-      }
-    })
-  })
-}
-
 module.exports = {
-  fetchMovies,
   updateMovies
 }

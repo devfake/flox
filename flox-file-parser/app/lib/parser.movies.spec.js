@@ -57,32 +57,6 @@ describe("Parser (movies)", () => {
           })
         })
       })
-
-      it("returns the status 'removed' for files", () => {
-        const removeDate = new Date("01.01.2000")
-        const { movies } = parser.fetch()
-
-        return movies.then((result) => {
-          const dbPrepared = file_history.update({ removed: removeDate }, {
-            where: {
-              src: fixturesResultFetch.expected_wc.src
-            }
-          })
-
-          return dbPrepared.then((res) => {
-            const { movies } = parser.fetch()
-            return movies.then((res) => {
-              const sw_added = res[0]
-              const wc_removed = res[1]
-              const wc_added = res[2]
-
-              expect(sw_added).to.have.property("status", "added")
-              expect(wc_removed).to.have.property("status", "removed")
-              expect(wc_added).to.have.property("status", "added")
-            })
-          })
-        })
-      })
     })
 
     context("database", () => {
@@ -91,6 +65,17 @@ describe("Parser (movies)", () => {
           category: "movies"
         }
       }
+
+      beforeEach(() => {
+        let i = 0
+        file_history.addHook('beforeCreate', 'stubCreatedAt', (row, options) => {
+          row.createdAt = Date.parse(new Date("01.01.2000")) + (i += 1000)
+        })
+      })
+
+      afterEach(() => {
+        file_history.removeHook('afterCreate', 'stubCreatedAt')
+      })
 
       it("should have 2 entries", () => {
         const { movies } = parser.fetch()
@@ -132,17 +117,15 @@ describe("Parser (movies)", () => {
         const srcSw = fixturesResultFetch.expected_sw.src
         const srcWc = fixturesResultFetch.expected_wc.src
 
-        const expectedTimestamp = Date.parse("01 Jan 2000")
-        const expectedTime = new Date(expectedTimestamp)
-
-        sandbox.stub(Date, "now").returns(expectedTimestamp)
+        const expectedTimestamp = Date.parse("01 Jan 2000") 
+        const expectedTime = new Date(expectedTimestamp) * 1
 
         const result = parser.fetch()
 
         return result.movies.then(() => {
           return Promise.all([
-            expect(file_history.findOne({where: {src: srcSw}}).then((r) => r.added)).to.eventually.be.eql(expectedTime),
-            expect(file_history.findOne({where: {src: srcWc}}).then((r) => r.added)).to.eventually.be.eql(expectedTime),
+            expect(file_history.findOne({where: {src: srcSw}}).then((r) => r.createdAt * 1)).to.eventually.be.closeTo(expectedTime, 10000),
+            expect(file_history.findOne({where: {src: srcWc}}).then((r) => r.createdAt * 1)).to.eventually.be.closeTo(expectedTime, 10000),
           ])
         })
       })
@@ -261,6 +244,5 @@ describe("Parser (movies)", () => {
         })
       })
     })
-
   })
 })

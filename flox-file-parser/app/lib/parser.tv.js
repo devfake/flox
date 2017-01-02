@@ -57,8 +57,7 @@ const addEpisode = (episodesPath, episodeName, promises, season_number, tv_title
       episode_number: ParserNormalizeNumber(episodeName),
       season_number: season_number,
       tv_title: tv_title,
-      src: absolutePathEpisode,
-      added: Date.now()
+      src: absolutePathEpisode
     }
   }))
 
@@ -109,42 +108,6 @@ const updateTv = (parserList, parserNormalizeNumber) => {
   })
 }
 
-const fetchTv = (since = null) => {
-  const query = {
-    where: {
-      category: "tv"
-    },
-    order: "createdAt ASC"
-  }
-
-  if(since) {
-    query.where.$and = {
-      $or: {
-        added: { $gte: since },
-        removed: { $gte: since },
-      } 
-    }
-  }
-
-  return file_history.findAll(query).map((tv) => {
-    const status = tv.removed ? "removed" : "added"
-
-    return {
-      episode_number: tv.episode_number,
-      subtitles: tv.subtitles,
-      extension: tv.extension,
-      src: tv.src,
-      status: status,
-      season_number: tv.season_number,
-      tv_title: tv.tv_title,
-      year: tv.year,
-      tags: tv.tags ? tv.tags.split(",") : [],
-      filename: tv.filename
-    }
-  })
-}
-
 module.exports = {
-  fetchTv,
   updateTv
 }
