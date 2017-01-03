@@ -1,3 +1,4 @@
-app/fixtures/*
+app/fixtures/tv/*
+app/fixtures/movies/*
 coverage/
 database/config/config.json
