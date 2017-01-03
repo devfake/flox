@@ -1,6 +1,7 @@
 <?php
 
   use App\Item;
+  use App\Services\Storage;
   use App\Services\TMDB;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -10,7 +11,9 @@
 
     use DatabaseMigrations;
 
-    protected $response;
+    private $response;
+    private $item;
+    private $tmdb;
 
     public function setUp()
     {
@@ -19,9 +22,12 @@
       $this->createFactory();
 
       $this->response = json_decode(file_get_contents(__DIR__ . '/fixtures/media_files.json'));
+
       $this->item = new Item();
       $this->tmdb = new TMDB();
-      $this->parser = new FileParser($this->item, $this->tmdb);
+      $storage = new Storage();
+
+      $this->parser = new FileParser($this->item, $this->tmdb, $storage);
     }
 
     /** @test */
@@ -41,9 +47,9 @@
     private function createFactory()
     {
       factory(App\Item::class)->create([
-        'title' => 'Krieg der Sterne',
-        'original_title' => 'Star Wars',
-        'tmdb_id' => 11,
+        'title' => 'Warcraft: The Beginning',
+        'original_title' => 'Warcraft',
+        'tmdb_id' => 68735,
         'media_type' => 'movie',
       ]);
     }

@@ -9,11 +9,13 @@
 
     private $item;
     private $tmdb;
+    private $storage;
 
-    public function __construct(Item $item, TMDB $tmdb)
+    public function __construct(Item $item, TMDB $tmdb, Storage $storage)
     {
       $this->item = $item;
       $this->tmdb = $tmdb;
+      $this->storage = $storage;
     }
 
     /**
@@ -38,11 +40,11 @@
     {
       foreach($files as $type => $items) {
         foreach($items as $item) {
-          $title = $this->isTvShow($item) ? $item->title : $item->name;
+          $title = $this->isTvShow($item) ? $item->tv_title : $item->name;
 
           // See if file is already in our database.
-          if($found = $this->foundInDatabase($title)) {
-            $this->storeSrc($found->tmdb_id, $item);
+          if($found = $this->foundInDatabase($title, 'title')) {
+            $this->handleStatus($item, $found->tmdb_id);
 
             continue;
           }
@@ -55,17 +57,25 @@
 
     private function searchTmdb($title, $item)
     {
-      $result = $this->tmdb->search($title)[0];
+      $result = $this->tmdb->search($title);
 
+      // If no match found,
+      if( ! $result) {
+        return false;
+      }
+
+      $result = $result[0];
       $tmdb_id = $result['tmdb_id'];
 
       // Check against our database.
-      if($this->foundInDatabase($tmdb_id)) {
-        return $this->storeSrc($tmdb_id, $item);
+      if($this->foundInDatabase($tmdb_id, 'tmdb_id')) {
+        return $this->handleStatus($item, $tmdb_id);
       }
 
       // Otherwise create a new item from the result.
-      // todo: move createItem() from ItemController to Item Model
+      $created = $this->item->createItem($result, $this->tmdb, $this->storage);
+
+      return $this->handleStatus($item, $created->tmdb_id);
     }
 
     /**
@@ -74,14 +84,27 @@
      * @param $indicator
      * @return Collection
      */
-    private function foundInDatabase($indicator)
+    private function foundInDatabase($value, $type)
     {
-      $method = is_numeric($indicator) ? 'searchTmdbId' : 'searchTitle';
+      if($type == 'title') {
+        return $this->item->searchTitle($value)->first();
+      }
 
-      return $this->item->{$method}($indicator)->first();
+      return $this->item->searchTmdbId($value)->first();
     }
 
-    private function storeSrc($tmdb_id, $item)
+    private function handleStatus($item, $tmdb_id)
+    {
+      if($item->status == 'added') {
+        return $this->storeSrc($item, $tmdb_id);
+      }
+
+      if($item->status == 'removed') {
+        //
+      }
+    }
+
+    private function storeSrc($item, $tmdb_id)
     {
       if($this->isTvShow($item)) {
         return $this->storeTvSrc($tmdb_id, $item);
@@ -116,6 +139,6 @@
      */
     private function isTvShow($item)
     {
-      return isset($item->title);
+      return isset($item->tv_title);
     }
   }
