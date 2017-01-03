@@ -2,13 +2,9 @@ const fs = require("fs")
 const path = require("path")
 const db = require("../../database/models")
 
-const videoNameParser = require("video-name-parser")
-
-const supportedVideoFileTypes = ["mkv", "mp4"]
-const env = process.env
 const { file_history } = db.sequelize.models
-const { fetchMovies, updateMovies } = require("./parser.movies.js")
-const { fetchTv, updateTv } = require("./parser.tv.js")
+const { updateMovies } = require("./parser.movies.js")
+const { updateTv } = require("./parser.tv.js")
 
 const append = (model, status) => {
   const date = status === "added" ? model.createdAt : model.removed
@@ -81,8 +77,8 @@ const fetch = (category, since) => {
 
 class Parser {
   fetch(since = null) {
-    const tvUpdated = updateTv(Parser.list, Parser.normalizeNumber)
-    const moviesUpdated = updateMovies(Parser.list)
+    const tvUpdated = updateTv()
+    const moviesUpdated = updateMovies()
     since = since * 1 //parse int
 
     return {
@@ -93,18 +89,6 @@ class Parser {
         return fetch("movies", since)
       })
     }
-  }
-
-  static list() {
-    return file_history.findAll().then((rows) => {
-      return rows
-    })
-  }
-
-  static normalizeNumber(nr = "") {
-    const result = nr.match(/(\d+)/)
-    if ( !result ) return -1
-    return result[1] | 0
   }
 }
 

@@ -6,7 +6,7 @@ import db from "../../database/models"
 import fixturesResultFetch from "../fixtures/fixturesResultFetch"
 import { execFile } from "child_process"
 
-const file_history = db.sequelize.models.file_history
+const { file_history } = db.sequelize.models
 
 describe("Parser (movies)", () => {
   beforeEach(() => {

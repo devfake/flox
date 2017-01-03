@@ -7,7 +7,7 @@ import { execFile } from "child_process"
 import Parser from "./lib/parser.js"
 chai.use(chaiAsPromised)
 
-const file_history = db.sequelize.models.file_history
+const { file_history } = db.sequelize.models
 
 describe("HTTP Server", () => {
   beforeEach(() => {

@@ -5,18 +5,18 @@ import app from "../server.js"
 import config from "../config.js"
 import db from "../database/models"
 
-const file_history = db.sequelize.models.file_history
+const { file_history } = db.sequelize.models
 
 const { port, host } = config.app
 
 let current_app                               
 global.sandbox                                
 
-beforeEach((done) => {                            
+beforeEach(() => {
   current_app = app.listen(port, host) 
   global.request = supertest(current_app)
   global.sandbox = sinon.sandbox.create()     
-  file_history.destroy({where: {}}).then(()=>{}).then(done)
+  return file_history.destroy({where: {}}).then(()=>{})
 })                                            
 
 afterEach(() => {                             

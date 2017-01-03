@@ -1,22 +1,12 @@
 const fs = require("fs")
 const path = require("path")
 const db = require("../../database/models")
+const { helper, supportedVideoFileTypes } = require("./helper.js")
 
 const videoNameParser = require("video-name-parser")
 
-const supportedVideoFileTypes = ["mkv", "mp4"]
 const env = process.env
 const { file_history } = db.sequelize.models
-
-const fetchSubtitles = (episodesPath, fileName) => {
-  const subtitlePath = episodesPath + "/" + fileName + ".srt" 
-
-  if (fs.existsSync(subtitlePath)) {
-    return fs.realpathSync(subtitlePath)  
-  }
-
-  return null
-}
 
 const searchDirectory = (path) => {
   const files = fs.readdirSync(path)
@@ -49,9 +39,7 @@ const addMovie = (file, promises) => {
   promises.push(file_history.findOrCreate({
     where: { 
       src: src,
-      $and: {
-        removed: null
-      }
+      $and: { removed: null }
     },
     defaults: {
       extension: ext,
@@ -60,7 +48,7 @@ const addMovie = (file, promises) => {
       src: src,
       year: fileInfo.year,
       tags: fileInfo.tag.toString(),
-      subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name),
+      subtitles: helper.fetchSubtitles(pathInfo.dir, pathInfo.name),
       category: "movies"
     }
   }))
@@ -74,16 +62,14 @@ const removeMovies = (list, dbPromises) => {
   })
 }
 
-const updateMovies = (ParserList) => {
+const updateMovies = () => {
   const { MOVIES_ROOT } = env
-  const listOfMoviesInDB = ParserList().filter((file) => file.category === "movies" && file.removed == null)
-  const allFiles = searchDirectory(MOVIES_ROOT)
+  const listOfMoviesInDB = helper.list().filter((file) => file.category === "movies" && file.removed == null).map((m) => m.src)
 
+  const allFiles = searchDirectory(MOVIES_ROOT)
   const dbPromises = []
 
-  return listOfMoviesInDB.then((l) => {
-    const list = l.map((m) => m.src)
-
+  return listOfMoviesInDB.then((list) => {
     allFiles.forEach((file) => {
       const found = list.indexOf(file)
 
