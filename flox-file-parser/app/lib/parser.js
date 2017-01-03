@@ -1,143 +1,94 @@
 const fs = require("fs")
 const path = require("path")
+const db = require("../../database/models")
 
-const videoNameParser = require("video-name-parser")
+const { file_history } = db.sequelize.models
+const { updateMovies } = require("./parser.movies.js")
+const { updateTv } = require("./parser.tv.js")
 
-const supportedVideoFileTypes = ["mkv", "mp4"]
-const env = process.env
+const append = (model, status) => {
+  const date = status === "added" ? model.createdAt : model.removed
 
-const fetchTv = () => {
-  const { TV_ROOT } = env
-  const result = []
-  const tvSeries = fs.readdirSync(TV_ROOT)
+  const base = {
+    subtitles: model.subtitles,
+    extension: model.extension,
+    src: model.src,
+    date: date,
+    status: status,
+    year: model.year,
+    tags: model.tags ? model.tags.split(",") : [],
+    filename: model.filename
+  }
 
-  tvSeries.forEach((tvName) => {
-    const tv = {
-      title: tvName,
-      seasons: []
-    }
-
-    result.push(tv)
-
-    const seasonPath = TV_ROOT + "/" + tvName
-    addSeasonsToTv(seasonPath, tv)
-  })
-
-  return result
-}
-
-const addSeasonsToTv = (path, tv) => {
-  const seasons = fs.readdirSync(path) || []
-
-  seasons.forEach((seasonName) => {
-    const season = { 
-      season_number: Parser.normalizeNumber(seasonName)
-    } 
-
-    const episodesPath = path + "/" + seasonName
-    addEpisodesToSeason(episodesPath, season)
-
-    tv.seasons.push(season)
-  })
-}
-
-const fetchSubtitles = (episodesPath, fileName) => {
-  const subtitles = []
-  const subtitlePath = episodesPath + "/" + fileName + ".srt" 
-
-  if (fs.existsSync(subtitlePath)) {
-    const absolutePathSubtitle = fs.realpathSync(subtitlePath)  
-
-    subtitles.push({
-      filename: fileName,
-      src: absolutePathSubtitle,
-      extension: "srt"
+  if(model.category === "tv") {
+    Object.assign(base, {
+      episode_number: model.episode_number,
+      season_number: model.season_number,
+      tv_title: model.tv_title
+    })
+  }
+  
+  if(model.category === "movies") {
+    Object.assign(base, {
+      name: model.name
     })
   }
 
-  return subtitles
+  return base
 }
 
-const addEpisodesToSeason = (episodesPath, season) => {
-  const episode_files = fs.readdirSync(episodesPath)
+const fetch = (category, since) => {
+  const query = {
+    where: { category },
+    order: "createdAt ASC"
+  }
 
-  season.episodes = episode_files.map((e) => {
-    const absolutePathEpisode = fs.realpathSync(episodesPath + "/" + e)  
-    const fileType = path.extname(absolutePathEpisode).replace(".", "") 
-    const fileName = path.parse(absolutePathEpisode).name
-
-    if (!supportedVideoFileTypes.includes(fileType)) return false
-
-    return {
-      extension: fileType,
-      filename: fileName,
-      subtitles: fetchSubtitles(episodesPath, fileName),
-      episode_number: Parser.normalizeNumber(e),
-      src: absolutePathEpisode
+  if(since) {
+    query.where.$and = {
+      $or: {
+        createdAt: { $gte: since },
+        removed: { $gte: since },
+      } 
     }
-  }).filter((e) => e !== false)
-}
+  }
 
-const searchDirectory = (path) => {
-  const files = fs.readdirSync(path)
-  const foundFiles = []
+  return file_history.findAll(query).then((res) => {
+    const removed = []
+    const added = []
 
-  files.forEach((file) => {
-    const currentFile = path + "/" + file
-    const fileInfo = fs.statSync(currentFile)
+    res.forEach((tv) => {
+      if (since < tv.createdAt * 1) {
+        added.push(append(tv, "added"))
+      }
 
-    if (fileInfo.isDirectory()) {
-      return foundFiles.push(...searchDirectory(currentFile))
-    }
-
-    return foundFiles.push(currentFile)
-  })
-
-  return foundFiles
-}
-
-const fetchMovies = () => {
-  const { MOVIES_ROOT } = env
-  const allFiles = searchDirectory(MOVIES_ROOT)
-  const movies = []
-
-  allFiles.forEach((file) => {
-    const pathInfo = path.parse(file)
-    const ext = pathInfo.ext.replace(".", "")
-
-    if(!supportedVideoFileTypes.includes(ext)) return
-
-    const fileInfo = videoNameParser(pathInfo.name) 
-    const filePath = pathInfo.dir + "/" + pathInfo.base
-
-    movies.push({
-      name: fileInfo.name,
-      extension: ext,
-      filename: pathInfo.name,
-      src: fs.realpathSync(filePath),
-      year: fileInfo.year,
-      tags: fileInfo.tag,
-      subtitles: fetchSubtitles(pathInfo.dir, pathInfo.name)
+      if(since < tv.removed * 1) {
+        removed.push(append(tv, "removed"))
+      }
     })
-  })
 
-  return movies
+    return [...added, ...removed]
+      .sort((a, b) => a.date > b.date)
+      .map((r) => {
+        delete r.date
+        return r
+      })
+  })
 }
 
 class Parser {
-  fetch() {
-    if(arguments.length > 0) throw(Error)
+  fetch(since = null) {
+    const tvUpdated = updateTv()
+    const moviesUpdated = updateMovies()
+    since = since * 1 //parse int
 
     return {
-      tv: fetchTv(),
-      movies: fetchMovies()
+      tv: tvUpdated.then(() => {
+        return fetch("tv", since)
+      }),
+      movies: moviesUpdated.then(() => {
+        return fetch("movies", since)
+      })
     }
-  }
-
-  static normalizeNumber(nr = "") {
-    const result = nr.match(/(\d+)/)
-    if ( !result ) return -1
-    return result[1] | 0
   }
 }
 
