@@ -5,6 +5,9 @@
   use App\Services\Storage;
   use App\Services\TMDB;
   use GuzzleHttp\Client;
+  use GuzzleHttp\Handler\MockHandler;
+  use GuzzleHttp\HandlerStack;
+  use GuzzleHttp\Psr7\Response;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
 
   use App\Services\FileParser;
@@ -16,6 +19,8 @@
     private $item;
     private $parser;
     private $tmdb;
+    private $storage;
+    private $episode;
 
     public function setUp()
     {
@@ -23,10 +28,10 @@
 
       $this->item = new Item();
       $this->tmdb = new TMDB(new Client());
-      $storage = new Storage();
-      $episode = new Episode();
+      $this->storage = new Storage();
+      $this->episode = new Episode();
 
-      $this->parser = new FileParser($this->item, $episode, $this->tmdb, $storage);
+      $this->parser = new FileParser($this->item, $this->episode, $this->tmdb, $this->storage);
     }
 
     /** @test */
@@ -75,5 +80,76 @@
       foreach($episodes as $episode) {
         $this->assertNotNull($episode->src);
       }
+    }
+
+    /** @test */
+    public function it_should_create_movie_and_store_src_if_not_found_in_database()
+    {
+      $items = $this->item->get();
+
+      $this->assertCount(0, $items);
+
+      $tmdbMock = $this->createTmdbMock($this->fixtureTmdbMovie, $this->fixtureAlternativeTitleMovie);
+
+      $parser = new FileParser($this->item, $this->episode, $tmdbMock, $this->storage);
+
+      $parser->store($this->fixtureFilesMovie);
+
+      $this->seeInDatabase('items', [
+        'title' => 'Warcraft: The Beginning'
+      ]);
+
+      $item = $this->item->first();
+
+      $this->assertNotNull($item->src);
+    }
+
+    /** @test */
+    public function it_should_create_tv_with_episodes_and_store_src_if_not_found_in_database()
+    {
+      $items = $this->item->get();
+      $episodes = $this->episode->get();
+
+      $this->assertCount(0, $items);
+      $this->assertCount(0, $episodes);
+
+      $tmdbMock = $this->createTmdbMock($this->fixtureTmdbTv, $this->fixtureAlternativeTitleTv);
+
+      $parser = new FileParser($this->item, $this->episode, $tmdbMock, $this->storage);
+
+      $parser->store($this->fixtureFilesTv);
+
+      $this->seeInDatabase('items', [
+        'title' => 'Game of Thrones'
+      ]);
+
+      $episodes = $this->episode->get();
+
+      $this->assertCount(4, $episodes);
+
+      foreach($episodes as $episode) {
+        $this->assertNotNull($episode->src);
+      }
+    }
+
+    private function createTmdbMock($fixture, $alternativeTitles)
+    {
+      $mock = new MockHandler([
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $alternativeTitles),
+      ]);
+
+      $handler = HandlerStack::create($mock);
+      $client = new Client(['handler' => $handler]);
+
+      // Mock this to avoid unknown requests to TMDb (get seasons and then get episodes for each season)
+      $tmdb = $this->getMockBuilder(TMDB::class)
+        ->setConstructorArgs([$client])
+        ->setMethods(['tvEpisodes'])
+        ->getMock();
+
+      $tmdb->method('tvEpisodes')->willReturn($this->fixtureTmdbEpisodes);
+
+      return $tmdb;
     }
   }

@@ -1,0 +1,36 @@
+{
+  "1": {
+    "id": 123,
+    "episodes": [
+      {
+        "episode_number": 1,
+        "name": "name",
+        "id": 123,
+        "season_number": 1
+      },
+      {
+        "episode_number": 2,
+        "name": "name",
+        "id": 123,
+        "season_number": 1
+      }
+    ]
+  },
+  "2": {
+    "id": 123,
+    "episodes": [
+      {
+        "episode_number": 1,
+        "name": "name",
+        "id": 123,
+        "season_number": 2
+      },
+      {
+        "episode_number": 2,
+        "name": "name",
+        "id": 123,
+        "season_number": 2
+      }
+    ]
+  }
+}

@@ -1,16 +1,13 @@
 <?php
 
   use App\AlternativeTitle;
-  use App\Http\Controllers\ItemController;
   use App\Item;
-  use App\Services\Storage;
   use App\Services\TMDB;
   use GuzzleHttp\Client;
   use GuzzleHttp\Handler\MockHandler;
   use GuzzleHttp\HandlerStack;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
-  use Illuminate\Support\Facades\Input;
   use GuzzleHttp\Psr7\Response;
+  use Illuminate\Foundation\Testing\DatabaseMigrations;
 
   class AlternativeTitleTest extends TestCase {
 
@@ -19,7 +16,7 @@
     /** @test */
     public function it_can_store_alternative_titles_for_movies()
     {
-      $tmdbMock = $this->createTmdb($this->fixtureAlternativeTitleMovie);
+      $tmdbMock = $this->createTmdbMock($this->fixtureAlternativeTitleMovie);
       $movie = $this->getMovie();
 
       $item = new Item();
@@ -35,7 +32,7 @@
     /** @test */
     public function it_can_store_alternative_titles_for_tv_shows()
     {
-      $tmdbMock = $this->createTmdb($this->fixtureAlternativeTitleTv);
+      $tmdbMock = $this->createTmdbMock($this->fixtureAlternativeTitleTv);
       $tv = $this->getTv();
 
       $item = new Item();
@@ -48,13 +45,10 @@
       ]);
     }
 
-    private function createTmdb($fixture)
+    private function createTmdbMock($fixture)
     {
       $mock = new MockHandler([
-        new Response(200, [
-          'Content-Type' => 'application/json',
-          'X-RateLimit-Remaining' => [40],
-        ], $fixture),
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
       ]);
 
       $handler = HandlerStack::create($mock);

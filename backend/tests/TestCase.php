@@ -11,6 +11,10 @@
     protected $fixtureAlternativeTitleMovie;
     protected $fixtureAlternativeTitleTv;
 
+    protected $fixtureTmdbMovie;
+    protected $fixtureTmdbTv;
+    protected $fixtureTmdbEpisodes;
+
     public function createApplication()
     {
       $this->assignFixtures();
@@ -30,6 +34,10 @@
 
       $this->fixtureAlternativeTitleMovie = file_get_contents(__DIR__ . '/fixtures/Tmdb/alternative_titles_movie.json');
       $this->fixtureAlternativeTitleTv = file_get_contents(__DIR__ . '/fixtures/Tmdb/alternative_titles_tv.json');
+
+      $this->fixtureTmdbMovie = file_get_contents(__DIR__ . '/fixtures/Tmdb/movie.json');
+      $this->fixtureTmdbTv = file_get_contents(__DIR__ . '/fixtures/Tmdb/tv.json');
+      $this->fixtureTmdbEpisodes = json_decode(file_get_contents(__DIR__ . '/fixtures/Tmdb/episodes.json'));
     }
 
     protected function createMovie()
