@@ -1,9 +1,6 @@
 import Parser from "./parser"
 import { expect } from "chai"
 import path from "path"
-import db from "../../database/models"
-
-const { file_history } = db.sequelize.models
 
 describe("Parser", () => {
   beforeEach(() => {
@@ -12,7 +9,7 @@ describe("Parser", () => {
   })
 
   it("exists", () => {
-    const parser = new Parser
+    new Parser
   })
 
   it("requires 2 env variables", () => {

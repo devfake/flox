@@ -129,19 +129,19 @@ var fetch = module.exports.fetch = {
 var expectedTv = module.exports.expectedTv = fetch.tv
 var expectedMovies = module.exports.expectedMovies = fetch.movies
 
-var expected_bb_s1_e1 = module.exports.expected_bb_s1_e1 = expectedTv[0]
-var expected_bb_s1_e2 = module.exports.expected_bb_s1_e2 = expectedTv[1]
-var expected_bb_s2_e1 = module.exports.expected_bb_s2_e1 = expectedTv[2]
-var expected_bb_s2_e2 = module.exports.expected_bb_s2_e2 = expectedTv[3]
+module.exports.expected_bb_s1_e1 = expectedTv[0]
+module.exports.expected_bb_s1_e2 = expectedTv[1]
+module.exports.expected_bb_s2_e1 = expectedTv[2]
+module.exports.expected_bb_s2_e2 = expectedTv[3]
 
-var expected_got_s1_e1 = module.exports.expected_got_s1_e1 = expectedTv[4]
-var expected_got_s1_e2 = module.exports.expected_got_s1_e2 = expectedTv[5]
-var expected_got_s2_e1 = module.exports.expected_got_s2_e1 = expectedTv[6]
-var expected_got_s2_e2 = module.exports.expected_got_s2_e2 = expectedTv[7]
+module.exports.expected_got_s1_e1 = expectedTv[4]
+module.exports.expected_got_s1_e2 = expectedTv[5]
+module.exports.expected_got_s2_e1 = expectedTv[6]
+module.exports.expected_got_s2_e2 = expectedTv[7]
 
-var expected_got_seasons = module.exports.expected_got_seasons = 2
-var expected_bb_seasons = module.exports.expected_bb_seasons = 2
+module.exports.expected_got_seasons = 2
+module.exports.expected_bb_seasons = 2
 
-var expected_sw = module.exports.expected_sw = expectedMovies[0]
-var expected_wc = module.exports.expected_wc = expectedMovies[1]
+module.exports.expected_sw = expectedMovies[0]
+module.exports.expected_wc = expectedMovies[1]
 

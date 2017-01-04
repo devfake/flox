@@ -20,6 +20,7 @@ services:
 script:
   - (cd backend && phpunit)
   - (cd $FLOX_FILE_PARSER && npm test)
+  - (cd $FLOX_FILE_PARSER && npm run eslint)
 
 before_install:
   - mysql -e 'create database flox_file_parser_test;'
