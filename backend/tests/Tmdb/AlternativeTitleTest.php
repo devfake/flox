@@ -16,27 +16,14 @@
 
     use DatabaseMigrations;
 
-    protected $movie;
-    protected $tv;
-
-    protected $movieFixture;
-    protected $tvFixture;
-
-    public function setUp()
-    {
-      parent::setUp();
-
-      $this->createFactories();
-      $this->createFixtures();
-    }
-
     /** @test */
     public function it_can_store_alternative_titles_for_movies()
     {
-      $tmdbMock = $this->createTmdb($this->movieFixture);
+      $tmdbMock = $this->createTmdb($this->fixtureAlternativeTitleMovie);
+      $movie = $this->getMovie();
 
       $item = new Item();
-      $item->addAlternativeTitles($this->movie, $tmdbMock);
+      $item->addAlternativeTitles($movie, $tmdbMock);
 
       $this->assertCount(4, AlternativeTitle::all());
 
@@ -48,10 +35,11 @@
     /** @test */
     public function it_can_store_alternative_titles_for_tv_shows()
     {
-      $tmdbMock = $this->createTmdb($this->tvFixture);
+      $tmdbMock = $this->createTmdb($this->fixtureAlternativeTitleTv);
+      $tv = $this->getTv();
 
       $item = new Item();
-      $item->addAlternativeTitles($this->tv, $tmdbMock);
+      $item->addAlternativeTitles($tv, $tmdbMock);
 
       $this->assertCount(3, AlternativeTitle::all());
 
@@ -73,24 +61,5 @@
       $client = new Client(['handler' => $handler]);
 
       return new TMDB($client);
-    }
-
-    private function createFactories()
-    {
-      $this->movie = factory(App\Item::class)->states('movie')->make([
-        'title' => 'Findet Nemo',
-        'tmdb_id' => 12
-      ]);
-
-      $this->tv = factory(App\Item::class)->states('tv')->make([
-        'title' => 'Dragonball Z',
-        'tmdb_id' => 12971
-      ]);
-    }
-
-    private function createFixtures()
-    {
-      $this->movieFixture = file_get_contents(__DIR__ . '/../fixtures/alternative_titles_movie.json');
-      $this->tvFixture = file_get_contents(__DIR__ . '/../fixtures/alternative_titles_tv.json');
     }
   }

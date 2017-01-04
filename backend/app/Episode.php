@@ -18,4 +18,15 @@
       'season_tmdb_id',
       'created_at'
     ];
+
+    /*
+     * Scopes
+     */
+
+    public function scopeSearchEpisode($query, $tmdb_id, $episode)
+    {
+      return $query->where('tmdb_id', $tmdb_id)
+        ->where('season_number', $episode->season_number)
+        ->where('episode_number', $episode->episode_number);
+    }
   }

@@ -2,18 +2,21 @@
 
   namespace App\Services;
 
+  use App\Episode;
   use App\Item;
   use Illuminate\Database\Eloquent\Collection;
 
   class FileParser {
 
     private $item;
+    private $episode;
     private $tmdb;
     private $storage;
 
-    public function __construct(Item $item, TMDB $tmdb, Storage $storage)
+    public function __construct(Item $item, Episode $episode, TMDB $tmdb, Storage $storage)
     {
       $this->item = $item;
+      $this->episode = $episode;
       $this->tmdb = $tmdb;
       $this->storage = $storage;
     }
@@ -26,7 +29,7 @@
     public function fetch()
     {
       return json_decode(
-        file_get_contents(base_path('tests/fixtures/media_files.json'))
+        file_get_contents(base_path('tests/fixtures/Files/all.json'))
       );
     }
 
@@ -55,6 +58,14 @@
       }
     }
 
+    /**
+     * Make a new request to TMDb and check against the database.
+     * Otherwise create a new item.
+     *
+     * @param $title
+     * @param $item
+     * @return bool|mixed
+     */
     private function searchTmdb($title, $item)
     {
       $result = $this->tmdb->search($title);
@@ -84,7 +95,7 @@
      * @param $indicator
      * @return Collection
      */
-    private function foundInDatabase($value, $type)
+    public function foundInDatabase($value, $type)
     {
       if($type == 'title') {
         return $this->item->searchTitle($value)->first();
@@ -93,17 +104,40 @@
       return $this->item->searchTmdbId($value)->first();
     }
 
-    private function handleStatus($item, $tmdb_id)
+    /**
+     * Check which status the file has.
+     * Create new src if the status is 'added'.
+     * Update src if status is 'update'.
+     * Remove src if status is 'remove'.
+     *
+     * @param $item
+     * @param $tmdb_id
+     * @return \Exception|mixed
+     */
+    public function handleStatus($item, $tmdb_id)
     {
       if($item->status == 'added') {
         return $this->storeSrc($item, $tmdb_id);
       }
 
+      if($item->status == 'update') {
+        //
+      }
+
       if($item->status == 'removed') {
         //
       }
+
+      return new \Exception('No status in file found');
     }
 
+    /**
+     * Handling src store for movie or tv.
+     *
+     * @param $item
+     * @param $tmdb_id
+     * @return mixed
+     */
     private function storeSrc($item, $tmdb_id)
     {
       if($this->isTvShow($item)) {
@@ -113,9 +147,18 @@
       return $this->storeMovieSrc($tmdb_id, $item->src);
     }
 
-    private function storeTvSrc($tmdb_id, $item)
+    /**
+     * Store the src for a tv episode in episodes table.
+     *
+     * @param $tmdb_id
+     * @param $episode
+     * @return mixed
+     */
+    private function storeTvSrc($tmdb_id, $episode)
     {
-      return '';
+      return $this->episode->searchEpisode($tmdb_id, $episode)->update([
+        'src' => $episode->src,
+      ]);
     }
 
     /**
