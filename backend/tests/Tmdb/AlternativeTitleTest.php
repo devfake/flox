@@ -33,12 +33,10 @@
     /** @test */
     public function it_can_store_alternative_titles_for_movies()
     {
-      Input::replace(['item' => $this->movie]);
-
       $tmdbMock = $this->createTmdb($this->movieFixture);
 
-      $itemController = new ItemController(new Item(), new Storage());
-      $itemController->add($tmdbMock);
+      $item = new Item();
+      $item->addAlternativeTitles($this->movie, $tmdbMock);
 
       $this->assertCount(4, AlternativeTitle::all());
 
@@ -50,18 +48,10 @@
     /** @test */
     public function it_can_store_alternative_titles_for_tv_shows()
     {
-      Input::replace(['item' => $this->tv]);
-
       $tmdbMock = $this->createTmdb($this->tvFixture);
 
-      $itemControllerMock = $this->getMockBuilder(ItemController::class)
-        ->setConstructorArgs([new Item(), new Storage()])
-        ->setMethods(['createEpisodes'])
-        ->getMock();
-
-      $itemControllerMock->method('createEpisodes')->willReturn(null);
-
-      $itemControllerMock->add($tmdbMock);
+      $item = new Item();
+      $item->addAlternativeTitles($this->tv, $tmdbMock);
 
       $this->assertCount(3, AlternativeTitle::all());
 

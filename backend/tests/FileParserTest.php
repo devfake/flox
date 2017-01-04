@@ -3,6 +3,7 @@
   use App\Item;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use GuzzleHttp\Client;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
 
   use App\Services\FileParser;
@@ -11,7 +12,7 @@
 
     use DatabaseMigrations;
 
-    private $response;
+    private $fixture;
     private $item;
     private $tmdb;
 
@@ -21,10 +22,10 @@
 
       $this->createFactory();
 
-      $this->response = json_decode(file_get_contents(__DIR__ . '/fixtures/media_files.json'));
+      $this->fixture = json_decode(file_get_contents(__DIR__ . '/fixtures/media_files.json'));
 
       $this->item = new Item();
-      $this->tmdb = new TMDB();
+      $this->tmdb = new TMDB(new Client());
       $storage = new Storage();
 
       $this->parser = new FileParser($this->item, $this->tmdb, $storage);
@@ -37,7 +38,7 @@
 
       $this->assertNull($item->src);
 
-      $this->parser->store($this->response);
+      $this->parser->store($this->fixture);
 
       $item = $this->item->first();
 

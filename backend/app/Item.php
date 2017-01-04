@@ -83,7 +83,7 @@
      * @param      $item
      * @param TMDB $tmdb
      */
-    private function addAlternativeTitles($item, TMDB $tmdb)
+    public function addAlternativeTitles($item, TMDB $tmdb)
     {
       $alternativeTitles = $tmdb->getAlternativeTitles($item);
 
