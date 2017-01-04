@@ -8,6 +8,7 @@
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register './app/**/*.spec.js'",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha 'app/**/*.js' -- --require babel-register",
     "sequelize": "sequelize",
+    "eslint": "eslint './app/**/*.js'",
     "test-watch": "NODE_ENV=test mocha --reporter min --watch --compilers js:babel-core/register './app/**/*.spec.js'"
   },
   "author": "",

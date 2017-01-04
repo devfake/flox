@@ -1,3 +1,4 @@
+/* global sandbox */
 import Parser from "./parser"
 import { expect } from "chai"
 import fs from "fs"
@@ -19,11 +20,6 @@ describe("Parser (tv)", () => {
     const rootPath = "./app/fixtures"
     const tvPath = rootPath + "/tv/"
     const game_of_thrones = "Game of Thrones", breaking_bad = "Breaking Bad"
-    const got_seasons = ["s01", "s02"]
-    const bb_seasons = ["s01", "s02"]
-    const gotSeasonsPath = tvPath + game_of_thrones
-    const bbSeasonsPath = tvPath + breaking_bad
-    const absolutePath = path.normalize(__dirname + "/../")
 
     const filterMovies = {
       where: {
@@ -41,7 +37,7 @@ describe("Parser (tv)", () => {
 
     context("using tv fixtures", () => {
       it("calls fs.readdirSync with the expected path", () => {
-        const result = parser.fetch()
+        parser.fetch()
         const normalizedTvPath = fs.realpathSync(path.normalize(tvPath))
         expect(fs.readdirSync.args[0][0]).to.equal(normalizedTvPath)
       })
@@ -132,15 +128,6 @@ describe("Parser (tv)", () => {
         })
 
         context("episodes", () => {
-          let got_s1_e1, got_s1_e2, got_s2_e1, got_s2_e2
-          let bb_s1_e1, bb_s1_e2, bb_s2_e1, bb_s2_e2
-          const absolutePath_got = absolutePath + "fixtures/tv/" + game_of_thrones
-          const absolutePath_got_s1 = absolutePath_got + "/" + "s1"
-          const absolutePath_got_s2 = absolutePath_got + "/" + "S2"
-          const absolutePath_bb = absolutePath + "fixtures/tv/" + breaking_bad
-          const absolutePath_bb_s1 = absolutePath_bb + "/" + "S1"
-          const absolutePath_bb_s2 = absolutePath_bb + "/" + "s2"
-
           it("each season should have 2 episodes", () => {
             expect(got_s1.length).to.be.equal(2)
             expect(got_s2.length).to.be.equal(2)
@@ -222,13 +209,13 @@ describe("Parser (tv)", () => {
     context("database", () => {
       beforeEach(() => {
         let i = 0
-        file_history.addHook('beforeCreate', 'stubCreatedAt', (row, options) => {
+        file_history.addHook("beforeCreate", "stubCreatedAt", (row) => {
           row.createdAt = Date.parse(new Date("01.01.2000")) + (i += 1000)
         })
       })
 
       afterEach(() => {
-        file_history.removeHook('afterCreate', 'stubCreatedAt')
+        file_history.removeHook("afterCreate", "stubCreatedAt")
       })
 
       it("should have 8 entries", () => {
@@ -253,11 +240,10 @@ describe("Parser (tv)", () => {
       it("should save the current time in 'createdAt'", () => {
         const expectedTimestamp = Date.parse("01 Jan 2000")
         const expectedTime = new Date(expectedTimestamp) * 1
-        const expectedAdded = fixturesResultFetch.expectedTv.map((e) => expectedTime)
 
         const { tv } = parser.fetch()
 
-        return tv.then((res) => {
+        return tv.then(() => {
           return file_history.findAll(filterMovies).then((rows) => {
             rows.forEach((row) => {
               expect(row.createdAt * 1).to.be.closeTo(expectedTime, 10000)
@@ -268,7 +254,6 @@ describe("Parser (tv)", () => {
 
       it("should left 'removed' as null", () => {
         const expectedTimestamp = Date.parse("01 Jan 2000")
-        const expectedTime = new Date(expectedTimestamp)
         const getRemoved = (rows) => rows.map((e) => e.removed)
         const expectedResult = fixturesResultFetch.expectedTv.map(() => null)
 
@@ -296,7 +281,7 @@ describe("Parser (tv)", () => {
         return fh.then(() => {
           const { tv } = parser.fetch()
 
-          return tv.then((res) => {
+          return tv.then(() => {
             return expect(file_history.count(filterMovies)).to.eventually.be.equal(8)
           })
         })        
@@ -331,7 +316,7 @@ describe("Parser (tv)", () => {
         const expectedResultGot = [null, null, null, null]
 
         const { tv } = parser.fetch()
-        return tv.then((res) => {
+        return tv.then(() => {
           return Promise.all([
             expect(file_history.count(getBB)).to.eventually.be.equal(4),
             expect(file_history.findAll(getBB).then(getRemovedField)).to.eventually.be.eql(expectedResultBB),
@@ -354,7 +339,7 @@ describe("Parser (tv)", () => {
 
         const { tv } = parser.fetch()
 
-        return tv.then((res) => {
+        return tv.then(() => {
           return Promise.all([
             expect(file_history.count(getGOT)).to.be.eventually.equal(1),
             expect(file_history.findOne(getGOT).then(getRemovedField)).to.eventually.be.eql(expectedTime),
@@ -379,7 +364,7 @@ describe("Parser (tv)", () => {
           fs.writeFileSync(fixturesResultFetch.expected_bb_s1_e1.src, "")
           const { movies } = parser.fetch()
 
-          return movies.then((res) => {
+          return movies.then(() => {
             return Promise.all([
               expect(file_history.count(getBB)).to.be.eventually.equal(2),
               expect(file_history.findOne(getBB).then(getRemovedField)).to.eventually.be.eql(expectedTime)
