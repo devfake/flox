@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "NODE_ENV=test mocha --compilers js:babel-core/register './app/**/*.spec.js'",
+    "test": "NODE_ENV=test mocha --timeout 15000 --compilers js:babel-core/register './app/**/*.spec.js'",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha 'app/**/*.js' -- --require babel-register",
     "sequelize": "sequelize",
     "eslint": "eslint './app/**/*.js'",
+    "test_ci": "for i in $(seq 1 100); do echo Run $i; npm test; if [ $? -ne 0 ]; then break; fi; done",
     "test-watch": "NODE_ENV=test mocha --reporter min --watch --compilers js:babel-core/register './app/**/*.spec.js'"
   },
   "author": "",
