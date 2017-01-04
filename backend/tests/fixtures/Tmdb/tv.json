@@ -3,30 +3,19 @@
   "results": [
     {
       "poster_path": "/jIhL6mlT7AblhbHJgEoiBIOUVl1.jpg",
-      "popularity": 24.477826,
       "id": 1399,
-      "overview": "Die Handlung ist in einer fiktiven Welt angesiedelt und spielt auf den Kontinenten Westeros (den Sieben Königreichen sowie im Gebiet der „Mauer“ und jenseits davon im Norden) und Essos. In dieser Welt ist die Länge der Sommer und Winter unvorhersehbar und variabel; eine Jahreszeit kann Jahre oder sogar Jahrzehnte dauern. Der Handlungsort auf dem Kontinent Westeros in den Sieben Königreichen ähnelt dabei stark dem mittelalterlichen Europa. Die Geschichte spielt am Ende eines langen Sommers und wird in drei Handlungssträngen weitgehend parallel erzählt. In den Sieben Königreichen bauen sich zwischen den mächtigsten Adelshäusern des Reiches Spannungen auf, die schließlich zum offenen Thronkampf führen. Gleichzeitig droht der Wintereinbruch und es zeichnet sich eine Gefahr durch eine fremde Rasse im hohen Norden von Westeros ab. Der dritte Handlungsstrang spielt auf dem Kontinent Essos, wo Daenerys Targaryen, Mitglied der vor Jahren abgesetzten Königsfamilie, bestrebt ist, wieder an die Macht zu gelangen. Die komplexe Handlung umfasst zahlreiche Figuren und thematisiert unter anderem Politik und Machtkämpfe, Gesellschaftsverhältnisse und Religion.",
-      "backdrop_path": "/mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
-      "vote_average": 7.82,
       "media_type": "tv",
       "first_air_date": "2011-04-17",
-      "origin_country": [
-        "US"
-      ],
       "genre_ids": [
         10765,
         10759,
         18
       ],
-      "original_language": "en",
-      "vote_count": 1448,
       "name": "Game of Thrones",
       "original_name": "Game of Thrones"
     },
     {
       "poster_path": "/8y1LSfnb8Dfd3XPIrxlpvZ4e8d.jpg",
-      "adult": false,
-      "overview": "",
       "release_date": "2011-05-13",
       "original_title": "Game of Thrones: Complete History and Lore",
       "genre_ids": [
@@ -38,17 +27,10 @@
       "id": 269623,
       "media_type": "movie",
       "original_language": "en",
-      "title": "Game of Thrones: Complete History and Lore",
-      "backdrop_path": "/6rKYJSzvunGFJnhQGRhN9H6qOwi.jpg",
-      "popularity": 1.002555,
-      "vote_count": 3,
-      "video": false,
-      "vote_average": 7.3
+      "title": "Game of Thrones: Complete History and Lore"
     },
     {
       "poster_path": null,
-      "adult": false,
-      "overview": "",
       "release_date": "2015-02-08",
       "original_title": "Game of Thrones: A Day in the Life",
       "genre_ids": [
@@ -57,164 +39,7 @@
       "id": 340200,
       "media_type": "movie",
       "original_language": "en",
-      "title": "Game of Thrones: A Day in the Life",
-      "backdrop_path": "/1qrk1aw3FGSImx56aYvgl1Um0F3.jpg",
-      "popularity": 1.076091,
-      "vote_count": 5,
-      "video": false,
-      "vote_average": 6
-    },
-    {
-      "poster_path": "/caRgP7gSn0gF08eAAIqT2ERRy3C.jpg",
-      "adult": false,
-      "overview": "",
-      "release_date": "2013-05-13",
-      "original_title": "Game of Thrones: Complete History and Lore Part III",
-      "genre_ids": [
-        28,
-        12,
-        16,
-        14
-      ],
-      "id": 269626,
-      "media_type": "movie",
-      "original_language": "en",
-      "title": "Game of Thrones: Complete History and Lore Part III",
-      "backdrop_path": "/qB1aczaUuceeeKHUrZu8Ix2G4E.jpg",
-      "popularity": 1.089384,
-      "vote_count": 3,
-      "video": false,
-      "vote_average": 10
-    },
-    {
-      "poster_path": "/zTDRDWWRkg1p2M81P6EcFwr8kI8.jpg",
-      "adult": false,
-      "overview": "",
-      "release_date": "2016-05-13",
-      "original_title": "Game of Thrones: Complete History and Lore Part VI",
-      "genre_ids": [
-        14,
-        28,
-        12,
-        16
-      ],
-      "id": 430070,
-      "media_type": "movie",
-      "original_language": "en",
-      "title": "Game of Thrones: Complete History and Lore Part VI",
-      "backdrop_path": null,
-      "popularity": 1.018177,
-      "vote_count": 0,
-      "video": false,
-      "vote_average": 0
-    },
-    {
-      "poster_path": "/63ap7nRbKgLyneauGPRGtiMTLpE.jpg",
-      "adult": false,
-      "overview": "",
-      "release_date": "2015-05-13",
-      "original_title": "Game of Thrones: Complete History and Lore Part V",
-      "genre_ids": [
-        14,
-        28,
-        12,
-        16
-      ],
-      "id": 430068,
-      "media_type": "movie",
-      "original_language": "en",
-      "title": "Game of Thrones: Complete History and Lore Part V",
-      "backdrop_path": null,
-      "popularity": 1.003887,
-      "vote_count": 0,
-      "video": false,
-      "vote_average": 0
-    },
-    {
-      "poster_path": "/abVbdAMIolGpgrl6sTo6xxH4O1B.jpg",
-      "adult": false,
-      "overview": "",
-      "release_date": "2014-05-13",
-      "original_title": "Game of Thrones: Complete History and Lore Part IV",
-      "genre_ids": [
-        14,
-        28,
-        12,
-        16
-      ],
-      "id": 335382,
-      "media_type": "movie",
-      "original_language": "en",
-      "title": "Game of Thrones: Complete History and Lore Part IV",
-      "backdrop_path": null,
-      "popularity": 1.002284,
-      "vote_count": 0,
-      "video": true,
-      "vote_average": 0
-    },
-    {
-      "poster_path": "/r4LuA61pE0kZON0mcNX11bNJEQx.jpg",
-      "adult": false,
-      "overview": "",
-      "release_date": "2012-05-13",
-      "original_title": "Game of Thrones: Complete History and Lore Part II",
-      "genre_ids": [
-        28,
-        12,
-        16,
-        14
-      ],
-      "id": 269625,
-      "media_type": "movie",
-      "original_language": "en",
-      "title": "Game of Thrones: Complete History and Lore Part II",
-      "backdrop_path": "/zJcxJgvGB3JDNV0bVfnprTo6A5E.jpg",
-      "popularity": 1.001306,
-      "vote_count": 2,
-      "video": false,
-      "vote_average": 10
-    },
-    {
-      "poster_path": null,
-      "adult": false,
-      "overview": "",
-      "release_date": "2012-01-01",
-      "original_title": "Game of Thrones: Season 2 - Invitation to the Set",
-      "genre_ids": [
-        99
-      ],
-      "id": 323452,
-      "media_type": "movie",
-      "original_language": "en",
-      "title": "Game of Thrones: Season 2 - Invitation to the Set",
-      "backdrop_path": null,
-      "popularity": 1.001144,
-      "vote_count": 1,
-      "video": false,
-      "vote_average": 10
-    },
-    {
-      "poster_path": "/26XGhY7HjgogNVnB791TRCackl5.jpg",
-      "adult": false,
-      "overview": "",
-      "release_date": "2015-01-29",
-      "original_title": "Game of Thrones The IMAX Experience (Season 4, Episodes 9 and 10)",
-      "genre_ids": [
-        18,
-        14,
-        28
-      ],
-      "id": 322484,
-      "media_type": "movie",
-      "original_language": "en",
-      "title": "Game of Thrones The IMAX Experience (Season 4, Episodes 9 and 10)",
-      "backdrop_path": null,
-      "popularity": 1.2163,
-      "vote_count": 14,
-      "video": true,
-      "vote_average": 8.6
+      "title": "Game of Thrones: A Day in the Life"
     }
-  ],
-  "total_results": 10,
-  "total_pages": 1
+  ]
 }
