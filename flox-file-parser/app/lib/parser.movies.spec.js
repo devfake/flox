@@ -71,7 +71,7 @@ describe("Parser (movies)", () => {
       })
 
       afterEach(() => {
-        file_history.removeHook("afterCreate", "stubCreatedAt")
+        file_history.removeHook("beforeCreate", "stubCreatedAt")
       })
 
       it("should have 2 entries", () => {
