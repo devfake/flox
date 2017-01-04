@@ -14,6 +14,11 @@ env:
   DB_CONNECTION: sqlite
   FLOX_FILE_PARSER: flox-file-parser
 
+cache:
+  directories:
+    - $FLOX_FILE_PARSER/node_modules
+    - backend/vendor
+
 services:
   - mysql
 
