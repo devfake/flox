@@ -148,7 +148,6 @@ describe("HTTP Server", () => {
     })
 
     context("should return only changes since the given timestamp", () => {
-      let hi
       afterEach((done) => {
         execFile("./generate_fixtures.sh", done)
       })
