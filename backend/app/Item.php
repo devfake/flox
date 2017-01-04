@@ -27,12 +27,12 @@
     ];
 
     /**
-     * Create the new movie.
+     * Create the new movie / tv show.
      *
      * @param $data
      * @return Item
      */
-    public function createItem($data, TMDB $tmdb, Storage $storage)
+    public function store($data, TMDB $tmdb, Storage $storage)
     {
       $tmdbId = $data['tmdb_id'];
       $mediaType = $data['media_type'];
@@ -62,7 +62,7 @@
 
     /**
      * Update alternative titles for all tv shows and movies or specific item.
-     * For old versions of flox or hold all alternative titles up to date.
+     * For old versions of flox or to kepp all alternative titles up to date.
      *
      * @param TMDB $tmdb
      */
@@ -147,12 +147,12 @@
      * Scopes
      */
 
-    public function scopeSearchTmdbId($query, $tmdb_id)
+    public function scopeFindByTmdbId($query, $tmdb_id)
     {
       return $query->where('tmdb_id', $tmdb_id);
     }
 
-    public function scopeSearchTitle($query, $title)
+    public function scopeFindByTitle($query, $title)
     {
       return $query->where('title', 'like', '%' . $title . '%')
         ->orWhere('original_title', 'like', '%' . $title . '%')

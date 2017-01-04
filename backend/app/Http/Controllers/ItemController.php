@@ -108,7 +108,7 @@
     {
       $data = Input::get('item');
 
-      return $this->item->createItem($data, $tmdb, $storage);
+      return $this->item->store($data, $tmdb, $storage);
     }
 
     /**

@@ -34,8 +34,7 @@
     }
 
     /**
-     * Loop over local files and see if it can find them in database,
-     * otherwise create a new item.
+     * Loop over local files and see if it can find them in database. Otherwise search in TMDb.
      *
      * @param $files
      */
@@ -53,30 +52,39 @@
           }
 
           // Otherwise make a new TMDb request.
-          $this->searchTmdb($title, $item);
+          $this->tmdbSearch($title, $item);
         }
       }
     }
 
     /**
-     * Make a new request to TMDb and check against the database.
-     * Otherwise create a new item.
+     * Make a new request to TMDb and check against the database. Otherwise create a new item.
      *
      * @param $title
      * @param $item
      * @return bool|mixed
      */
-    private function searchTmdb($title, $item)
+    private function tmdbSearch($title, $item)
     {
       $result = $this->tmdb->search($title);
 
-      // If no match found,
       if( ! $result) {
         return false;
       }
 
-      $result = $result[0];
-      $tmdb_id = $result['tmdb_id'];
+      return $this->findOrCreateItem($result[0], $item);
+    }
+
+    /**
+     * Check tmdb_id against the database or create a new item.
+     *
+     * @param $firstResult
+     * @param $item
+     * @return \Exception|mixed
+     */
+    private function findOrCreateItem($firstResult, $item)
+    {
+      $tmdb_id = $firstResult['tmdb_id'];
 
       // Check against our database.
       if($this->foundInDatabase($tmdb_id, 'tmdb_id')) {
@@ -84,7 +92,7 @@
       }
 
       // Otherwise create a new item from the result.
-      $created = $this->item->createItem($result, $this->tmdb, $this->storage);
+      $created = $this->item->store($firstResult, $this->tmdb, $this->storage);
 
       return $this->handleStatus($item, $created->tmdb_id);
     }
@@ -98,17 +106,17 @@
     public function foundInDatabase($value, $type)
     {
       if($type == 'title') {
-        return $this->item->searchTitle($value)->first();
+        return $this->item->findByTitle($value)->first();
       }
 
-      return $this->item->searchTmdbId($value)->first();
+      return $this->item->findByTmdbId($value)->first();
     }
 
     /**
      * Check which status the file has.
      * Create new src if the status is 'added'.
-     * Update src if status is 'update'.
-     * Remove src if status is 'remove'.
+     * Update src if status is 'updated'.
+     * Remove src if status is 'removed'.
      *
      * @param $item
      * @param $tmdb_id
@@ -120,57 +128,25 @@
         return $this->storeSrc($item, $tmdb_id);
       }
 
-      if($item->status == 'update') {
-        //
-      }
-
-      if($item->status == 'removed') {
-        //
-      }
-
       return new \Exception('No status in file found');
     }
 
     /**
-     * Handling src store for movie or tv.
+     * Store src from local file into items for movies or episodes for tv shows.
      *
      * @param $item
      * @param $tmdb_id
-     * @return mixed
      */
     private function storeSrc($item, $tmdb_id)
     {
       if($this->isTvShow($item)) {
-        return $this->storeTvSrc($tmdb_id, $item);
+        $model = $this->episode->searchEpisode($tmdb_id, $item);
+      } else {
+        $model = $this->item->findByTmdbId($tmdb_id);
       }
 
-      return $this->storeMovieSrc($tmdb_id, $item->src);
-    }
-
-    /**
-     * Store the src for a tv episode in episodes table.
-     *
-     * @param $tmdb_id
-     * @param $episode
-     * @return mixed
-     */
-    private function storeTvSrc($tmdb_id, $episode)
-    {
-      return $this->episode->searchEpisode($tmdb_id, $episode)->update([
-        'src' => $episode->src,
-      ]);
-    }
-
-    /**
-     * Store the src for a movie directly in items table.
-     *
-     * @param $tmdb_id
-     * @param $item
-     */
-    private function storeMovieSrc($tmdb_id, $src)
-    {
-      return $this->item->searchTmdbId($tmdb_id)->update([
-        'src' => $src,
+      return $model->update([
+        'src' => $item->src,
       ]);
     }
 
