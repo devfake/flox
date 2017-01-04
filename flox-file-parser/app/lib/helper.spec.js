@@ -1,11 +1,9 @@
+/* globals sandbox */
 import Parser from "./parser"
 import { helper } from "./helper.js"
 import { expect } from "chai"
 import path from "path"
-import db from "../../database/models"
 import fixturesResultFetch from "../fixtures/fixturesResultFetch"
-
-const { file_history } = db.sequelize.models
 
 describe("helper", () => {
   describe(".list", () => {
@@ -61,7 +59,7 @@ describe("helper", () => {
     })
 
     it("takes a string as argument", () => {
-      const result = helper.normalizeNumber("0")
+      helper.normalizeNumber("0")
       expect(helper.normalizeNumber.firstCall.args.length).to.be.not.equal(0)
       expect(helper.normalizeNumber.firstCall.args[0]).to.be.a("string")
     })
@@ -132,8 +130,9 @@ describe("helper", () => {
         {
           result: helper.normalizeNumber("01.mkv"),
           expected: 1
-        }, 
+        } 
       )
+
       result.forEach((item) => {
         expect(item.result).to.be.equal(item.expected)
       })

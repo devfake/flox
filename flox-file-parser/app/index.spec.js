@@ -1,3 +1,4 @@
+/* globals sandbox, request */
 import chai, { expect } from "chai"
 import db from "../database/models"
 import chaiAsPromised from "chai-as-promised"
@@ -15,35 +16,31 @@ describe("HTTP Server", () => {
     process.env.MOVIES_ROOT = __dirname + "/fixtures/movies"
 
     let i = 0
-    file_history.addHook('beforeCreate', 'stubCreatedAt', (row, options) => {
+    file_history.addHook("beforeCreate", "stubCreatedAt", (row) => {
       row.createdAt = Date.parse(new Date("01.01.2000")) + (i += 1000)
       row.updatedAt = Date.parse(new Date("01.01.2000")) + i
     })
   })
 
   afterEach(() => {
-    file_history.removeHook('beforeCreate', 'stubCreatedAt')
+    file_history.removeHook("beforeCreate", "stubCreatedAt")
   })
 
   describe("GET: fetch", () => {
     const path = "/fetch"
 
-    it("should succeed", (done) => {
-      request.get(path)
-        .expect(200, done) 
+    it("should succeed", () => {
+      return request.get(path)
+        .expect(200) 
     })
 
-    it("returns valid json", (done) => {
-      request.get(path)
-        .expect('Content-Type', /json/)
-        .end((err, res) => { 
-          if(err) return done(err)
-          done()
-        })
+    it("returns valid json", () => {
+      return request.get(path)
+        .expect("Content-Type", /json/)
     })
 
-    it("should contain movies", (done) => {
-      request.get(path)
+    it("should contain movies", () => {
+      return request.get(path)
         .expect(res => {
           const stringified = JSON.stringify(res.body)
 
@@ -52,14 +49,10 @@ describe("HTTP Server", () => {
           expect(res.body).to.have.property("movies")
           expect(res.body).to.be.a("object")
         })
-        .end((err) => {
-          if (err) return done(err)
-          done()
-        })
     })
 
-    it("should contain tv", (done) => {
-      request.get(path)
+    it("should contain tv", () => {
+      return request.get(path)
         .expect(res => {
           const stringified = JSON.stringify(res.body)
 
@@ -67,10 +60,6 @@ describe("HTTP Server", () => {
           expect(stringified).to.match(/Breaking Bad/)
           expect(res.body).to.have.property("tv")
           expect(res.body).to.be.a("object")
-        })
-        .end((err) => {
-          if (err) return done(err)
-          done()
         })
     })
   })
@@ -85,7 +74,7 @@ describe("HTTP Server", () => {
 
     it("returns valid json", () => {
       return request.get(path)
-        .expect('Content-Type', /json/)
+        .expect("Content-Type", /json/)
     })
 
     it("should only include tv", () => {
@@ -113,7 +102,7 @@ describe("HTTP Server", () => {
 
     it("returns valid json", () => {
       return request.get(path)
-        .expect('Content-Type', /json/)
+        .expect("Content-Type", /json/)
     })
 
     it("should only include movies", () => {
@@ -141,7 +130,7 @@ describe("HTTP Server", () => {
 
     it("should return valid json", () => {
       return request.get(path)
-        .expect('Content-Type', /json/)
+        .expect("Content-Type", /json/)
     })
   })
 
@@ -155,7 +144,7 @@ describe("HTTP Server", () => {
 
     it("should return valid json", () => {
       return request.get(path)
-        .expect('Content-Type', /json/)
+        .expect("Content-Type", /json/)
     })
 
     context("should return only changes since the given timestamp", () => {
@@ -164,7 +153,7 @@ describe("HTTP Server", () => {
       })
 
       it("with empty db", () => {
-        file_history.removeHook('beforeCreate', 'stubCreatedAt')
+        file_history.removeHook("beforeCreate", "stubCreatedAt")
 
         return request.get(path).expect((res) => {
           expect(res.body).to.have.deep.members(fixturesResultFetch.expectedMovies)
@@ -388,7 +377,7 @@ describe("HTTP Server", () => {
 
     it("should return valid json", () => {
       return request.get(path)
-        .expect('Content-Type', /json/)
+        .expect("Content-Type", /json/)
     })
 
     context("should return only changes since the given timestamp", () => {
@@ -397,7 +386,7 @@ describe("HTTP Server", () => {
       })
 
       it("with empty db", () => {
-        file_history.removeHook('beforeCreate', 'stubCreatedAt')
+        file_history.removeHook("beforeCreate", "stubCreatedAt")
 
         return request.get(path).expect((res) => {
           expect(res.body).to.have.deep.members(fixturesResultFetch.expectedTv)
