@@ -2,6 +2,7 @@
 
   namespace App\Services;
 
+  use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
   use Illuminate\Database\Eloquent\Collection;
@@ -12,13 +13,15 @@
     private $episode;
     private $tmdb;
     private $storage;
+    private $alternativeTitle;
 
-    public function __construct(Item $item, Episode $episode, TMDB $tmdb, Storage $storage)
+    public function __construct(Item $item, Episode $episode, TMDB $tmdb, Storage $storage, AlternativeTitle $alternativeTitle)
     {
       $this->item = $item;
       $this->episode = $episode;
       $this->tmdb = $tmdb;
       $this->storage = $storage;
+      $this->alternativeTitle = $alternativeTitle;
     }
 
     /**
@@ -62,7 +65,7 @@
      *
      * @param $title
      * @param $item
-     * @return bool|mixed
+     * @return bool|\Exception|mixed
      */
     private function tmdbSearch($title, $item)
     {
@@ -84,15 +87,15 @@
      */
     private function findOrCreateItem($firstResult, $item)
     {
-      $tmdb_id = $firstResult['tmdb_id'];
+      $tmdbId = $firstResult['tmdb_id'];
 
       // Check against our database.
-      if($this->foundInDatabase($tmdb_id, 'tmdb_id')) {
-        return $this->handleStatus($item, $tmdb_id);
+      if($this->foundInDatabase($tmdbId, 'tmdb_id')) {
+        return $this->handleStatus($item, $tmdbId);
       }
 
       // Otherwise create a new item from the result.
-      $created = $this->item->store($firstResult, $this->tmdb, $this->storage);
+      $created = $this->item->store($firstResult, $this->tmdb, $this->storage, $this->episode, $this->alternativeTitle);
 
       return $this->handleStatus($item, $created->tmdb_id);
     }
@@ -122,10 +125,10 @@
      * @param $tmdb_id
      * @return \Exception|mixed
      */
-    public function handleStatus($item, $tmdb_id)
+    public function handleStatus($item, $tmdbId)
     {
       if($item->status == 'added') {
-        return $this->storeSrc($item, $tmdb_id);
+        return $this->storeSrc($item, $tmdbId);
       }
 
       return new \Exception('No status in file found');
@@ -137,12 +140,12 @@
      * @param $item
      * @param $tmdb_id
      */
-    private function storeSrc($item, $tmdb_id)
+    private function storeSrc($item, $tmdbId)
     {
       if($this->isTvShow($item)) {
-        $model = $this->episode->searchEpisode($tmdb_id, $item);
+        $model = $this->episode->findEpisode($tmdbId, $item);
       } else {
-        $model = $this->item->findByTmdbId($tmdb_id);
+        $model = $this->item->findByTmdbId($tmdbId);
       }
 
       return $model->update([

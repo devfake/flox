@@ -32,7 +32,7 @@
      * @param $data
      * @return Item
      */
-    public function store($data, TMDB $tmdb, Storage $storage)
+    public function store($data, TMDB $tmdb, Storage $storage, Episode $episode, AlternativeTitle $alternativeTitle)
     {
       $tmdbId = $data['tmdb_id'];
       $mediaType = $data['media_type'];
@@ -52,10 +52,10 @@
       $storage->createPosterFile($data['poster']);
 
       if($mediaType == 'tv') {
-        $this->createEpisodes($tmdbId, $tmdb);
+        $episode->store($tmdbId, $tmdb);
       }
 
-      $this->addAlternativeTitles($item, $tmdb);
+      $alternativeTitle->store($item, $tmdb);
 
       return $item;
     }
@@ -66,59 +66,15 @@
      *
      * @param TMDB $tmdb
      */
-    public function updateAlternativeTitles(TMDB $tmdb, $tmdbID = null)
+    public function updateAlternativeTitles(TMDB $tmdb, AlternativeTitle $alternativeTitle, $tmdbID = null)
     {
       set_time_limit(3000);
 
       $items = $tmdbID ? $this->searchTmdbId($tmdbID)->get() : $this->all();
 
-      $items->each(function($item) use ($tmdb) {
-        $this->addAlternativeTitles($item, $tmdb);
+      $items->each(function($item) use ($tmdb, $alternativeTitle) {
+        $alternativeTitle->store($item, $tmdb);
       });
-    }
-
-    /**
-     * Store all alternative titles for tv shows and movies.
-     *
-     * @param      $item
-     * @param TMDB $tmdb
-     */
-    public function addAlternativeTitles($item, TMDB $tmdb)
-    {
-      $alternativeTitles = $tmdb->getAlternativeTitles($item);
-
-      foreach($alternativeTitles as $title) {
-        AlternativeTitle::firstOrCreate([
-          'title' => $title->title,
-          'tmdb_id' => $item['tmdb_id'],
-          'country' => $title->iso_3166_1,
-        ]);
-      }
-    }
-
-    /**
-     * Save all episodes of each season.
-     *
-     * @param $seasons
-     * @param $tmdbId
-     */
-    private function createEpisodes($tmdbId, TMDB $tmdb)
-    {
-      $seasons = $tmdb->tvEpisodes($tmdbId);
-
-      foreach($seasons as $season) {
-        foreach($season->episodes as $episode) {
-          $new = new Episode();
-          $new->season_tmdb_id = $season->id;
-          $new->episode_tmdb_id = $episode->id;
-          $new->season_number = $episode->season_number;
-          $new->episode_number = $episode->episode_number;
-          $new->name = $episode->name;
-          $new->tmdb_id = $tmdbId;
-          $new->created_at = time();
-          $new->save();
-        }
-      }
     }
 
     /*
@@ -147,9 +103,9 @@
      * Scopes
      */
 
-    public function scopeFindByTmdbId($query, $tmdb_id)
+    public function scopeFindByTmdbId($query, $tmdbId)
     {
-      return $query->where('tmdb_id', $tmdb_id);
+      return $query->where('tmdb_id', $tmdbId);
     }
 
     public function scopeFindByTitle($query, $title)

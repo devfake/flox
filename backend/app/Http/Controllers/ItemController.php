@@ -57,7 +57,7 @@
     public function episodes($tmdb_id)
     {
       return [
-        'episodes' => Episode::where('tmdb_id', $tmdb_id)->get()->groupBy('season_number'),
+        'episodes' => Episode::findByTmdbId($tmdb_id)->get()->groupBy('season_number'),
         'spoiler' => Setting::first()->episode_spoiler_protection
       ];
     }
@@ -76,7 +76,7 @@
       }
 
       // We don't have an smart search driver and return an simple 'like' query.
-      return $this->item->searchTitle($title)->get();
+      return $this->item->findByTitle($title)->get();
     }
 
     /**
@@ -104,11 +104,11 @@
      * @param TMDB $tmdb
      * @return Item
      */
-    public function add(TMDB $tmdb, Storage $storage)
+    public function add(TMDB $tmdb, Storage $storage, Episode $episode, AlternativeTitle $alternativeTitle)
     {
       $data = Input::get('item');
 
-      return $this->item->store($data, $tmdb, $storage);
+      return $this->item->store($data, $tmdb, $storage, $episode, $alternativeTitle);
     }
 
     /**
@@ -152,9 +152,9 @@
       }
     }
 
-    public function updateAlternativeTitles(TMDB $tmdb, $tmdbID = null)
+    public function updateAlternativeTitles(TMDB $tmdb, AlternativeTitle $alternativeTitle, $tmdbID = null)
     {
-      return $this->item->updateAlternativeTitles($tmdb, $tmdbID);
+      return $this->item->updateAlternativeTitles($tmdb, $alternativeTitle, $tmdbID);
     }
 
     /**
@@ -162,11 +162,11 @@
      */
     public function toggleSeason()
     {
-      $tmdb_id = Input::get('tmdb_id');
+      $tmdbId = Input::get('tmdb_id');
       $season = Input::get('season');
       $seen = Input::get('seen');
 
-      $episodes = Episode::where('tmdb_id', $tmdb_id)->where('season_number', $season)->get();
+      $episodes = Episode::where('tmdb_id', $tmdbId)->where('season_number', $season)->get();
 
       foreach($episodes as $episode) {
         $episode->seen = $seen;

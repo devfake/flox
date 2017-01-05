@@ -1,5 +1,6 @@
 <?php
 
+  use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
   use App\Services\Storage;
@@ -21,6 +22,7 @@
     private $tmdb;
     private $storage;
     private $episode;
+    private $alternativeTitle;
 
     public function setUp()
     {
@@ -30,8 +32,9 @@
       $this->tmdb = new TMDB(new Client());
       $this->storage = new Storage();
       $this->episode = new Episode();
+      $this->alternativeTitle = new AlternativeTitle();
 
-      $this->parser = new FileParser($this->item, $this->episode, $this->tmdb, $this->storage);
+      $this->parser = new FileParser($this->item, $this->episode, $this->tmdb, $this->storage, $this->alternativeTitle);
     }
 
     /** @test */
@@ -91,7 +94,7 @@
 
       $tmdbMock = $this->createTmdbMock($this->fixtureTmdbMovie, $this->fixtureAlternativeTitleMovie);
 
-      $parser = new FileParser($this->item, $this->episode, $tmdbMock, $this->storage);
+      $parser = new FileParser($this->item, $this->episode, $tmdbMock, $this->storage, $this->alternativeTitle);
 
       $parser->store($this->fixtureFilesMovie);
 
@@ -115,7 +118,7 @@
 
       $tmdbMock = $this->createTmdbMock($this->fixtureTmdbTv, $this->fixtureAlternativeTitleTv);
 
-      $parser = new FileParser($this->item, $this->episode, $tmdbMock, $this->storage);
+      $parser = new FileParser($this->item, $this->episode, $tmdbMock, $this->storage, $this->alternativeTitle);
 
       $parser->store($this->fixtureFilesTv);
 

@@ -1,7 +1,6 @@
 <?php
 
   use App\AlternativeTitle;
-  use App\Item;
   use App\Services\TMDB;
   use GuzzleHttp\Client;
   use GuzzleHttp\Handler\MockHandler;
@@ -19,8 +18,8 @@
       $tmdbMock = $this->createTmdbMock($this->fixtureAlternativeTitleMovie);
       $movie = $this->getMovie();
 
-      $item = new Item();
-      $item->addAlternativeTitles($movie, $tmdbMock);
+      $alternativeTitle = new AlternativeTitle();
+      $alternativeTitle->store($movie, $tmdbMock);
 
       $this->assertCount(4, AlternativeTitle::all());
 
@@ -35,8 +34,8 @@
       $tmdbMock = $this->createTmdbMock($this->fixtureAlternativeTitleTv);
       $tv = $this->getTv();
 
-      $item = new Item();
-      $item->addAlternativeTitles($tv, $tmdbMock);
+      $alternativeTitle = new AlternativeTitle();
+      $alternativeTitle->store($tv, $tmdbMock);
 
       $this->assertCount(3, AlternativeTitle::all());
 
