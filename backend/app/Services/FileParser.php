@@ -14,6 +14,7 @@
     private $tmdb;
     private $storage;
     private $alternativeTitle;
+    private $itemCategory;
 
     public function __construct(Item $item, Episode $episode, TMDB $tmdb, Storage $storage, AlternativeTitle $alternativeTitle)
     {
@@ -44,8 +45,10 @@
     public function store($files)
     {
       foreach($files as $type => $items) {
+        $this->itemCategory = $type;
+
         foreach($items as $item) {
-          $title = $this->isTvShow($item) ? $item->tv_title : $item->name;
+          $title = $item->name;
 
           // See if file is already in our database.
           if($found = $this->foundInDatabase($title, 'title')) {
@@ -142,7 +145,7 @@
      */
     private function storeSrc($item, $tmdbId)
     {
-      if($this->isTvShow($item)) {
+      if($this->itemCategory == 'tv') {
         $model = $this->episode->findEpisode($tmdbId, $item);
       } else {
         $model = $this->item->findByTmdbId($tmdbId);
@@ -151,16 +154,5 @@
       return $model->update([
         'src' => $item->src,
       ]);
-    }
-
-    /**
-     * If item has title property, it's an tv show.
-     *
-     * @param $item
-     * @return bool
-     */
-    private function isTvShow($item)
-    {
-      return isset($item->tv_title);
     }
   }
