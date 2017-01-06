@@ -2,9 +2,9 @@
 
   namespace App\Http\Controllers;
 
-  use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
+  use App\Services\Models\AlternativeTitle as AlternativeTitleService;
   use App\Services\Storage;
   use App\Services\TMDB;
   use App\Setting;
@@ -14,21 +14,22 @@
 
     private $loadingItems;
     private $item;
-    private $alternativeTitle;
     private $storage;
+    private $tmdb;
 
     /**
      * Get the amount of loading items and create an instance for 'item'.
      *
      * @param Item $item
      * @param Storage $storage
+     * @param TMDB $tmdb
      */
-    public function __construct(Item $item, AlternativeTitle $alternativeTitle, Storage $storage)
+    public function __construct(Item $item, Storage $storage, TMDB $tmdb)
     {
       $this->loadingItems = config('app.LOADING_ITEMS');
       $this->item = $item;
-      $this->alternativeTitle = $alternativeTitle;
       $this->storage = $storage;
+      $this->tmdb = $tmdb;
     }
 
     /**
@@ -106,11 +107,11 @@
      * @param TMDB $tmdb
      * @return Item
      */
-    public function add(TMDB $tmdb, Storage $storage, Episode $episode, AlternativeTitle $alternativeTitle)
+    public function add(TMDB $tmdb, Storage $storage, Episode $episode)
     {
       $data = Input::get('item');
 
-      return $this->item->store($data, $tmdb, $storage, $episode, $alternativeTitle);
+      return $this->item->store($data, $tmdb, $storage, $episode);
     }
 
     /**
@@ -135,7 +136,7 @@
       // Delete all related episodes
       // todo: Make this possible in migrations
       Episode::where('tmdb_id', $tmdb_id)->delete();
-      AlternativeTitle::where('tmdb_id', $tmdb_id)->delete();
+      //AlternativeTitle::where('tmdb_id', $tmdb_id)->delete();
     }
 
     /**
@@ -154,9 +155,16 @@
       }
     }
 
-    public function updateAlternativeTitles(TMDB $tmdb, $tmdbID = null)
+    /**
+     * Update alternative titles for all tv shows and movies or specific item.
+     * For old versions of flox or to keep all alternative titles up to date.
+     *
+     * @param AlternativeTitleService $alternativeTitle
+     * @param null                    $tmdbID
+     */
+    public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle, $tmdbID = null)
     {
-      return $this->alternativeTitle->updateAlternativeTitles($tmdb, $this->item, $tmdbID);
+      $alternativeTitle->update($tmdbID);
     }
 
     /**

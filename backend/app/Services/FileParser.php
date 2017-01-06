@@ -72,7 +72,7 @@
      *
      * @param $title
      * @param $item
-     * @return bool|\Exception|mixed
+     * @return bool|mixed
      */
     private function tmdbSearch($title, $item)
     {

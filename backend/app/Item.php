@@ -55,7 +55,7 @@
         $episode->store($tmdbId, $tmdb);
       }
 
-      $alternativeTitle->store($item, $tmdb);
+      $alternativeTitle->store($item);
 
       return $item;
     }

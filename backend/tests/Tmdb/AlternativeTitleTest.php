@@ -1,8 +1,8 @@
 <?php
 
   use App\AlternativeTitle;
+  use App\Services\Models\AlternativeTitle as AlternativeTitleService;
   use App\Item;
-  use App\Services\TMDB;
   use GuzzleHttp\Client;
   use GuzzleHttp\Handler\MockHandler;
   use GuzzleHttp\HandlerStack;
@@ -13,14 +13,12 @@
 
     use DatabaseMigrations;
 
-    private $alternativeTitle;
     private $item;
 
     public function setUp()
     {
       parent::setUp();
 
-      $this->alternativeTitle = new AlternativeTitle();
       $this->item = new Item();
     }
 
@@ -30,9 +28,10 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_movie'));
       $movie = $this->getMovie();
 
-      $this->alternativeTitle->store($movie, $this->app->make(TMDB::class));
+      $model = $this->app->make(AlternativeTitleService::class);
+      $model->create($movie);
 
-      $this->assertCount(4, $this->alternativeTitle->all());
+      $this->assertCount(4, AlternativeTitle::all());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -44,9 +43,10 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_tv'));
       $tv = $this->getTv();
 
-      $this->alternativeTitle->store($tv, $this->app->make(TMDB::class));
+      $model = $this->app->make(AlternativeTitleService::class);
+      $model->create($tv);
 
-      $this->assertCount(3, $this->alternativeTitle->all());
+      $this->assertCount(3, AlternativeTitle::all());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'GOT'
       ]);
@@ -58,9 +58,10 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_movie'));
       $this->createMovie();
 
-      $this->alternativeTitle->updateAlternativeTitles($this->app->make(TMDB::class), $this->item);
+      $model = $this->app->make(AlternativeTitleService::class);
+      $model->update();
 
-      $this->assertCount(4, $this->alternativeTitle->all());
+      $this->assertCount(4, AlternativeTitle::all());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -72,9 +73,10 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_movie'));
       $this->createMovie();
 
-      $this->alternativeTitle->updateAlternativeTitles($this->app->make(TMDB::class), $this->item, 68735);
+      $model = $this->app->make(AlternativeTitleService::class);
+      $model->update(68735);
 
-      $this->assertCount(4, $this->alternativeTitle->all());
+      $this->assertCount(4, AlternativeTitle::all());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -86,9 +88,10 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_tv'));
       $this->createTv();
 
-      $this->alternativeTitle->updateAlternativeTitles($this->app->make(TMDB::class), $this->item);
+      $model = $this->app->make(AlternativeTitleService::class);
+      $model->update();
 
-      $this->assertCount(3, $this->alternativeTitle->all());
+      $this->assertCount(3, AlternativeTitle::all());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'GOT'
       ]);
@@ -100,9 +103,10 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_tv'));
       $this->createTv();
 
-      $this->alternativeTitle->updateAlternativeTitles($this->app->make(TMDB::class), $this->item, 1399);
+      $model = $this->app->make(AlternativeTitleService::class);
+      $model->update(1399);
 
-      $this->assertCount(3, $this->alternativeTitle->all());
+      $this->assertCount(3, AlternativeTitle::all());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'GOT'
       ]);
