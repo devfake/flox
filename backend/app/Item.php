@@ -60,23 +60,6 @@
       return $item;
     }
 
-    /**
-     * Update alternative titles for all tv shows and movies or specific item.
-     * For old versions of flox or to keep all alternative titles up to date.
-     *
-     * @param TMDB $tmdb
-     */
-    public function updateAlternativeTitles(TMDB $tmdb, AlternativeTitle $alternativeTitle, $tmdbID = null)
-    {
-      set_time_limit(3000);
-
-      $items = $tmdbID ? $this->searchTmdbId($tmdbID)->get() : $this->all();
-
-      $items->each(function($item) use ($tmdb, $alternativeTitle) {
-        $alternativeTitle->store($item, $tmdb);
-      });
-    }
-
     /*
      * Relations
      */

@@ -14,6 +14,7 @@
 
     private $loadingItems;
     private $item;
+    private $alternativeTitle;
     private $storage;
 
     /**
@@ -22,10 +23,11 @@
      * @param Item $item
      * @param Storage $storage
      */
-    public function __construct(Item $item, Storage $storage)
+    public function __construct(Item $item, AlternativeTitle $alternativeTitle, Storage $storage)
     {
       $this->loadingItems = config('app.LOADING_ITEMS');
       $this->item = $item;
+      $this->alternativeTitle = $alternativeTitle;
       $this->storage = $storage;
     }
 
@@ -152,9 +154,9 @@
       }
     }
 
-    public function updateAlternativeTitles(TMDB $tmdb, AlternativeTitle $alternativeTitle, $tmdbID = null)
+    public function updateAlternativeTitles(TMDB $tmdb, $tmdbID = null)
     {
-      return $this->item->updateAlternativeTitles($tmdb, $alternativeTitle, $tmdbID);
+      return $this->alternativeTitle->updateAlternativeTitles($tmdb, $this->item, $tmdbID);
     }
 
     /**
