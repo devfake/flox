@@ -17,7 +17,9 @@
       $this->assertTrue(Schema::hasColumn('settings', 'episode_spoiler_protection'));
       $this->assertTrue(Schema::hasColumn('episodes', 'src'));
       $this->assertTrue(Schema::hasColumn('items', 'src'));
-      $this->assertTrue(Schema::hasTable('alternative_titles'));         
+      $this->assertTrue(Schema::hasTable('alternative_titles'));
+      $this->assertTrue(Schema::hasTable('alternative_titles'));
+      $this->assertTrue(Schema::hasColumn('settings', 'last_fetch_to_file_parser'));
     }
 
     /** @test */

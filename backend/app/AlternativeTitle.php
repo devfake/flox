@@ -9,7 +9,11 @@
 
     public $timestamps = false;
 
-    protected $fillable = ['title', 'tmdb_id', 'country'];
+    protected $fillable = [
+      'title',
+      'tmdb_id',
+      'country'
+    ];
 
     /**
      * Store all alternative titles for tv shows and movies.

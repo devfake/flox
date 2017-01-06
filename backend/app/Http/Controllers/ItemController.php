@@ -17,9 +17,9 @@
     private $storage;
 
     /**
-     * Get the amout of loading items and create an instance for 'item'.
+     * Get the amount of loading items and create an instance for 'item'.
      *
-     * @param Item    $item
+     * @param Item $item
      * @param Storage $storage
      */
     public function __construct(Item $item, Storage $storage)
@@ -99,7 +99,7 @@
     }
 
     /**
-     * Add a new movie to database and create the poster image file.
+     * Create a new movie / tv show.
      *
      * @param TMDB $tmdb
      * @return Item

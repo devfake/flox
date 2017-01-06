@@ -5,6 +5,7 @@
   use App\Item;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use App\Setting;
   use GuzzleHttp\Client;
   use GuzzleHttp\Handler\MockHandler;
   use GuzzleHttp\HandlerStack;
@@ -133,6 +134,24 @@
       foreach($episodes as $episode) {
         $this->assertNotNull($episode->src);
       }
+    }
+
+    /** @test */
+    public function it_can_update_last_fetch_to_file_parser_timestamp()
+    {
+      $this->createSetting();
+      $this->createMovie();
+
+      $setting1 = Setting::first();
+      $this->parser->fetch();
+      $setting2 = Setting::first();
+      sleep(1);
+      $this->parser->fetch();
+      $setting3 = Setting::first();
+
+      $this->assertNull($setting1->last_fetch_to_file_parser);
+      $this->assertNotNull($setting2->last_fetch_to_file_parser);
+      $this->assertNotEquals($setting2->last_fetch_to_file_parser, $setting3->last_fetch_to_file_parser);
     }
 
     private function createTmdbMock($fixture, $alternativeTitles)

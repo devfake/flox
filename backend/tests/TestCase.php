@@ -40,6 +40,11 @@
       $this->fixtureTmdbEpisodes = json_decode(file_get_contents(__DIR__ . '/fixtures/Tmdb/episodes.json'));
     }
 
+    protected function createSetting()
+    {
+      factory(App\Setting::class)->create();
+    }
+
     protected function createMovie()
     {
       factory(App\Item::class)->create([
