@@ -27,7 +27,7 @@
       $this->item = new Item();
       $this->episode = new Episode();
 
-      $this->parser = $this->app->make(FileParser::class);
+      $this->parser = app(FileParser::class);
     }
 
     /** @test */
@@ -79,7 +79,7 @@
       $items = $this->item->get();
 
       $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
-      $parser = $this->app->make(FileParser::class);
+      $parser = app(FileParser::class);
       $parser->store($this->parserFixtures('movie'));
 
       $item = $this->item->first();
@@ -98,7 +98,7 @@
       $episodes1 = $this->episode->get();
 
       $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
-      $parser = $this->app->make(FileParser::class);
+      $parser = app(FileParser::class);
       $parser->store($this->parserFixtures('tv'));
 
       $episodes2 = $this->episode->get();
@@ -144,7 +144,7 @@
       $this->app->instance(Client::class, new Client(['handler' => $handler]));
 
       // Mock this to avoid unknown requests to TMDb (get seasons and then get episodes for each season)
-      $mock = Mockery::mock($this->app->make(TMDB::class))->makePartial();
+      $mock = Mockery::mock(app(TMDB::class))->makePartial();
       $mock->shouldReceive('tvEpisodes')->andReturn(json_decode($this->tmdbFixtures('episodes')));
 
       $this->app->instance(TMDB::class, $mock);

@@ -28,7 +28,7 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_movie'));
       $movie = $this->getMovie();
 
-      $model = $this->app->make(AlternativeTitleService::class);
+      $model = app(AlternativeTitleService::class);
       $model->create($movie);
 
       $this->assertCount(4, AlternativeTitle::all());
@@ -43,7 +43,7 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_tv'));
       $tv = $this->getTv();
 
-      $model = $this->app->make(AlternativeTitleService::class);
+      $model = app(AlternativeTitleService::class);
       $model->create($tv);
 
       $this->assertCount(3, AlternativeTitle::all());
@@ -58,7 +58,7 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_movie'));
       $this->createMovie();
 
-      $model = $this->app->make(AlternativeTitleService::class);
+      $model = app(AlternativeTitleService::class);
       $model->update();
 
       $this->assertCount(4, AlternativeTitle::all());
@@ -73,7 +73,7 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_movie'));
       $this->createMovie();
 
-      $model = $this->app->make(AlternativeTitleService::class);
+      $model = app(AlternativeTitleService::class);
       $model->update(68735);
 
       $this->assertCount(4, AlternativeTitle::all());
@@ -88,7 +88,7 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_tv'));
       $this->createTv();
 
-      $model = $this->app->make(AlternativeTitleService::class);
+      $model = app(AlternativeTitleService::class);
       $model->update();
 
       $this->assertCount(3, AlternativeTitle::all());
@@ -103,7 +103,7 @@
       $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_tv'));
       $this->createTv();
 
-      $model = $this->app->make(AlternativeTitleService::class);
+      $model = app(AlternativeTitleService::class);
       $model->update(1399);
 
       $this->assertCount(3, AlternativeTitle::all());
