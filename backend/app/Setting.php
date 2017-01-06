@@ -8,7 +8,6 @@
     public $timestamps = false;
 
     protected $dates = [
-
       'last_fetch_to_file_parser',
     ];
 
