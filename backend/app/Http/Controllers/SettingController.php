@@ -5,6 +5,7 @@
   use App\Episode;
   use App\Http\Requests\ImportRequest;
   use App\Item;
+  use App\Services\FileParser;
   use App\Services\Storage;
   use App\Services\TMDB;
   use App\Setting;
@@ -159,5 +160,17 @@
         'show_date' => Input::get('date'),
         'episode_spoiler_protection' => Input::get('spoiler'),
       ]);
+    }
+
+    /**
+     * Call flox-file-parser.
+     *
+     * @param FileParser $parser
+     */
+    public function fetchFiles(FileParser $parser)
+    {
+      $files = $parser->fetch();
+
+      $parser->store($files);
     }
   }

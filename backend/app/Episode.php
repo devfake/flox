@@ -2,6 +2,7 @@
 
   namespace App;
 
+  use App\Services\TMDB;
   use Illuminate\Database\Eloquent\Model;
 
   class Episode extends Model {
@@ -18,4 +19,45 @@
       'season_tmdb_id',
       'created_at'
     ];
+
+    /**
+     * Save all episodes of each season.
+     *
+     * @param $seasons
+     * @param $tmdbId
+     */
+    public function store($tmdbId, TMDB $tmdb)
+    {
+      $seasons = $tmdb->tvEpisodes($tmdbId);
+
+      foreach($seasons as $season) {
+        foreach($season->episodes as $episode) {
+          $this->create([
+            'season_tmdb_id' => $season->id,
+            'episode_tmdb_id' => $episode->id,
+            'season_number' => $episode->season_number,
+            'episode_number' => $episode->episode_number,
+            'name' => $episode->name,
+            'tmdb_id' => $tmdbId,
+            'created_at' => time(),
+          ]);
+        }
+      }
+    }
+
+    /*
+     * Scopes
+     */
+
+    public function scopeFindByTmdbId($query, $tmdbId)
+    {
+      return $query->where('tmdb_id', $tmdbId);
+    }
+
+    public function scopeFindEpisode($query, $tmdbId, $episode)
+    {
+      return $query->where('tmdb_id', $tmdbId)
+        ->where('season_number', $episode->season_number)
+        ->where('episode_number', $episode->episode_number);
+    }
   }
