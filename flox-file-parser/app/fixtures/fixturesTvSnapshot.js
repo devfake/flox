@@ -13,7 +13,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 1,
     "season_number" : 1,
-    "tv_title" : "Breaking Bad",
     "subtitles" : __dirname + "/tv/Breaking Bad/S1/1.srt"
   },
   {
@@ -30,7 +29,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 2,
     "season_number" : 1,
-    "tv_title" : "Breaking Bad",
     "subtitles" : __dirname + "/tv/Breaking Bad/S1/2.srt"
   },
   {
@@ -47,7 +45,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 1,
     "season_number" : 2,
-    "tv_title" : "Breaking Bad",
     "subtitles" : __dirname + "/tv/Breaking Bad/s2/1.srt"
   },
   {
@@ -64,7 +61,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 2,
     "season_number" : 2,
-    "tv_title" : "Breaking Bad",
     "subtitles" : __dirname + "/tv/Breaking Bad/s2/2.srt"
   },
   {
@@ -81,7 +77,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 1,
     "season_number" : 2,
-    "tv_title" : "Game of Thrones",
     "subtitles" : null
   },
   {
@@ -98,7 +93,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 2,
     "season_number" : 2,
-    "tv_title" : "Game of Thrones",
     "subtitles" : null
   },
   {
@@ -115,7 +109,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 1,
     "season_number" : 1,
-    "tv_title" : "Game of Thrones",
     "subtitles" : null
   },
   {
@@ -132,7 +125,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 2,
     "season_number" : 1,
-    "tv_title" : "Game of Thrones",
     "subtitles" : null
   },
   {
@@ -149,7 +141,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 1,
     "season_number" : 1,
-    "tv_title" : "Breaking Bad",
     "subtitles" : __dirname + "/tv/Breaking Bad/S1/1.srt"
   },
   {
@@ -166,7 +157,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 1,
     "season_number" : 1,
-    "tv_title" : "Breaking Bad",
     "subtitles" : __dirname + "/tv/Breaking Bad/S1/1.srt"
   },
   {
@@ -183,7 +173,6 @@ module.exports = [
     "tags" : null,
     "episode_number" : 2,
     "season_number" : 2,
-    "tv_title" : "Breaking Bad",
     "subtitles" : __dirname + "/tv/Breaking Bad/s2/2.srt"
   }
 ]

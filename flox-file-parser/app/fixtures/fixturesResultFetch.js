@@ -1,7 +1,7 @@
 var fetch = module.exports.fetch = {
   "tv": [
     {
-      "tv_title": "Breaking Bad",
+      "name": "Breaking Bad",
       "season_number": 1,
       "episode_number": 1,
       "extension": "mkv",
@@ -13,7 +13,7 @@ var fetch = module.exports.fetch = {
       "src": __dirname + "/tv/Breaking Bad/S1/1.mkv"
     },
     {
-      "tv_title": "Breaking Bad",
+      "name": "Breaking Bad",
       "season_number": 1,
       "episode_number": 2,
       "extension": "mkv",
@@ -25,7 +25,7 @@ var fetch = module.exports.fetch = {
       "src": __dirname + "/tv/Breaking Bad/S1/2.mkv"
     },
     {
-      "tv_title": "Breaking Bad",
+      "name": "Breaking Bad",
       "season_number": 2,
       "episode_number": 1,
       "status": "added",
@@ -37,7 +37,7 @@ var fetch = module.exports.fetch = {
       "src": __dirname + "/tv/Breaking Bad/s2/1.mp4"
     },
     {
-      "tv_title": "Breaking Bad",
+      "name": "Breaking Bad",
       "season_number": 2,
       "episode_number": 2,
       "tags": [],
@@ -49,7 +49,7 @@ var fetch = module.exports.fetch = {
       "src": __dirname + "/tv/Breaking Bad/s2/2.mkv"
     },
     {
-      "tv_title": "Game of Thrones",
+      "name": "Game of Thrones",
       "season_number": 2,
       "episode_number": 1,
       "status": "added",
@@ -61,7 +61,7 @@ var fetch = module.exports.fetch = {
       "src": __dirname + "/tv/Game of Thrones/S2/1.mkv"
     },
     {
-      "tv_title": "Game of Thrones",
+      "name": "Game of Thrones",
       "season_number": 2,
       "episode_number": 2,
       "tags": [],
@@ -73,7 +73,7 @@ var fetch = module.exports.fetch = {
       "src": __dirname + "/tv/Game of Thrones/S2/2.mkv"
     },
     {
-      "tv_title": "Game of Thrones",
+      "name": "Game of Thrones",
       "season_number": 1,
       "episode_number": 1,
       "extension": "mkv",
@@ -85,7 +85,7 @@ var fetch = module.exports.fetch = {
       "src": __dirname + "/tv/Game of Thrones/s1/1.mkv"
     },
     {
-      "tv_title": "Game of Thrones",
+      "name": "Game of Thrones",
       "season_number": 1,
       "tags": [],
       "episode_number": 2,

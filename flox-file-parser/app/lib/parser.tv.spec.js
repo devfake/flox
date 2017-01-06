@@ -87,8 +87,8 @@ describe("Parser (tv)", () => {
           result = parser.fetch()
 
           return result.tv.then((res) => {
-            got = res.filter((t) => t.tv_title === game_of_thrones)
-            bb = res.filter((t) => t.tv_title === breaking_bad)
+            got = res.filter((t) => t.name === game_of_thrones)
+            bb = res.filter((t) => t.name === breaking_bad)
 
             got_s1 = got.filter((e) => e.season_number === 1)
             got_s2 = got.filter((e) => e.season_number === 2)
