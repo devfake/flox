@@ -57,7 +57,7 @@
     public function episodes($tmdb_id)
     {
       return [
-        'episodes' => Episode::where('tmdb_id', $tmdb_id)->get()->groupBy('season_number'),
+        'episodes' => Episode::findByTmdbId($tmdb_id)->get()->groupBy('season_number'),
         'spoiler' => Setting::first()->episode_spoiler_protection
       ];
     }
@@ -76,9 +76,7 @@
       }
 
       // We don't have an smart search driver and return an simple 'like' query.
-      return $this->item->where('title', 'LIKE', '%' . $title . '%')
-        ->orWhere('original_title', 'LIKE', '%' . $title . '%')
-        ->get();
+      return $this->item->findByTitle($title)->get();
     }
 
     /**
@@ -106,13 +104,11 @@
      * @param TMDB $tmdb
      * @return Item
      */
-    public function add(TMDB $tmdb)
+    public function add(TMDB $tmdb, Storage $storage, Episode $episode, AlternativeTitle $alternativeTitle)
     {
       $data = Input::get('item');
 
-      $this->storage->createPosterFile($data['poster']);
-
-      return $this->createItem($data, $tmdb);
+      return $this->item->store($data, $tmdb, $storage, $episode, $alternativeTitle);
     }
 
     /**
@@ -141,74 +137,6 @@
     }
 
     /**
-     * Create the new movie.
-     *
-     * @param $data
-     * @return Item
-     */
-    private function createItem($data, TMDB $tmdb)
-    {
-      $tmdbId = $data['tmdb_id'];
-      $mediaType = $data['media_type'];
-
-      $item = $this->item->create([
-        'tmdb_id' => $tmdbId,
-        'title' => $data['title'],
-        'media_type' => $mediaType,
-        'original_title' => $data['original_title'],
-        'poster' => $data['poster'],
-        'rating' => 1,
-        'released' => $data['released'],
-        'genre' => $data['genre'],
-        'created_at' => time(),
-      ]);
-
-      if($mediaType == 'tv') {
-        $this->createEpisodes($tmdbId, $tmdb);
-      }
-
-      $this->addAlternativeTitles($item, $tmdb);
-
-      return $item;
-    }
-
-    /**
-     * Update alternative titles for all tv shows and movies or specific item.
-     * For old versions of flox or hold all alternative titles up to date.
-     *
-     * @param TMDB $tmdb
-     */
-    public function updateAlternativeTitles(TMDB $tmdb, $tmdbID = null)
-    {
-      set_time_limit(3000);
-
-      $items = $tmdbID ? Item::where('tmdb_id', $tmdbID)->get() : Item::all();
-
-      $items->each(function($item) use ($tmdb) {
-        $this->addAlternativeTitles($item, $tmdb);
-      });
-    }
-
-    /**
-     * Store all alternative titles for tv shows and movies.
-     *
-     * @param      $item
-     * @param TMDB $tmdb
-     */
-    private function addAlternativeTitles($item, TMDB $tmdb)
-    {
-      $alternativeTitles = $tmdb->getAlternativeTitles($item);
-
-      foreach($alternativeTitles as $title) {
-        AlternativeTitle::firstOrCreate([
-          'title' => $title->title,
-          'tmdb_id' => $item['tmdb_id'],
-          'country' => $title->iso_3166_1,
-        ]);
-      }
-    }
-
-    /**
      * Set an episode as seen/unseen.
      *
      * @param $id
@@ -224,45 +152,25 @@
       }
     }
 
+    public function updateAlternativeTitles(TMDB $tmdb, AlternativeTitle $alternativeTitle, $tmdbID = null)
+    {
+      return $this->item->updateAlternativeTitles($tmdb, $alternativeTitle, $tmdbID);
+    }
+
     /**
      * Toggle all episodes of an season as seen/unseen.
      */
     public function toggleSeason()
     {
-      $tmdb_id = Input::get('tmdb_id');
+      $tmdbId = Input::get('tmdb_id');
       $season = Input::get('season');
       $seen = Input::get('seen');
 
-      $episodes = Episode::where('tmdb_id', $tmdb_id)->where('season_number', $season)->get();
+      $episodes = Episode::where('tmdb_id', $tmdbId)->where('season_number', $season)->get();
 
       foreach($episodes as $episode) {
         $episode->seen = $seen;
         $episode->save();
-      }
-    }
-
-    /**
-     * Save all episodes of each season.
-     *
-     * @param $seasons
-     * @param $tmdbId
-     */
-    protected function createEpisodes($tmdbId, TMDB $tmdb)
-    {
-      $seasons = $tmdb->tvEpisodes($tmdbId);
-
-      foreach($seasons as $season) {
-        foreach($season->episodes as $episode) {
-          $new = new Episode();
-          $new->season_tmdb_id = $season->id;
-          $new->episode_tmdb_id = $episode->id;
-          $new->season_number = $episode->season_number;
-          $new->episode_number = $episode->episode_number;
-          $new->name = $episode->name;
-          $new->tmdb_id = $tmdbId;
-          $new->created_at = time();
-          $new->save();
-        }
       }
     }
   }

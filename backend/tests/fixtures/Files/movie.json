@@ -1,0 +1,16 @@
+{
+  "movies": [
+    {
+      "name": "warcraft",
+      "extension": "mkv",
+      "filename": "Warcraft.2016.720p.WEB-DL",
+      "src": "/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.mkv",
+      "year": 2016,
+      "tags": [
+        "720p"
+      ],
+      "status": "added",
+      "subtitles": "/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt"
+    }
+  ]
+}

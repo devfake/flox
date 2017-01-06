@@ -16,7 +16,18 @@
       'rating' => 1,
       'genre' => '',
       'released' => time(),
-      'created_at' => time(),      
+      'created_at' => time(),
+      'src' => null,
+    ];
+  });
+
+  $factory->define(App\Episode::class, function(Faker\Generator $faker) {
+    return [
+      'name' => $faker->name,
+      'season_tmdb_id' => 1,
+      'episode_tmdb_id' => 1,
+      'created_at' => time(),
+      'src' => null,
     ];
   });
 
