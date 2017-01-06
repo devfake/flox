@@ -6,11 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddSrcFieldForEpisodes extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('episodes', function (Blueprint $table) {
@@ -18,11 +13,6 @@ class AddSrcFieldForEpisodes extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('episodes', function (Blueprint $table) {

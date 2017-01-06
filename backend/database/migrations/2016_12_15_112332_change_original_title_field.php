@@ -6,11 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class ChangeOriginalTitleField extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
@@ -18,11 +13,6 @@ class ChangeOriginalTitleField extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('items', function (Blueprint $table) {

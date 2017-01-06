@@ -5,6 +5,8 @@
   use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
+  use App\Setting;
+  use Carbon\Carbon;
   use Illuminate\Database\Eloquent\Collection;
 
   class FileParser {
@@ -32,6 +34,8 @@
      */
     public function fetch()
     {
+      $this->updateTimestamp();
+
       return json_decode(
         file_get_contents(base_path('tests/fixtures/Files/all.json'))
       );
@@ -151,6 +155,16 @@
 
       return $model->update([
         'src' => $item->src,
+      ]);
+    }
+
+    /**
+     * Update last time we fetched flox-file-parser.
+     */
+    private function updateTimestamp()
+    {
+      Setting::first()->update([
+        'last_fetch_to_file_parser' => Carbon::now(),
       ]);
     }
   }

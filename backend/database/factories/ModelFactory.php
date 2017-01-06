@@ -10,6 +10,15 @@
     ];
   });
 
+  $factory->define(App\Setting::class, function(Faker\Generator $faker) {
+    return [
+      'show_date' => 1,
+      'show_genre' => 1,
+      'episode_spoiler_protection' => '',
+      'last_fetch_to_file_parser' => null,
+    ];
+  });
+
   $factory->define(App\Item::class, function(Faker\Generator $faker) {
     return [
       'poster' => '',
