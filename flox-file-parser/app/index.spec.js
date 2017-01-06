@@ -471,7 +471,7 @@ describe("HTTP Server", () => {
             "src": __dirname + "/fixtures/tv/Breaking Bad/S1/1.mp4",
             "status": "added",
             "season_number": 1,
-            "tv_title": "Breaking Bad",
+            "name": "Breaking Bad",
             "year": null,
             "tags": [],
             "filename": "1"
@@ -483,7 +483,7 @@ describe("HTTP Server", () => {
             "src": __dirname + "/fixtures/tv/Breaking Bad/S1/1.mkv",
             "status": "removed",
             "season_number": 1,
-            "tv_title": "Breaking Bad",
+            "name": "Breaking Bad",
             "year": null,
             "tags": [],
             "filename": "1"
@@ -495,7 +495,7 @@ describe("HTTP Server", () => {
             "src": __dirname + "/fixtures/tv/Breaking Bad/S1/1.mkv",
             "status": "added",
             "season_number": 1,
-            "tv_title": "Breaking Bad",
+            "name": "Breaking Bad",
             "year": null,
             "tags": [],
             "filename": "1"
@@ -507,7 +507,7 @@ describe("HTTP Server", () => {
             "src": __dirname + "/fixtures/tv/Breaking Bad/S1/1.mp4",
             "status": "removed",
             "season_number": 1,
-            "tv_title": "Breaking Bad",
+            "name": "Breaking Bad",
             "year": null,
             "tags": [],
             "filename": "1"
@@ -519,7 +519,7 @@ describe("HTTP Server", () => {
             "src": __dirname + "/fixtures/tv/Breaking Bad/s2/2.mkv",
             "status": "removed",
             "season_number": 2,
-            "tv_title": "Breaking Bad",
+            "name": "Breaking Bad",
             "year": null,
             "tags": [],
             "filename": "2"
@@ -531,7 +531,7 @@ describe("HTTP Server", () => {
             "src": __dirname + "/fixtures/tv/Breaking Bad/s2/2.mkv",
             "status": "added",
             "season_number": 2,
-            "tv_title": "Breaking Bad",
+            "name": "Breaking Bad",
             "year": null,
             "tags": [],
             "filename": "2"

@@ -45,7 +45,6 @@ const addEpisode = (episodesPath, episodeName, promises, season_number, tv_title
       name: tv_title,
       episode_number: helper.normalizeNumber(episodeName),
       season_number: season_number,
-      tv_title: tv_title,
       src: absolutePathEpisode
     }
   }))

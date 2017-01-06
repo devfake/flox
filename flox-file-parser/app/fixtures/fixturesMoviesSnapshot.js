@@ -13,7 +13,6 @@ module.exports = [
     "tags" : "hd,1080p",
     "episode_number" : null,
     "season_number" : null,
-    "tv_title" : null,
     "subtitles" : null
   },
   {
@@ -30,7 +29,6 @@ module.exports = [
     "tags" : "720p",
     "episode_number" : null,
     "season_number" : null,
-    "tv_title" : null,
     "subtitles" : __dirname + "/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt"
   },
   {
@@ -47,7 +45,6 @@ module.exports = [
     "tags" : "hd,1080p",
     "episode_number" : null,
     "season_number" : null,
-    "tv_title" : null,
     "subtitles" : null
   },
   {
@@ -64,7 +61,6 @@ module.exports = [
     "tags" : "hd,1080p",
     "episode_number" : null,
     "season_number" : null,
-    "tv_title" : null,
     "subtitles" : null
   },
   {
@@ -81,7 +77,6 @@ module.exports = [
     "tags" : "720p",
     "episode_number" : null,
     "season_number" : null,
-    "tv_title" : null,
     "subtitles" : __dirname + "/movies/subfolder/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt"
   },
   {
@@ -98,7 +93,6 @@ module.exports = [
     "tags" : "hd,1080p",
     "episode_number" : null,
     "season_number" : null,
-    "tv_title" : null,
     "subtitles" : null
   },
   {
@@ -115,7 +109,6 @@ module.exports = [
     "tags" : "720p",
     "episode_number" : null,
     "season_number" : null,
-    "tv_title" : null,
     "subtitles" : __dirname + "/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.srt"
   }
 ]

@@ -10,7 +10,6 @@ module.exports = function(sequelize, DataTypes) {
     tags: DataTypes.TEXT,
     episode_number: DataTypes.INTEGER,
     season_number: DataTypes.INTEGER,
-    tv_title: DataTypes.TEXT,
     subtitles: DataTypes.TEXT,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,

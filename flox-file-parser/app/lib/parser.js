@@ -13,6 +13,7 @@ const append = (model, status) => {
     src: model.src,
     date: date,
     status: status,
+    name: model.name,
     year: model.year,
     tags: model.tags ? model.tags.split(",") : [],
     filename: model.filename
@@ -21,16 +22,10 @@ const append = (model, status) => {
   if(model.category === "tv") {
     Object.assign(base, {
       episode_number: model.episode_number,
-      season_number: model.season_number,
-      tv_title: model.tv_title
+      season_number: model.season_number
     })
   }
   
-  if(model.category === "movies") {
-    Object.assign(base, {
-      name: model.name
-    })
-  }
 
   return base
 }
