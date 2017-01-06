@@ -4,21 +4,8 @@
 
     protected $baseUrl = 'http://localhost';
 
-    protected $fixtureFilesAll;
-    protected $fixtureFilesMovie;
-    protected $fixtureFilesTv;
-
-    protected $fixtureAlternativeTitleMovie;
-    protected $fixtureAlternativeTitleTv;
-
-    protected $fixtureTmdbMovie;
-    protected $fixtureTmdbTv;
-    protected $fixtureTmdbEpisodes;
-
     public function createApplication()
     {
-      $this->assignFixtures();
-
       $app = require __DIR__ . '/../bootstrap/app.php';
 
       $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
@@ -26,18 +13,14 @@
       return $app;
     }
 
-    private function assignFixtures()
+    protected function parserFixtures($type)
     {
-      $this->fixtureFilesAll = json_decode(file_get_contents(__DIR__ . '/fixtures/Files/all.json'));
-      $this->fixtureFilesMovie = json_decode(file_get_contents(__DIR__ . '/fixtures/Files/movie.json'));
-      $this->fixtureFilesTv = json_decode(file_get_contents(__DIR__ . '/fixtures/Files/tv.json'));
+      return json_decode(file_get_contents(__DIR__ . '/fixtures/Files/' . $type . '.json'));
+    }
 
-      $this->fixtureAlternativeTitleMovie = file_get_contents(__DIR__ . '/fixtures/Tmdb/alternative_titles_movie.json');
-      $this->fixtureAlternativeTitleTv = file_get_contents(__DIR__ . '/fixtures/Tmdb/alternative_titles_tv.json');
-
-      $this->fixtureTmdbMovie = file_get_contents(__DIR__ . '/fixtures/Tmdb/movie.json');
-      $this->fixtureTmdbTv = file_get_contents(__DIR__ . '/fixtures/Tmdb/tv.json');
-      $this->fixtureTmdbEpisodes = json_decode(file_get_contents(__DIR__ . '/fixtures/Tmdb/episodes.json'));
+    protected function tmdbFixtures($type)
+    {
+      return file_get_contents(__DIR__ . '/fixtures/Tmdb/' . $type . '.json');
     }
 
     protected function createSetting()
@@ -78,16 +61,16 @@
     protected function getMovie()
     {
       return factory(App\Item::class)->states('movie')->make([
-        'title' => 'Findet Nemo',
-        'tmdb_id' => 12,
+        'title' => 'Warcraft',
+        'tmdb_id' => 68735,
       ]);
     }
 
     protected function getTv()
     {
       return factory(App\Item::class)->states('tv')->make([
-        'title' => 'Dragonball Z',
-        'tmdb_id' => 12971
+        'title' => 'Game of Thrones',
+        'tmdb_id' => 1399
       ]);
     }
   }

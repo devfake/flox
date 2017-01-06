@@ -1,9 +1,7 @@
 <?php
 
-  use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
-  use App\Services\Storage;
   use App\Services\TMDB;
   use App\Setting;
   use GuzzleHttp\Client;
@@ -20,22 +18,16 @@
 
     private $item;
     private $parser;
-    private $tmdb;
-    private $storage;
     private $episode;
-    private $alternativeTitle;
 
     public function setUp()
     {
       parent::setUp();
 
       $this->item = new Item();
-      $this->tmdb = new TMDB(new Client());
-      $this->storage = new Storage();
       $this->episode = new Episode();
-      $this->alternativeTitle = new AlternativeTitle();
 
-      $this->parser = new FileParser($this->item, $this->episode, $this->tmdb, $this->storage, $this->alternativeTitle);
+      $this->parser = $this->app->make(FileParser::class);
     }
 
     /** @test */
@@ -55,15 +47,12 @@
     {
       $this->createMovie();
 
-      $item = $this->item->first();
+      $item1 = $this->item->first();
+      $this->parser->store($this->parserFixtures('movie'));
+      $item2 = $this->item->first();
 
-      $this->assertNull($item->src);
-
-      $this->parser->store($this->fixtureFilesMovie);
-
-      $item = $this->item->first();
-
-      $this->assertNotNull($item->src);
+      $this->assertNull($item1->src);
+      $this->assertNotNull($item2->src);
     }
 
     /** @test */
@@ -71,19 +60,17 @@
     {
       $this->createTv();
 
-      $episodes = $this->item->with('episodes')->first()->episodes;
+      $episodes1 = $this->item->with('episodes')->first()->episodes;
+      $this->parser->store($this->parserFixtures('tv'));
+      $episodes2 = $this->item->with('episodes')->first()->episodes;
 
-      foreach($episodes as $episode) {
+      $episodes1->each(function($episode) {
         $this->assertNull($episode->src);
-      }
+      });
 
-      $this->parser->store($this->fixtureFilesTv);
-
-      $episodes = $this->item->with('episodes')->first()->episodes;
-
-      foreach($episodes as $episode) {
+      $episodes2->each(function($episode) {
         $this->assertNotNull($episode->src);
-      }
+      });
     }
 
     /** @test */
@@ -91,49 +78,41 @@
     {
       $items = $this->item->get();
 
-      $this->assertCount(0, $items);
-
-      $tmdbMock = $this->createTmdbMock($this->fixtureTmdbMovie, $this->fixtureAlternativeTitleMovie);
-
-      $parser = new FileParser($this->item, $this->episode, $tmdbMock, $this->storage, $this->alternativeTitle);
-
-      $parser->store($this->fixtureFilesMovie);
-
-      $this->seeInDatabase('items', [
-        'title' => 'Warcraft: The Beginning'
-      ]);
+      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $parser = $this->app->make(FileParser::class);
+      $parser->store($this->parserFixtures('movie'));
 
       $item = $this->item->first();
 
+      $this->assertCount(0, $items);
       $this->assertNotNull($item->src);
+      $this->seeInDatabase('items', [
+        'title' => 'Warcraft: The Beginning'
+      ]);
     }
 
     /** @test */
     public function it_should_create_tv_with_episodes_and_store_src_if_not_found_in_database()
     {
       $items = $this->item->get();
-      $episodes = $this->episode->get();
+      $episodes1 = $this->episode->get();
+
+      $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
+      $parser = $this->app->make(FileParser::class);
+      $parser->store($this->parserFixtures('tv'));
+
+      $episodes2 = $this->episode->get();
 
       $this->assertCount(0, $items);
-      $this->assertCount(0, $episodes);
-
-      $tmdbMock = $this->createTmdbMock($this->fixtureTmdbTv, $this->fixtureAlternativeTitleTv);
-
-      $parser = new FileParser($this->item, $this->episode, $tmdbMock, $this->storage, $this->alternativeTitle);
-
-      $parser->store($this->fixtureFilesTv);
-
+      $this->assertCount(0, $episodes1);
+      $this->assertCount(4, $episodes2);
       $this->seeInDatabase('items', [
         'title' => 'Game of Thrones'
       ]);
 
-      $episodes = $this->episode->get();
-
-      $this->assertCount(4, $episodes);
-
-      foreach($episodes as $episode) {
+      $episodes2->each(function($episode) {
         $this->assertNotNull($episode->src);
-      }
+      });
     }
 
     /** @test */
@@ -162,16 +141,12 @@
       ]);
 
       $handler = HandlerStack::create($mock);
-      $client = new Client(['handler' => $handler]);
+      $this->app->instance(Client::class, new Client(['handler' => $handler]));
 
       // Mock this to avoid unknown requests to TMDb (get seasons and then get episodes for each season)
-      $tmdb = $this->getMockBuilder(TMDB::class)
-        ->setConstructorArgs([$client])
-        ->setMethods(['tvEpisodes'])
-        ->getMock();
+      $mock = Mockery::mock($this->app->make(TMDB::class))->makePartial();
+      $mock->shouldReceive('tvEpisodes')->andReturn(json_decode($this->tmdbFixtures('episodes')));
 
-      $tmdb->method('tvEpisodes')->willReturn($this->fixtureTmdbEpisodes);
-
-      return $tmdb;
+      $this->app->instance(TMDB::class, $mock);
     }
   }

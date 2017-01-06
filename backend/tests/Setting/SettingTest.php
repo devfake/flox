@@ -17,32 +17,30 @@
     }
 
     /** @test */
-    public function it_can_create_settings_with_first_visit()
+    public function it_should_create_settings_with_first_visit()
     {
-      $settings = Setting::all();
-
-      $this->assertCount(0, $settings);
+      $settings1 = Setting::all();
 
       $this->json('GET', 'api/settings');
 
-      $settings = Setting::all();
+      $settings2 = Setting::all();
 
-      $this->assertCount(1, $settings);
+      $this->assertCount(0, $settings1);
+      $this->assertCount(1, $settings2);
     }
 
     /** @test */
-    public function it_create_settings_only_with_first_visit()
+    public function it_should_create_settings_only_with_first_visit()
     {
-      $settings = Setting::all();
-
-      $this->assertCount(0, $settings);
+      $settings1 = Setting::all();
 
       $this->json('GET', 'api/settings');
       $this->json('GET', 'api/settings');
 
-      $settings = Setting::all();
+      $settings2 = Setting::all();
 
-      $this->assertCount(1, $settings);
+      $this->assertCount(0, $settings1);
+      $this->assertCount(1, $settings2);
     }
 
     /** @test */
@@ -50,11 +48,7 @@
     {
       $this->json('GET', 'api/settings');
 
-      $setting = Setting::first();
-
-      $this->assertEquals(0, $setting->show_genre);
-      $this->assertEquals(1, $setting->show_date);
-      $this->assertEquals(1, $setting->episode_spoiler_protection);
+      $setting1 = Setting::first();
 
       $this->actingAs($this->user)->json('PATCH', 'api/settings', [
         'genre' => 1,
@@ -62,10 +56,13 @@
         'spoiler' => 0,
       ]);
 
-      $setting = Setting::first();
+      $setting2 = Setting::first();
 
-      $this->assertEquals(1, $setting->show_genre);
-      $this->assertEquals(0, $setting->show_date);
-      $this->assertEquals(0, $setting->episode_spoiler_protection);
+      $this->assertEquals(0, $setting1->show_genre);
+      $this->assertEquals(1, $setting1->show_date);
+      $this->assertEquals(1, $setting1->episode_spoiler_protection);
+      $this->assertEquals(1, $setting2->show_genre);
+      $this->assertEquals(0, $setting2->show_date);
+      $this->assertEquals(0, $setting2->episode_spoiler_protection);
     }
   }
