@@ -126,15 +126,13 @@
      *
      * @param $item
      * @param $tmdb_id
-     * @return \Exception|mixed
+     * @return mixed
      */
     public function handleStatus($item, $tmdbId)
     {
       if($item->status == 'added') {
         return $this->storeSrc($item, $tmdbId);
       }
-
-      return new \Exception('No status in file found');
     }
 
     /**

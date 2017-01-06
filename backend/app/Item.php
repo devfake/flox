@@ -62,7 +62,7 @@
 
     /**
      * Update alternative titles for all tv shows and movies or specific item.
-     * For old versions of flox or to kepp all alternative titles up to date.
+     * For old versions of flox or to keep all alternative titles up to date.
      *
      * @param TMDB $tmdb
      */
