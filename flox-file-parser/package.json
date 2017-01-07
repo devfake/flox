@@ -28,14 +28,13 @@
     "eslint": "3.12.2",
     "istanbul": "1.1.0-alpha.1",
     "mocha": "^3.2.0",
-    "sequelize-cli": "^2.5.1",
     "sinon": "^1.17.6",
     "supertest": "^2.0.1"
   },
   "dependencies": {
     "express": "^4.14.0",
     "mysql": "2.12.0",
-    "mysql2": "1.1.2",
+    "sequelize-cli": "^2.5.1",
     "sequelize": "^3.28.0",
     "video-name-parser": "^1.4.0"
   }
