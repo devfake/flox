@@ -5,22 +5,44 @@ Takes root directory and returns a JSON tree file.
 
 ## install
 
-    $ npm install
-    $ cp database/config/config.json.example database/config/config.json
-    $ export TV_ROOT="/media/tv"
-    $ export MOVIES_ROOT="/media/movies"
-    $ mysql -u root -e "create database flox_file_parser_development;"
-    $ cd database 
-    $ sequelize db:migrate
+    $ npm install (use 'npm run install:vagrant' on vagrant)
+    $ cp database/config/config.js.example database/config/config.js
+    $ npm run db:setup 
+
+For demonstration purpose you can execute generate_fixtures.sh to generate some example data.
+
+    $ sh generate_fixtures.sh
+
+Set your movies and tv root
+
+    $ export TV_ROOT="/vagrant/flox-file-parser/app/fixtures/tv"
+    $ export MOVIES_ROOT="/vagrant/flox-file-parser/app/fixtures/movie"
+
+then start the server with
 
     $ npm start
 
+or with env variables
+
+    $ FP_HOST=127.0.0.1 FP_PORT=3000 npm start
+    $ FP_DATABASE=custom_db_name npm run db:setup
+    $ FP_DATABASE=custom_db_name npm start
+
+Possible env vars:
+
+|  Env          |  Required  |  Desc                                     |  Default                      |
+|:-------------:|:----------:|:-----------------------------------------:|:-----------------------------:|
+|  MOVIES_ROOT  |  Yes       |  absolute path to your movie folder       |  -                            |
+|  TV_ROOT      |  Yes       |  absolute path to your tv folder          |  -                            |
+|  FP_HOST      |  No        |  host address for flox file parser        |  127.0.0.1                    |
+|  FP_PORT      |  No        |  port for flox file parser                |  3000                         |
+|  DB_USERNAME  |  No        |  the username to access the database      |  root                         |
+|  DB_PASSWORD  |  No        |  the password used to access the database |  null                         |
+|  FP_DATABASE  |  No        |  the database you want to use             |  flox_file_parser_development |
+
 ## tests
 
-    $ mysql -u root -e "create database flox_file_parser_test;"
-    $ cd database 
-    $ sequelize db:migrate --env test
-    
+    $ NODE_ENV=test npm run db:setup
     $ npm test 
 
 ## usage
