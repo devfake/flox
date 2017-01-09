@@ -24,22 +24,9 @@
     {
       parent::setUp();
 
-      $this->item = new Item();
-      $this->episode = new Episode();
-
+      $this->item = app(Item::class);
+      $this->episode = app(Episode::class);
       $this->parser = app(FileParser::class);
-    }
-
-    /** @test */
-    public function it_can_find_item_in_database()
-    {
-      $this->createMovie();
-
-      $itemFromTitle = $this->parser->foundInDatabase('Warcraft', 'title');
-      $itemFromId = $this->parser->foundInDatabase(68735, 'tmdb_id');
-
-      $this->assertEquals(68735, $itemFromTitle->tmdb_id);
-      $this->assertEquals(68735, $itemFromId->tmdb_id);
     }
 
     /** @test */

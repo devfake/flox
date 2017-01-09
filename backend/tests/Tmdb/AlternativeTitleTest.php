@@ -1,7 +1,7 @@
 <?php
 
   use App\AlternativeTitle;
-  use App\Services\Models\AlternativeTitle as AlternativeTitleService;
+  use App\Services\Models\AlternativeTitleService;
   use App\Item;
   use GuzzleHttp\Client;
   use GuzzleHttp\Handler\MockHandler;

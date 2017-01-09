@@ -18,11 +18,11 @@
     }
 
     /**
-     * Create the poster image file.
+     * Download the poster image file.
      *
      * @param $poster
      */
-    public function createPosterFile($poster)
+    public function downloadPoster($poster)
     {
       if($poster) {
         LaravelStorage::put($poster, file_get_contents('http://image.tmdb.org/t/p/w185' . $poster));

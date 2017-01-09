@@ -2,9 +2,11 @@
 
   namespace App\Http\Controllers;
 
+  use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
-  use App\Services\Models\AlternativeTitle as AlternativeTitleService;
+  use App\Services\Models\AlternativeTitleService;
+  use App\Services\Models\ItemService;
   use App\Services\Storage;
   use App\Services\TMDB;
   use App\Setting;
@@ -104,14 +106,14 @@
     /**
      * Create a new movie / tv show.
      *
-     * @param TMDB $tmdb
+     * @param ItemService $item
      * @return Item
      */
-    public function add(TMDB $tmdb, Storage $storage, Episode $episode)
+    public function add(ItemService $item)
     {
       $data = Input::get('item');
 
-      return $this->item->store($data, $tmdb, $storage, $episode);
+      return $item->create($data);
     }
 
     /**
@@ -136,7 +138,7 @@
       // Delete all related episodes
       // todo: Make this possible in migrations
       Episode::where('tmdb_id', $tmdb_id)->delete();
-      //AlternativeTitle::where('tmdb_id', $tmdb_id)->delete();
+      AlternativeTitle::where('tmdb_id', $tmdb_id)->delete();
     }
 
     /**

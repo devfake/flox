@@ -12,6 +12,7 @@
     protected $fillable = [
       'tmdb_id',
       'name',
+      'src',
       'season_number',
       'episode_number',
       'episode_tmdb_id',
@@ -26,10 +27,8 @@
      * @param $seasons
      * @param $tmdbId
      */
-    public function store($tmdbId, TMDB $tmdb)
+    public function store($seasons, $tmdbId)
     {
-      $seasons = $tmdb->tvEpisodes($tmdbId);
-
       foreach($seasons as $season) {
         foreach($season->episodes as $episode) {
           $this->create([

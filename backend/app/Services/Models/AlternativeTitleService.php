@@ -6,7 +6,7 @@
   use App\Item;
   use App\Services\TMDB;
 
-  class AlternativeTitle {
+  class AlternativeTitleService {
 
     private $model;
     private $item;

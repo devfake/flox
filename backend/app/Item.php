@@ -24,6 +24,7 @@
       'released',
       'created_at',
       'genre',
+      'src',
     ];
 
     /**
@@ -32,15 +33,12 @@
      * @param $data
      * @return Item
      */
-    public function store($data, TMDB $tmdb, Storage $storage, Episode $episode, AlternativeTitle $alternativeTitle)
+    public function store($data)
     {
-      $tmdbId = $data['tmdb_id'];
-      $mediaType = $data['media_type'];
-
-      $item = $this->create([
-        'tmdb_id' => $tmdbId,
+      return $this->create([
+        'tmdb_id' => $data['tmdb_id'],
         'title' => $data['title'],
-        'media_type' => $mediaType,
+        'media_type' => $data['media_type'],
         'original_title' => $data['original_title'],
         'poster' => $data['poster'],
         'rating' => 1,
@@ -48,16 +46,6 @@
         'genre' => $data['genre'],
         'created_at' => time(),
       ]);
-
-      $storage->createPosterFile($data['poster']);
-
-      if($mediaType == 'tv') {
-        $episode->store($tmdbId, $tmdb);
-      }
-
-      $alternativeTitle->store($item);
-
-      return $item;
     }
 
     /*
