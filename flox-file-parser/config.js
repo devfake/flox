@@ -1,16 +1,18 @@
 const environment = process.env.NODE_ENV || "development"
 
+const { FP_HOST, FP_PORT } = process.env
+
 const config = {
   development: {
     app: {
-      host: "localhost",
-      port: 3000
+      host: FP_HOST || "127.0.0.1",
+      port: FP_PORT || 3000
     }
   },
   test: {
     app: {
-      host: "0.0.0.0",
-      port: 3001
+      host: FP_HOST || "0.0.0.0",
+      port: FP_PORT || 3001
     }
   }
 }

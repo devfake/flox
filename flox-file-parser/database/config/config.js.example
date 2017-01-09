@@ -1,0 +1,18 @@
+const { DB_USERNAME, DB_PASSWORD, FP_DATABASE } = process.env
+
+module.exports = {
+  "development": {
+    "username": DB_USERNAME || "root",
+    "password": DB_PASSWORD || null,
+    "database": FP_DATABASE || "flox_file_parser_development",
+    "host": "0.0.0.0",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": DB_USERNAME || "root",
+    "password": DB_PASSWORD || null, 
+    "database": FP_DATABASE || "flox_file_parser_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
