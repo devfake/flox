@@ -12,28 +12,13 @@ env:
   QUEUE_DRIVER: sync
   APP_KEY: 16efa6c23c2e8c705826b0e66778fbe7
   DB_CONNECTION: sqlite
-  FLOX_FILE_PARSER: flox-file-parser
 
 cache:
   directories:
-    - $FLOX_FILE_PARSER/node_modules
     - backend/vendor
-
-services:
-  - mysql
 
 script:
   - (cd backend && phpunit)
-  - (cd $FLOX_FILE_PARSER && npm test)
-  - (cd $FLOX_FILE_PARSER && npm run eslint)
-
-before_install:
-  - mysql -e 'create database flox_file_parser_test;'
 
 install:
   - (cd backend && composer install --prefer-source --no-interaction)
-  - nvm install 7.1
-  - (cd $FLOX_FILE_PARSER && ./generate_fixtures.sh)
-  - (cd $FLOX_FILE_PARSER && npm install)
-  - (cd $FLOX_FILE_PARSER/database && cp config/config.js.example config/config.js)
-  - (cd $FLOX_FILE_PARSER && NODE_ENV=test npm run sequelize db:migrate)
