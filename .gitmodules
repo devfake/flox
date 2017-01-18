@@ -1,0 +1,3 @@
+[submodule "flox-file-parser"]
+	path = flox-file-parser
+	url = https://github.com/exane/flox-file-parser
