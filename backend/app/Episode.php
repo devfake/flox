@@ -12,6 +12,7 @@
     protected $fillable = [
       'tmdb_id',
       'name',
+      'src',
       'season_number',
       'episode_number',
       'episode_tmdb_id',
@@ -26,10 +27,8 @@
      * @param $seasons
      * @param $tmdbId
      */
-    public function store($tmdbId, TMDB $tmdb)
+    public function store($seasons, $tmdbId)
     {
-      $seasons = $tmdb->tvEpisodes($tmdbId);
-
       foreach($seasons as $season) {
         foreach($season->episodes as $episode) {
           $this->create([
@@ -59,5 +58,11 @@
       return $query->where('tmdb_id', $tmdbId)
         ->where('season_number', $episode->season_number)
         ->where('episode_number', $episode->episode_number);
+    }
+
+    public function scopeFindSeason($query, $tmdbId, $season)
+    {
+      return $query->where('tmdb_id', $tmdbId)
+        ->where('season_number', $season);
     }
   }

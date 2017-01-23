@@ -2,7 +2,6 @@
 
   namespace App;
 
-  use App\Services\TMDB;
   use Illuminate\Database\Eloquent\Model;
 
   class AlternativeTitle extends Model {
@@ -12,25 +11,31 @@
     protected $fillable = [
       'title',
       'tmdb_id',
-      'country'
+      'country',
     ];
 
     /**
      * Store all alternative titles for tv shows and movies.
      *
-     * @param $item
-     * @param TMDB $tmdb
+     * @param $titles
+     * @param $tmdbId
      */
-    public function store($item, TMDB $tmdb)
+    public function store($titles, $tmdbId)
     {
-      $alternativeTitles = $tmdb->getAlternativeTitles($item);
-
-      foreach($alternativeTitles as $title) {
+      foreach($titles as $title) {
         $this->firstOrCreate([
           'title' => $title->title,
-          'tmdb_id' => $item['tmdb_id'],
+          'tmdb_id' => $tmdbId,
           'country' => $title->iso_3166_1,
         ]);
       }
+    }
+
+    /*
+     * Scopes
+     */
+    public function scopeFindByTmdbId($query, $tmdbId)
+    {
+      return $query->where('tmdb_id', $tmdbId);
     }
   }

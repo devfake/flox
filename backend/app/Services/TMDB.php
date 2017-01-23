@@ -241,6 +241,9 @@
 
     /**
      * Make a new request to TMDb to get the alternative titles.
+     *
+     * @param $item
+     * @return array
      */
     public function getAlternativeTitles($item)
     {
