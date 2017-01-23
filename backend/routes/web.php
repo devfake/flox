@@ -27,7 +27,7 @@
       Route::patch('/update-alternative-titles/{tmdbID?}', 'ItemController@updateAlternativeTitles');
 
       Route::patch('/userdata', 'UserController@changeUserData');
-      Route::patch('/set-seen/{id}', 'ItemController@setSeen');
+      Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::get('/episodes/{tmdb_id}', 'ItemController@episodes');
 

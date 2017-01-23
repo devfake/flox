@@ -59,4 +59,10 @@
         ->where('season_number', $episode->season_number)
         ->where('episode_number', $episode->episode_number);
     }
+
+    public function scopeFindSeason($query, $tmdbId, $season)
+    {
+      return $query->where('tmdb_id', $tmdbId)
+        ->where('season_number', $season);
+    }
   }

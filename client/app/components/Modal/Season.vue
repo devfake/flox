@@ -25,7 +25,7 @@
     </div>
 
     <div class="modal-content" v-if=" ! loadingModalData">
-      <div @click="setSeen(episode)" class="modal-item" v-for="(episode, index) in episodes[seasonActiveModal]">
+      <div @click="toggleEpisode(episode)" class="modal-item" v-for="(episode, index) in episodes[seasonActiveModal]">
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
         <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen}">{{ episode.name }}</span>
         <span class="episode-seen" :class="{seen: episode.seen}"><i></i></span>
@@ -86,9 +86,9 @@
         }
       },
 
-      setSeen(episode) {
+      toggleEpisode(episode) {
         episode.seen = ! episode.seen;
-        http.patch(`${config.api}/set-seen/${episode.id}`).catch(error => {
+        http.patch(`${config.api}/toggle-episode/${episode.id}`).catch(error => {
           episode.seen = ! episode.seen;
         });
       },
