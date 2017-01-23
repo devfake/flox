@@ -35,7 +35,7 @@
       $this->createMovie();
 
       $item1 = $this->item->first();
-      $this->parser->store($this->parserFixtures('movie'));
+      $this->parser->store($this->fpFixtures('movie'));
       $item2 = $this->item->first();
 
       $this->assertNull($item1->src);
@@ -48,7 +48,7 @@
       $this->createTv();
 
       $episodes1 = $this->item->with('episodes')->first()->episodes;
-      $this->parser->store($this->parserFixtures('tv'));
+      $this->parser->store($this->fpFixtures('tv'));
       $episodes2 = $this->item->with('episodes')->first()->episodes;
 
       $episodes1->each(function($episode) {
@@ -67,7 +67,7 @@
 
       $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
       $parser = app(FileParser::class);
-      $parser->store($this->parserFixtures('movie'));
+      $parser->store($this->fpFixtures('movie'));
 
       $item = $this->item->first();
 
@@ -86,7 +86,7 @@
 
       $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
       $parser = app(FileParser::class);
-      $parser->store($this->parserFixtures('tv'));
+      $parser->store($this->fpFixtures('tv'));
 
       $episodes2 = $this->episode->get();
 
