@@ -2,7 +2,6 @@
 
   namespace App;
 
-  use App\Services\TMDB;
   use Illuminate\Database\Eloquent\Model;
 
   class AlternativeTitle extends Model {
@@ -30,5 +29,13 @@
           'country' => $title->iso_3166_1,
         ]);
       }
+    }
+
+    /*
+     * Scopes
+     */
+    public function scopeFindByTmdbId($query, $tmdbId)
+    {
+      return $query->where('tmdb_id', $tmdbId);
     }
   }

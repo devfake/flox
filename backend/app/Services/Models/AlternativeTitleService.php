@@ -35,6 +35,16 @@
     }
 
     /**
+     * Remove all titles by tmdb_id.
+     *
+     * @param $tmdbId
+     */
+    public function remove($tmdbId)
+    {
+      $this->model->where('tmdb_id', $tmdbId)->delete();
+    }
+
+    /**
      * @param null $tmdbId
      */
     public function update($tmdbId = null)

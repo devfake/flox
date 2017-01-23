@@ -2,24 +2,23 @@
 
   use App\AlternativeTitle;
   use App\Services\Models\AlternativeTitleService;
-  use App\Item;
   use GuzzleHttp\Client;
   use GuzzleHttp\Handler\MockHandler;
   use GuzzleHttp\HandlerStack;
   use GuzzleHttp\Psr7\Response;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-  class AlternativeTitleTest extends TestCase {
+  class AlternativeTitleServiceTest extends TestCase {
 
     use DatabaseMigrations;
 
-    private $item;
+    private $alternativeTitles;
 
     public function setUp()
     {
       parent::setUp();
 
-      $this->item = new Item();
+      $this->alternativeTitles = app(AlternativeTitle::class);
     }
 
     /** @test */
@@ -31,7 +30,7 @@
       $model = app(AlternativeTitleService::class);
       $model->create($movie);
 
-      $this->assertCount(4, AlternativeTitle::all());
+      $this->assertCount(4, $this->alternativeTitles->get());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -46,7 +45,7 @@
       $model = app(AlternativeTitleService::class);
       $model->create($tv);
 
-      $this->assertCount(3, AlternativeTitle::all());
+      $this->assertCount(3, $this->alternativeTitles->get());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'GOT'
       ]);
@@ -61,7 +60,7 @@
       $model = app(AlternativeTitleService::class);
       $model->update();
 
-      $this->assertCount(4, AlternativeTitle::all());
+      $this->assertCount(4, $this->alternativeTitles->get());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -76,7 +75,7 @@
       $model = app(AlternativeTitleService::class);
       $model->update(68735);
 
-      $this->assertCount(4, AlternativeTitle::all());
+      $this->assertCount(4, $this->alternativeTitles->get());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -91,7 +90,7 @@
       $model = app(AlternativeTitleService::class);
       $model->update();
 
-      $this->assertCount(3, AlternativeTitle::all());
+      $this->assertCount(3, $this->alternativeTitles->get());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'GOT'
       ]);
@@ -106,10 +105,27 @@
       $model = app(AlternativeTitleService::class);
       $model->update(1399);
 
-      $this->assertCount(3, AlternativeTitle::all());
+      $this->assertCount(3, $this->alternativeTitles->get());
       $this->seeInDatabase('alternative_titles', [
         'title' => 'GOT'
       ]);
+    }
+
+    /** @test */
+    public function it_should_remove_titles()
+    {
+      $this->createGuzzleMock($this->tmdbFixtures('alternative_titles_movie'));
+      $movie = $this->getMovie();
+
+      $model = app(AlternativeTitleService::class);
+      $model->create($movie);
+
+      $titles1 = $this->alternativeTitles->findByTmdbId(68735)->get();
+      $model->remove(68735);
+      $titles2 = $this->alternativeTitles->findByTmdbId(68735)->get();
+
+      $this->assertNotNull($titles1);
+      $this->assertCount(0, $titles2);
     }
 
     private function createGuzzleMock($fixture)

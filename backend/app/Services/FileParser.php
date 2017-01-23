@@ -38,7 +38,7 @@
       $this->updateTimestamp();
 
       return json_decode(
-        file_get_contents(base_path('tests/fixtures/Files/all.json'))
+        file_get_contents(base_path('tests/fixtures/fp/all.json'))
       );
     }
 
