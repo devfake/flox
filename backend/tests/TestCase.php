@@ -13,14 +13,19 @@
       return $app;
     }
 
-    protected function parserFixtures($type)
+    protected function fpFixtures($type)
     {
-      return json_decode(file_get_contents(__DIR__ . '/fixtures/Files/' . $type . '.json'));
+      return json_decode(file_get_contents(__DIR__ . '/fixtures/fp/' . $type . '.json'));
     }
 
     protected function tmdbFixtures($type)
     {
-      return file_get_contents(__DIR__ . '/fixtures/Tmdb/' . $type . '.json');
+      return file_get_contents(__DIR__ . '/fixtures/tmdb/' . $type . '.json');
+    }
+
+    protected function floxFixtures($type)
+    {
+      return collect(json_decode(file_get_contents(__DIR__ . '/fixtures/flox/' . $type . '.json')))->toArray();
     }
 
     protected function createSetting()
