@@ -4,26 +4,27 @@
 
   use App\AlternativeTitle;
   use App\Episode;
-  use App\Item;
+  use App\Services\Models\ItemService;
   use App\Setting;
   use Carbon\Carbon;
-  use Illuminate\Database\Eloquent\Collection;
 
   class FileParser {
 
     private $item;
     private $episode;
     private $tmdb;
-    private $storage;
     private $alternativeTitle;
     private $itemCategory;
 
-    public function __construct(Item $item, Episode $episode, TMDB $tmdb, Storage $storage, AlternativeTitle $alternativeTitle)
-    {
+    public function __construct(
+      ItemService $item,
+      Episode $episode,
+      TMDB $tmdb,
+      AlternativeTitle $alternativeTitle
+    ){
       $this->item = $item;
       $this->episode = $episode;
       $this->tmdb = $tmdb;
-      $this->storage = $storage;
       $this->alternativeTitle = $alternativeTitle;
     }
 
@@ -37,7 +38,7 @@
       $this->updateTimestamp();
 
       return json_decode(
-        file_get_contents(base_path('tests/fixtures/Files/all.json'))
+        file_get_contents(base_path('tests/fixtures/fp/all.json'))
       );
     }
 
@@ -55,7 +56,7 @@
           $title = $item->name;
 
           // See if file is already in our database.
-          if($found = $this->foundInDatabase($title, 'title')) {
+          if($found = $this->item->findBy('title', $title)) {
             $this->handleStatus($item, $found->tmdb_id);
 
             continue;
@@ -72,7 +73,7 @@
      *
      * @param $title
      * @param $item
-     * @return bool|\Exception|mixed
+     * @return bool|mixed
      */
     private function tmdbSearch($title, $item)
     {
@@ -97,29 +98,14 @@
       $tmdbId = $firstResult['tmdb_id'];
 
       // Check against our database.
-      if($this->foundInDatabase($tmdbId, 'tmdb_id')) {
+      if($this->item->findBy('tmdb_id', $tmdbId)) {
         return $this->handleStatus($item, $tmdbId);
       }
 
       // Otherwise create a new item from the result.
-      $created = $this->item->store($firstResult, $this->tmdb, $this->storage, $this->episode, $this->alternativeTitle);
+      $created = $this->item->create($firstResult);
 
       return $this->handleStatus($item, $created->tmdb_id);
-    }
-
-    /**
-     * See if we can find a item by title or tmdb_id in our database.
-     *
-     * @param $indicator
-     * @return Collection
-     */
-    public function foundInDatabase($value, $type)
-    {
-      if($type == 'title') {
-        return $this->item->findByTitle($value)->first();
-      }
-
-      return $this->item->findByTmdbId($value)->first();
     }
 
     /**
@@ -150,7 +136,7 @@
       if($this->itemCategory == 'tv') {
         $model = $this->episode->findEpisode($tmdbId, $item);
       } else {
-        $model = $this->item->findByTmdbId($tmdbId);
+        $model = $this->item->findBy('tmdb_id', $tmdbId);
       }
 
       return $model->update([

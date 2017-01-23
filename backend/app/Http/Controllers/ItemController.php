@@ -5,6 +5,9 @@
   use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
+  use App\Services\Models\AlternativeTitleService;
+  use App\Services\Models\EpisodeService;
+  use App\Services\Models\ItemService;
   use App\Services\Storage;
   use App\Services\TMDB;
   use App\Setting;
@@ -12,54 +15,47 @@
 
   class ItemController {
 
-    private $loadingItems;
     private $item;
     private $storage;
+    private $tmdb;
 
     /**
-     * Get the amount of loading items and create an instance for 'item'.
+     * Get the amount of loading items  and create an instance for 'item'.
      *
      * @param Item $item
      * @param Storage $storage
+     * @param TMDB $tmdb
      */
-    public function __construct(Item $item, Storage $storage)
+    public function __construct(Item $item, Storage $storage, TMDB $tmdb)
     {
-      $this->loadingItems = config('app.LOADING_ITEMS');
       $this->item = $item;
       $this->storage = $storage;
+      $this->tmdb = $tmdb;
     }
 
     /**
      * Return all items with pagination.
      *
-     * @param $orderBy
+     * @param ItemService $item
+     * @param             $type
+     * @param             $orderBy
      * @return mixed
      */
-    public function items($type, $orderBy)
+    public function items(ItemService $itemService, $type, $orderBy)
     {
-      $orderType = $orderBy == 'rating' ? 'asc' : 'desc';
-
-      $item = $this->item->orderBy($orderBy, $orderType)->with('latestEpisode');
-
-      if($type != 'home') {
-        $item = $item->where('media_type', $type);
-      }
-
-      return $item->simplePaginate($this->loadingItems);
+      return $itemService->getWithPagination($type, $orderBy);
     }
 
     /**
      * Get all Episodes of an tv show.
      *
-     * @param $tmdb_id
-     * @return mixed
+     * @param EpisodeService $episodeService
+     * @param                $tmdbId
+     * @return array
      */
-    public function episodes($tmdb_id)
+    public function episodes(EpisodeService $episodeService, $tmdbId)
     {
-      return [
-        'episodes' => Episode::findByTmdbId($tmdb_id)->get()->groupBy('season_number'),
-        'spoiler' => Setting::first()->episode_spoiler_protection
-      ];
+      return $episodeService->getAllByTmdbId($tmdbId);
     }
 
     /**
@@ -82,95 +78,76 @@
     /**
      * Update rating for an movie.
      *
-     * @param $itemID
+     * @param ItemService $itemService
+     * @param             $itemId
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function changeRating($itemID)
+    public function changeRating(ItemService $itemService, $itemId)
     {
-      $item = $this->item->find($itemID);
-
-      if( ! $item) {
-        return response('Not Found', 404);
-      }
-
-      $item->update([
-        'rating' => Input::get('rating')
-      ]);
+      $itemService->changeRating($itemId, Input::get('rating'));
     }
 
     /**
      * Create a new movie / tv show.
      *
-     * @param TMDB $tmdb
+     * @param ItemService $item
      * @return Item
      */
-    public function add(TMDB $tmdb, Storage $storage, Episode $episode, AlternativeTitle $alternativeTitle)
+    public function add(ItemService $item)
     {
-      $data = Input::get('item');
-
-      return $this->item->store($data, $tmdb, $storage, $episode, $alternativeTitle);
+      return $item->create(Input::get('item'));
     }
 
     /**
-     * Delete movie or tv show (with episodes) and remove the poster image file.
+     * Delete movie or tv show (with episodes and alternative titles).
+     * Also remove the poster image file.
      *
-     * @param $itemID
+     * @param ItemService $itemService
+     * @param             $itemId
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function remove($itemID)
+    public function remove(ItemService $itemService, $itemId)
     {
-      $item = $this->item->find($itemID);
-
-      if( ! $item) {
-        return response('Not Found', 404);
-      }
-
-      $this->storage->removePosterFile($item->poster);
-      $tmdb_id = $item->tmdb_id;
-
-      $item->delete();
-
-      // Delete all related episodes
-      // todo: Make this possible in migrations
-      Episode::where('tmdb_id', $tmdb_id)->delete();
-      AlternativeTitle::where('tmdb_id', $tmdb_id)->delete();
+      return $itemService->remove($itemId);
     }
 
     /**
-     * Set an episode as seen/unseen.
+     * Update alternative titles for all tv shows and movies or specific item.
+     * For old versions of flox or to keep all alternative titles up to date.
      *
-     * @param $id
+     * @param AlternativeTitleService $alternativeTitle
+     * @param null                    $tmdbID
+     */
+    public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle, $tmdbID = null)
+    {
+      $alternativeTitle->update($tmdbID);
+    }
+
+    /**
+     * Set an episode as seen / unseen.
+     *
+     * @param EpisodeService $episode
+     * @param                $id
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function setSeen($id)
+    public function toggleEpisode(EpisodeService $episode, $id)
     {
-      $episode = Episode::find($id);
-      $episode->seen = ! $episode->seen;
-
-      if( ! $episode->save()) {
+      if( ! $episode->toggleSeen($id)) {
         return response('Server Error', 500);
       }
-    }
 
-    public function updateAlternativeTitles(TMDB $tmdb, AlternativeTitle $alternativeTitle, $tmdbID = null)
-    {
-      return $this->item->updateAlternativeTitles($tmdb, $alternativeTitle, $tmdbID);
+      return response('Success', 200);
     }
 
     /**
-     * Toggle all episodes of an season as seen/unseen.
+     * Toggle all episodes of an season as seen / unseen.
      */
-    public function toggleSeason()
+    public function toggleSeason(EpisodeService $episode)
     {
       $tmdbId = Input::get('tmdb_id');
       $season = Input::get('season');
       $seen = Input::get('seen');
 
-      $episodes = Episode::where('tmdb_id', $tmdbId)->where('season_number', $season)->get();
-
-      foreach($episodes as $episode) {
-        $episode->seen = $seen;
-        $episode->save();
-      }
+      $episode->toggleSeason($tmdbId, $season, $seen);
     }
   }
