@@ -20,12 +20,14 @@
     private $episodes;
     private $storage;
     private $version;
+    private $setting;
 
-    public function __construct(Item $item, Episode $episodes, Storage $storage)
+    public function __construct(Item $item, Episode $episodes, Storage $storage, Setting $setting)
     {
       $this->item = $item;
       $this->episodes = $episodes;
       $this->storage = $storage;
+      $this->setting = $setting;
       $this->version = config('app.version');
     }
 
@@ -82,7 +84,7 @@
      *
      * @return string
      */
-    public function checkUpdate()
+    public function checkForUpdate()
     {
       $client = new Client();
       $response = json_decode($client->get('https://api.github.com/repos/devfake/flox/releases')->getBody());
@@ -100,7 +102,7 @@
     {
       set_time_limit(3000);
 
-      $items = Item::all();
+      $items = $this->item->all();
 
       foreach($items as $item) {
         if( ! $item->genre) {
@@ -131,10 +133,10 @@
      */
     public function settings()
     {
-      $settings = Setting::first();
+      $settings = $this->setting->first();
 
       if( ! $settings) {
-        $settings = Setting::create([
+        $settings = $this->setting->create([
           'show_genre' => 0,
           'show_date' => 1,
           'episode_spoiler_protection' => 1,
@@ -155,7 +157,7 @@
      */
     public function changeSettings()
     {
-      Setting::first()->update([
+      $this->setting->first()->update([
         'show_genre' => Input::get('genre'),
         'show_date' => Input::get('date'),
         'episode_spoiler_protection' => Input::get('spoiler'),

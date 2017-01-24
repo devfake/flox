@@ -17,7 +17,7 @@
       Route::get('/export', 'SettingController@export');
       Route::post('/import', 'SettingController@import');
 
-      Route::get('/check-update', 'SettingController@checkUpdate');
+      Route::get('/check-update', 'SettingController@checkForUpdate');
       // todo: POST
       Route::get('/fetch-files', 'SettingController@fetchFiles');
 
