@@ -2,15 +2,12 @@
 
   namespace App\Http\Controllers;
 
-  use App\AlternativeTitle;
-  use App\Episode;
   use App\Item;
   use App\Services\Models\AlternativeTitleService;
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
   use App\Services\Storage;
   use App\Services\TMDB;
-  use App\Setting;
   use Illuminate\Support\Facades\Input;
 
   class ItemController {
@@ -20,7 +17,7 @@
     private $tmdb;
 
     /**
-     * Get the amount of loading items  and create an instance for 'item'.
+     * Get the amount of loading items and create an instance for 'item'.
      *
      * @param Item $item
      * @param Storage $storage

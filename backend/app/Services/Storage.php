@@ -46,7 +46,7 @@
      */
     public function parseLanguage()
     {
-      $alternative = config('app.TRANSLATION') ?: 'EN';
+      $alternative = config('app.TRANSLATION');
       $filename = strtolower($alternative) . '.json';
 
       // Get english fallback

@@ -6,7 +6,7 @@
 
   class HomeController {
 
-    public function app($uri = null, Storage $storage)
+    public function app(Storage $storage, $uri = null)
     {
       $language = $storage->parseLanguage();
 
