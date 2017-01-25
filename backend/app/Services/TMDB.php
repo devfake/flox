@@ -163,14 +163,15 @@
     }
 
     /**
-     * Get full movie details.
+     * Get full movie or tv details.
      *
-     * @param $tmdb_id
+     * @param $tmdbId
+     * @param $mediaType
      * @return mixed
      */
-    public function movie($tmdb_id)
+    public function details($tmdbId, $mediaType)
     {
-      $response = $this->client->get($this->base . '/3/movie/' . $tmdb_id, [
+      $response = $this->client->get($this->base . '/3/' . $mediaType . '/' . $tmdbId, [
         'query' => [
           'api_key' => $this->apiKey,
           'language' => strtolower($this->translation)
@@ -183,7 +184,7 @@
 
       // After 10 seconds the TMDB request limit is resetted.
       sleep(10);
-      return $this->movie($tmdb_id);
+      return $this->details($tmdbId, $mediaType);
     }
 
     /**
