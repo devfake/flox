@@ -95,7 +95,7 @@
     }
 
     /**
-     * Parse full genre list of all movies in database and save them.
+     * Parse full genre list of all movies and tv shows in our database and save them.
      *
      * @param TMDB $tmdb
      */
