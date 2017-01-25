@@ -169,6 +169,6 @@
     {
       $files = $parser->fetch();
 
-      $parser->store($files);
+      $parser->updateDatabase($files);
     }
   }

@@ -79,6 +79,11 @@
       return $query->where('tmdb_id', $tmdbId);
     }
 
+    public function scopeFindBySrc($query, $src)
+    {
+      return $query->where('src', $src);
+    }
+
     public function scopeFindByTitle($query, $title)
     {
       return $query->where('title', 'like', '%' . $title . '%')

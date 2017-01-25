@@ -66,9 +66,11 @@
     {
       $episode = $this->model->find($id);
 
-      return $episode->update([
-        'seen' => ! $episode->seen,
-      ]);
+      if($episode) {
+        return $episode->update([
+          'seen' => ! $episode->seen,
+        ]);
+      }
     }
 
     /**
@@ -85,5 +87,28 @@
           'seen' => $seen,
         ]);
       });
+    }
+
+    /**
+     * See if we can find a episode by src or tmdb_id.
+     * Or we search a specific episode in our database.
+     *
+     * @param      $type
+     * @param      $value
+     * @param null $episode
+     * @return \Illuminate\Support\Collection
+     */
+    public function findBy($type, $value, $episode = null)
+    {
+      switch($type) {
+        case 'src':
+          return $this->model->findBySrc($value)->first();
+        case 'tmdb_id':
+          return $this->model->findByTmdbId($value)->first();
+        case 'episode':
+          return $this->model->findSpecificEpisode($value, $episode)->first();
+      }
+
+      return null;
     }
   }
