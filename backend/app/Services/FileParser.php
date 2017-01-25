@@ -3,27 +3,30 @@
   namespace App\Services;
 
   use App\AlternativeTitle;
-  use App\Episode;
+  use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
   use App\Setting;
   use Carbon\Carbon;
 
   class FileParser {
 
-    private $item;
-    private $episode;
+    const ADDED = 'added';
+    const REMOVED = 'removed';
+
+    private $itemService;
+    private $episodeService;
     private $tmdb;
     private $alternativeTitle;
     private $itemCategory;
 
     public function __construct(
-      ItemService $item,
-      Episode $episode,
+      ItemService $itemService,
+      EpisodeService $episodeService,
       TMDB $tmdb,
       AlternativeTitle $alternativeTitle
     ){
-      $this->item = $item;
-      $this->episode = $episode;
+      $this->itemService = $itemService;
+      $this->episodeService = $episodeService;
       $this->tmdb = $tmdb;
       $this->alternativeTitle = $alternativeTitle;
     }
@@ -43,29 +46,54 @@
     }
 
     /**
-     * Loop over local files and see if it can find them in database. Otherwise search in TMDb.
+     * Loop over all local files.
      *
      * @param $files
      */
-    public function store($files)
+    public function updateDatabase($files)
     {
       foreach($files as $type => $items) {
         $this->itemCategory = $type;
 
         foreach($items as $item) {
-          $title = $item->name;
-
-          // See if file is already in our database.
-          if($found = $this->item->findBy('title', $title)) {
-            $this->handleStatus($item, $found->tmdb_id);
-
-            continue;
-          }
-
-          // Otherwise make a new TMDb request.
-          $this->tmdbSearch($title, $item);
+          $this->handleStatus($item);
         }
       }
+    }
+
+    /**
+     * Check which status the file has.
+     *
+     * @param $item
+     * @return bool|mixed|void
+     */
+    private function handleStatus($item)
+    {
+      switch($item->status) {
+        case self::ADDED:
+          return $this->addItem($item);
+        case self::REMOVED:
+          return $this->removeSrc($item);
+      }
+    }
+
+    /**
+     * See if it can find the item in our database. Otherwise search in TMDb.
+     *
+     * @param $item
+     * @return bool|mixed
+     */
+    private function addItem($item)
+    {
+      $title = $item->name;
+
+      // See if file is already in our database.
+      if($found = $this->itemService->findBy('title', $title)) {
+        return $this->storeSrc($item, $found->tmdb_id);
+      }
+
+      // Otherwise make a new TMDb request.
+      return $this->tmdbSearch($title, $item);
     }
 
     /**
@@ -91,57 +119,83 @@
      *
      * @param $firstResult
      * @param $item
-     * @return \Exception|mixed
+     * @return mixed
      */
     private function findOrCreateItem($firstResult, $item)
     {
       $tmdbId = $firstResult['tmdb_id'];
 
       // Check against our database.
-      if($this->item->findBy('tmdb_id', $tmdbId)) {
-        return $this->handleStatus($item, $tmdbId);
+      if($this->itemService->findBy('tmdb_id', $tmdbId)) {
+        return $this->storeSrc($item, $tmdbId);
       }
 
       // Otherwise create a new item from the result.
-      $created = $this->item->create($firstResult);
+      $created = $this->itemService->create($firstResult);
 
-      return $this->handleStatus($item, $created->tmdb_id);
-    }
-
-    /**
-     * Check which status the file has.
-     * Create new src if the status is 'added'.
-     * Update src if status is 'updated'.
-     * Remove src if status is 'removed'.
-     *
-     * @param $item
-     * @param $tmdb_id
-     * @return mixed
-     */
-    public function handleStatus($item, $tmdbId)
-    {
-      if($item->status == 'added') {
-        return $this->storeSrc($item, $tmdbId);
-      }
+      return $this->storeSrc($item, $created->tmdb_id);
     }
 
     /**
      * Store src from local file into items for movies or episodes for tv shows.
      *
      * @param $item
-     * @param $tmdb_id
+     * @param $tmdbId
+     * @return mixed
      */
     private function storeSrc($item, $tmdbId)
     {
+      $model = $this->findItem($item, $tmdbId);
+
+      if($model) {
+        return $model->update([
+          'src' => $item->src,
+        ]);
+      }
+    }
+
+    /**
+     * Remove src for local file in items for movies or episodes for tv shows.
+     *
+     * @param $item
+     * @return mixed
+     */
+    private function removeSrc($item)
+    {
+      $model = $this->findItemBySrc($item);
+
+      if($model) {
+        return $model->update([
+          'src' => null,
+        ]);
+      }
+    }
+
+    /**
+     * @param $item
+     * @param $tmdbId
+     * @return \Illuminate\Support\Collection|mixed
+     */
+    private function findItem($item, $tmdbId)
+    {
       if($this->itemCategory == 'tv') {
-        $model = $this->episode->findEpisode($tmdbId, $item);
-      } else {
-        $model = $this->item->findBy('tmdb_id', $tmdbId);
+        return $this->episodeService->findBy('episode', $tmdbId, $item);
       }
 
-      return $model->update([
-        'src' => $item->src,
-      ]);
+      return $this->itemService->findBy('tmdb_id', $tmdbId);
+    }
+
+    /**
+     * @param $item
+     * @return \Illuminate\Support\Collection|mixed
+     */
+    private function findItemBySrc($item)
+    {
+      if($this->itemCategory == 'tv') {
+        return $this->episodeService->findBy('src', $item->src);
+      }
+
+      return $this->itemService->findBy('src', $item->src);
     }
 
     /**

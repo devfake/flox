@@ -34,6 +34,7 @@
     /*
      * Scopes
      */
+
     public function scopeFindByTmdbId($query, $tmdbId)
     {
       return $query->where('tmdb_id', $tmdbId);

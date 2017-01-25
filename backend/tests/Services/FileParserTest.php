@@ -35,7 +35,7 @@
       $this->createMovie();
 
       $item1 = $this->item->first();
-      $this->parser->store($this->fpFixtures('movie'));
+      $this->parser->updateDatabase($this->fpFixtures('movie_added'));
       $item2 = $this->item->first();
 
       $this->assertNull($item1->src);
@@ -48,7 +48,7 @@
       $this->createTv();
 
       $episodes1 = $this->item->with('episodes')->first()->episodes;
-      $this->parser->store($this->fpFixtures('tv'));
+      $this->parser->updateDatabase($this->fpFixtures('tv_added'));
       $episodes2 = $this->item->with('episodes')->first()->episodes;
 
       $episodes1->each(function($episode) {
@@ -67,7 +67,7 @@
 
       $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
       $parser = app(FileParser::class);
-      $parser->store($this->fpFixtures('movie'));
+      $parser->updateDatabase($this->fpFixtures('movie_added'));
 
       $item = $this->item->first();
 
@@ -86,7 +86,7 @@
 
       $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
       $parser = app(FileParser::class);
-      $parser->store($this->fpFixtures('tv'));
+      $parser->updateDatabase($this->fpFixtures('tv_added'));
 
       $episodes2 = $this->episode->get();
 
@@ -118,6 +118,39 @@
       $this->assertNull($setting1->last_fetch_to_file_parser);
       $this->assertNotNull($setting2->last_fetch_to_file_parser);
       $this->assertNotEquals($setting2->last_fetch_to_file_parser, $setting3->last_fetch_to_file_parser);
+    }
+
+    /** @test */
+    public function it_should_remove_src_from_movie()
+    {
+      $this->createMovie();
+      $this->parser->updateDatabase($this->fpFixtures('movie_added'));
+
+      $withSrc = $this->item->first();
+      $this->parser->updateDatabase($this->fpFixtures('movie_removed'));
+      $withoutSrc = $this->item->first();
+
+      $this->assertNotNull($withSrc->src);
+      $this->assertNull($withoutSrc->src);
+    }
+
+    /** @test */
+    public function it_should_remove_src_from_tv_episode()
+    {
+      $this->createTv();
+      $this->parser->updateDatabase($this->fpFixtures('tv_added'));
+
+      $withSrc = $this->item->with('episodes')->first()->episodes;
+      $this->parser->updateDatabase($this->fpFixtures('tv_removed'));
+      $withoutSrc = $this->item->with('episodes')->first()->episodes;
+
+      $withSrc->each(function($episode) {
+        $this->assertNotNull($episode->src);
+      });
+
+      $withoutSrc->each(function($episode) {
+        $this->assertNull($episode->src);
+      });
     }
 
     private function createTmdbMock($fixture, $alternativeTitles)

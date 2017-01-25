@@ -115,7 +115,7 @@
     }
 
     /**
-     * See if we can find a item by title or tmdb_id in our database.
+     * See if we can find a item by title, tmdb_id or src in our database.
      *
      * @param $type
      * @param $value
@@ -123,10 +123,15 @@
      */
     public function findBy($type, $value)
     {
-      if($type == 'title') {
-        return $this->model->findByTitle($value)->first();
+      switch($type) {
+        case 'title':
+          return $this->model->findByTitle($value)->first();
+        case 'tmdb_id':
+          return $this->model->findByTmdbId($value)->first();
+        case 'src':
+          return $this->model->findBySrc($value)->first();
       }
 
-      return $this->model->findByTmdbId($value)->first();
+      return null;
     }
   }
