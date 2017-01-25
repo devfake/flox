@@ -93,6 +93,7 @@
 
       return version_compare($this->version, $lastestVersion, '<') ? 'true' : 'false';
     }
+
     /**
      * Parse full genre list of all movies in database and save them.
      *
@@ -104,18 +105,13 @@
 
       $items = $this->item->all();
 
-      foreach($items as $item) {
-        if( ! $item->genre) {
-          $data = [];
-          $genres = $tmdb->movie($item->tmdb_id)->genres;
-          foreach($genres as $genre) {
-            $data[] = $genre->name;
-          }
+      $items->each(function($item) use ($tmdb) {
+        $genres = $tmdb->details($item->tmdb_id, $item->media_type)->genres;
+        $data = collect($genres)->pluck('name')->all();
 
-          $item->genre = implode($data, ', ');
-          $item->save();
-        }
-      }
+        $item->genre = implode($data, ', ');
+        $item->save();
+      });
     }
 
     /**
