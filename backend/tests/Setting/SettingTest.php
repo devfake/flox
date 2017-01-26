@@ -55,7 +55,7 @@
 
       $setting1 = Setting::first();
 
-      $this->actingAs($this->user)->json('PATCH', 'api/settings', [
+      $this->actingAs($this->user)->json('PATCH', 'api/options', [
         'genre' => 1,
         'date' => 0,
         'spoiler' => 0,

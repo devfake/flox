@@ -38,6 +38,16 @@
     }
 
     /**
+     * @return array
+     */
+    public function getUserData()
+    {
+      return [
+        'username' => Auth::user()->username,
+      ];
+    }
+
+    /**
      * Save new user credentials.
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
