@@ -28,9 +28,7 @@
 
   import { mapState } from 'vuex';
   import Helper from '../../../helper';
-
-  import http from 'axios';
-
+  
   export default {
     mixins: [Helper],
 
