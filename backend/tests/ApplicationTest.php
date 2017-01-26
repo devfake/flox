@@ -20,6 +20,8 @@
       $this->assertTrue(Schema::hasTable('alternative_titles'));
       $this->assertTrue(Schema::hasTable('alternative_titles'));
       $this->assertTrue(Schema::hasColumn('settings', 'last_fetch_to_file_parser'));
+      $this->assertTrue(Schema::hasColumn('items', 'subtitles'));
+      $this->assertTrue(Schema::hasColumn('episodes', 'subtitles'));
     }
 
     /** @test */

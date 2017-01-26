@@ -9,7 +9,7 @@
       "tags": [],
       "year": null,
       "filename": "1",
-      "subtitles": null,
+      "subtitles": "src",
       "src": "/tv/Game of Thrones/S2/1.mkv"
     },
     {
@@ -21,7 +21,7 @@
       "extension": "mkv",
       "year": null,
       "filename": "2",
-      "subtitles": null,
+      "subtitles": "src",
       "src": "/tv/Game of Thrones/S2/2.mkv"
     },
     {
@@ -32,7 +32,7 @@
       "status": "added",
       "filename": "1",
       "tags": [],
-      "subtitles": null,
+      "subtitles": "src",
       "year": null,
       "src": "/tv/Game of Thrones/s1/1.mkv"
     },
@@ -45,7 +45,7 @@
       "extension": "mp4",
       "filename": "2",
       "year": null,
-      "subtitles": null,
+      "subtitles": "src",
       "src": "/tv/Game of Thrones/s1/2.mp4"
     }
   ]

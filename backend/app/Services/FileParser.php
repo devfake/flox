@@ -71,9 +71,9 @@
     {
       switch($item->status) {
         case self::ADDED:
-          return $this->addItem($item);
+          return $this->validateStore($item);
         case self::REMOVED:
-          return $this->removeSrc($item);
+          return $this->remove($item);
       }
     }
 
@@ -83,13 +83,13 @@
      * @param $item
      * @return bool|mixed
      */
-    private function addItem($item)
+    private function validateStore($item)
     {
       $title = $item->name;
 
       // See if file is already in our database.
       if($found = $this->itemService->findBy('title', $title)) {
-        return $this->storeSrc($item, $found->tmdb_id);
+        return $this->store($item, $found->tmdb_id);
       }
 
       // Otherwise make a new TMDb request.
@@ -127,13 +127,13 @@
 
       // Check against our database.
       if($this->itemService->findBy('tmdb_id', $tmdbId)) {
-        return $this->storeSrc($item, $tmdbId);
+        return $this->store($item, $tmdbId);
       }
 
       // Otherwise create a new item from the result.
       $created = $this->itemService->create($firstResult);
 
-      return $this->storeSrc($item, $created->tmdb_id);
+      return $this->store($item, $created->tmdb_id);
     }
 
     /**
@@ -143,13 +143,14 @@
      * @param $tmdbId
      * @return mixed
      */
-    private function storeSrc($item, $tmdbId)
+    private function store($item, $tmdbId)
     {
       $model = $this->findItem($item, $tmdbId);
 
       if($model) {
         return $model->update([
           'src' => $item->src,
+          'subtitles' => $item->subtitles,
         ]);
       }
     }
@@ -160,13 +161,14 @@
      * @param $item
      * @return mixed
      */
-    private function removeSrc($item)
+    private function remove($item)
     {
       $model = $this->findItemBySrc($item);
 
       if($model) {
         return $model->update([
           'src' => null,
+          'subtitles' => null,
         ]);
       }
     }

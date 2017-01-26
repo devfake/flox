@@ -30,7 +30,7 @@
     }
 
     /** @test */
-    public function it_should_store_src_if_movie_found_in_database()
+    public function it_should_store_if_movie_found_in_database()
     {
       $this->createMovie();
 
@@ -39,11 +39,13 @@
       $item2 = $this->item->first();
 
       $this->assertNull($item1->src);
+      $this->assertNull($item1->subtitles);
       $this->assertNotNull($item2->src);
+      $this->assertNotNull($item2->subtitles);
     }
 
     /** @test */
-    public function it_should_store_src_for_episodes_if_tv_found_in_database()
+    public function it_should_store_for_episodes_if_tv_found_in_database()
     {
       $this->createTv();
 
@@ -53,15 +55,17 @@
 
       $episodes1->each(function($episode) {
         $this->assertNull($episode->src);
+        $this->assertNull($episode->subtitles);
       });
 
       $episodes2->each(function($episode) {
         $this->assertNotNull($episode->src);
+        $this->assertNotNull($episode->subtitles);
       });
     }
 
     /** @test */
-    public function it_should_create_movie_and_store_src_if_not_found_in_database()
+    public function it_should_create_movie_and_store_if_not_found_in_database()
     {
       $items = $this->item->get();
 
@@ -73,6 +77,7 @@
 
       $this->assertCount(0, $items);
       $this->assertNotNull($item->src);
+      $this->assertNotNull($item->subtitles);
       $this->seeInDatabase('items', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -99,6 +104,7 @@
 
       $episodes2->each(function($episode) {
         $this->assertNotNull($episode->src);
+        $this->assertNotNull($episode->subtitles);
       });
     }
 
@@ -121,35 +127,39 @@
     }
 
     /** @test */
-    public function it_should_remove_src_from_movie()
+    public function it_should_remove_from_movie()
     {
       $this->createMovie();
       $this->parser->updateDatabase($this->fpFixtures('movie_added'));
 
-      $withSrc = $this->item->first();
+      $withData = $this->item->first();
       $this->parser->updateDatabase($this->fpFixtures('movie_removed'));
-      $withoutSrc = $this->item->first();
+      $withoutData = $this->item->first();
 
-      $this->assertNotNull($withSrc->src);
-      $this->assertNull($withoutSrc->src);
+      $this->assertNotNull($withData->src);
+      $this->assertNotNull($withData->subtitles);
+      $this->assertNull($withoutData->src);
+      $this->assertNull($withoutData->subtitles);
     }
 
     /** @test */
-    public function it_should_remove_src_from_tv_episode()
+    public function it_should_remove_from_tv_episode()
     {
       $this->createTv();
       $this->parser->updateDatabase($this->fpFixtures('tv_added'));
 
-      $withSrc = $this->item->with('episodes')->first()->episodes;
+      $withData = $this->item->with('episodes')->first()->episodes;
       $this->parser->updateDatabase($this->fpFixtures('tv_removed'));
-      $withoutSrc = $this->item->with('episodes')->first()->episodes;
+      $withoutData = $this->item->with('episodes')->first()->episodes;
 
-      $withSrc->each(function($episode) {
+      $withData->each(function($episode) {
         $this->assertNotNull($episode->src);
+        $this->assertNotNull($episode->subtitles);
       });
 
-      $withoutSrc->each(function($episode) {
+      $withoutData->each(function($episode) {
         $this->assertNull($episode->src);
+        $this->assertNull($episode->subtitles);
       });
     }
 
