@@ -22,9 +22,11 @@
 
   "settings": "إعدادات",
   "logout": "تسجيل الخروج",
-  "headline user": "ألمستخدم",
-  "headline export import": "الاستيراد والتصدير",
-  "headline misc": "متنوع",
+  "tab user": "ألمستخدم",
+  "tab options": "Options",
+  "tab backup": "Backup",
+  "tab misc": "متنوع",
+
   "save button": "حفظ",
   "password message": "أترك الحقل كلمة المرور فارغا إذا كنت لا ترغب في تغييرها",
   "success message": "تم التغيير بنجاح",
@@ -35,7 +37,7 @@
   "sync scout": "مزامنة Laravel Scout",
   "display genre": "عرص الصنف",
   "display date": "عرض التاريخ",
-  "success import": "تم استراد الأفلام بناجاح",
+  "success import": "Successful imported",
   "import warn": "سيتم استبدال جميع الأفلام. تأكد من أنك قد قدمت نسخة احتياطية!",
   "current version": "النسخة الحالية:",
   "new update": "هناك تحديثا جديدا لflox!",

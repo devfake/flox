@@ -22,9 +22,11 @@
 
   "settings": "Ρυθμίσεις",
   "logout": "Αποσύνδεση",
-  "headline user": "Χρήστης",
-  "headline export import": "Εξαγωγή / ΕΙσαγωγή",
-  "headline misc": "Διάφορα",
+  "tab user": "Χρήστης",
+  "tab options": "Options",
+  "tab backup": "Backup",
+  "tab misc": "Διάφορα",
+
   "save button": "Αποθήκευση",
   "password message": "Άφησε το πεδίο του κωδικού κενό αν δεν θέλεις να το αλλάξεις",
   "success message": "Επιτυχής αλλαγή",
@@ -35,7 +37,7 @@
   "sync scout": "Συγχρονισμός Laravel Scout",
   "display genre": "Εμφάνιση είδους",
   "display date": "Εμφάνιση ημερομηνίας",
-  "success import": "Επιτυχής εισαγωγή ταινιών",
+  "success import": "Successful imported",
   "import warn": "Όλες οι ταινίες θα αντικατασταθούν. Σιγουρέψου ότι έχεις κρατήσει αντίγραφο ασφαλείας!",
   "current version": "Τρέχουσα έκδοση:",
   "new update": "Υπάρχει μια νέα ενημερωμένη έκδοση για Flox!",

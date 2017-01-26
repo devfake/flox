@@ -22,9 +22,11 @@
 
   "settings": "Préférences",
   "logout": "Se déconnecter",
-  "headline user": "Utilisateur",
-  "headline export import": "Exporter / Importer",
-  "headline misc": "Divers",
+  "tab user": "Utilisateur",
+  "tab options": "Options",
+  "tab backup": "Backup",
+  "tab misc": "Divers",
+
   "save button": "Sauvegarder",
   "password message": "Laisser vide le champ du mot de passe s’il ne faut pas le changer",
   "success message": "Sauvegarde réussie",
@@ -35,7 +37,7 @@
   "sync scout": "Synchroniser Laravel Scout",
   "display genre": "Afficher genre",
   "display date": "Afficher date",
-  "success import": "Films importés avec succès",
+  "success import": "Importés avec succès",
   "import warn": "Tous les films seront remplacés. Il est recommandé de faire une sauvegarde avant de continuer",
   "current version": "Version actuelle:",
   "new update": "Il existe une nouvelle mise à jour pour flox!",
