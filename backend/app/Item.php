@@ -25,7 +25,7 @@
       'created_at',
       'genre',
       'src',
-      'subtitle',
+      'subtitles',
     ];
 
     /**

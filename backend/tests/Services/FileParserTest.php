@@ -39,9 +39,9 @@
       $item2 = $this->item->first();
 
       $this->assertNull($item1->src);
-      $this->assertNull($item1->subtitle);
+      $this->assertNull($item1->subtitles);
       $this->assertNotNull($item2->src);
-      $this->assertNotNull($item2->subtitle);
+      $this->assertNotNull($item2->subtitles);
     }
 
     /** @test */
@@ -55,12 +55,12 @@
 
       $episodes1->each(function($episode) {
         $this->assertNull($episode->src);
-        $this->assertNull($episode->subtitle);
+        $this->assertNull($episode->subtitles);
       });
 
       $episodes2->each(function($episode) {
         $this->assertNotNull($episode->src);
-        $this->assertNotNull($episode->subtitle);
+        $this->assertNotNull($episode->subtitles);
       });
     }
 
@@ -77,7 +77,7 @@
 
       $this->assertCount(0, $items);
       $this->assertNotNull($item->src);
-      $this->assertNotNull($item->subtitle);
+      $this->assertNotNull($item->subtitles);
       $this->seeInDatabase('items', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -104,7 +104,7 @@
 
       $episodes2->each(function($episode) {
         $this->assertNotNull($episode->src);
-        $this->assertNotNull($episode->subtitle);
+        $this->assertNotNull($episode->subtitles);
       });
     }
 
@@ -137,9 +137,9 @@
       $withoutData = $this->item->first();
 
       $this->assertNotNull($withData->src);
-      $this->assertNotNull($withData->subtitle);
+      $this->assertNotNull($withData->subtitles);
       $this->assertNull($withoutData->src);
-      $this->assertNull($withoutData->subtitle);
+      $this->assertNull($withoutData->subtitles);
     }
 
     /** @test */
@@ -154,12 +154,12 @@
 
       $withData->each(function($episode) {
         $this->assertNotNull($episode->src);
-        $this->assertNotNull($episode->subtitle);
+        $this->assertNotNull($episode->subtitles);
       });
 
       $withoutData->each(function($episode) {
         $this->assertNull($episode->src);
-        $this->assertNull($episode->subtitle);
+        $this->assertNull($episode->subtitles);
       });
     }
 

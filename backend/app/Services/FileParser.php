@@ -150,7 +150,7 @@
       if($model) {
         return $model->update([
           'src' => $item->src,
-          'subtitle' => $item->subtitles,
+          'subtitles' => $item->subtitles,
         ]);
       }
     }
@@ -168,7 +168,7 @@
       if($model) {
         return $model->update([
           'src' => null,
-          'subtitle' => null,
+          'subtitles' => null,
         ]);
       }
     }
