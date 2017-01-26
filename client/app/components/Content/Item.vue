@@ -33,6 +33,7 @@
 
 <script>
   import http from 'axios';
+  import debounce from 'debounce';
   import Helper from '../../helper';
 
   import { mapMutations, mapActions } from 'vuex';
@@ -42,11 +43,14 @@
 
     props: ['item', 'genre', 'date'],
 
+    created() {
+      this.saveNewRating = debounce(this.saveNewRating, 700);
+    },
+
     data() {
       return {
         localItem: this.item,
         latestEpisode: this.item.latest_episode,
-        saveTimeout: null,
         auth: config.auth,
         prevRating: null,
         rated: false,
@@ -131,14 +135,10 @@
 
       changeRating() {
         if(this.auth) {
-          clearTimeout(this.saveTimeout);
-
           this.prevRating = this.localItem.rating;
           this.localItem.rating = this.prevRating == 3 ? 1 : +this.prevRating + 1;
 
-          this.saveTimeout = setTimeout(() => {
-            this.saveNewRating();
-          }, 500);
+          this.saveNewRating();
         }
       },
 
