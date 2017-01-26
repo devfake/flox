@@ -19,6 +19,7 @@
       'seen',
       'season_tmdb_id',
       'created_at',
+      'subtitles',
     ];
 
     /**
