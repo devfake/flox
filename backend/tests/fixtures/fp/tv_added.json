@@ -10,7 +10,7 @@
       "year": null,
       "filename": "1",
       "subtitles": "src",
-      "src": "/tv/Game of Thrones/S2/1.mkv"
+      "src": "/tv/Game of Thrones/S1/1.mkv"
     },
     {
       "name": "Game of Thrones",
@@ -22,7 +22,7 @@
       "year": null,
       "filename": "2",
       "subtitles": "src",
-      "src": "/tv/Game of Thrones/S2/2.mkv"
+      "src": "/tv/Game of Thrones/S1/1.mkv"
     },
     {
       "name": "Game of Thrones",
@@ -46,7 +46,7 @@
       "filename": "2",
       "year": null,
       "subtitles": "src",
-      "src": "/tv/Game of Thrones/s1/2.mp4"
+      "src": "/tv/Game of Thrones/s1/1.mkv"
     }
   ]
 }

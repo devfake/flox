@@ -4,49 +4,53 @@
       "name": "Game of Thrones",
       "season_number": 2,
       "episode_number": 1,
-      "status": "removed",
+      "status": "updated",
       "extension": "mkv",
       "tags": [],
       "year": null,
       "filename": "1",
       "subtitles": null,
-      "src": "/tv/Game of Thrones/S1/1.mkv"
+      "src": "/tv/Game of Thrones/S1/1.mkv",
+      "changed": {}
     },
     {
       "name": "Game of Thrones",
       "season_number": 2,
       "episode_number": 2,
       "tags": [],
-      "status": "removed",
+      "status": "updated",
       "extension": "mkv",
       "year": null,
       "filename": "2",
       "subtitles": null,
-      "src": "/tv/Game of Thrones/S1/1.mkv"
+      "src": "/tv/Game of Thrones/S1/1.mkv",
+      "changed": {}
+    },
+    {
+      "name": "Game of Thrones",
+      "season_number": 1,
+      "episode_number": 2,
+      "tags": [],
+      "status": "updated",
+      "extension": "mkv",
+      "year": null,
+      "filename": "2",
+      "subtitles": null,
+      "src": "/tv/Game of Thrones/S1/1.mkv",
+      "changed": {}
     },
     {
       "name": "Game of Thrones",
       "season_number": 1,
       "episode_number": 1,
+      "tags": [],
+      "status": "updated",
       "extension": "mkv",
-      "status": "removed",
-      "filename": "1",
-      "tags": [],
-      "subtitles": null,
       "year": null,
-      "src": "/tv/Game of Thrones/s1/1.mkv"
-    },
-    {
-      "name": "Game of Thrones",
-      "season_number": 1,
-      "tags": [],
-      "episode_number": 2,
-      "status": "removed",
-      "extension": "mp4",
       "filename": "2",
-      "year": null,
       "subtitles": null,
-      "src": "/tv/Game of Thrones/s1/1.mkv"
+      "src": "/tv/Game of Thrones/S1/1.mkv",
+      "changed": {}
     }
   ]
 }
