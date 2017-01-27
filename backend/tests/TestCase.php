@@ -78,4 +78,14 @@
         'tmdb_id' => 1399
       ]);
     }
+
+    protected function getMovieSrc()
+    {
+      return '/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.mkv';
+    }
+
+    protected function getTvSrc()
+    {
+      return '/tv/Game of Thrones/S1/1.mkv';
+    }
   }

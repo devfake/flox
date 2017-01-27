@@ -30,7 +30,7 @@
     }
 
     /** @test */
-    public function it_should_store_if_movie_found_in_database()
+    public function it_should_store_fields_if_movie_found_in_database()
     {
       $this->createMovie();
 
@@ -45,7 +45,7 @@
     }
 
     /** @test */
-    public function it_should_store_for_episodes_if_tv_found_in_database()
+    public function it_should_store_fields_for_episodes_if_tv_found_in_database()
     {
       $this->createTv();
 
@@ -65,7 +65,7 @@
     }
 
     /** @test */
-    public function it_should_create_movie_and_store_if_not_found_in_database()
+    public function it_should_create_movie_and_store_fields_if_not_found_in_database()
     {
       $items = $this->item->get();
 
@@ -84,7 +84,7 @@
     }
 
     /** @test */
-    public function it_should_create_tv_with_episodes_and_store_src_if_not_found_in_database()
+    public function it_should_create_tv_with_episodes_and_store_fields_if_not_found_in_database()
     {
       $items = $this->item->get();
       $episodes1 = $this->episode->get();
@@ -127,7 +127,7 @@
     }
 
     /** @test */
-    public function it_should_remove_from_movie()
+    public function it_should_remove_fields_from_movie()
     {
       $this->createMovie();
       $this->parser->updateDatabase($this->fpFixtures('movie_added'));
@@ -143,7 +143,7 @@
     }
 
     /** @test */
-    public function it_should_remove_from_tv_episode()
+    public function it_should_remove_fields_from_tv_episode()
     {
       $this->createTv();
       $this->parser->updateDatabase($this->fpFixtures('tv_added'));
@@ -163,11 +163,132 @@
       });
     }
 
-    private function createTmdbMock($fixture, $alternativeTitles)
+    /** @test */
+    public function it_should_update_fields_if_movie_found_in_database()
+    {
+      $this->createMovie();
+      $this->item->first()->update(['src' => $this->getMovieSrc()]);
+
+      $item = $this->item->first();
+      $this->parser->updateDatabase($this->fpFixtures('movie_updated'));
+      $updatedItem = $this->item->first();
+
+      $this->assertEquals($this->getMovieSrc(), $item->src);
+      $this->assertNull($item->subtitles);
+      $this->assertEquals('NEW SRC', $updatedItem->src);
+      $this->assertEquals('NEW SUB', $updatedItem->subtitles);
+    }
+
+    /** @test */
+    public function it_should_create_movie_and_update_fields_if_not_found_in_database()
+    {
+      $items = $this->item->get();
+
+      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('movie_updated'));
+
+      $item = $this->item->first();
+
+      $this->assertCount(0, $items);
+      $this->assertEquals('NEW SRC', $item->src);
+      $this->assertEquals('NEW SUB', $item->subtitles);
+      $this->seeInDatabase('items', [
+        'title' => 'Warcraft: The Beginning'
+      ]);
+    }
+
+    /** @test */
+    public function it_should_nothing_update_for_movies_if_changed_is_empty()
+    {
+      $this->createMovie();
+      $this->item->first()->update(['src' => $this->getMovieSrc()]);
+
+      $item = $this->item->first();
+      $this->parser->updateDatabase($this->fpFixtures('movie_updated_empty'));
+      $updatedItem = $this->item->first();
+
+      $this->assertEquals($this->getMovieSrc(), $item->src);
+      $this->assertNull($item->subtitles);
+      $this->assertEquals($this->getMovieSrc(), $updatedItem->src);
+      $this->assertNull($updatedItem->subtitles);
+    }
+
+    /** @test */
+    public function it_should_update_fields_for_episodes_if_tv_found_in_database()
+    {
+      $this->createTv();
+
+      $this->episode->get()->each(function($episode) {
+        $episode->update(['src' => $this->getTvSrc()]);
+      });
+
+      $episodes = $this->episode->get();
+      $this->parser->updateDatabase($this->fpFixtures('tv_updated'));
+      $updatedEpisodes = $this->episode->get();
+
+      $episodes->each(function($episode) {
+        $this->assertEquals($this->getTvSrc(), $episode->src);
+        $this->assertNull($episode->subtitles);
+      });
+
+      $updatedEpisodes->each(function($episode) {
+        $this->assertEquals('NEW SRC', $episode->src);
+        $this->assertEquals('NEW SUB', $episode->subtitles);
+      });
+    }
+
+    /** @test */
+    public function it_should_create_tv_with_episodes_and_update_fields_if_not_found_in_database()
+    {
+      $items = $this->item->get();
+      $episodes = $this->episode->first();
+
+      $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('tv_updated_once'));
+
+      $updatedEpisodes = $this->episode->first();
+
+      $this->assertCount(0, $items);
+      $this->assertNull($episodes);
+      $this->seeInDatabase('items', [
+        'title' => 'Game of Thrones'
+      ]);
+
+      $this->assertEquals('NEW SRC', $updatedEpisodes->src);
+      $this->assertEquals('NEW SUB', $updatedEpisodes->subtitles);
+    }
+
+    /** @test */
+    public function it_should_nothing_update_for_episodes_if_changed_is_empty()
+    {
+      $this->createTv();
+
+      $this->episode->get()->each(function($episode) {
+        $episode->update(['src' => $this->getTvSrc()]);
+      });
+
+      $episodes = $this->episode->get();
+      $this->parser->updateDatabase($this->fpFixtures('tv_updated_empty'));
+      $updatedEpisodes = $this->episode->get();
+
+      $episodes->each(function($episode) {
+        $this->assertEquals($this->getTvSrc(), $episode->src);
+        $this->assertNull($episode->subtitles);
+      });
+
+      $updatedEpisodes->each(function($episode) {
+        $this->assertEquals($this->getTvSrc(), $episode->src);
+        $this->assertNull($episode->subtitles);
+      });
+    }
+
+    private function createTmdbMock($fixture, $fixture2)
     {
       $mock = new MockHandler([
         new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
-        new Response(200, ['X-RateLimit-Remaining' => [40]], $alternativeTitles),
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture2),
       ]);
 
       $handler = HandlerStack::create($mock);
