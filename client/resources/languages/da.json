@@ -22,9 +22,11 @@
 
   "settings": "Indstillinger",
   "logout": "Log ud",
-  "headline user": "Bruger",
-  "headline export import": "Exportér / Importér",
-  "headline misc": "Diverse",
+  "tab user": "Bruger",
+  "tab options": "Options",
+  "tab backup": "Backup",
+  "tab misc": "Diverse",
+
   "save button": "Gem",
   "password message": "Efterlad dette adgangkodefelt blankt hvis du ikke vil ændre det",
   "success message": "Succesfuldt ændret",
@@ -35,7 +37,7 @@
   "sync scout": "Synkronisér Laravel Scout",
   "display genre": "Vis genre",
   "display date": "Vis dato",
-  "success import": "Film succesfuldt importeret",
+  "success import": "Succesfuldt importeret",
   "import warn": "Alle film vil blive erstattet. Vær sikker på du laver en sikkerhedskopi!",
   "current version": "Nuværende version:",
   "new update": "Der er en ny opdatering til flox!",

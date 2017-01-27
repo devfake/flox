@@ -5,7 +5,7 @@ import config from './config';
 
 import Content from './components/Content/Content.vue';
 import SearchContent from './components/Content/SearchContent.vue';
-import Settings from './components/Content/Settings.vue';
+import Settings from './components/Content/Settings/Index.vue';
 import TMDBContent from './components/Content/TMDBContent.vue';
 
 Vue.use(Router);

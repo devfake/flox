@@ -70,7 +70,7 @@
       $this->item->truncate();
       foreach($data->items as $item) {
         $this->item->create((array) $item);
-        $this->storage->createPosterFile($item->poster);
+        $this->storage->downloadPoster($item->poster);
       }
 
       $this->episodes->truncate();
@@ -149,9 +149,19 @@
     }
 
     /**
-     * Save new user settings.
+     * @return array
      */
-    public function changeSettings()
+    public function getVersion()
+    {
+      return [
+        'version' => $this->version,
+      ];
+    }
+
+    /**
+     * Update new settings.
+     */
+    public function updateSettings()
     {
       $this->setting->first()->update([
         'show_genre' => Input::get('genre'),

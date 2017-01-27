@@ -22,9 +22,11 @@
 
   "settings": "Settings",
   "logout": "Logout",
-  "headline user": "User",
-  "headline export import": "Export / Import",
-  "headline misc": "Misc",
+  "tab user": "User",
+  "tab options": "Options",
+  "tab backup": "Backup",
+  "tab misc": "Misc",
+
   "save button": "Save",
   "password message": "Leave the password field blank if you don't want to change it",
   "success message": "Successful changed",
@@ -35,7 +37,7 @@
   "sync scout": "Sync Laravel Scout",
   "display genre": "Display genre",
   "display date": "Display date",
-  "success import": "Movies successful imported",
+  "success import": "Successful imported",
   "import warn": "All movies will be replaced. Be sure you have made an backup!",
   "current version": "Current version:",
   "new update": "There is a new update for flox!",
