@@ -159,7 +159,7 @@
     }
 
     /**
-     * Save new user options.
+     * Update new settings.
      */
     public function updateSettings()
     {
