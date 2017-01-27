@@ -12,6 +12,9 @@
 
     const ADDED = 'added';
     const REMOVED = 'removed';
+    const UPDATED = 'updated';
+
+    const SUPPORTED_FIELDS = ['src', 'subtitles'];
 
     private $itemService;
     private $episodeService;
@@ -40,9 +43,7 @@
     {
       $this->updateTimestamp();
 
-      return json_decode(
-        file_get_contents(base_path('tests/fixtures/fp/all.json'))
-      );
+      return json_decode(file_get_contents(base_path('tests/fixtures/fp/all.json')));
     }
 
     /**
@@ -72,40 +73,60 @@
       switch($item->status) {
         case self::ADDED:
           return $this->validateStore($item);
+        case self::UPDATED:
+          return $this->validateUpdate($item);
         case self::REMOVED:
           return $this->remove($item);
       }
     }
 
     /**
-     * See if it can find the item in our database. Otherwise search in TMDb.
+     * See if it can find the item in our database.
+     * Otherwise search in TMDb.
      *
      * @param $item
      * @return bool|mixed
      */
     private function validateStore($item)
     {
-      $title = $item->name;
-
       // See if file is already in our database.
-      if($found = $this->itemService->findBy('title', $title)) {
+      if($found = $this->itemService->findBy('title', $item->name)) {
         return $this->store($item, $found->tmdb_id);
       }
 
       // Otherwise make a new TMDb request.
-      return $this->tmdbSearch($title, $item);
+      return $this->tmdbSearch($item);
+    }
+
+    /**
+     * See if it can find the item in our database.
+     * Otherwise search in TMDb and try to find them in our database again and update the fields.
+     *
+     * @param $item
+     * @return mixed
+     */
+    private function validateUpdate($item)
+    {
+      // See if file is already in our database.
+      if($found = $this->findItemBySrc($item)) {
+        return $this->update($item, $found);
+      }
+
+      // Otherwise make a new TMDb request.
+      $this->tmdbSearch($item);
+
+      return $this->validateUpdate($item);
     }
 
     /**
      * Make a new request to TMDb and check against the database. Otherwise create a new item.
      *
-     * @param $title
      * @param $item
      * @return bool|mixed
      */
-    private function tmdbSearch($title, $item)
+    private function tmdbSearch($item)
     {
-      $result = $this->tmdb->search($title);
+      $result = $this->tmdb->search($item->name);
 
       if( ! $result) {
         return false;
@@ -137,7 +158,7 @@
     }
 
     /**
-     * Store src from local file into items for movies or episodes for tv shows.
+     * Store current supported fields from local file into our database.
      *
      * @param $item
      * @param $tmdbId
@@ -145,31 +166,47 @@
      */
     private function store($item, $tmdbId)
     {
-      $model = $this->findItem($item, $tmdbId);
+      if($model = $this->findItem($item, $tmdbId)) {
+        foreach(self::SUPPORTED_FIELDS as $field) {
+          $model->{$field} = $item->{$field};
+        }
 
-      if($model) {
-        return $model->update([
-          'src' => $item->src,
-          'subtitles' => $item->subtitles,
-        ]);
+        $model->save();
       }
     }
 
     /**
-     * Remove src for local file in items for movies or episodes for tv shows.
+     * Iterate over all changed properties and update them in our database.
+     *
+     * @param $item
+     * @param $model
+     * @return mixed
+     */
+    private function update($item, $model)
+    {
+      foreach($item->changed as $field => $value) {
+        if(in_array($field, self::SUPPORTED_FIELDS)) {
+          $model->{$field} = $value;
+        }
+      }
+
+      return $model->save();
+    }
+
+    /**
+     * Reset all supported fields for local file from our database.
      *
      * @param $item
      * @return mixed
      */
     private function remove($item)
     {
-      $model = $this->findItemBySrc($item);
+      if($model = $this->findItemBySrc($item)) {
+        foreach(self::SUPPORTED_FIELDS as $field) {
+          $model->{$field} = null;
+        }
 
-      if($model) {
-        return $model->update([
-          'src' => null,
-          'subtitles' => null,
-        ]);
+        $model->save();
       }
     }
 
