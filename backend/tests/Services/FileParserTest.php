@@ -83,9 +83,7 @@
       ]);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_should_create_tv_with_episodes_and_store_fields_if_not_found_in_database()
     {
       $items = $this->item->get();
@@ -240,9 +238,7 @@
       });
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_should_create_tv_with_episodes_and_update_fields_if_not_found_in_database()
     {
       $items = $this->item->get();
