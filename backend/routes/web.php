@@ -23,8 +23,11 @@
 
       Route::get('/sync-scout', 'SettingController@syncScout');
       Route::patch('/update-genre', 'SettingController@updateGenre');
-      Route::patch('/settings', 'SettingController@changeSettings');
+      Route::patch('/settings', 'SettingController@updateSettings');
       Route::patch('/update-alternative-titles/{tmdbID?}', 'ItemController@updateAlternativeTitles');
+
+      Route::get('/version', 'SettingController@getVersion');
+      Route::get('/userdata', 'UserController@getUserData');
 
       Route::patch('/userdata', 'UserController@changeUserData');
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');

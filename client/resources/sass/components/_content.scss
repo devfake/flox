@@ -90,7 +90,7 @@ main {
   height: 270px;
   background: $dark;
   float: left;
-  box-shadow: 0 5px 10px 0 rgba(0,0,0,.5);
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .5);
 }
 
 .item-content {
@@ -154,7 +154,7 @@ main {
   width: 50px;
   height: 50px;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 15px 0 rgba(0,0,0,.7);
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, .7);
   border-radius: 25px;
 
   .logged & {
@@ -189,6 +189,7 @@ main {
     background: url(../../../public/assets/img/rating-1.png);
   }
 }
+
 .rating-2 {
   background: $rating2;
 
@@ -196,6 +197,7 @@ main {
     background: url(../../../public/assets/img/rating-2.png);
   }
 }
+
 .rating-3 {
   background: $rating3;
 
@@ -307,7 +309,6 @@ main {
 
   @include transition(opacity, bottom);
 
-
   &:hover {
     .logged & {
       opacity: 1 !important;
@@ -381,10 +382,48 @@ main {
   }
 }
 
+.navigation-tab {
+  float: left;
+  width: 100%;
+  margin: 0 0 80px 0;
+
+  span {
+    color: gray;
+    font-size: 17px;
+    float: left;
+    margin: 0 20px 0 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+
+    @include media(6) {
+      width: 50%;
+      text-align: center;
+      margin: 0 0 20px 0;
+    }
+
+    &:active {
+      opacity: .6;
+    }
+
+    &.active {
+      color: $main2;
+      border-bottom: 2px solid $main2;
+
+      @include media(6) {
+        border-bottom: 2px solid transparent;
+      }
+    }
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+}
+
 .version-wrap {
   float: left;
   width: 100%;
-  margin: 0 0 30px 0;
+  margin: 0 0 50px 0;
   color: gray;
 }
 
@@ -444,8 +483,7 @@ main {
 
 .settings-box {
   float: left;
-  width: 250px;
-  margin: 0 160px 0 0;
+  width: 100%;
 
   &:last-child {
     margin: 0;
@@ -455,17 +493,16 @@ main {
     clear: both;
     margin: 0 0 30px 0;
   }
-
-  @include media(4) {
-    width: 100%;
-    margin: 0 0 50px 0 !important;
-  }
 }
 
 .checkbox {
   float: left;
   width: 100%;
   margin: 0 0 10px 0;
+
+  &:active {
+    opacity: .6;
+  }
 
   input {
     float: left;
@@ -476,11 +513,8 @@ main {
     float: left;
     font-size: 15px;
     margin: 0 0 0 10px;
-    max-width: 200px;
-
-    @include media(4) {
-      max-width: none;
-    }
+    cursor: pointer;
+    width: calc(100% - 30px);
   }
 
   .dark & {
@@ -523,6 +557,19 @@ main {
 
   .dark & {
     color: #5d5d5d;
+  }
+}
+
+.misc-btn-wrap {
+  float: left;
+  width: 100%;
+
+  .export-btn {
+    margin: 0 20px 20px 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 

@@ -7,7 +7,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
   entry: {
     app: './app/app.js',
-    vendor: ['vue', 'axios', 'vuex']
+    vendor: ['vue', 'axios', 'vuex', 'debounce', 'vue-router']
   },
   output: {
     path: path.resolve('../public/assets'),
