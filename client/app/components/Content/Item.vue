@@ -38,13 +38,15 @@
 
   import { mapMutations, mapActions } from 'vuex';
 
+  const debounceMilliseconds = 700;
+
   export default {
     mixins: [Helper],
 
     props: ['item', 'genre', 'date'],
 
     created() {
-      this.saveNewRating = debounce(this.saveNewRating, 700);
+      this.saveNewRating = debounce(this.saveNewRating, debounceMilliseconds);
     },
 
     data() {

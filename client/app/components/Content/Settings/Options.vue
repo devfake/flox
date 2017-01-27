@@ -21,12 +21,14 @@
   import http from 'axios';
   import debounce from 'debounce';
 
+  const debounceMilliseconds = 700;
+
   export default {
     mixins: [Helper],
 
     created() {
       this.fetchOptions();
-      this.updateOptions = debounce(this.updateOptions, 700);
+      this.updateOptions = debounce(this.updateOptions, debounceMilliseconds);
     },
 
     data() {
@@ -48,7 +50,7 @@
 
       fetchOptions() {
         this.SET_LOADING(true);
-        http(`${config.api}/options`).then(response => {
+        http(`${config.api}/settings`).then(response => {
           const data = response.data;
 
           this.SET_LOADING(false);
@@ -63,7 +65,7 @@
         const genre = this.genre;
         const spoiler = this.spoiler;
 
-        http.patch(`${config.api}/options`, {date, genre, spoiler}).catch(() => {
+        http.patch(`${config.api}/settings`, {date, genre, spoiler}).catch(() => {
           alert('Error');
         });
       },

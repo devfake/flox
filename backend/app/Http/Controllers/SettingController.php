@@ -159,23 +159,9 @@
     }
 
     /**
-     * @return array
-     */
-    public function getOptions()
-    {
-      $settings = $this->setting->first();
-
-      return [
-        'genre' => $settings->show_genre,
-        'date' => $settings->show_date,
-        'spoiler' => $settings->episode_spoiler_protection,
-      ];
-    }
-
-    /**
      * Save new user options.
      */
-    public function updateOptions()
+    public function updateSettings()
     {
       $this->setting->first()->update([
         'show_genre' => Input::get('genre'),

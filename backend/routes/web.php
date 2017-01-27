@@ -23,10 +23,9 @@
 
       Route::get('/sync-scout', 'SettingController@syncScout');
       Route::patch('/update-genre', 'SettingController@updateGenre');
-      Route::patch('/options', 'SettingController@updateOptions');
+      Route::patch('/settings', 'SettingController@updateSettings');
       Route::patch('/update-alternative-titles/{tmdbID?}', 'ItemController@updateAlternativeTitles');
 
-      Route::get('/options', 'SettingController@getOptions');
       Route::get('/version', 'SettingController@getVersion');
       Route::get('/userdata', 'UserController@getUserData');
 

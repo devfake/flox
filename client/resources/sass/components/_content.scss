@@ -90,7 +90,7 @@ main {
   height: 270px;
   background: $dark;
   float: left;
-  box-shadow: 0 5px 10px 0 rgba(0,0,0,.5);
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .5);
 }
 
 .item-content {
@@ -154,7 +154,7 @@ main {
   width: 50px;
   height: 50px;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 15px 0 rgba(0,0,0,.7);
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, .7);
   border-radius: 25px;
 
   .logged & {
@@ -189,6 +189,7 @@ main {
     background: url(../../../public/assets/img/rating-1.png);
   }
 }
+
 .rating-2 {
   background: $rating2;
 
@@ -196,6 +197,7 @@ main {
     background: url(../../../public/assets/img/rating-2.png);
   }
 }
+
 .rating-3 {
   background: $rating3;
 
@@ -307,7 +309,6 @@ main {
 
   @include transition(opacity, bottom);
 
-
   &:hover {
     .logged & {
       opacity: 1 !important;
@@ -408,10 +409,10 @@ main {
       color: $main2;
       border-bottom: 2px solid $main2;
 
-        @include media(6) {
-          border-bottom: 2px solid transparent;
-        }
+      @include media(6) {
+        border-bottom: 2px solid transparent;
       }
+    }
 
     &:last-child {
       margin: 0;

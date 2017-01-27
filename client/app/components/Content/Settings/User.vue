@@ -19,12 +19,14 @@
   import http from 'axios';
   import debounce from 'debounce';
 
+  const debounceMilliseconds = 2000;
+
   export default {
     mixins: [Helper],
 
     created() {
       this.fetchUserData();
-      this.clearSuccessMessage = debounce(this.clearSuccessMessage, 2000);
+      this.clearSuccessMessage = debounce(this.clearSuccessMessage, debounceMilliseconds);
     },
 
     data() {
@@ -46,8 +48,8 @@
 
       fetchUserData() {
         this.SET_LOADING(true);
-        http(`${config.api}/settings`).then(response => {
 
+        http(`${config.api}/settings`).then(response => {
           this.SET_LOADING(false);
           this.username = response.data.username;
         });

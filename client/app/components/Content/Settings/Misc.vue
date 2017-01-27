@@ -64,8 +64,8 @@
 
       fetchVersion() {
         this.SET_LOADING(true);
-        http(`${config.api}/version`).then(response => {
 
+        http(`${config.api}/version`).then(response => {
           this.SET_LOADING(false);
           this.version = response.data.version;
         });
