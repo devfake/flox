@@ -174,11 +174,12 @@
      * Call flox-file-parser.
      *
      * @param FileParser $parser
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchFiles(FileParser $parser)
     {
       $files = $parser->fetch();
 
-      $parser->updateDatabase($files);
+      return $parser->updateDatabase($files);
     }
   }
