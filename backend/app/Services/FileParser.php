@@ -8,6 +8,7 @@
   use App\Setting;
   use Carbon\Carbon;
   use Illuminate\Support\Facades\DB;
+  use Symfony\Component\HttpFoundation\Response;
 
   class FileParser {
 
@@ -64,7 +65,7 @@
           try {
             $this->handleStatus($item);
           } catch(\Exception $e) {
-            return response()->json($e->getMessage(), 400);
+            return response()->json($e->getMessage(), Response::HTTP_BAD_REQUEST);
           }
         }
       }
@@ -233,7 +234,9 @@
     {
       DB::rollBack();
 
-      throw new \Exception("Failed to parse file '$item->name' with status '$item->status'. Please write a issue: https://github.com/devfake/flox/issues");
+      $itemAsString = json_encode($item);
+
+      throw new \Exception("Failed to parse file '$item->name' with status '$item->status'. Please write an issue: https://github.com/devfake/flox/issues and include the following content:\n\n $itemAsString");
     }
 
     /**
