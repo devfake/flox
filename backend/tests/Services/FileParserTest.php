@@ -24,9 +24,49 @@
     {
       parent::setUp();
 
+      $this->createSetting();
+
       $this->item = app(Item::class);
       $this->episode = app(Episode::class);
       $this->parser = app(FileParser::class);
+    }
+
+    /** @test */
+    public function it_should_make_a_rollback_if_status_for_movie_is_unknown()
+    {
+      $items = $this->item->get();
+      $setting = Setting::first()->last_fetch_to_file_parser;
+
+      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('movie_unknown'));
+
+      $itemsAfterRollback = $this->item->get();
+      $settingAfterRollback = Setting::first()->last_fetch_to_file_parser;
+
+      $this->assertCount(0, $items);
+      $this->assertNull($setting);
+      $this->assertCount(0, $itemsAfterRollback);
+      $this->assertNull($settingAfterRollback);
+    }
+
+    /** @test */
+    public function it_should_make_a_rollback_if_status_for_tv_episode_is_unknown()
+    {
+      $episodes = $this->episode->get();
+      $setting = Setting::first()->last_fetch_to_file_parser;
+
+      $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('tv_unknown'));
+
+      $episodesAfterRollback = $this->episode->get();
+      $settingAfterRollback = Setting::first()->last_fetch_to_file_parser;
+
+      $this->assertCount(0, $episodes);
+      $this->assertNull($setting);
+      $this->assertCount(0, $episodesAfterRollback);
+      $this->assertNull($settingAfterRollback);
     }
 
     /** @test */
@@ -111,14 +151,16 @@
     /** @test */
     public function it_can_update_last_fetch_to_file_parser_timestamp()
     {
-      $this->createSetting();
       $this->createMovie();
 
+      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $parser = app(FileParser::class);
+
       $setting1 = Setting::first();
-      $this->parser->fetch();
+      $parser->updateDatabase($this->fpFixtures('movie_added'));
       $setting2 = Setting::first();
       sleep(1);
-      $this->parser->fetch();
+      $parser->updateDatabase($this->fpFixtures('movie_added'));
       $setting3 = Setting::first();
 
       $this->assertNull($setting1->last_fetch_to_file_parser);

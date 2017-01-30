@@ -7,6 +7,7 @@
   use App\Services\Models\ItemService;
   use App\Setting;
   use Carbon\Carbon;
+  use Illuminate\Support\Facades\DB;
 
   class FileParser {
 
@@ -41,8 +42,6 @@
      */
     public function fetch()
     {
-      $this->updateTimestamp();
-
       return json_decode(file_get_contents(base_path('tests/fixtures/fp/all.json')));
     }
 
@@ -50,20 +49,32 @@
      * Loop over all local files.
      *
      * @param $files
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateDatabase($files)
     {
+      DB::beginTransaction();
+
+      $this->updateTimestamp();
+
       foreach($files as $type => $items) {
         $this->itemCategory = $type;
 
         foreach($items as $item) {
-          $this->handleStatus($item);
+          try {
+            $this->handleStatus($item);
+          } catch(\Exception $e) {
+            return response()->json($e->getMessage(), 400);
+          }
         }
       }
+
+      DB::commit();
     }
 
     /**
      * Check which status the file has.
+     * If we can't handle the status, throw an exception.
      *
      * @param $item
      * @return bool|mixed|void
@@ -77,6 +88,8 @@
           return $this->validateUpdate($item);
         case self::REMOVED:
           return $this->remove($item);
+        default:
+          return $this->abortParser($item);
       }
     }
 
@@ -208,6 +221,19 @@
 
         $model->save();
       }
+    }
+
+    /**
+     * Cancel the complete fetch and make a rollback of fetched files.
+     *
+     * @param $item
+     * @throws \Exception
+     */
+    private function abortParser($item)
+    {
+      DB::rollBack();
+
+      throw new \Exception("Failed to parse file '$item->name' with status '$item->status'. Please write a issue: https://github.com/devfake/flox/issues");
     }
 
     /**
