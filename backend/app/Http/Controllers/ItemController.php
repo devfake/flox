@@ -81,7 +81,7 @@
      */
     public function changeRating(ItemService $itemService, $itemId)
     {
-      $itemService->changeRating($itemId, Input::get('rating'));
+      return $itemService->changeRating($itemId, Input::get('rating'));
     }
 
     /**
