@@ -10,6 +10,7 @@
     </div>
 
     <div class="misc-btn-wrap">
+      <button @click="fetchFiles()" class="export-btn">Update files</button>
       <button @click="updateGenre()" class="export-btn">{{ lang('update genre') }}</button>
       <button @click="updateAlternativeTitles()" class="export-btn">Update alternative titles</button>
       <button @click="syncScout()" class="export-btn">{{ lang('sync scout') }}</button>
@@ -55,6 +56,17 @@
 
     methods: {
       ...mapMutations([ 'SET_LOADING' ]),
+
+      fetchFiles() {
+        this.SET_LOADING(true);
+
+        http.post(`${config.api}/fetch-files`).then(() => {
+          this.SET_LOADING(false);
+        }).catch(error => {
+          this.SET_LOADING(false);
+          alert(error.response.data);
+        });
+      },
 
       checkUpdate() {
         http(`${config.api}/check-update`).then(response => {

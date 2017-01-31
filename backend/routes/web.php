@@ -18,8 +18,7 @@
       Route::post('/import', 'SettingController@import');
 
       Route::get('/check-update', 'SettingController@checkForUpdate');
-      // todo: POST
-      Route::get('/fetch-files', 'SettingController@fetchFiles');
+      Route::post('/fetch-files', 'SettingController@fetchFiles');
 
       Route::get('/sync-scout', 'SettingController@syncScout');
       Route::patch('/update-genre', 'SettingController@updateGenre');
