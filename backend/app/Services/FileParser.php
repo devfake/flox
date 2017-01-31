@@ -236,7 +236,7 @@
 
       $itemAsString = json_encode($item);
 
-      throw new \Exception("Failed to parse file '$item->name' with status '$item->status'. Please write an issue: https://github.com/devfake/flox/issues and include the following content:\n\n $itemAsString");
+      throw new \Exception("Failed to parse file '$item->name' with status '$item->status'. Please open an issue: https://github.com/devfake/flox/issues and include the following content:\n\n $itemAsString");
     }
 
     /**
