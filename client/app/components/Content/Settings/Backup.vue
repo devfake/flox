@@ -55,12 +55,13 @@
 
           if(confirm) {
             this.SET_LOADING(true);
+
             http.post(`${config.api}/import`, this.uploadedFile).then(() => {
               this.SET_LOADING(false);
               this.uploadSuccess = true;
             }, error => {
               this.SET_LOADING(false);
-              alert('Error: ' + error.data);
+              alert('Error: ' + error.response.data);
             });
           }
         }

@@ -18,6 +18,16 @@
     }
 
     /**
+     * Create the export filename.
+     *
+     * @return string
+     */
+    public function createExportFilename()
+    {
+      return 'flox--' . date('Y-m-d---H-i') . '.json';
+    }
+
+    /**
      * Download the poster image file.
      *
      * @param $poster
