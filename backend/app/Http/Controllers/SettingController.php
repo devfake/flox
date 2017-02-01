@@ -45,11 +45,11 @@
       $data['episodes'] = $this->episodes->all();
       $data['alternative_titles'] = $this->alternativeTitles->all();
 
-      $file = 'flox--' . date('Y-m-d---H-i') . '.json';
+      $filename = $this->storage->createExportFilename();
 
-      $this->storage->saveExport($file, json_encode($data));
+      $this->storage->saveExport($filename, json_encode($data));
 
-      return response()->download(base_path('../public/exports/' . $file));
+      return response()->download(base_path('../public/exports/' . $filename));
     }
 
     /**
@@ -62,6 +62,7 @@
       increaseTimeLimit();
 
       $file = Input::file('import');
+
       $extension = $file->getClientOriginalExtension();
 
       if($extension !== 'json') {
