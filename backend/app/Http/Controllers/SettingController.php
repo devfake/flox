@@ -2,8 +2,8 @@
 
   namespace App\Http\Controllers;
 
+  use App\AlternativeTitle;
   use App\Episode;
-  use App\Http\Requests\ImportRequest;
   use App\Item;
   use App\Services\FileParser;
   use App\Services\Storage;
@@ -13,6 +13,7 @@
   use Illuminate\Support\Facades\Artisan;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Input;
+  use Symfony\Component\HttpFoundation\Response;
 
   class SettingController {
 
@@ -21,11 +22,13 @@
     private $storage;
     private $version;
     private $setting;
+    private $alternativeTitles;
 
-    public function __construct(Item $item, Episode $episodes, Storage $storage, Setting $setting)
+    public function __construct(Item $item, Episode $episodes, AlternativeTitle $alternativeTitles, Storage $storage, Setting $setting)
     {
       $this->item = $item;
       $this->episodes = $episodes;
+      $this->alternativeTitles = $alternativeTitles;
       $this->storage = $storage;
       $this->setting = $setting;
       $this->version = config('app.version');
@@ -40,42 +43,54 @@
     {
       $data['items'] = $this->item->all();
       $data['episodes'] = $this->episodes->all();
+      $data['alternative_titles'] = $this->alternativeTitles->all();
 
-      $file = 'flox--' . date('Y-m-d---H-i') . '.json';
+      $filename = $this->storage->createExportFilename();
 
-      $this->storage->saveExport($file, json_encode($data));
+      $this->storage->saveExport($filename, json_encode($data));
 
-      return response()->download(base_path('../public/exports/' . $file));
+      return response()->download(base_path('../public/exports/' . $filename));
     }
 
     /**
      * Reset item table and restore backup. Download every poster image new.
      *
-     * @param ImportRequest $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function import(ImportRequest $request)
+    public function import()
     {
-      set_time_limit(300);
+      increaseTimeLimit();
 
-      $file = $request->file('import');
+      $file = Input::file('import');
+
       $extension = $file->getClientOriginalExtension();
 
       if($extension !== 'json') {
-        return response('Wrong File', 422);
+        return response('This is not a flox backup file.', Response::HTTP_UNPROCESSABLE_ENTITY);
       }
 
       $data = json_decode(file_get_contents($file));
 
-      $this->item->truncate();
-      foreach($data->items as $item) {
-        $this->item->create((array) $item);
-        $this->storage->downloadPoster($item->poster);
+      if(isset($data->items)) {
+        $this->item->truncate();
+        foreach($data->items as $item) {
+          $this->item->create((array) $item);
+          $this->storage->downloadPoster($item->poster);
+        }
       }
 
-      $this->episodes->truncate();
-      foreach($data->episodes as $episode) {
-        $this->episodes->create((array) $episode);
+      if(isset($data->episodes)) {
+        $this->episodes->truncate();
+        foreach($data->episodes as $episode) {
+          $this->episodes->create((array) $episode);
+        }
+      }
+
+      if(isset($data->alternative_titles)) {
+        $this->alternativeTitles->truncate();
+        foreach($data->alternative_titles as $title) {
+          $this->alternativeTitles->create((array) $title);
+        }
       }
     }
 
@@ -101,7 +116,7 @@
      */
     public function updateGenre(TMDB $tmdb)
     {
-      set_time_limit(3000);
+      increaseTimeLimit();
 
       $items = $this->item->all();
 
@@ -178,6 +193,8 @@
      */
     public function fetchFiles(FileParser $parser)
     {
+      increaseTimeLimit();
+
       $files = $parser->fetch();
 
       return $parser->updateDatabase($files);
