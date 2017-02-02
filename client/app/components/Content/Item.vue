@@ -10,13 +10,14 @@
           <i class="icon-add" v-if=" ! rated"></i>
         </span>
 
-        <router-link :to="'/suggestions?for=' + localItem.tmdb_id + '&type=' + localItem.media_type" class="recommend-item">{{ lang('suggestions') }}</router-link>
+        <router-link v-if="localItem.tmdb_id" :to="suggestions" class="recommend-item">{{ lang('suggestions') }}</router-link>
+
         <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
 
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
         <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
 
-        <span class="show-episode" @click="editEpisodes()" v-if="localItem.media_type == 'tv' && localItem.rating">
+        <span class="show-episode" @click="editEpisodes()" v-if="localItem.media_type == 'tv' && localItem.rating && localItem.tmdb_id">
           <span class="season-item"><i>S</i>{{ season }}</span>
           <span class="episode-item"><i>E</i>{{ episode }}</span>
         </span>
@@ -67,6 +68,10 @@
         }
 
         return config.posterTMDB + this.localItem.poster;
+      },
+
+      suggestions() {
+        return `/suggestions?for=${this.localItem.tmdb_id}&type=${this.localItem.media_type}`;
       },
 
       noImage() {
