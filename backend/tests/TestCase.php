@@ -33,50 +33,60 @@
       factory(App\Setting::class)->create();
     }
 
-    protected function createMovie()
+    protected function createMovie($custom = [])
     {
-      factory(App\Item::class)->create([
+      $data = [
         'title' => 'Warcraft: The Beginning',
         'original_title' => 'Warcraft',
         'tmdb_id' => 68735,
         'media_type' => 'movie',
-      ]);
+      ];
+
+      factory(App\Item::class)->create(array_merge($data, $custom));
     }
 
-    protected function createTv()
+    protected function createTv($custom = [], $withEpisodes = true)
     {
-      factory(App\Item::class)->create([
+      $data = [
         'title' => 'Game of Thrones',
         'original_title' => 'Game of Thrones',
         'tmdb_id' => 1399,
         'media_type' => 'tv',
-      ]);
+      ];
 
-      foreach([1, 2] as $season) {
-        foreach([1, 2] as $episode) {
-          factory(App\Episode::class)->create([
-            'tmdb_id' => 1399,
-            'season_number' => $season,
-            'episode_number' => $episode,
-          ]);
+      factory(App\Item::class)->create(array_merge($data, $custom));
+
+      if($withEpisodes) {
+        foreach([1, 2] as $season) {
+          foreach([1, 2] as $episode) {
+            factory(App\Episode::class)->create([
+              'tmdb_id' => 1399,
+              'season_number' => $season,
+              'episode_number' => $episode,
+            ]);
+          }
         }
       }
     }
 
-    protected function getMovie()
+    protected function getMovie($custom = [])
     {
-      return factory(App\Item::class)->states('movie')->make([
+      $data = [
         'title' => 'Warcraft',
         'tmdb_id' => 68735,
-      ]);
+      ];
+
+      return factory(App\Item::class)->states('movie')->make(array_merge($data, $custom));
     }
 
-    protected function getTv()
+    protected function getTv($custom = [])
     {
-      return factory(App\Item::class)->states('tv')->make([
+      $data = [
         'title' => 'Game of Thrones',
-        'tmdb_id' => 1399
-      ]);
+        'tmdb_id' => 1399,
+      ];
+
+      return factory(App\Item::class)->states('tv')->make(array_merge($data, $custom));
     }
 
     protected function getMovieSrc()

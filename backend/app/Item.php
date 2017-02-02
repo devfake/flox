@@ -24,6 +24,7 @@
       'released',
       'created_at',
       'genre',
+      'fp_name',
       'src',
       'subtitles',
     ];
@@ -46,6 +47,27 @@
         'released' => $data['released'],
         'genre' => $data['genre'],
         'created_at' => time(),
+      ]);
+    }
+
+    /**
+     * @param $data
+     * @param $mediaType
+     * @return Item
+     */
+    public function storeEmpty($data, $mediaType)
+    {
+      return $this->create([
+        'tmdb_id' => null,
+        'fp_name' => $data['name'],
+        'title' => $data['name'],
+        'media_type' => $mediaType,
+        'poster' => '',
+        'rating' => 1,
+        'released' => time(),
+        'created_at' => time(),
+        'src' => $data['src'],
+        'subtitles' => $data['subtitles'],
       ]);
     }
 
@@ -78,6 +100,13 @@
     public function scopeFindByTmdbId($query, $tmdbId)
     {
       return $query->where('tmdb_id', $tmdbId);
+    }
+
+    public function scopeFindByFPName($query, $item)
+    {
+      $changed = isset($item->changed->name) ? $item->changed->name : $item->name;
+
+      return $query->where('fp_name', $item->name)->orWhere('fp_name', $changed);
     }
 
     public function scopeFindBySrc($query, $src)

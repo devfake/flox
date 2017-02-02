@@ -3,6 +3,7 @@
   namespace App\Services;
 
   use App\AlternativeTitle;
+  use App\Item;
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
   use App\Setting;
@@ -16,7 +17,8 @@
     const REMOVED = 'removed';
     const UPDATED = 'updated';
 
-    const SUPPORTED_FIELDS = ['src', 'subtitles'];
+    // [localfile => database]
+    const SUPPORTED_FIELDS = ['src' => 'src', 'subtitles' => 'subtitles', 'name' => 'fp_name'];
 
     private $itemService;
     private $episodeService;
@@ -90,13 +92,13 @@
         case self::REMOVED:
           return $this->remove($item);
         default:
-          return $this->abortParser($item);
+          $this->abortParser($item);
       }
     }
 
     /**
      * See if it can find the item in our database.
-     * Otherwise search in TMDb.
+     * Otherwise search in TMDb or create an empty item.
      *
      * @param $item
      * @return bool|mixed
@@ -109,12 +111,20 @@
       }
 
       // Otherwise make a new TMDb request.
-      return $this->tmdbSearch($item);
+      $found = $this->searchTmdb($item);
+
+      if( ! $found) {
+        // Create an empty item if nothing is found.
+        return $this->createEmptyItem($item);
+      }
+
+      return $this->findOrCreateItem($found, $item);
     }
 
     /**
      * See if it can find the item in our database.
-     * Otherwise search in TMDb and try to find them in our database again and update the fields.
+     * Check if it is an empty item and search against TMDb and update them.
+     * Otherwise create an empty item.
      *
      * @param $item
      * @return mixed
@@ -122,31 +132,77 @@
     private function validateUpdate($item)
     {
       // See if file is already in our database.
-      if($found = $this->findItemBySrc($item)) {
-        return $this->update($item, $found);
+      if($found = $this->itemService->findBy('fp_name', $item)) {
+        if( ! $found->tmdb_id) {
+          return $this->searchTmdbAndUpdateEmptyItem($found, $item);
+        }
+
+        return $this->update($item, $found->tmdb_id);
       }
 
-      // Otherwise make a new TMDb request.
-      $this->tmdbSearch($item);
-
-      return $this->validateUpdate($item);
+      // Create an empty item if nothing is found.
+      return $this->createEmptyItem($item);
     }
 
     /**
-     * Make a new request to TMDb and check against the database. Otherwise create a new item.
+     * If result was found in TMDb, remove empty item and re-create from TMDb.
+     * Otherwise remove and re-create empty item.
+     *
+     * @param $emptyItem
+     * @param $file
+     * @return Item|mixed
+     */
+    private function searchTmdbAndUpdateEmptyItem($emptyItem, $file)
+    {
+      $found = $this->searchTmdb($file);
+
+      // Remove the empty item, because we create a new empty or from TMDb.
+      $this->itemService->remove($emptyItem->id);
+
+      if( ! $found) {
+        return $this->createEmptyItem($file);
+      }
+
+      // Create a new item with TMDb specific values.
+      $created = $this->itemService->create($found);
+
+      // We are searching for the changed name (if available) in the next iteration.
+      if($this->itemCategory == 'tv') {
+        $created->update(['fp_name' => $this->getFileName($file)]);
+      }
+
+      // Update FP specific values.
+      return $this->update($file, $created->tmdb_id);
+    }
+
+    /**
+     * Make a new request to TMDb and check against the database.
+     * Otherwise create a new item.
      *
      * @param $item
      * @return bool|mixed
      */
-    private function tmdbSearch($item)
+    private function searchTmdb($item)
     {
-      $result = $this->tmdb->search($item->name);
+      $found = $this->tmdb->search($this->getFileName($item));
 
-      if( ! $result) {
+      if( ! $found) {
         return false;
       }
 
-      return $this->findOrCreateItem($result[0], $item);
+      return $found[0];
+    }
+
+    /**
+     * If TMDb can't find anything, create a simple item with data from local file.
+     *
+     * @param $item
+     * @param $mediaType
+     * @return mixed
+     */
+    private function createEmptyItem($item)
+    {
+      return $this->itemService->createEmpty($item, $this->itemCategory);
     }
 
     /**
@@ -181,11 +237,11 @@
     private function store($item, $tmdbId)
     {
       if($model = $this->findItem($item, $tmdbId)) {
-        foreach(self::SUPPORTED_FIELDS as $field) {
-          $model->{$field} = $item->{$field};
+        foreach(self::SUPPORTED_FIELDS as $fromFile => $toDatabase) {
+          $model->{$toDatabase} = $item->{$fromFile};
         }
 
-        $model->save();
+        return $model->save();
       }
     }
 
@@ -196,15 +252,17 @@
      * @param $model
      * @return mixed
      */
-    private function update($item, $model)
+    private function update($item, $tmdbId)
     {
-      foreach($item->changed as $field => $value) {
-        if(in_array($field, self::SUPPORTED_FIELDS)) {
-          $model->{$field} = $value;
+      if($model = $this->findItem($item, $tmdbId)) {
+        foreach($item->changed as $field => $value) {
+          if(array_key_exists($field, self::SUPPORTED_FIELDS)) {
+            $model->{self::SUPPORTED_FIELDS[$field]} = $value;
+          }
         }
-      }
 
-      return $model->save();
+        return $model->save();
+      }
     }
 
     /**
@@ -216,8 +274,8 @@
     private function remove($item)
     {
       if($model = $this->findItemBySrc($item)) {
-        foreach(self::SUPPORTED_FIELDS as $field) {
-          $model->{$field} = null;
+        foreach(self::SUPPORTED_FIELDS as $fromFile => $toDatabase) {
+          $model->{$toDatabase} = null;
         }
 
         $model->save();
@@ -262,8 +320,16 @@
       if($this->itemCategory == 'tv') {
         return $this->episodeService->findBy('src', $item->src);
       }
-
       return $this->itemService->findBy('src', $item->src);
+    }
+
+    /**
+     * @param $file
+     * @return string
+     */
+    private function getFileName($file)
+    {
+      return isset($file->changed->name) ? $file->changed->name : $file->name;
     }
 
     /**
