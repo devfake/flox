@@ -3,6 +3,7 @@
   namespace App\Services\Models;
 
   use App\Item as Model;
+  use App\Item;
   use App\Services\Storage;
   use App\Services\TMDB;
 
@@ -50,6 +51,24 @@
       $this->alternativeTitleService->create($item);
 
       return $item;
+    }
+
+    /**
+     * @param $data
+     * @param $mediaType
+     * @return Item
+     */
+    public function createEmpty($data, $mediaType)
+    {
+      $mediaType = $mediaType == 'movies' ? 'movie' : 'tv';
+
+      $data = [
+        'name' => isset($data->changed->name) ? $data->changed->name : $data->name,
+        'src' => isset($data->changed->src) ? $data->changed->src : $data->src,
+        'subtitles' => isset($data->changed->subtitles) ? $data->changed->subtitles : $data->subtitles,
+      ];
+
+      return $this->model->storeEmpty($data, $mediaType);
     }
 
     /**
@@ -126,6 +145,8 @@
       switch($type) {
         case 'title':
           return $this->model->findByTitle($value)->first();
+        case 'fp_name':
+          return $this->model->findByFPName($value)->first();
         case 'tmdb_id':
           return $this->model->findByTmdbId($value)->first();
         case 'src':
