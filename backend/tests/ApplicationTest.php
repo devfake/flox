@@ -22,6 +22,8 @@
       $this->assertTrue(Schema::hasColumn('settings', 'last_fetch_to_file_parser'));
       $this->assertTrue(Schema::hasColumn('items', 'subtitles'));
       $this->assertTrue(Schema::hasColumn('episodes', 'subtitles'));
+      $this->assertTrue(Schema::hasColumn('items', 'fp_name'));
+      $this->assertTrue(Schema::hasColumn('episodes', 'fp_name'));
     }
 
     /** @test */

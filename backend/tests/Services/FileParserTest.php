@@ -39,7 +39,7 @@
 
       $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
       $parser = app(FileParser::class);
-      $parser->updateDatabase($this->fpFixtures('movie_unknown'));
+      $parser->updateDatabase($this->fpFixtures('movie/unknown'));
 
       $itemsAfterRollback = $this->item->get();
       $settingAfterRollback = Setting::first()->last_fetch_to_file_parser;
@@ -58,7 +58,7 @@
 
       $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
       $parser = app(FileParser::class);
-      $parser->updateDatabase($this->fpFixtures('tv_unknown'));
+      $parser->updateDatabase($this->fpFixtures('tv/unknown'));
 
       $episodesAfterRollback = $this->episode->get();
       $settingAfterRollback = Setting::first()->last_fetch_to_file_parser;
@@ -75,13 +75,15 @@
       $this->createMovie();
 
       $item1 = $this->item->first();
-      $this->parser->updateDatabase($this->fpFixtures('movie_added'));
+      $this->parser->updateDatabase($this->fpFixtures('movie/added'));
       $item2 = $this->item->first();
 
       $this->assertNull($item1->src);
       $this->assertNull($item1->subtitles);
+      $this->assertNull($item1->fp_name);
       $this->assertNotNull($item2->src);
       $this->assertNotNull($item2->subtitles);
+      $this->assertNotNull($item2->fp_name);
     }
 
     /** @test */
@@ -90,7 +92,7 @@
       $this->createTv();
 
       $episodes1 = $this->item->with('episodes')->first()->episodes;
-      $this->parser->updateDatabase($this->fpFixtures('tv_added'));
+      $this->parser->updateDatabase($this->fpFixtures('tv/added'));
       $episodes2 = $this->item->with('episodes')->first()->episodes;
 
       $episodes1->each(function($episode) {
@@ -111,7 +113,7 @@
 
       $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
       $parser = app(FileParser::class);
-      $parser->updateDatabase($this->fpFixtures('movie_added'));
+      $parser->updateDatabase($this->fpFixtures('movie/added'));
 
       $item = $this->item->first();
 
@@ -131,7 +133,7 @@
 
       $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
       $parser = app(FileParser::class);
-      $parser->updateDatabase($this->fpFixtures('tv_added'));
+      $parser->updateDatabase($this->fpFixtures('tv/added'));
 
       $episodes2 = $this->episode->get();
 
@@ -149,7 +151,7 @@
     }
 
     /** @test */
-    public function it_can_update_last_fetch_to_file_parser_timestamp()
+    public function it_should_update_last_fetch_to_file_parser_timestamp()
     {
       $this->createMovie();
 
@@ -157,10 +159,10 @@
       $parser = app(FileParser::class);
 
       $setting1 = Setting::first();
-      $parser->updateDatabase($this->fpFixtures('movie_added'));
+      $parser->updateDatabase($this->fpFixtures('movie/added'));
       $setting2 = Setting::first();
       sleep(1);
-      $parser->updateDatabase($this->fpFixtures('movie_added'));
+      $parser->updateDatabase($this->fpFixtures('movie/added'));
       $setting3 = Setting::first();
 
       $this->assertNull($setting1->last_fetch_to_file_parser);
@@ -171,27 +173,29 @@
     /** @test */
     public function it_should_remove_fields_from_movie()
     {
-      $this->createMovie();
-      $this->parser->updateDatabase($this->fpFixtures('movie_added'));
+      $this->createMovie(['fp_name' => 'warcraft']);
+      $this->parser->updateDatabase($this->fpFixtures('movie/added'));
 
       $withData = $this->item->first();
-      $this->parser->updateDatabase($this->fpFixtures('movie_removed'));
+      $this->parser->updateDatabase($this->fpFixtures('movie/removed'));
       $withoutData = $this->item->first();
 
       $this->assertNotNull($withData->src);
       $this->assertNotNull($withData->subtitles);
+      $this->assertNotNull($withData->fp_name);
       $this->assertNull($withoutData->src);
       $this->assertNull($withoutData->subtitles);
+      $this->assertNull($withoutData->fp_name);
     }
 
     /** @test */
     public function it_should_remove_fields_from_tv_episode()
     {
       $this->createTv();
-      $this->parser->updateDatabase($this->fpFixtures('tv_added'));
+      $this->parser->updateDatabase($this->fpFixtures('tv/added'));
 
       $withData = $this->item->with('episodes')->first()->episodes;
-      $this->parser->updateDatabase($this->fpFixtures('tv_removed'));
+      $this->parser->updateDatabase($this->fpFixtures('tv/removed'));
       $withoutData = $this->item->with('episodes')->first()->episodes;
 
       $withData->each(function($episode) {
@@ -208,36 +212,18 @@
     /** @test */
     public function it_should_update_fields_if_movie_found_in_database()
     {
-      $this->createMovie();
-      $this->item->first()->update(['src' => $this->getMovieSrc()]);
+      $this->createMovie(['fp_name' => 'warcraft', 'src' => $this->getMovieSrc()]);
 
       $item = $this->item->first();
-      $this->parser->updateDatabase($this->fpFixtures('movie_updated'));
+      $this->parser->updateDatabase($this->fpFixtures('movie/updated'));
       $updatedItem = $this->item->first();
 
       $this->assertEquals($this->getMovieSrc(), $item->src);
+      $this->assertEquals('warcraft', $item->fp_name);
       $this->assertNull($item->subtitles);
       $this->assertEquals('NEW SRC', $updatedItem->src);
       $this->assertEquals('NEW SUB', $updatedItem->subtitles);
-    }
-
-    /** @test */
-    public function it_should_create_movie_and_update_fields_if_not_found_in_database()
-    {
-      $items = $this->item->get();
-
-      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
-      $parser = app(FileParser::class);
-      $parser->updateDatabase($this->fpFixtures('movie_updated'));
-
-      $item = $this->item->first();
-
-      $this->assertCount(0, $items);
-      $this->assertEquals('NEW SRC', $item->src);
-      $this->assertEquals('NEW SUB', $item->subtitles);
-      $this->seeInDatabase('items', [
-        'title' => 'Warcraft: The Beginning'
-      ]);
+      $this->assertEquals('NEW NAME', $updatedItem->fp_name);
     }
 
     /** @test */
@@ -247,7 +233,7 @@
       $this->item->first()->update(['src' => $this->getMovieSrc()]);
 
       $item = $this->item->first();
-      $this->parser->updateDatabase($this->fpFixtures('movie_updated_empty'));
+      $this->parser->updateDatabase($this->fpFixtures('movie/updated_is_empty'));
       $updatedItem = $this->item->first();
 
       $this->assertEquals($this->getMovieSrc(), $item->src);
@@ -259,14 +245,14 @@
     /** @test */
     public function it_should_update_fields_for_episodes_if_tv_found_in_database()
     {
-      $this->createTv();
+      $this->createTv(['fp_name' => 'Game of Thrones']);
 
       $this->episode->get()->each(function($episode) {
         $episode->update(['src' => $this->getTvSrc()]);
       });
 
       $episodes = $this->episode->get();
-      $this->parser->updateDatabase($this->fpFixtures('tv_updated'));
+      $this->parser->updateDatabase($this->fpFixtures('tv/updated'));
       $updatedEpisodes = $this->episode->get();
 
       $episodes->each(function($episode) {
@@ -281,28 +267,6 @@
     }
 
     /** @test */
-    public function it_should_create_tv_with_episodes_and_update_fields_if_not_found_in_database()
-    {
-      $items = $this->item->get();
-      $episodes = $this->episode->first();
-
-      $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
-      $parser = app(FileParser::class);
-      $parser->updateDatabase($this->fpFixtures('tv_updated_once'));
-
-      $updatedEpisodes = $this->episode->first();
-
-      $this->assertCount(0, $items);
-      $this->assertNull($episodes);
-      $this->seeInDatabase('items', [
-        'title' => 'Game of Thrones'
-      ]);
-
-      $this->assertEquals('NEW SRC', $updatedEpisodes->src);
-      $this->assertEquals('NEW SUB', $updatedEpisodes->subtitles);
-    }
-
-    /** @test */
     public function it_should_nothing_update_for_episodes_if_changed_is_empty()
     {
       $this->createTv();
@@ -312,7 +276,7 @@
       });
 
       $episodes = $this->episode->get();
-      $this->parser->updateDatabase($this->fpFixtures('tv_updated_empty'));
+      $this->parser->updateDatabase($this->fpFixtures('tv/updated_is_empty'));
       $updatedEpisodes = $this->episode->get();
 
       $episodes->each(function($episode) {
@@ -324,6 +288,110 @@
         $this->assertEquals($this->getTvSrc(), $episode->src);
         $this->assertNull($episode->subtitles);
       });
+    }
+
+    /** @test */
+    public function it_should_update_empty_movie_if_found_in_tmdb()
+    {
+      $this->createMovie(['title' => 'NOT EXISTS MOVIE', 'tmdb_id' => null, 'fp_name' => 'NOT EXISTS MOVIE']);
+
+      $empty = $this->item->first();
+
+      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('movie/updated_found'));
+
+      $updated = $this->item->first();
+
+      $this->assertEquals('NOT EXISTS MOVIE', $empty->fp_name);
+      $this->assertEquals('NOT EXISTS MOVIE', $empty->title);
+      $this->assertNull($empty->tmdb_id);
+      $this->assertEquals('warcraft', $updated->fp_name);
+      $this->assertEquals('Warcraft: The Beginning', $updated->title);
+      $this->assertEquals(68735, $updated->tmdb_id);
+    }
+
+    /** @test */
+    public function it_should_update_empty_tv_and_episodes_if_found_in_tmdb()
+    {
+      $this->createTv(['title' => 'NOT EXISTS TV', 'tmdb_id' => null, 'fp_name' => 'NOT EXISTS TV'], false);
+
+      $empty = $this->item->first();
+
+      $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('tv/updated_found'));
+
+      $updated = $this->item->first();
+      $episodes = $this->episode->get();
+
+      $this->assertEquals('NOT EXISTS TV', $empty->fp_name);
+      $this->assertEquals('NOT EXISTS TV', $empty->title);
+      $this->assertNull($empty->tmdb_id);
+      $this->assertEquals('Game of Thrones', $updated->fp_name);
+      $this->assertEquals('Game of Thrones', $updated->title);
+      $this->assertEquals(1399, $updated->tmdb_id);
+
+      $episodes->each(function($episode) {
+        $this->assertEquals('NEW SRC', $episode->src);
+      });
+    }
+
+    /** @test */
+    public function it_should_create_empty_movie_from_updated_if_not_found_in_tmdb()
+    {
+      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('alternative_titles_movie'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('movie/updated_not_found'));
+
+      $item = $this->item->first();
+
+      $this->assertEquals('NEW NAME', $item->fp_name);
+      $this->assertEquals('NEW SRC', $item->src);
+      $this->assertNull($item->tmdb_id);
+    }
+
+    /** @test */
+    public function it_should_create_empty_tv_without_episodes_from_updated_if_not_found_in_tmdb()
+    {
+      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('alternative_titles_tv'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('tv/updated_not_found'));
+
+      $item = $this->item->first();
+      $episodes = $this->episode->get();
+
+      $this->assertCount(0, $episodes);
+      $this->assertEquals('NEW NAME', $item->fp_name);
+      $this->assertNull($item->tmdb_id);
+    }
+
+    /** @test */
+    public function it_should_create_empty_movie_from_added_if_not_found_in_tmdb()
+    {
+      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('alternative_titles_movie'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('movie/added_not_found'));
+
+      $item = $this->item->first();
+
+      $this->assertEquals('NOT EXISTS MOVIE', $item->fp_name);
+      $this->assertNull($item->tmdb_id);
+    }
+
+    /** @test */
+    public function it_should_create_empty_tv_without_episodes_from_added_if_not_found_in_tmdb()
+    {
+      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('alternative_titles_tv'));
+      $parser = app(FileParser::class);
+      $parser->updateDatabase($this->fpFixtures('tv/added_not_found'));
+
+      $item = $this->item->first();
+      $episodes = $this->episode->get();
+
+      $this->assertCount(0, $episodes);
+      $this->assertEquals('NOT EXISTS TV', $item->fp_name);
+      $this->assertNull($item->tmdb_id);
     }
 
     private function createTmdbMock($fixture, $fixture2)
