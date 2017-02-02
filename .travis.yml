@@ -1,5 +1,7 @@
 language: php
 
+sudo: false
+
 php:
   - 5.6
   - 7.0
@@ -15,10 +17,11 @@ env:
 
 cache:
   directories:
-    - backend/vendor
+    - $HOME/.composer/cache
 
 script:
-  - (cd backend && phpunit)
+  - vendor/bin/phpunit
 
 install:
-  - (cd backend && composer install --prefer-source --no-interaction)
+  - cd backend
+  - composer install --prefer-source --no-interaction
