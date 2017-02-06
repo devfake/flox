@@ -51,7 +51,7 @@
     {
       $timestamp = $this->lastFetched();
       $fpUrl = config('services.fp.host') . ':' . config('services.fp.port');
-      $fpUri = $timestamp ? '/fetch/since/' . $timestamp : '/fetch';
+      $fpUri = '/fetch/' . $timestamp;
 
       $response = $this->client->get($fpUrl . $fpUri);
 
@@ -359,6 +359,6 @@
     {
       $lastFetch = Setting::first()->last_fetch_to_file_parser;
 
-      return $lastFetch ? $lastFetch->getTimestamp() : null;
+      return $lastFetch ? $lastFetch->getTimestamp() : 0;
     }
   }
