@@ -26,7 +26,7 @@ services:
   - mysql
 
 script:
-  - (cd backend && vendor/bin/phpunit)
+  - (cd backend && vendor/bin/phpunit --testdox)
 
 before_install:
   - nvm install 7.0
