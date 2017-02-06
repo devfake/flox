@@ -8,6 +8,7 @@
   use App\Services\Models\ItemService;
   use App\Setting;
   use Carbon\Carbon;
+  use GuzzleHttp\Client;
   use Illuminate\Support\Facades\DB;
   use Symfony\Component\HttpFoundation\Response;
 
@@ -25,17 +26,20 @@
     private $tmdb;
     private $alternativeTitle;
     private $itemCategory;
+    private $client;
 
     public function __construct(
       ItemService $itemService,
       EpisodeService $episodeService,
       TMDB $tmdb,
-      AlternativeTitle $alternativeTitle
+      AlternativeTitle $alternativeTitle,
+      Client $client
     ){
       $this->itemService = $itemService;
       $this->episodeService = $episodeService;
       $this->tmdb = $tmdb;
       $this->alternativeTitle = $alternativeTitle;
+      $this->client = $client;
     }
 
     /**
@@ -45,7 +49,13 @@
      */
     public function fetch()
     {
-      return json_decode(file_get_contents(base_path('tests/fixtures/fp/all.json')));
+      $timestamp = $this->lastFetched();
+      $fpUrl = config('services.fp.host') . ':' . config('services.fp.port');
+      $fpUri = '/fetch/' . $timestamp;
+
+      $response = $this->client->get($fpUrl . $fpUri);
+
+      return json_decode($response->getBody());
     }
 
     /**
@@ -58,7 +68,7 @@
     {
       DB::beginTransaction();
 
-      $this->updateTimestamp();
+      $this->updateLastFetched();
 
       foreach($files as $type => $items) {
         $this->itemCategory = $type;
@@ -335,10 +345,20 @@
     /**
      * Update last time we fetched flox-file-parser.
      */
-    private function updateTimestamp()
+    private function updateLastFetched()
     {
       Setting::first()->update([
         'last_fetch_to_file_parser' => Carbon::now(),
       ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function lastFetched()
+    {
+      $lastFetch = Setting::first()->last_fetch_to_file_parser;
+
+      return $lastFetch ? $lastFetch->getTimestamp() : 0;
     }
   }

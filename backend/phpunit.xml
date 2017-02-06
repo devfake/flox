@@ -25,5 +25,7 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="TMDB_API_KEY" value="notfound"/>
+        <env name="FP_HOST" value="localhost"/>
+        <env name="FP_PORT" value="3001"/>
     </php>
 </phpunit>

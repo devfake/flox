@@ -42,7 +42,7 @@
         'title' => $data['title'],
         'media_type' => $data['media_type'],
         'original_title' => $data['original_title'],
-        'poster' => $data['poster'],
+        'poster' => $data['poster'] ? $data['poster'] : '',
         'rating' => 1,
         'released' => $data['released'],
         'genre' => $data['genre'],
