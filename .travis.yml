@@ -18,7 +18,7 @@ cache:
     - backend/vendor
 
 script:
-  - (cd backend && phpunit)
+  - (cd backend && phpunit --testdox)
 
 install:
   - (cd backend && composer install --prefer-source --no-interaction)
