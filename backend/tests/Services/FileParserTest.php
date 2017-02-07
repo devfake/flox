@@ -31,6 +31,21 @@
       $this->parser = app(FileParser::class);
     }
 
+    /**
+     * @test
+     * @group file-parser
+     */
+    public function it_should_call_file_parser_successfully()
+    {
+      $files = (array) $this->parser->fetch();
+
+      $this->assertArrayHasKey('tv', $files);
+      $this->assertArrayHasKey('movies', $files);
+
+      $this->assertCount(8, $files['tv']);
+      $this->assertCount(2, $files['movies']);
+    }
+
     /** @test */
     public function it_should_make_a_rollback_if_status_for_movie_is_unknown()
     {
