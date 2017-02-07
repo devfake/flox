@@ -35,4 +35,13 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'tmdb' => [
+      'key' => env('TMDB_API_KEY'),
+    ],
+
+    'fp' => [
+      'host' => env('FP_HOST'),
+      'port' => env('FP_PORT'),
+    ],
+
 ];

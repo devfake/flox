@@ -19,7 +19,7 @@
      */
     public function __construct(Client $client)
     {
-      $this->apiKey = config('app.TMDB_API_KEY');
+      $this->apiKey = config('services.tmdb.key');
       $this->translation = config('app.TRANSLATION');
       $this->client = $client;
     }

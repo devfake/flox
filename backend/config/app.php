@@ -5,7 +5,6 @@
     // Current version. Is synced with git releases.
     'version' => '1.2.2',
 
-    'TMDB_API_KEY' => env('TMDB_API_KEY'),
     'TRANSLATION' => env('TRANSLATION', 'EN'),
     'LOADING_ITEMS' => env('LOADING_ITEMS'),
     'CLIENT_URI' => env('CLIENT_URI'),
