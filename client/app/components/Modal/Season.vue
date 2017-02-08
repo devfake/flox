@@ -13,7 +13,7 @@
     </div>
 
     <div class="season-tabs" v-if=" ! loadingModalData">
-      <span class="season-number" @click="SET_SEASON_ACTIVE_MODAL(index)" v-for="(season, index) in episodes" :class="{active: index == seasonActiveModal, completed: seasonCompleted(index)}">
+      <span class="season-number no-select" @click="SET_SEASON_ACTIVE_MODAL(index)" v-for="(season, index) in episodes" :class="{active: index == seasonActiveModal, completed: seasonCompleted(index)}">
         S{{ addZero(index) }}
       </span>
     </div>
