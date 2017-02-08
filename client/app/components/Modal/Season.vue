@@ -21,13 +21,13 @@
     <div class="item-header no-select" v-if=" ! loadingModalData">
       <span class="header-episode">#</span>
       <span class="header-name">Name</span>
-      <span class="header-seen" @click="toggleAll()">Toggle all</span>
+      <span class="header-seen" @click="toggleAll()" v-if="auth">Toggle all</span>
     </div>
 
     <div class="modal-content" v-if=" ! loadingModalData">
       <div @click="toggleEpisode(episode)" class="modal-item" v-for="(episode, index) in episodes[seasonActiveModal]">
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
-        <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen}">{{ episode.name }}</span>
+        <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen && auth}">{{ episode.name }}</span>
         <span class="episode-seen" :class="{seen: episode.seen}"><i></i></span>
       </div>
     </div>
@@ -43,6 +43,12 @@
 
   export default {
     mixins: [Helper],
+
+    data() {
+      return {
+        auth: config.auth
+      }
+    },
 
     computed: {
       ...mapState({
@@ -87,10 +93,13 @@
       },
 
       toggleEpisode(episode) {
-        episode.seen = ! episode.seen;
-        http.patch(`${config.api}/toggle-episode/${episode.id}`).catch(error => {
+        if(this.auth) {
           episode.seen = ! episode.seen;
-        });
+
+          http.patch(`${config.api}/toggle-episode/${episode.id}`).catch(error => {
+            episode.seen = ! episode.seen;
+          });
+        }
       },
 
       seasonCompleted(index) {
