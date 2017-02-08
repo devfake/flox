@@ -96,7 +96,7 @@
     {
       // Mock this to avoid unknown requests to TMDb (get seasons and then get episodes for each season)
       $mock = Mockery::mock(app(TMDB::class))->makePartial();
-      $mock->shouldReceive('tvEpisodes')->andReturn(json_decode($this->tmdbFixtures('episodes')));
+      $mock->shouldReceive('tvEpisodes')->andReturn(json_decode($this->tmdbFixtures('tv/episodes')));
 
       $this->app->instance(TMDB::class, $mock);
     }
