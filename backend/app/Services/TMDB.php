@@ -3,15 +3,18 @@
   namespace App\Services;
 
   use App\Item;
+  use Carbon\Carbon;
   use DateTime;
   use GuzzleHttp\Client;
   use Illuminate\Support\Collection;
+  use Illuminate\Support\Facades\Cache;
 
   class TMDB {
 
     private $client;
     private $apiKey;
     private $translation;
+    private $untilEndOfDay;
 
     private $base = 'http://api.themoviedb.org';
 
@@ -22,6 +25,7 @@
      */
     public function __construct(Client $client)
     {
+      $this->untilEndOfDay = Carbon::now()->secondsUntilEndOfDay() / 60;
       $this->apiKey = config('services.tmdb.key');
       $this->translation = config('app.TRANSLATION');
       $this->client = $client;
@@ -94,16 +98,18 @@
      */
     public function upcoming()
     {
-      $response = $this->client->get($this->base . '/3/movie/upcoming', [
-        'query' => [
-          'api_key' => $this->apiKey,
-          'language' => strtolower($this->translation)
-        ]
-      ]);
+      return Cache::remember('upcoming', $this->untilEndOfDay, function() {
+        $response = $this->client->get($this->base . '/3/movie/upcoming', [
+          'query' => [
+            'api_key' => $this->apiKey,
+            'language' => strtolower($this->translation)
+          ]
+        ]);
 
-      $items = collect($this->createItems($response, 'movie'));
+        $items = collect($this->createItems($response, 'movie'));
 
-      return $this->filterItems($items);
+        return $this->filterItems($items);
+      });
     }
 
     /**
@@ -113,15 +119,17 @@
      */
     public function trending()
     {
-      $responseMovies = $this->fetchPopular('movie');
-      $responseTv = $this->fetchPopular('tv');
+      return Cache::remember('trending', $this->untilEndOfDay, function() {
+        $responseMovies = $this->fetchPopular('movie');
+        $responseTv = $this->fetchPopular('tv');
 
-      $tv = collect($this->createItems($responseTv, 'tv'));
-      $movies = collect($this->createItems($responseMovies, 'movie'));
+        $tv = collect($this->createItems($responseTv, 'tv'));
+        $movies = collect($this->createItems($responseMovies, 'movie'));
 
-      $items = $tv->merge($movies)->shuffle();
+        $items = $tv->merge($movies)->shuffle();
 
-      return $this->filterItems($items);
+        return $this->filterItems($items);
+      });
     }
 
     /**
