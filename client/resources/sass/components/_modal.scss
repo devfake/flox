@@ -148,7 +148,9 @@
   }
 
   &:active {
-    background: darken(#2f2f2f, 3%);
+    .logged & {
+      background: darken(#2f2f2f, 3%);
+    }
   }
 
   &:last-child {
