@@ -39,7 +39,7 @@
     {
       foreach($this->requests as $type => $text) {
         if( ! env($type)) {
-          $value = $this->ask('Enter your Database ' . $text);
+          $value = $this->ask('Enter your Database ' . $text, false);
           $this->changeENV($type, $value);
         }
       }
