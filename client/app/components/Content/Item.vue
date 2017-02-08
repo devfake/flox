@@ -125,20 +125,16 @@
       ...mapActions([ 'fetchEpisodes' ]),
 
       openSeasonModal() {
-        this.fetchEpisodes({
+        const data = {
           tmdb_id: this.localItem.tmdb_id,
           title: this.localItem.title
-        });
-        this.openModal();
-      },
+        };
 
-      openModal() {
+        this.fetchEpisodes(data);
+
         this.OPEN_MODAL({
           type: 'season',
-          data: {
-            tmdb_id: this.localItem.tmdb_id,
-            title: this.localItem.title
-          }
+          data
         });
       },
 
