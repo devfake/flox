@@ -10,9 +10,13 @@
   use App\Services\TMDB;
   use App\Setting;
   use GuzzleHttp\Client;
+  use GuzzleHttp\Exception\ConnectException;
+  use Illuminate\Contracts\Routing\ResponseFactory;
+  use Illuminate\Http\JsonResponse;
   use Illuminate\Support\Facades\Artisan;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Input;
+  use Symfony\Component\HttpFoundation\BinaryFileResponse;
   use Symfony\Component\HttpFoundation\Response;
 
   class SettingController {
@@ -37,7 +41,7 @@
     /**
      * Save all movies and series as json file and return an download response.
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
     public function export()
     {
@@ -55,7 +59,7 @@
     /**
      * Reset item table and restore backup. Download every poster image new.
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @return ResponseFactory|Response
      */
     public function import()
     {
@@ -189,13 +193,17 @@
      * Call flox-file-parser.
      *
      * @param FileParser $parser
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse|Response
      */
     public function fetchFiles(FileParser $parser)
     {
       increaseTimeLimit();
 
-      $files = $parser->fetch();
+      try {
+        $files = $parser->fetch();
+      } catch(ConnectException $e) {
+        return response("Can't connect to file-parser. Make sure the server is running.", Response::HTTP_NOT_FOUND);
+      }
 
       return $parser->updateDatabase($files);
     }
