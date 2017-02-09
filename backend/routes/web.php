@@ -4,6 +4,7 @@
     Route::post('/login', 'UserController@login');
     Route::get('/logout', 'UserController@logout');
 
+    Route::get('/episodes/{tmdb_id}', 'ItemController@episodes');
     Route::get('/items/{type}/{orderBy}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
 
@@ -31,7 +32,6 @@
       Route::patch('/userdata', 'UserController@changeUserData');
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
-      Route::get('/episodes/{tmdb_id}', 'ItemController@episodes');
 
       Route::get('/search-tmdb', 'TMDBController@search');
       Route::post('/add', 'ItemController@add');
