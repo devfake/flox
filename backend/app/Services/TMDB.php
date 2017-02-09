@@ -14,7 +14,6 @@
     private $client;
     private $apiKey;
     private $translation;
-    private $untilEndOfDay;
 
     private $base = 'http://api.themoviedb.org';
 
@@ -25,7 +24,6 @@
      */
     public function __construct(Client $client)
     {
-      $this->untilEndOfDay = Carbon::now()->secondsUntilEndOfDay() / 60;
       $this->apiKey = config('services.tmdb.key');
       $this->translation = config('app.TRANSLATION');
       $this->client = $client;
@@ -98,7 +96,7 @@
      */
     public function upcoming()
     {
-      return Cache::remember('upcoming', $this->untilEndOfDay, function() {
+      return Cache::remember('upcoming', $this->untilEndOfDay(), function() {
         $response = $this->client->get($this->base . '/3/movie/upcoming', [
           'query' => [
             'api_key' => $this->apiKey,
@@ -119,7 +117,7 @@
      */
     public function trending()
     {
-      return Cache::remember('trending', $this->untilEndOfDay, function() {
+      return Cache::remember('trending', $this->untilEndOfDay(), function() {
         $responseMovies = $this->fetchPopular('movie');
         $responseTv = $this->fetchPopular('tv');
 
@@ -378,5 +376,13 @@
     public function hasLimitRemaining($response)
     {
       return (int) $response->getHeader('X-RateLimit-Remaining')[0] > 1;
+    }
+
+    /**
+     * @return float|int
+     */
+    private function untilEndOfDay()
+    {
+      return Carbon::now()->secondsUntilEndOfDay() / 60;
     }
   }
