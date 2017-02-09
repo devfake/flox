@@ -52,7 +52,7 @@
       $items = $this->item->get();
       $setting = Setting::first()->last_fetch_to_file_parser;
 
-      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $this->createTmdbMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/unknown'));
 
@@ -71,7 +71,7 @@
       $episodes = $this->episode->get();
       $setting = Setting::first()->last_fetch_to_file_parser;
 
-      $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
+      $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/unknown'));
 
@@ -126,7 +126,7 @@
     {
       $items = $this->item->get();
 
-      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $this->createTmdbMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/added'));
 
@@ -146,7 +146,7 @@
       $items = $this->item->get();
       $episodes1 = $this->episode->get();
 
-      $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
+      $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/added'));
 
@@ -170,7 +170,7 @@
     {
       $this->createMovie();
 
-      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $this->createTmdbMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
 
       $setting1 = Setting::first();
@@ -312,7 +312,7 @@
 
       $empty = $this->item->first();
 
-      $this->createTmdbMock($this->tmdbFixtures('movie'), $this->tmdbFixtures('alternative_titles_movie'));
+      $this->createTmdbMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/updated_found'));
 
@@ -333,7 +333,7 @@
 
       $empty = $this->item->first();
 
-      $this->createTmdbMock($this->tmdbFixtures('tv'), $this->tmdbFixtures('alternative_titles_tv'));
+      $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/updated_found'));
 
@@ -355,7 +355,7 @@
     /** @test */
     public function it_should_create_empty_movie_from_updated_if_not_found_in_tmdb()
     {
-      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('alternative_titles_movie'));
+      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/updated_not_found'));
 
@@ -369,7 +369,7 @@
     /** @test */
     public function it_should_create_empty_tv_without_episodes_from_updated_if_not_found_in_tmdb()
     {
-      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('alternative_titles_tv'));
+      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('tv/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/updated_not_found'));
 
@@ -384,7 +384,7 @@
     /** @test */
     public function it_should_create_empty_movie_from_added_if_not_found_in_tmdb()
     {
-      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('alternative_titles_movie'));
+      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/added_not_found'));
 
@@ -397,7 +397,7 @@
     /** @test */
     public function it_should_create_empty_tv_without_episodes_from_added_if_not_found_in_tmdb()
     {
-      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('alternative_titles_tv'));
+      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('tv/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/added_not_found'));
 
@@ -421,7 +421,7 @@
 
       // Mock this to avoid unknown requests to TMDb (get seasons and then get episodes for each season)
       $mock = Mockery::mock(app(TMDB::class))->makePartial();
-      $mock->shouldReceive('tvEpisodes')->andReturn(json_decode($this->tmdbFixtures('episodes')));
+      $mock->shouldReceive('tvEpisodes')->andReturn(json_decode($this->tmdbFixtures('tv/episodes')));
 
       $this->app->instance(TMDB::class, $mock);
     }

@@ -80,7 +80,7 @@
     {
       $this->createMovie();
 
-      $this->createGuzzleMock($this->tmdbFixtures('movie_details'));
+      $this->createGuzzleMock($this->tmdbFixtures('movie/details'));
 
       $withoutGenre = Item::find(1);
       $this->actingAs($this->user)->json('PATCH', 'api/update-genre');
@@ -95,7 +95,7 @@
     {
       $this->createTv();
 
-      $this->createGuzzleMock($this->tmdbFixtures('tv_details'));
+      $this->createGuzzleMock($this->tmdbFixtures('tv/details'));
 
       $withoutGenre = Item::find(1);
       $this->actingAs($this->user)->json('PATCH', 'api/update-genre');
