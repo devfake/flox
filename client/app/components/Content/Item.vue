@@ -17,7 +17,7 @@
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
         <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
 
-        <span class="show-episode" @click="editEpisodes()" v-if="localItem.media_type == 'tv' && localItem.rating && localItem.tmdb_id">
+        <span class="show-episode" @click="openSeasonModal()" v-if="displaySeason">
           <span class="season-item"><i>S</i>{{ season }}</span>
           <span class="episode-item"><i>E</i>{{ episode }}</span>
         </span>
@@ -99,6 +99,10 @@
         return `https://www.youtube.com/results?search_query=${this.localItem.title} ${this.released} Trailer`;
       },
 
+      displaySeason() {
+        return this.localItem.media_type == 'tv' && this.localItem.rating && this.localItem.tmdb_id;
+      },
+
       season() {
         if(this.latestEpisode) {
           return this.addZero(this.latestEpisode.season_number);
@@ -120,24 +124,18 @@
       ...mapMutations([ 'OPEN_MODAL' ]),
       ...mapActions([ 'fetchEpisodes' ]),
 
-      editEpisodes() {
-        this.fetchEpisodes({
+      openSeasonModal() {
+        const data = {
           tmdb_id: this.localItem.tmdb_id,
           title: this.localItem.title
-        });
-        this.openModal();
-      },
+        };
 
-      openModal() {
-        if(this.auth) {
-          this.OPEN_MODAL({
-            type: 'season',
-            data: {
-              tmdb_id: this.localItem.tmdb_id,
-              title: this.localItem.title
-            }
-          });
-        }
+        this.fetchEpisodes(data);
+
+        this.OPEN_MODAL({
+          type: 'season',
+          data
+        });
       },
 
       changeRating() {

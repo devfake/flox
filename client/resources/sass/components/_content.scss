@@ -47,16 +47,12 @@ main {
       }
 
       .show-episode {
-        opacity: .9;
         bottom: 24px;
       }
     }
 
-    .guest & {
-      .show-episode {
-        opacity: .9;
-        cursor: default;
-      }
+    .show-episode {
+      opacity: .9;
     }
 
     .recommend-item,
@@ -310,15 +306,11 @@ main {
   @include transition(opacity, bottom);
 
   &:hover {
-    .logged & {
-      opacity: 1 !important;
-    }
+    opacity: 1 !important;
   }
 
   &:active {
-    .logged & {
-      opacity: .7 !important;
-    }
+    opacity: .7 !important;
   }
 
   @include media(3) {
