@@ -5,6 +5,7 @@
   use App\Item;
   use DateTime;
   use GuzzleHttp\Client;
+  use Illuminate\Support\Collection;
 
   class TMDB {
 
@@ -16,6 +17,8 @@
 
     /**
      * Get the API Key for TMDB and create an instance of Guzzle.
+     *
+     * @param Client $client
      */
     public function __construct(Client $client)
     {
@@ -41,16 +44,6 @@
       ]);
 
       return $this->createItems($response);
-    }
-
-    public function trending()
-    {
-      return $this->searchTrendingOrUpcoming('popular');
-    }
-
-    public function upcoming()
-    {
-      return $this->searchTrendingOrUpcoming('upcoming');
     }
 
     /**
@@ -80,7 +73,7 @@
      * @param $tmdbID
      * @param $type
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     private function searchSuggestions($mediaType, $tmdbID, $type)
     {
@@ -95,14 +88,13 @@
     }
 
     /**
-     * Search TMDB for current popular or upcoming movies.
+     * Search TMDB for upcoming movies.
      *
-     * @param $type
      * @return array
      */
-    private function searchTrendingOrUpcoming($type)
+    public function upcoming()
     {
-      $response = $this->client->get($this->base . '/3/movie/' . $type, [
+      $response = $this->client->get($this->base . '/3/movie/upcoming', [
         'query' => [
           'api_key' => $this->apiKey,
           'language' => strtolower($this->translation)
@@ -110,12 +102,42 @@
       ]);
 
       $items = collect($this->createItems($response, 'movie'));
+
+      return $this->filterItems($items);
+    }
+
+    /**
+     * Search TMDB for current popular movies and tv shows.
+     *
+     * @return array
+     */
+    public function trending()
+    {
+      $responseMovies = $this->fetchPopular('movie');
+      $responseTv = $this->fetchPopular('tv');
+
+      $tv = collect($this->createItems($responseTv, 'tv'));
+      $movies = collect($this->createItems($responseMovies, 'movie'));
+
+      $items = $tv->merge($movies)->shuffle();
+
+      return $this->filterItems($items);
+    }
+
+    /**
+     * Merge the response with items from our database.
+     *
+     * @param Collection $items
+     * @return array
+     */
+    private function filterItems($items)
+    {
       $allID = $items->pluck('tmdb_id');
 
-      // Get all movies from trendig / upcoming which already in database.
+      // Get all movies / tv shows from trendig / upcoming which already in database.
       $inDB = Item::whereIn('tmdb_id', $allID)->get()->toArray();
 
-      // Remove all inDB movies from trending / upcoming.
+      // Remove all inDB movies / tv shows from trending / upcoming.
       $filtered = $items->filter(function($item) use ($inDB) {
         return ! in_array($item['tmdb_id'], array_column($inDB, 'tmdb_id'));
       });
@@ -126,8 +148,20 @@
       return array_values($merged->reverse()->toArray());
     }
 
+    private function fetchPopular($mediaType)
+    {
+      return $this->client->get($this->base . '/3/' . $mediaType . '/popular', [
+        'query' => [
+          'api_key' => $this->apiKey,
+          'language' => strtolower($this->translation)
+        ]
+      ]);
+    }
+
     /**
-     * @param $response
+     * @param      $response
+     * @param null $type
+     *
      * @return array
      */
     private function createItems($response, $type = null)
@@ -190,7 +224,8 @@
     /**
      * Get current count of seasons.
      *
-     * @param $result
+     * @param $id
+     * @param $mediaType
      * @return integer | null
      */
     private function tvSeasonsCount($id, $mediaType)
@@ -218,7 +253,6 @@
      * Get all episodes of each season.
      *
      * @param $id
-     * @param $seasons
      * @return array
      */
     public function tvEpisodes($id)
