@@ -19,7 +19,7 @@
     private $base = 'http://api.themoviedb.org';
 
     /**
-     * Get the API Key for TMDB and create an instance of Guzzle.
+     * Get the API Key for TMDb and create an instance of Guzzle.
      *
      * @param Client $client
      */
@@ -62,7 +62,7 @@
     }
 
     /**
-     * Search TMDB for recommendations and similar movies.
+     * Search TMDb for recommendations and similar movies.
      *
      * @param $mediaType
      * @param $tmdbID
@@ -98,7 +98,7 @@
     }
 
     /**
-     * Search TMDB for upcoming movies.
+     * Search TMDb for upcoming movies.
      *
      * @return array
      */
@@ -114,7 +114,7 @@
     }
 
     /**
-     * Search TMDB for current popular movies and tv shows.
+     * Search TMDb for current popular movies and tv shows.
      *
      * @return array
      */
