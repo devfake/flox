@@ -107,7 +107,7 @@
     }
 
     /**
-     * See if it can find the item in our database.
+     * See if it can find the item in our database, filtered by media_type.
      * Otherwise search in TMDb or create an empty item.
      *
      * @param $item
@@ -116,7 +116,7 @@
     private function validateStore($item)
     {
       // See if file is already in our database.
-      if($found = $this->itemService->findBy('title_strict', $item->name)) {
+      if($found = $this->itemService->findBy('title_strict', $item->name, $this->itemCategory)) {
         return $this->store($item, $found->tmdb_id);
       }
 
@@ -132,7 +132,7 @@
     }
 
     /**
-     * See if it can find the item in our database.
+     * See if it can find the item in our database, filtered by media_type.
      * Check if it is an empty item and search against TMDb and update them.
      * Otherwise create an empty item.
      *
@@ -142,7 +142,7 @@
     private function validateUpdate($item)
     {
       // See if file is already in our database.
-      if($found = $this->itemService->findBy('fp_name', $item)) {
+      if($found = $this->itemService->findBy('fp_name', $item, $this->itemCategory)) {
         if( ! $found->tmdb_id) {
           return $this->searchTmdbAndUpdateEmptyItem($found, $item);
         }
@@ -194,7 +194,7 @@
      */
     private function searchTmdb($item)
     {
-      $found = $this->tmdb->search($this->getFileName($item));
+      $found = $this->tmdb->search($this->getFileName($item), $this->itemCategory);
 
       if( ! $found) {
         return false;
@@ -207,7 +207,6 @@
      * If TMDb can't find anything, create a simple item with data from local file.
      *
      * @param $item
-     * @param $mediaType
      * @return mixed
      */
     private function createEmptyItem($item)

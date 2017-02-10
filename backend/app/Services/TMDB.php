@@ -31,18 +31,34 @@
     }
 
     /**
-     * Search TMDB by 'title'.
+     * Search TMDb by 'title'.
      *
-     * @param $title
-     * @return array
+     * @param      $title
+     * @param null $mediaType
+     * @return Collection
      */
-    public function search($title)
+    public function search($title, $mediaType = null)
     {
-      $response = $this->requestTmdb($this->base . '/3/search/multi', [
-        'query' => $title
-      ]);
+      $tv = collect();
+      $movies = collect();
 
-      return $this->createItems($response);
+      if( ! $mediaType || $mediaType == 'tv') {
+        $response = $this->fetchSearch($title, 'tv');
+        $tv = collect($this->createItems($response, 'tv'));
+      }
+
+      if( ! $mediaType || $mediaType == 'movies') {
+        $response = $this->fetchSearch($title, 'movie');
+        $movies = collect($this->createItems($response, 'movie'));
+      }
+
+      return $tv->merge($movies)->toArray();
+    }
+
+    private function fetchSearch($title, $mediaType) {
+      return $this->requestTmdb($this->base . '/3/search/' . $mediaType, [
+        'query' => $title,
+      ]);
     }
 
     /**
@@ -148,21 +164,16 @@
 
     /**
      * @param      $response
-     * @param null $type
-     *
+     * @param      $mediaType
      * @return array
+     *
      */
-    private function createItems($response, $type = null)
+    private function createItems($response, $mediaType)
     {
       $items = [];
       $response = json_decode($response->getBody());
 
       foreach($response->results as $result) {
-        // Suggestions doesn't deliver 'media type' by default
-        $mediaType = $type ?: $result->media_type;
-
-        if($mediaType == 'person') continue;
-
         $dtime = DateTime::createFromFormat('Y-m-d', (array_key_exists('release_date', $result)
           ? ($result->release_date ?: '1970-12-1')
           : ($result->first_air_date ?: '1970-12-1')
