@@ -71,7 +71,7 @@
       },
 
       suggestions() {
-        return `/suggestions?for=${this.localItem.tmdb_id}&type=${this.localItem.media_type}`;
+        return `/suggestions?for=${this.localItem.tmdb_id}&name=${this.localItem.title}&type=${this.localItem.media_type}`;
       },
 
       noImage() {

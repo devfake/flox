@@ -4,12 +4,42 @@ main {
   padding: 110px 0 0 0;
   min-height: 100vh;
 
+  &.display-suggestions {
+    padding: 150px 0 0 0;
+  }
+
   .dark & {
     background: #1c1c1c;
   }
 
   .open-modal & {
     padding: 110px 16px 0 0;
+  }
+
+  @include media(5) {
+    padding: 80px 0 0 0;
+  }
+}
+
+.suggestions-for {
+  float: left;
+  width: 100%;
+  color: $dark;
+  font-size: 18px;
+  border-top: 1px solid #ccc;
+  padding: 10px 0;
+
+  @include media(6) {
+    font-size: 14px;
+  }
+
+  .dark & {
+    color: #717171;
+    border-top: 1px solid #474747;
+  }
+
+  span {
+    color: $main2;
   }
 }
 
