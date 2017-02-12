@@ -37,12 +37,8 @@
      */
     public function search($title)
     {
-      $response = $this->client->get($this->base . '/3/search/multi', [
-        'query' => [
-          'api_key' => $this->apiKey,
-          'query' => $title,
-          'language' => strtolower($this->translation)
-        ]
+      $response = $this->request_tmdb($this->base . '/3/search/multi', [
+        'query' => $title
       ]);
 
       return $this->createItems($response);
@@ -79,13 +75,7 @@
      */
     private function searchSuggestions($mediaType, $tmdbID, $type)
     {
-      $response = $this->client->get($this->base . '/3/' . $mediaType . '/' . $tmdbID . '/' . $type, [
-        'query' => [
-          'api_key' => $this->apiKey,
-          'language' => strtolower($this->translation)
-        ]
-      ]);
-
+      $response = $this->request_tmdb($this->base . '/3/' . $mediaType . '/' . $tmdbID . '/' . $type);
       return collect($this->createItems($response, $mediaType));
     }
 
@@ -97,12 +87,7 @@
     public function upcoming()
     {
       return Cache::remember('upcoming', $this->untilEndOfDay(), function() {
-        $response = $this->client->get($this->base . '/3/movie/upcoming', [
-          'query' => [
-            'api_key' => $this->apiKey,
-            'language' => strtolower($this->translation)
-          ]
-        ]);
+        $response = $this->request_tmdb($this->base . '/3/movie/upcoming');
 
         $items = collect($this->createItems($response, 'movie'));
 
@@ -156,12 +141,7 @@
 
     private function fetchPopular($mediaType)
     {
-      return $this->client->get($this->base . '/3/' . $mediaType . '/popular', [
-        'query' => [
-          'api_key' => $this->apiKey,
-          'language' => strtolower($this->translation)
-        ]
-      ]);
+      return $this->request_tmdb($this->base . '/3/' . $mediaType . '/popular');
     }
 
     /**
@@ -202,6 +182,37 @@
       return $items;
     }
 
+    private function request_tmdb($url, $query = [])
+    {
+      $query = array_merge($query, [
+        'api_key' => $this->apiKey,
+        'language' => strtolower($this->translation)
+      ]);
+
+      try {
+        $response = $this->client->get($url, [
+          'query' => $query
+        ]);
+
+        if($this->hasLimitRemaining($response)) {
+          return $response;
+        }
+
+        sleep(1);
+        return $this->request_tmdb($url, $query);
+      } catch (\GuzzleHttp\Exception\ClientException $e) {
+        // wtf? throws exception because of "bad" statuscode?
+        $response = $e->getResponse();
+
+        if($this->hasLimitRemaining($response)) {
+          return $response;
+        }
+
+        sleep(1);
+        return $this->request_tmdb($url, $query);
+      }
+    }
+
     /**
      * Get full movie or tv details.
      *
@@ -211,20 +222,8 @@
      */
     public function details($tmdbId, $mediaType)
     {
-      $response = $this->client->get($this->base . '/3/' . $mediaType . '/' . $tmdbId, [
-        'query' => [
-          'api_key' => $this->apiKey,
-          'language' => strtolower($this->translation)
-        ]
-      ]);
-
-      if($this->hasLimitRemaining($response)) {
-        return json_decode($response->getBody());
-      }
-
-      // After 10 seconds the TMDB request limit is resetted.
-      sleep(10);
-      return $this->details($tmdbId, $mediaType);
+      $response = $this->request_tmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId);
+      return json_decode($response->getBody());
     }
 
     /**
@@ -237,12 +236,7 @@
     private function tvSeasonsCount($id, $mediaType)
     {
       if($mediaType == 'tv') {
-        $response = $this->client->get($this->base . '/3/tv/' . $id, [
-          'query' => [
-            'api_key' => $this->apiKey,
-            'language' => strtolower($this->translation)
-          ]
-        ]);
+        $response = $this->request_tmdb($this->base . '/3/tv/' . $id);
 
         $seasons = collect(json_decode($response->getBody())->seasons);
 
@@ -267,12 +261,7 @@
       $data = [];
 
       for($i = 1; $i <= $seasons; $i++) {
-        $response = $this->client->get($this->base . '/3/tv/' . $id . '/season/' . $i, [
-          'query' => [
-            'api_key' => $this->apiKey,
-            'language' => strtolower($this->translation)
-          ]
-        ]);
+        $response = $this->request_tmdb($this->base . '/3/tv/' . $id . '/season/' . $i);
 
         $data[$i] = json_decode($response->getBody());
       }
@@ -288,30 +277,20 @@
      */
     public function getAlternativeTitles($item)
     {
-      $response = $this->fetchAlternativeTitles($item);
+      $response = $this->request_tmdb($this->base . '/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles');
 
-      if($this->hasLimitRemaining($response)) {
-        $body = json_decode($response->getBody());
+      $body = json_decode($response->getBody());
 
-        if(property_exists($body, 'titles') || property_exists($body, 'results')) {
-          return isset($body->titles) ? $body->titles : $body->results;
-        }
-
-        return [];
+      if(property_exists($body, 'titles') || property_exists($body, 'results')) {
+        return isset($body->titles) ? $body->titles : $body->results;
       }
 
-      // After 10 seconds the TMDB request limit is resetted.
-      sleep(10);
-      return $this->getAlternativeTitles($item);
+      return [];
     }
 
     public function fetchAlternativeTitles($item)
     {
-      return $this->client->get($this->base . '/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles', [
-        'query' => [
-          'api_key' => $this->apiKey
-        ]
-      ]);
+      return $this->request_tmdb($this->base . '/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles');
     }
 
     /**
@@ -371,11 +350,12 @@
 
     /**
      * @param $response
-     * @return int
+     * @return boolean
      */
     public function hasLimitRemaining($response)
     {
-      return (int) $response->getHeader('X-RateLimit-Remaining')[0] > 1;
+      if ($response->getStatusCode() == 429) return false;
+      return ((int) $response->getHeader('X-RateLimit-Remaining')[0]) > 1;
     }
 
     /**
