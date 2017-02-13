@@ -5,7 +5,7 @@
         <span v-if="localItem.rating" :class="'item-rating rating-' + localItem.rating" @click="changeRating()">
           <i class="icon-rating"></i>
         </span>
-        <span v-if=" ! localItem.rating" class="item-rating item-new" :class="{disabled: disabled}" @click="addNewItem()">
+        <span v-if=" ! localItem.rating && localItem.tmdb_id" class="item-rating item-new" :class="{disabled: disabled}" @click="addNewItem()">
           <span class="loader smallsize-loader" v-if="rated"><i></i></span>
           <i class="icon-add" v-if=" ! rated"></i>
         </span>
