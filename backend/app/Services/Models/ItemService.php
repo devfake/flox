@@ -154,7 +154,7 @@
         case 'title':
           return $this->model->findByTitle($value, $mediaType)->first();
         case 'title_strict':
-          return $this->model->findByTitleStrict($value)->first();
+          return $this->model->findByTitleStrict($value, $mediaType)->first();
         case 'fp_name':
           return $this->model->findByFPName($value, $mediaType)->first();
         case 'tmdb_id':

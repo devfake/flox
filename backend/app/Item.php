@@ -133,13 +133,16 @@
       });
     }
 
-    public function scopeFindByTitleStrict($query, $title)
+    public function scopeFindByTitleStrict($query, $title, $mediaType)
     {
-      return $query->where('title', $title)
-        ->orWhere('original_title', $title)
-        ->orWhere('fp_name', $title)
-        ->orWhereHas('alternativeTitles', function($query) use ($title) {
-          $query->where('title', $title);
+      return $query->where('media_type', $mediaType)
+        ->where(function($query) use ($title) {
+          $query->where('title', $title)
+          ->orWhere('original_title', $title)
+          ->orWhere('fp_name', $title)
+          ->orWhereHas('alternativeTitles', function($query) use ($title) {
+            $query->where('title', $title);
+          });
         });
     }
   }
