@@ -87,7 +87,7 @@
     /** @test */
     public function it_should_store_fields_if_movie_found_in_database()
     {
-      $this->createMovie();
+      $this->createMovie(['fp_name' => 'warcraft']);
 
       $item1 = $this->item->first();
       $this->parser->updateDatabase($this->fpFixtures('movie/added'));
@@ -95,10 +95,8 @@
 
       $this->assertNull($item1->src);
       $this->assertNull($item1->subtitles);
-      $this->assertNull($item1->fp_name);
       $this->assertNotNull($item2->src);
       $this->assertNotNull($item2->subtitles);
-      $this->assertNotNull($item2->fp_name);
     }
 
     /** @test */
