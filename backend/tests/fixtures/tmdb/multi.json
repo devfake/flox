@@ -1,0 +1,30 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "poster_path": "\/8uOOycL6r4vqOT8tgw4behO5MmB.jpg",
+      "popularity": 4.791115,
+      "id": 33880,
+      "overview": "The Legend of Korra is an American animated television series that premiered on the Nickelodeon television network in 2012. It was created by Bryan Konietzko and Michael Dante DiMartino as a sequel to their series Avatar: The Last Airbender, which aired on Nickelodeon from 2005 to 2008. Several people involved with creating Avatar, including designer Joaquim Dos Santos and composers Jeremy Zuckerman and Benjamin Wynn, returned to work on The Legend of Korra.\n\nThe series is set in a fictional universe where some people can manipulate, or \"bend\", the elements of water, earth, fire, or air. Only one person, the \"Avatar\", can bend all four elements, and is responsible for maintaining balance in the world. The series follows Avatar Korra, the successor of Aang from the previous series, as she faces political and spiritual unrest in a modernizing world.\n\nThe series, whose style is strongly influenced by Japanese animation, has been a critical and commercial success. It obtained the highest audience total for an animated series in the United States in 2012. The series was praised by reviewers for its high production values and for addressing difficult sociopolitical issues such as social unrest and terrorism. It was initially conceived as a miniseries of 12 episodes, but it is now set to run for 52 episodes separated into four seasons, each of which tells a separate story.",
+      "backdrop_path": "\/r1oTzR9Ke7pICxe1eiP8ZjoGJju.jpg",
+      "vote_average": 7.52,
+      "media_type": "tv",
+      "first_air_date": "2012-04-14",
+      "origin_country": [
+        "US"
+      ],
+      "genre_ids": [
+        10765,
+        16,
+        18,
+        10751
+      ],
+      "original_language": "en",
+      "vote_count": 44,
+      "name": "The Legend of Korra",
+      "original_name": "The Legend of Korra"
+    }
+  ],
+  "total_results": 1,
+  "total_pages": 1
+}

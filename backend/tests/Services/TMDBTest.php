@@ -56,6 +56,26 @@
       $this->assertArrayNotHasKey('rating', $trending[1]);
     }
 
+    /** @test */
+    public function it_should_respect_request_limit()
+    {
+      $fixture = $this->tmdbFixtures('multi');
+
+      $mock = new MockHandler([
+        new Response(429, []),
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
+      ]);
+
+      $handler = HandlerStack::create($mock);
+      $this->app->instance(Client::class, new Client(['handler' => $handler]));
+
+      $tmdb = app(TMDB::class);
+      $result = $tmdb->search('Avatar - Legend of Korra');
+
+      $this->assertCount(1, $result);
+      $this->assertArrayHasKey('tmdb_id', $result[0]);
+    }
+
     private function in_array_r($item , $array){
       return (bool) preg_match('/"' . $item . '"/i' , json_encode($array));
     }
@@ -63,8 +83,8 @@
     private function createGuzzleMock($fixture, $fixture2 = null)
     {
       $mock = new MockHandler([
-        new Response(200, [], $fixture),
-        new Response(200, [], $fixture2),
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture2),
       ]);
 
       $handler = HandlerStack::create($mock);
