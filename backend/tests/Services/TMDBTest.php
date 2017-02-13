@@ -73,7 +73,7 @@
       $tmdb = app(TMDB::class);
       $result = $tmdb->search('Avatar - Legend of Korra');
 
-      $this->assertEquals(sizeof($result), 1);
+      $this->assertCount(1, $result);
       $this->assertArrayHasKey('tmdb_id', $result[0]);
     }
 
