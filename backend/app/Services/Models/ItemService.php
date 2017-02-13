@@ -145,6 +145,8 @@
       switch($type) {
         case 'title':
           return $this->model->findByTitle($value)->first();
+        case 'title_strict':
+          return $this->model->findByTitleStrict($value)->first();
         case 'fp_name':
           return $this->model->findByFPName($value)->first();
         case 'tmdb_id':

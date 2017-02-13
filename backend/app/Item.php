@@ -122,4 +122,14 @@
           $query->where('title', 'like', '%' . $title . '%');
         });
     }
+
+    public function scopeFindByTitleStrict($query, $title)
+    {
+      return $query->where('title', $title)
+        ->orWhere('original_title', $title)
+        ->orWhere('fp_name', $title)
+        ->orWhereHas('alternativeTitles', function($query) use ($title) {
+          $query->where('title', $title);
+        });
+    }
   }
