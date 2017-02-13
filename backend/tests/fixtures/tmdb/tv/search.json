@@ -1,0 +1,51 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "poster_path": "/4KgScXaTeVZWgsBDJNbDYbeqRjF.jpg",
+      "popularity": 3.04828,
+      "id": 246,
+      "backdrop_path": "/14UEjm0MDQ8C22BqYqdzn3gsAiX.jpg",
+      "vote_average": 7.8,
+      "overview": "overview",
+      "first_air_date": "2005-02-21",
+      "origin_country": [
+        "US"
+      ],
+      "genre_ids": [
+        28,
+        12,
+        16,
+        14
+      ],
+      "original_language": "en",
+      "vote_count": 67,
+      "name": "Avatar: The Last Airbender",
+      "original_name": "Avatar: The Last Airbender"
+    },
+    {
+      "poster_path": "/8uOOycL6r4vqOT8tgw4behO5MmB.jpg",
+      "popularity": 3.52741,
+      "id": 33880,
+      "backdrop_path": "/r1oTzR9Ke7pICxe1eiP8ZjoGJju.jpg",
+      "vote_average": 7.52,
+      "overview": "overview",
+      "first_air_date": "2012-04-14",
+      "origin_country": [
+        "US"
+      ],
+      "genre_ids": [
+        10765,
+        16,
+        18,
+        10751
+      ],
+      "original_language": "en",
+      "vote_count": 44,
+      "name": "The Legend of Korra",
+      "original_name": "The Legend of Korra"
+    }
+  ],
+  "total_results": 2,
+  "total_pages": 1
+}

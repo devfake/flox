@@ -67,7 +67,7 @@
     {
       $this->createMovie();
 
-      $itemFromTitle = $this->itemService->findBy('title', 'craft');
+      $itemFromTitle = $this->itemService->findBy('title', 'craft', 'movies');
       $itemFromId = $this->itemService->findBy('tmdb_id', 68735);
 
       $this->assertEquals(68735, $itemFromTitle->tmdb_id);
@@ -79,8 +79,8 @@
     {
       $this->createMovie();
 
-      $notFound = $this->itemService->findBy('title_strict', 'craft');
-      $found = $this->itemService->findBy('title_strict', 'Warcraft: The Beginning');
+      $notFound = $this->itemService->findBy('title_strict', 'craft', 'movies');
+      $found = $this->itemService->findBy('title_strict', 'Warcraft: The Beginning', 'movies');
 
       $this->assertNull($notFound);
       $this->assertEquals(68735, $found->tmdb_id);

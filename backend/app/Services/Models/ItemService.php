@@ -134,21 +134,29 @@
     }
 
     /**
-     * See if we can find a item by title, tmdb_id or src in our database.
+     * See if we can find a item by title, fp_name, tmdb_id or src in our database.
+     *
+     * If we search from file-parser, we also need to filter the results by media_type.
+     * If we have e.g. 'Avatar' as tv show, we don't want results like the 'Avatar' movie.
      *
      * @param $type
      * @param $value
+     * @param $mediaType
      * @return mixed
      */
-    public function findBy($type, $value)
+    public function findBy($type, $value, $mediaType = null)
     {
+      if($mediaType) {
+        $mediaType = $mediaType == 'movies' ? 'movie' : 'tv';
+      }
+
       switch($type) {
         case 'title':
-          return $this->model->findByTitle($value)->first();
+          return $this->model->findByTitle($value, $mediaType)->first();
         case 'title_strict':
-          return $this->model->findByTitleStrict($value)->first();
+          return $this->model->findByTitleStrict($value, $mediaType)->first();
         case 'fp_name':
-          return $this->model->findByFPName($value)->first();
+          return $this->model->findByFPName($value, $mediaType)->first();
         case 'tmdb_id':
           return $this->model->findByTmdbId($value)->first();
         case 'src':

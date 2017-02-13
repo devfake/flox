@@ -102,11 +102,14 @@
       return $query->where('tmdb_id', $tmdbId);
     }
 
-    public function scopeFindByFPName($query, $item)
+    public function scopeFindByFPName($query, $item, $mediaType)
     {
       $changed = isset($item->changed->name) ? $item->changed->name : $item->name;
 
-      return $query->where('fp_name', $item->name)->orWhere('fp_name', $changed);
+      return $query->where('media_type', $mediaType)
+        ->where(function($query) use ($item, $changed) {
+          return $query->where('fp_name', $item->name)->orWhere('fp_name', $changed);
+        });
     }
 
     public function scopeFindBySrc($query, $src)
@@ -114,22 +117,32 @@
       return $query->where('src', $src);
     }
 
-    public function scopeFindByTitle($query, $title)
+    public function scopeFindByTitle($query, $title, $mediaType = null)
     {
-      return $query->where('title', 'like', '%' . $title . '%')
-        ->orWhere('original_title', 'like', '%' . $title . '%')
-        ->orWhereHas('alternativeTitles', function($query) use ($title) {
-          $query->where('title', 'like', '%' . $title . '%');
-        });
+      // Only necessarily if we search from file-parser.
+      if($mediaType) {
+        $query->where('media_type', $mediaType);
+      }
+
+      return $query->where(function($query) use ($title) {
+        return $query->where('title', 'like', '%' . $title . '%')
+          ->orWhere('original_title', 'like', '%' . $title . '%')
+          ->orWhereHas('alternativeTitles', function($query) use ($title) {
+            return $query->where('title', 'like', '%' . $title . '%');
+          });
+      });
     }
 
-    public function scopeFindByTitleStrict($query, $title)
+    public function scopeFindByTitleStrict($query, $title, $mediaType)
     {
-      return $query->where('title', $title)
-        ->orWhere('original_title', $title)
-        ->orWhere('fp_name', $title)
-        ->orWhereHas('alternativeTitles', function($query) use ($title) {
-          $query->where('title', $title);
+      return $query->where('media_type', $mediaType)
+        ->where(function($query) use ($title) {
+          $query->where('title', $title)
+          ->orWhere('original_title', $title)
+          ->orWhere('fp_name', $title)
+          ->orWhereHas('alternativeTitles', function($query) use ($title) {
+            $query->where('title', $title);
+          });
         });
     }
   }
