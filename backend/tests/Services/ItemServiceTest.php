@@ -12,12 +12,14 @@
     use DatabaseMigrations;
 
     private $item;
+    private $itemService;
 
     public function setUp()
     {
       parent::setUp();
 
       $this->item = app(Item::class);
+      $this->itemService = app(ItemService::class);
     }
 
     /** @test */
@@ -61,27 +63,36 @@
     }
 
     /** @test */
-    public function it_can_find_item_in_database()
+    public function it_should_find_item_in_database()
     {
       $this->createMovie();
 
-      $itemService = app(ItemService::class);
-
-      $itemFromTitle = $itemService->findBy('title', 'Warcraft');
-      $itemFromId = $itemService->findBy('tmdb_id', 68735);
+      $itemFromTitle = $this->itemService->findBy('title', 'craft');
+      $itemFromId = $this->itemService->findBy('tmdb_id', 68735);
 
       $this->assertEquals(68735, $itemFromTitle->tmdb_id);
       $this->assertEquals(68735, $itemFromId->tmdb_id);
     }
 
     /** @test */
+    public function it_should_find_item_in_database_by_strict_search()
+    {
+      $this->createMovie();
+
+      $notFound = $this->itemService->findBy('title_strict', 'craft');
+      $found = $this->itemService->findBy('title_strict', 'Warcraft: The Beginning');
+
+      $this->assertNull($notFound);
+      $this->assertEquals(68735, $found->tmdb_id);
+    }
+
+    /** @test */
     public function it_should_change_rating()
     {
       $this->createMovie();
-      $itemService = app(ItemService::class);
 
       $item1 = $this->item->find(1);
-      $itemService->changeRating(1, 3);
+      $this->itemService->changeRating(1, 3);
       $item2 = $this->item->find(1);
 
       $this->assertEquals(1, $item1->rating);
@@ -92,10 +103,9 @@
     public function it_should_remove_a_item()
     {
       $this->createMovie();
-      $itemService = app(ItemService::class);
 
       $item1 = $this->item->find(1);
-      $itemService->remove(1);
+      $this->itemService->remove(1);
       $item2 = $this->item->find(1);
 
       $this->assertNotNull($item1);
