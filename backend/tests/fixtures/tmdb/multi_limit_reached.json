@@ -1,1 +1,0 @@
-"Client error: `GET http:\/\/api.themoviedb.org\/3\/search\/multi?query=Avatar%20-%20Legend%20of%20Korra&api_key=api_key&language=` resulted in a `429 Too Many Requests` response:\n{\"status_code\":25,\"status_message\":\"Your request count (41) is over the allowed limit of 40.\"}\n\n"

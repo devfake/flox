@@ -60,10 +60,9 @@
     public function it_should_respect_request_limit()
     {
       $fixture = $this->tmdbFixtures('multi');
-      $limit_reached = $this->tmdbFixtures('multi_limit_reached');
 
       $mock = new MockHandler([
-        new Response(429, [], $limit_reached),
+        new Response(429, []),
         new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
       ]);
 
