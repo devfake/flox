@@ -116,7 +116,7 @@
     private function validateStore($item)
     {
       // See if file is already in our database.
-      if($found = $this->itemService->findBy('title', $item->name)) {
+      if($found = $this->itemService->findBy('title_strict', $item->name)) {
         return $this->store($item, $found->tmdb_id);
       }
 
