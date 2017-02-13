@@ -1,12 +1,14 @@
 <template>
-  <main>
+  <main :class="{'display-suggestions': path == 'suggestions'}">
     <div class="wrap-content" v-if=" ! loading">
-      <Item v-for="(item, index) in items"
-            :item="item"
-            :key="index"
-            :genre="true"
-            :date="true"
-      ></Item>
+      <div class="items-wrap">
+        <Item v-for="(item, index) in items"
+              :item="item"
+              :key="index"
+              :genre="true"
+              :date="true"
+        ></Item>
+      </div>
     </div>
 
     <span class="loader fullsize-loader" v-if="loading"><i></i></span>
@@ -30,7 +32,8 @@
 
     data() {
       return {
-        items: []
+        items: [],
+        path: ''
       }
     },
 
@@ -45,14 +48,15 @@
 
       init() {
         this.SET_LOADING(true);
-        const path = this.$route.path;
+        this.path = this.$route.name;
 
-        if(path == '/trending') {
-          this.initTrending();
-        } else if(path == '/suggestions') {
-          this.initSuggestions();
-        } else if(path == '/upcoming') {
-          this.initUpcoming();
+        switch(this.path) {
+          case 'trending':
+            return this.initTrending();
+          case 'suggestions':
+            return this.initSuggestions();
+          case 'upcoming':
+            return this.initUpcoming();
         }
       },
 

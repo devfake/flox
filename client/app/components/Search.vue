@@ -9,7 +9,12 @@
 
         <i class="icon-algolia" v-if="algolia"></i>
       </form>
+    </div>
 
+    <div class="suggestions-for" v-if="suggestionsFor">
+      <div class="wrap">
+        {{ lang('suggestions for') }} <span>{{ suggestionsFor }}</span>
+      </div>
     </div>
   </section>
 </template>
@@ -33,6 +38,10 @@
     computed: {
       algolia() {
         return config.scoutDriver == 'algolia' && this.$route.query.q;
+      },
+
+      suggestionsFor() {
+        return this.$route.query.name;
       },
 
       title: {
