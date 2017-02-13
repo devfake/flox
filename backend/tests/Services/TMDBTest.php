@@ -112,7 +112,7 @@
       $this->app->instance(Client::class, new Client(['handler' => $handler]));
 
       $tmdb = app(TMDB::class);
-      $result = $tmdb->search('Avatar - Legend of Korra');
+      $result = $tmdb->search('Avatar - Legend of Korra', 'tv');
 
       $this->assertCount(1, $result);
       $this->assertArrayHasKey('tmdb_id', $result[0]);
