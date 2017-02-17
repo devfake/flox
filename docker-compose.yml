@@ -1,0 +1,46 @@
+version: "2"
+services:
+  nginx:
+    image: nginx:1.11.9-alpine
+    volumes:
+      - .:/flox:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    links:
+      - flox
+    ports:
+      - "80:80"
+  flox:
+    image: flox:latest
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      FP_HOST: file-parser
+      FP_PORT: 3000
+    volumes:
+      - .:/flox
+    links:
+      - db
+      - file-parser
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb:10.0.29
+    volumes:
+      - ./.mysql:/var/lib/mysql
+  file-parser:
+    image: flox-file-parser:latest
+    volumes:
+      - ./flox-file-parser:/file-parser
+      - Z://serien:/tv
+      - Z://movies:/movies
+    links:
+      - db
+    environment:
+      TV_ROOT: /tv
+      MOVIES_ROOT: /movies
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_DATABASE: flox-file-parser
+      FP_HOST: 0.0.0.0
+      FP_PORT: 3000
+      DB_HOST: db

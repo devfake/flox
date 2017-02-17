@@ -1,3 +1,4 @@
+.mysql/
 node_modules
 /backend/vendor
 /.idea

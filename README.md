@@ -107,6 +107,11 @@ There is an option to enable or disable spoiler protection for episode names.
 * Make sure you have installed `webpack` globally.
 * Run `npm run dev` or  `npm run build`.
 
+### Docker build
+* Install docker
+* Run ``` $ ./build.sh``` to create docker images
+* $ docker-compose run
+
 ### Contribution
 
 Like this project? Want to contribute? Awesome! Feel free to open some pull requests or just open an issue.
