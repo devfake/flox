@@ -7,7 +7,7 @@
 
   class DB extends Command {
 
-    protected $signature = 'flox:db';
+    protected $signature = 'flox:db {username?} {password?}';
     protected $description = 'Create database migrations and admin account';
 
     public function __construct()
@@ -38,8 +38,8 @@
 
     private function createUser()
     {
-      $username = $this->ask('Enter your admin username');
-      $password = $this->ask('Enter your admin password');
+      $username = $this->ask('Enter your admin username', $this->argument("username"));
+      $password = $this->ask('Enter your admin password', $this->argument("password"));
 
       $user = new User();
       $user->username = $username;
