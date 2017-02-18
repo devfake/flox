@@ -18,6 +18,7 @@
   use Illuminate\Support\Facades\Input;
   use Symfony\Component\HttpFoundation\BinaryFileResponse;
   use Symfony\Component\HttpFoundation\Response;
+  use Symfony\Component\HttpFoundation\Request;
 
   class SettingController {
 
@@ -206,5 +207,11 @@
       }
 
       return $parser->updateDatabase($files);
+    }
+
+    public function fetchFilesResponse(Request $request, FileParser $parser)
+    {
+      $content = json_decode($request->getContent());
+      return $parser->updateDatabase($content);
     }
   }

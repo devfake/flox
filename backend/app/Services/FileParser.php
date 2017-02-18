@@ -70,7 +70,7 @@
 
       $this->updateLastFetched();
 
-      foreach($files as $type => $items) {
+      foreach((array) $files as $type => $items) {
         $this->itemCategory = $type;
 
         foreach($items as $item) {
