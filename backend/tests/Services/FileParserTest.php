@@ -411,10 +411,10 @@
     public function it_should_use_http_basic_auth()
     {
       $this->patch('/api/update-files');
-      $this->assertEquals(401, $this->response->status());
+      $this->assertResponseStatus(401);
 
       $this->patch('/api/update-files', [], $this->http_login());
-      $this->assertEquals(200, $this->response->status());
+      $this->assertResponseOk();
     }
 
     /** @test **/
@@ -422,9 +422,9 @@
     {
       $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
       $fixture = json_encode($this->fpFixtures("tv/added"));
-      
+
       $this->call('PATCH', '/api/update-files', [], [], [], $this->http_login(), $fixture);
-      $this->assertEquals(200, $this->response->status());
+      $this->assertResponseOk();
 
       $episodes = $this->episode->get();
 

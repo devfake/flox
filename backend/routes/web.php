@@ -14,10 +14,6 @@
 
     Route::get('/settings', 'SettingController@settings');
 
-    Route::group(['middleware' => 'auth.basic'], function() {
-      Route::patch('/update-files', 'SettingController@fetchFilesResponse');
-    });
-
     Route::group(['middleware' => 'auth'], function() {
       Route::get('/export', 'SettingController@export');
       Route::post('/import', 'SettingController@import');

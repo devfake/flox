@@ -102,11 +102,11 @@
     /**
      * Check the latest release of flox and compare them to the local version.
      *
+     * @param Client $client
      * @return string
      */
-    public function checkForUpdate()
+    public function checkForUpdate(Client $client)
     {
-      $client = new Client();
       $response = json_decode($client->get('https://api.github.com/repos/devfake/flox/releases')->getBody());
 
       $lastestVersion = $response[0]->name;
@@ -209,9 +209,19 @@
       return $parser->updateDatabase($files);
     }
 
+    /**
+     * Will be called from flox-file-parser itself.
+     *
+     * @param Request $request
+     * @param FileParser $parser
+     * @return JsonResponse
+     */
     public function fetchFilesResponse(Request $request, FileParser $parser)
     {
+      increaseTimeLimit();
+
       $content = json_decode($request->getContent());
+
       return $parser->updateDatabase($content);
     }
   }
