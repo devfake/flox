@@ -407,6 +407,38 @@
       $this->assertNull($item->tmdb_id);
     }
 
+    /** @test **/
+    public function it_should_use_http_basic_auth()
+    {
+      $this->patch('/api/update-files');
+      $this->assertResponseStatus(401);
+
+      $this->patch('/api/update-files', [], $this->http_login());
+      $this->assertResponseOk();
+    }
+
+    /** @test **/
+    public function it_should_update_database_with_given_json_param()
+    {
+      $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
+      $fixture = json_encode($this->fpFixtures("tv/added"));
+
+      $this->call('PATCH', '/api/update-files', [], [], [], $this->http_login(), $fixture);
+      $this->assertResponseOk();
+
+      $episodes = $this->episode->get();
+
+      $this->assertCount(4, $episodes);
+    }
+
+    private function http_login()
+    {
+      return [
+        'PHP_AUTH_USER' => 'jon',
+        'PHP_AUTH_PW' => 'snow',
+      ];
+    }
+
     private function createTmdbMock($fixture, $fixture2)
     {
       $mock = new MockHandler([
