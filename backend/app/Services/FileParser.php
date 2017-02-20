@@ -18,7 +18,7 @@
     const REMOVED = 'removed';
     const UPDATED = 'updated';
 
-    // [localfile => database]
+    // [field in local file => field in database]
     const SUPPORTED_FIELDS = ['src' => 'src', 'subtitles' => 'subtitles', 'name' => 'fp_name'];
 
     private $itemService;
@@ -142,7 +142,7 @@
     private function validateUpdate($item)
     {
       // See if file is already in our database.
-      if($found = $this->itemService->findBy('fp_name', $item, $this->itemCategory)) {
+      if($found = $this->findItemByFPName($item)) {
         if( ! $found->tmdb_id) {
           return $this->searchTmdbAndUpdateEmptyItem($found, $item);
         }
@@ -258,12 +258,15 @@
      * Iterate over all changed properties and update them in our database.
      *
      * @param $item
-     * @param $model
+     * @param $tmdbId
      * @return mixed
      */
     private function update($item, $tmdbId)
     {
       if($model = $this->findItem($item, $tmdbId)) {
+        // Remove all fields, so we can start from scratch.
+        $this->remove($item);
+
         foreach($item->changed as $field => $value) {
           if(array_key_exists($field, self::SUPPORTED_FIELDS)) {
             $model->{self::SUPPORTED_FIELDS[$field]} = $value;
@@ -322,6 +325,26 @@
 
     /**
      * @param $item
+     * @return mixed
+     */
+    private function findItemByFPName($item)
+    {
+      $found = $this->itemService->findBy('fp_name', $item, $this->itemCategory);
+
+      // Search against episodes if no empty item for a tv show was found.
+      if( ! $found && $this->itemCategory == 'tv') {
+        $episode = $this->episodeService->findBy('fp_name', $item);
+
+        if($episode) {
+          $found = $this->itemService->findBy('tmdb_id', $episode->tmdb_id);
+        }
+      }
+
+      return $found;
+    }
+
+    /**
+     * @param $item
      * @return \Illuminate\Support\Collection|mixed
      */
     private function findItemBySrc($item)
@@ -329,6 +352,7 @@
       if($this->itemCategory == 'tv') {
         return $this->episodeService->findBy('src', $item->src);
       }
+
       return $this->itemService->findBy('src', $item->src);
     }
 

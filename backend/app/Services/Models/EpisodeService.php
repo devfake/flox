@@ -103,6 +103,8 @@
       switch($type) {
         case 'src':
           return $this->model->findBySrc($value)->first();
+        case 'fp_name':
+          return $this->model->findByFPName($value)->first();
         case 'tmdb_id':
           return $this->model->findByTmdbId($value)->first();
         case 'episode':
