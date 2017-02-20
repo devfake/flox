@@ -5,9 +5,11 @@
         <span v-if="localItem.rating" :class="'item-rating rating-' + localItem.rating" @click="changeRating()">
           <i class="icon-rating"></i>
         </span>
-        <span v-if=" ! localItem.rating && localItem.tmdb_id" class="item-rating item-new" :class="{disabled: disabled}" @click="addNewItem()">
-          <span class="loader smallsize-loader" v-if="rated"><i></i></span>
-          <i class="icon-add" v-if=" ! rated"></i>
+        <span v-if=" ! localItem.rating && localItem.tmdb_id && ! rated" class="item-rating item-new" @click="addNewItem()">
+          <i class="icon-add"></i>
+        </span>
+        <span v-if=" ! localItem.rating && localItem.tmdb_id && rated" class="item-rating item-new">
+          <span class="loader smallsize-loader"><i></i></span>
         </span>
 
         <router-link v-if="localItem.tmdb_id" :to="suggestions" class="recommend-item">{{ lang('suggestions') }}</router-link>
@@ -39,7 +41,8 @@
 
   import { mapMutations, mapActions } from 'vuex';
 
-  const debounceMilliseconds = 700;
+  const ratingMilliseconds = 700;
+  const newItemMilliseconds = 200;
 
   export default {
     mixins: [Helper],
@@ -47,7 +50,8 @@
     props: ['item', 'genre', 'date'],
 
     created() {
-      this.saveNewRating = debounce(this.saveNewRating, debounceMilliseconds);
+      this.saveNewRating = debounce(this.saveNewRating, ratingMilliseconds);
+      this.addNewItem = debounce(this.addNewItem, newItemMilliseconds, true);
     },
 
     data() {
@@ -56,8 +60,7 @@
         latestEpisode: this.item.latest_episode,
         auth: config.auth,
         prevRating: null,
-        rated: false,
-        disabled: false
+        rated: false
       }
     },
 
@@ -156,12 +159,10 @@
 
       addNewItem() {
         if(this.auth) {
-          this.disabled = true;
           this.rated = true;
 
           http.post(`${config.api}/add`, {item: this.localItem}).then(value => {
             this.localItem = value.data;
-            this.disabled = false;
             this.rated = false;
           }, error => {
             if(error.status == 409) {
