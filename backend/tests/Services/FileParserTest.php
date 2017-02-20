@@ -280,6 +280,30 @@
     }
 
     /** @test */
+    public function it_should_update_proper_fields_for_episodes_if_season_and_episode_number_changed()
+    {
+      $this->createTv(['fp_name' => 'Game of Thrones']);
+
+      $this->episode->get()->each(function($episode) {
+        $episode->update(['src' => $this->getTvSrc()]);
+      });
+
+      $episodes = $this->episode->get();
+      $this->parser->updateDatabase($this->fpFixtures('tv/updated_one'));
+      $updatedEpisodes = $this->episode->get();
+
+      $this->assertNotNull($episodes[0]->src);
+      $this->assertNotNull($episodes[0]->src);
+      $this->assertNull($updatedEpisodes[0]->src);
+      $this->assertNull($updatedEpisodes[0]->src);
+
+      $this->assertNotEquals('NEW SRC UPDATED', $episodes[1]->src);
+      $this->assertNotEquals('NEW SUB UPDATED', $episodes[1]->subtitles);
+      $this->assertEquals('NEW SRC UPDATED', $updatedEpisodes[1]->src);
+      $this->assertEquals('NEW SUB UPDATED', $updatedEpisodes[1]->subtitles);
+    }
+
+    /** @test */
     public function it_should_nothing_update_for_episodes_if_changed_is_empty()
     {
       $this->createTv();
