@@ -1,0 +1,22 @@
+{
+  "tv": [
+    {
+      "name": "Game of Thrones",
+      "season_number": 1,
+      "episode_number": 1,
+      "status": "updated",
+      "extension": "mkv",
+      "tags": [],
+      "year": null,
+      "filename": "1",
+      "subtitles": null,
+      "src": "/tv/Game of Thrones/S1/1.mkv",
+      "changed": {
+        "src": "NEW SRC UPDATED",
+        "subtitles": "NEW SUB UPDATED",
+        "season_number": 1,
+        "episode_number": 2
+      }
+    }
+  ]
+}

@@ -59,11 +59,21 @@
       return $query->where('src', $src);
     }
 
+    public function scopeFindByFPName($query, $item)
+    {
+      $changed = isset($item->changed->name) ? $item->changed->name : $item->name;
+
+      return $query->where('fp_name', $item->name)->orWhere('fp_name', $changed);
+    }
+
     public function scopeFindSpecificEpisode($query, $tmdbId, $episode)
     {
+      $season = isset($episode->changed->season_number) ? $episode->changed->season_number : $episode->season_number;
+      $episode = isset($episode->changed->episode_number) ? $episode->changed->episode_number : $episode->episode_number;
+
       return $query->where('tmdb_id', $tmdbId)
-        ->where('season_number', $episode->season_number)
-        ->where('episode_number', $episode->episode_number);
+        ->where('season_number', $season)
+        ->where('episode_number', $episode);
     }
 
     public function scopeFindSeason($query, $tmdbId, $season)
