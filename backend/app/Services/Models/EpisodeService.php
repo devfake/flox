@@ -44,8 +44,9 @@
     }
 
     /**
-     * Get all Episodes of an tv show group by seasons.
-     * We need to also the next unseen episode and the spoiler setting.
+     * Get all episodes of a tv show grouped by seasons,
+     * the data for the next unseen episode, which will be used in the modal as an indicator,
+     * and the setting option to check if spoiler protection is enabled.
      *
      * @param $tmdbId
      * @return array

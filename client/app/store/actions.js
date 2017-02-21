@@ -59,11 +59,10 @@ export function fetchEpisodes({commit}, data) {
 
       // Scroll to next episode
       setTimeout(() => {
-        const heightOfOneEpisode = 43;
         const container = document.querySelector('.modal-content');
         const episode = document.querySelector(`[data-episode='${nextEpisode.episode_number}']`);
 
-        container.scrollTop = episode.offsetTop - heightOfOneEpisode;
+        container.scrollTop = episode.offsetTop - episode.offsetHeight;
       }, 10);
     }
   });
