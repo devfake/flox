@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrap" v-if="modalType == 'season'">
+  <div class="modal-wrap">
 
     <div class="modal-header">
       <span>{{ modalData.title }}</span>
@@ -25,7 +25,10 @@
     </div>
 
     <div class="modal-content" v-if=" ! loadingModalData">
-      <div @click="toggleEpisode(episode)" class="modal-item" v-for="(episode, index) in episodes[seasonActiveModal]">
+      <div @click="toggleEpisode(episode)"
+           class="modal-item" v-for="(episode, index) in episodes[seasonActiveModal]"
+           :data-episode="episode.episode_number"
+      >
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
         <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen && auth}">{{ episode.name }}</span>
         <span class="episode-seen" :class="{seen: episode.seen}"><i></i></span>
@@ -52,7 +55,6 @@
 
     computed: {
       ...mapState({
-        modalType: state => state.modalType,
         modalData: state => state.modalData,
         loadingModalData: state => state.loadingModalData,
         seasonActiveModal: state => state.seasonActiveModal

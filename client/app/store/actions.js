@@ -44,14 +44,27 @@ export function setColorScheme({commit}, color) {
 export function fetchEpisodes({commit}, data) {
   commit('SET_LOADING_MODAL_DATA', true);
   http(`${config.api}/episodes/${data.tmdb_id}`).then(response => {
+    const nextEpisode = response.data.next_episode;
+
     commit('SET_MODAL_DATA', {
       title: data.title,
       episodes: response.data.episodes,
       spoiler: response.data.spoiler
     });
 
-    setTimeout(() => {
-      commit('SET_LOADING_MODAL_DATA', false);
-    }, 300);
+    commit('SET_LOADING_MODAL_DATA', false);
+
+    if(nextEpisode) {
+      commit('SET_SEASON_ACTIVE_MODAL', nextEpisode.season_number);
+
+      // Scroll to next episode
+      setTimeout(() => {
+        const heightOfOneEpisode = 43;
+        const container = document.querySelector('.modal-content');
+        const episode = document.querySelector(`[data-episode='${nextEpisode.episode_number}']`);
+
+        container.scrollTop = episode.offsetTop - heightOfOneEpisode;
+      }, 10);
+    }
   });
 }

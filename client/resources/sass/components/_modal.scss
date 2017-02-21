@@ -179,6 +179,8 @@
   &.spoiler-protect {
     background: rgba(#fff, .4);
     color: transparent;
+
+    @extend .no-select;
   }
 }
 
