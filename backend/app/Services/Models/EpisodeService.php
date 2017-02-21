@@ -45,14 +45,14 @@
 
     /**
      * Get all Episodes of an tv show group by seasons.
-     * We need to also access the next unseen episode and the spoiler setting here.
+     * We need to also the next unseen episode and the spoiler setting.
      *
      * @param $tmdbId
      * @return array
      */
     public function getAllByTmdbId($tmdbId)
     {
-      $episodes = $this->model->findByTmdbId($tmdbId)->get();//->groupBy('season_number');
+      $episodes = $this->model->findByTmdbId($tmdbId)->get();
 
       return [
         'episodes' => $episodes->groupBy('season_number'),
