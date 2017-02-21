@@ -104,13 +104,13 @@
      */
     public function upcoming()
     {
-      return Cache::remember('upcoming', $this->untilEndOfDay(), function() {
+      $cache = Cache::remember('upcoming', $this->untilEndOfDay(), function() {
         $response = $this->requestTmdb($this->base . '/3/movie/upcoming');
 
-        $items = collect($this->createItems($response, 'movie'));
-
-        return $this->filterItems($items);
+        return collect($this->createItems($response, 'movie'));
       });
+
+      return $this->filterItems($cache);
     }
 
     /**
@@ -120,17 +120,17 @@
      */
     public function trending()
     {
-      return Cache::remember('trending', $this->untilEndOfDay(), function() {
+      $cache = Cache::remember('trending', $this->untilEndOfDay(), function() {
         $responseMovies = $this->fetchPopular('movie');
         $responseTv = $this->fetchPopular('tv');
 
         $tv = collect($this->createItems($responseTv, 'tv'));
         $movies = collect($this->createItems($responseMovies, 'movie'));
 
-        $items = $tv->merge($movies)->shuffle();
-
-        return $this->filterItems($items);
+        return $tv->merge($movies)->shuffle();
       });
+
+      return $this->filterItems($cache);
     }
 
     /**
