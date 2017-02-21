@@ -2,19 +2,19 @@
   <transition mode="out-in" name="fade">
     <div class="item-wrap">
       <div class="item-image-wrap">
-        <span v-if="localItem.rating" :class="'item-rating rating-' + localItem.rating" @click="changeRating()">
+        <span v-if="localItem.rating != null" :class="'item-rating rating-' + localItem.rating" @click="changeRating()">
           <i class="icon-rating"></i>
         </span>
-        <span v-if=" ! localItem.rating && localItem.tmdb_id && ! rated" class="item-rating item-new" @click="addNewItem()">
+        <span v-if="localItem.rating == null && localItem.tmdb_id && ! rated" class="item-rating item-new" @click="addNewItem()">
           <i class="icon-add"></i>
         </span>
-        <span v-if=" ! localItem.rating && localItem.tmdb_id && rated" class="item-rating item-new">
+        <span v-if="localItem.rating == null && localItem.tmdb_id && rated" class="item-rating item-new">
           <span class="loader smallsize-loader"><i></i></span>
         </span>
 
         <router-link v-if="localItem.tmdb_id" :to="suggestions" class="recommend-item">{{ lang('suggestions') }}</router-link>
 
-        <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
+        <span class="remove-item" v-if="localItem.rating != null && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
 
         <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
         <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
@@ -103,7 +103,7 @@
       },
 
       displaySeason() {
-        return this.localItem.media_type == 'tv' && this.localItem.rating && this.localItem.tmdb_id;
+        return this.localItem.media_type == 'tv' && this.localItem.rating != null && this.localItem.tmdb_id;
       },
 
       season() {

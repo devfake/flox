@@ -43,7 +43,7 @@
         'media_type' => $data['media_type'],
         'original_title' => $data['original_title'],
         'poster' => $data['poster'] ? $data['poster'] : '',
-        'rating' => 1,
+        'rating' => 0,
         'released' => $data['released'],
         'genre' => $data['genre'],
         'created_at' => time(),
