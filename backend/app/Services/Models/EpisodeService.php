@@ -44,16 +44,20 @@
     }
 
     /**
-     * Get all Episodes of an tv show group by seasons.
-     * We need to also access the spoiler setting here.
+     * Get all episodes of a tv show grouped by seasons,
+     * the data for the next unseen episode, which will be used in the modal as an indicator,
+     * and the setting option to check if spoiler protection is enabled.
      *
      * @param $tmdbId
      * @return array
      */
     public function getAllByTmdbId($tmdbId)
     {
+      $episodes = $this->model->findByTmdbId($tmdbId)->get();
+
       return [
-        'episodes' => $this->model->findByTmdbId($tmdbId)->get()->groupBy('season_number'),
+        'episodes' => $episodes->groupBy('season_number'),
+        'next_episode' => $episodes->where('seen', 0)->first(),
         'spoiler' => Setting::first()->episode_spoiler_protection,
       ];
     }
