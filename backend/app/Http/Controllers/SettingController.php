@@ -9,6 +9,7 @@
   use App\Services\Storage;
   use App\Services\TMDB;
   use App\Setting;
+  use Carbon\Carbon;
   use GuzzleHttp\Client;
   use GuzzleHttp\Exception\ConnectException;
   use Illuminate\Contracts\Routing\ResponseFactory;
@@ -79,6 +80,11 @@
       if(isset($data->items)) {
         $this->item->truncate();
         foreach($data->items as $item) {
+          // Fallback if export was from an older version of flox.
+          if( ! isset($item->last_seen_at)) {
+            $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
+          }
+
           $this->item->create((array) $item);
           $this->storage->downloadPoster($item->poster);
         }
