@@ -105,6 +105,11 @@
         ->latest();
     }
 
+    public function episodesWithSrc()
+    {
+      return $this->hasOne(Episode::class, 'tmdb_id', 'tmdb_id')->whereNotNull('src');
+    }
+
     /*
      * Scopes
      */
