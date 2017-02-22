@@ -66,11 +66,11 @@
       $title = Input::get('q');
 
       if(config('scout.driver')) {
-        return $this->item->search($title)->with('latestEpisode')->get();
+        return $this->item->search($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
       }
 
       // We don't have an smart search driver and return an simple 'like' query.
-      return $this->item->findByTitle($title)->with('latestEpisode')->get();
+      return $this->item->findByTitle($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
     }
 
     /**
