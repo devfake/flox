@@ -6,7 +6,7 @@
       </router-link>
 
       <span class="sort-wrap">
-        <i :title="lang('last seen')" class="icon-sort-time" :class="{active: userFilter == 'created_at'}" @click="setUserFilter('created_at')"></i>
+        <i :title="lang('last seen')" class="icon-sort-time" :class="{active: userFilter == 'last_seen_at'}" @click="setUserFilter('last_seen_at')"></i>
         <i :title="lang('best rated')" class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
         <span :title="lang('change color')" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
       </span>
@@ -59,7 +59,7 @@
 
       checkForUserFilter() {
         if( ! localStorage.getItem('filter')) {
-          localStorage.setItem('filter', 'created_at');
+          localStorage.setItem('filter', 'last_seen_at');
         }
 
         this.SET_USER_FILTER(localStorage.getItem('filter'));
