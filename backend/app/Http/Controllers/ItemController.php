@@ -33,10 +33,11 @@
     /**
      * Return all items with pagination.
      *
-     * @param ItemService $item
+     * @param ItemService $itemService
      * @param             $type
      * @param             $orderBy
      * @return mixed
+     * @internal param ItemService $item
      */
     public function items(ItemService $itemService, $type, $orderBy)
     {
@@ -138,6 +139,8 @@
 
     /**
      * Toggle all episodes of an season as seen / unseen.
+     *
+     * @param EpisodeService $episode
      */
     public function toggleSeason(EpisodeService $episode)
     {

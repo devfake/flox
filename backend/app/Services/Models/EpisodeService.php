@@ -3,6 +3,7 @@
   namespace App\Services\Models;
 
   use App\Episode as Model;
+  use App\Item;
   use App\Services\TMDB;
   use App\Setting;
 
@@ -10,15 +11,22 @@
 
     private $model;
     private $tmdb;
+    private $item;
 
     /**
      * @param Model $model
      * @param TMDB  $tmdb
+     * @param Item  $item
+     *
+     * @internal param ItemService $itemService
+     *
+     * @internal param Item $item
      */
-    public function __construct(Model $model, TMDB $tmdb)
+    public function __construct(Model $model, TMDB $tmdb, Item $item)
     {
       $this->model = $model;
       $this->tmdb = $tmdb;
+      $this->item = $item;
     }
 
     /**
@@ -71,6 +79,11 @@
       $episode = $this->model->find($id);
 
       if($episode) {
+        // Update the parent relation only if we mark the episode as seen.
+        if( ! $episode->seen) {
+          $this->item->updateLastSeenAt($episode->tmdb_id);
+        }
+
         return $episode->update([
           'seen' => ! $episode->seen,
         ]);
@@ -85,6 +98,11 @@
     public function toggleSeason($tmdbId, $season, $seen)
     {
       $episodes = $this->model->findSeason($tmdbId, $season)->get();
+
+      // Update the parent relation only if we mark the episode as seen.
+      if($seen) {
+        $this->item->updateLastSeenAt($episodes[0]->tmdb_id);
+      }
 
       $episodes->each(function($episode) use ($seen) {
         $episode->update([

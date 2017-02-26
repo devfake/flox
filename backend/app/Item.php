@@ -2,8 +2,7 @@
 
   namespace App;
 
-  use App\Services\Storage;
-  use App\Services\TMDB;
+  use Carbon\Carbon;
   use Illuminate\Database\Eloquent\Model;
   use Laravel\Scout\Searchable;
 
@@ -12,7 +11,7 @@
     // Uncomment this if you are using Laravel Scout.
     //use Searchable;
 
-    public $timestamps = false;
+    protected $dates = ['last_seen'];
 
     protected $fillable = [
       'tmdb_id',
@@ -22,11 +21,13 @@
       'media_type',
       'rating',
       'released',
-      'created_at',
       'genre',
       'fp_name',
       'src',
       'subtitles',
+      'last_seen_at',
+      'created_at',
+      'updated_at',
     ];
 
     /**
@@ -46,7 +47,7 @@
         'rating' => 0,
         'released' => $data['released'],
         'genre' => $data['genre'],
-        'created_at' => time(),
+        'last_seen_at' => Carbon::now(),
       ]);
     }
 
@@ -65,9 +66,20 @@
         'poster' => '',
         'rating' => 1,
         'released' => time(),
-        'created_at' => time(),
         'src' => $data['src'],
         'subtitles' => $data['subtitles'],
+        'last_seen_at' => Carbon::now(),
+      ]);
+    }
+
+    /**
+     * @param $tmdbId
+     * @return mixed
+     */
+    public function updateLastSeenAt($tmdbId)
+    {
+      return $this->where('tmdb_id', $tmdbId)->update([
+        'last_seen_at' => Carbon::now(),
       ]);
     }
 

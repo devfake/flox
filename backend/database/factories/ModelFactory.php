@@ -1,5 +1,7 @@
 <?php
 
+  use Carbon\Carbon;
+
   $factory->define(App\User::class, function(Faker\Generator $faker) {
     static $password;
 
@@ -25,7 +27,7 @@
       'rating' => 1,
       'genre' => '',
       'released' => time(),
-      'created_at' => time(),
+      'last_seen_at' => Carbon::now(),
       'src' => null,
     ];
   });
@@ -35,7 +37,6 @@
       'name' => $faker->name,
       'season_tmdb_id' => 1,
       'episode_tmdb_id' => 1,
-      'created_at' => time(),
       'src' => null,
     ];
   });
