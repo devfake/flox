@@ -135,6 +135,7 @@ main {
   color: #888;
   font-size: 14px;
   clear: both;
+  margin: 0 5px 0 0;
 
   .dark & {
     color: #626262;
@@ -143,6 +144,15 @@ main {
   @include media(3) {
     font-size: 13px;
   }
+}
+
+.item-has-src {
+  float: left;
+  margin: 5px 0 0 0;
+  font-style: normal;
+  width: 12px;
+  height: 9px;
+  background: url(../../../public/assets/img/has-src.png);
 }
 
 .item-title {

@@ -27,6 +27,7 @@
 
       <div class="item-content">
         <span v-if="date == 1" class="item-year">{{ released }}</span>
+        <i class="item-has-src" v-if="hasSrc"></i>
         <a :href="youtube" target="_blank" :title="localItem.title" class="item-title">{{ localItem.title }}</a>
         <span v-if="genre == 1" class="item-genre">{{ localItem.genre }}</span>
       </div>
@@ -65,6 +66,10 @@
     },
 
     computed: {
+      hasSrc() {
+        return this.localItem.src || this.localItem.episodes_with_src_count > 0;
+      },
+
       poster() {
         if(this.localItem.rating) {
           return config.poster + this.localItem.poster;

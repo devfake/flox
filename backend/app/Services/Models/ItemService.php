@@ -104,7 +104,7 @@
     {
       $orderType = $orderBy == 'rating' ? 'asc' : 'desc';
 
-      $item = $this->model->orderBy($orderBy, $orderType)->with('latestEpisode');
+      $item = $this->model->orderBy($orderBy, $orderType)->with('latestEpisode')->withCount('episodesWithSrc');
 
       if($type != 'home') {
         $item = $item->where('media_type', $type);

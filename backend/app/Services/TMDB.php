@@ -144,7 +144,7 @@
       $allID = $items->pluck('tmdb_id');
 
       // Get all movies / tv shows from trendig / upcoming which already in database.
-      $inDB = Item::whereIn('tmdb_id', $allID)->get()->toArray();
+      $inDB = Item::whereIn('tmdb_id', $allID)->withCount('episodesWithSrc')->get()->toArray();
 
       // Remove all inDB movies / tv shows from trending / upcoming.
       $filtered = $items->filter(function($item) use ($inDB) {
