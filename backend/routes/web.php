@@ -25,7 +25,6 @@
       Route::patch('/update-genre', 'SettingController@updateGenre');
       Route::patch('/settings', 'SettingController@updateSettings');
       Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
-      Route::patch('/update-episode-releases/{tmdbId}', 'ItemController@updateEpisodeReleases');
 
       Route::get('/version', 'SettingController@getVersion');
       Route::get('/userdata', 'UserController@getUserData');

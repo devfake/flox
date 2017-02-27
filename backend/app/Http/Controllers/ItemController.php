@@ -118,19 +118,6 @@
     }
 
     /**
-     * Update the release dates for all tv episodes or specific tv show.
-     * For old versions of flox or to keep all release dates up to date.
-     *
-     * @param EpisodeService $episodeService
-     * @param null           $tmdbId
-     * @return array
-     */
-    public function updateEpisodeReleases(EpisodeService $episodeService, $tmdbId = null)
-    {
-      return $episodeService->updateReleases($tmdbId);
-    }
-
-    /**
      * Set an episode as seen / unseen.
      *
      * @param EpisodeService $episode

@@ -74,34 +74,6 @@
     }
 
     /**
-     * Refresh episode release dates for specific tv show.
-     *
-     * @param $tmdbId
-     * @return array
-     */
-    public function updateReleases($tmdbId)
-    {
-      increaseTimeLimit();
-
-      $seasons = $this->tmdb->tvEpisodes($tmdbId);
-
-      foreach($seasons as $season) {
-        $releaseSeason = Carbon::createFromFormat('Y-m-d', $season->air_date ?? '1970-12-1');
-
-        foreach($season->episodes as $episode) {
-          $releaseEpisode = Carbon::createFromFormat('Y-m-d', $episode->air_date ?? '1970-12-1');
-
-          $this->model->findSpecificEpisode($tmdbId, $episode)->update([
-            'release_episode' => $releaseEpisode->getTimestamp(),
-            'release_season' => $releaseSeason->getTimestamp(),
-          ]);
-        }
-      }
-
-      return json_encode($this->getAllByTmdbId($tmdbId));
-    }
-
-    /**
      * @param $id
      * @return mixed
      */

@@ -6,9 +6,6 @@
       <span class="close-modal" @click="CLOSE_MODAL()">
         <i class="icon-close"></i>
       </span>
-      <div class="modal-options no-select">
-        <span @click="refreshReleaseDates()">{{ lang('refresh release dates') }}</span>
-      </div>
     </div>
 
     <div class="modal-content modal-content-loading" v-if="loadingModalData">
@@ -80,17 +77,6 @@
         const released = new Date(date * 1000);
 
         return this.formatLocaleDate(released);
-      },
-
-      refreshReleaseDates() {
-        this.SET_LOADING_MODAL_DATA(true);
-        const tmdb_id = this.modalData.episodes[1][0].tmdb_id;
-        const title = this.modalData.title;
-
-        http.patch(`${config.api}/update-episode-releases/${tmdb_id}`).then(response => {
-          this.SET_MODAL_DATA({...response.data, title});
-          this.SET_LOADING_MODAL_DATA(false);
-        });
       },
 
       toggleAll() {
