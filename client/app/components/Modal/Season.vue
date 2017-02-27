@@ -6,6 +6,9 @@
       <span class="close-modal" @click="CLOSE_MODAL()">
         <i class="icon-close"></i>
       </span>
+      <div class="modal-options no-select">
+        <span @click="refreshReleaseDates()">{{ lang('refresh release dates') }}</span>
+      </div>
     </div>
 
     <div class="modal-content modal-content-loading" v-if="loadingModalData">
@@ -31,6 +34,7 @@
       >
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
         <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen && auth}">{{ episode.name }}</span>
+        <span class="modal-release-episode" v-if="episode.release_episode_human_format" :title="released(episode.release_episode)"><i></i> {{ episode.release_episode_human_format }}</span>
         <span class="episode-seen" :class="{seen: episode.seen}"><i></i></span>
       </div>
     </div>
@@ -70,7 +74,24 @@
     },
 
     methods: {
-      ...mapMutations([ 'SET_SEASON_ACTIVE_MODAL', 'CLOSE_MODAL' ]),
+      ...mapMutations([ 'SET_SEASON_ACTIVE_MODAL', 'CLOSE_MODAL', 'SET_LOADING_MODAL_DATA', 'SET_MODAL_DATA' ]),
+
+      released(date) {
+        const released = new Date(date * 1000);
+
+        return this.formatLocaleDate(released);
+      },
+
+      refreshReleaseDates() {
+        this.SET_LOADING_MODAL_DATA(true);
+        const tmdb_id = this.modalData.episodes[1][0].tmdb_id;
+        const title = this.modalData.title;
+
+        http.patch(`${config.api}/update-episode-releases/${tmdb_id}`).then(response => {
+          this.SET_MODAL_DATA({...response.data, title});
+          this.SET_LOADING_MODAL_DATA(false);
+        });
+      },
 
       toggleAll() {
         const season = this.seasonActiveModal;

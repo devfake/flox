@@ -33,6 +33,32 @@
   padding: 10px 15px;
 }
 
+.modal-options {
+  float: left;
+  clear: both;
+  font-size: 14px;
+  margin: 10px 0 0 0;
+
+  span {
+    border: 1px solid rgba(#fff, .3);
+    padding: 2px 5px;
+    border-radius: 3px;
+    float: left;
+    cursor: pointer;
+    color: rgba(#fff, .8);
+
+    @include transition(background);
+
+    &:hover {
+      background: rgba(#fff, .2);
+    }
+
+    &:active {
+      background: rgba(#fff, .1);
+    }
+  }
+}
+
 .close-modal {
   float: right;
   padding: 7px;
@@ -181,6 +207,22 @@
     color: transparent;
 
     @extend .no-select;
+  }
+}
+
+.modal-release-episode {
+  float: left;
+  color: rgba(#fff, .4);
+  font-size: 13px;
+  margin: 2px 0 0 10px;
+
+  i {
+    float: left;
+    width: 13px;
+    height: 13px;
+    margin: 3px 6px 0 0;
+    opacity: .8;
+    background: url(../../../public/assets/img/clock.png) no-repeat;
   }
 }
 
