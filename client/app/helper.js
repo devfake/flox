@@ -33,6 +33,16 @@ export default {
       const language = JSON.parse(config.language);
 
       return language[text];
+    },
+
+    formatLocaleDate(date) {
+      const language = navigator.language || navigator.userLanguage;
+
+      return date.toLocaleDateString(language, {
+        year: '2-digit',
+        month: '2-digit',
+        day: '2-digit'
+      });
     }
   }
 }

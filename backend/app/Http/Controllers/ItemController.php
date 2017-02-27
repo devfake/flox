@@ -123,10 +123,11 @@
      *
      * @param EpisodeService $episodeService
      * @param null           $tmdbId
+     * @return array
      */
     public function updateEpisodeReleases(EpisodeService $episodeService, $tmdbId = null)
     {
-      $episodeService->updateReleases($tmdbId);
+      return $episodeService->updateReleases($tmdbId);
     }
 
     /**
