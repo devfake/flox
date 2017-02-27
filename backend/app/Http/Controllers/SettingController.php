@@ -141,14 +141,6 @@
     }
 
     /**
-     * Sync Flox with laravel scout driver in settings.
-     */
-    public function syncScout()
-    {
-      Artisan::call('flox:sync');
-    }
-
-    /**
      * Return user settings for frontend.
      *
      * @return array

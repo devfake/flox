@@ -13,7 +13,6 @@
       <button @click="fetchFiles()" class="export-btn">Update files</button>
       <button @click="callPatch('update-genre')" class="export-btn">{{ lang('update genre') }}</button>
       <button @click="callPatch('update-alternative-titles')" class="export-btn">Update alternative titles</button>
-      <button @click="callPatch('sync-scout')" class="export-btn">{{ lang('sync scout') }}</button>
     </div>
   </div>
 

@@ -57,7 +57,7 @@
     }
 
     /**
-     * Search for items by 'title' in database or with Laravel Scout.
+     * Search for items by 'title' in database.
      *
      * @return mixed
      */

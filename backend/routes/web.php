@@ -21,7 +21,6 @@
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::post('/fetch-files', 'SettingController@fetchFiles');
 
-      Route::patch('/sync-scout', 'SettingController@syncScout');
       Route::patch('/update-genre', 'SettingController@updateGenre');
       Route::patch('/settings', 'SettingController@updateSettings');
       Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
