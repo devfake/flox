@@ -63,9 +63,9 @@
       $mediaType = $mediaType == 'movies' ? 'movie' : 'tv';
 
       $data = [
-        'name' => isset($data->changed->name) ? $data->changed->name : $data->name,
-        'src' => isset($data->changed->src) ? $data->changed->src : $data->src,
-        'subtitles' => isset($data->changed->subtitles) ? $data->changed->subtitles : $data->subtitles,
+        'name' => getFileName($data),
+        'src' => $data->changed->src ?? $data->src,
+        'subtitles' => $data->changed->subtitles ?? $data->subtitles,
       ];
 
       return $this->model->storeEmpty($data, $mediaType);
@@ -104,13 +104,13 @@
     {
       $orderType = $orderBy == 'rating' ? 'asc' : 'desc';
 
-      $item = $this->model->orderBy($orderBy, $orderType)->with('latestEpisode')->withCount('episodesWithSrc');
+      $items = $this->model->orderBy($orderBy, $orderType)->with('latestEpisode')->withCount('episodesWithSrc');
 
-      if($type != 'home') {
-        $item = $item->where('media_type', $type);
+      if($type == 'tv' || $type == 'movie') {
+        $items = $items->where('media_type', $type);
       }
 
-      return $item->simplePaginate(config('app.LOADING_ITEMS'));
+      return $items->simplePaginate(config('app.LOADING_ITEMS'));
     }
 
     /**

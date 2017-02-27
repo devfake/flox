@@ -60,7 +60,7 @@
         'title' => $data['name'],
         'media_type' => $mediaType,
         'poster' => '',
-        'rating' => 1,
+        'rating' => 0,
         'released' => time(),
         'src' => $data['src'],
         'subtitles' => $data['subtitles'],
@@ -117,11 +117,9 @@
 
     public function scopeFindByFPName($query, $item, $mediaType)
     {
-      $changed = isset($item->changed->name) ? $item->changed->name : $item->name;
-
       return $query->where('media_type', $mediaType)
-        ->where(function($query) use ($item, $changed) {
-          return $query->where('fp_name', $item->name)->orWhere('fp_name', $changed);
+        ->where(function($query) use ($item) {
+          return $query->where('fp_name', $item->name)->orWhere('fp_name', getFileName($item));
         });
     }
 

@@ -178,7 +178,7 @@
 
       // We are searching for the changed name (if available) in the next iteration.
       if($this->itemCategory == 'tv') {
-        $created->update(['fp_name' => $this->getFileName($file)]);
+        $created->update(['fp_name' => getFileName($file)]);
       }
 
       // Update FP specific values.
@@ -194,7 +194,7 @@
      */
     private function searchTmdb($item)
     {
-      $found = $this->tmdb->search($this->getFileName($item), $this->itemCategory);
+      $found = $this->tmdb->search(getFileName($item), $this->itemCategory);
 
       if( ! $found) {
         return false;
@@ -354,15 +354,6 @@
       }
 
       return $this->itemService->findBy('src', $item->src);
-    }
-
-    /**
-     * @param $file
-     * @return string
-     */
-    private function getFileName($file)
-    {
-      return isset($file->changed->name) ? $file->changed->name : $file->name;
     }
 
     /**
