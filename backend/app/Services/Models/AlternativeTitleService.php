@@ -49,7 +49,7 @@
      */
     public function update($tmdbId = null)
     {
-      set_time_limit(3000);
+      increaseTimeLimit();
 
       $items = $tmdbId ? $this->item->findByTmdbId($tmdbId)->get() : $this->item->all();
 

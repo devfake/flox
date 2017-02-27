@@ -65,10 +65,6 @@
     {
       $title = Input::get('q');
 
-      if(config('scout.driver')) {
-        return $this->item->search($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
-      }
-
       // We don't have an smart search driver and return an simple 'like' query.
       return $this->item->findByTitle($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
     }
@@ -114,11 +110,23 @@
      * For old versions of flox or to keep all alternative titles up to date.
      *
      * @param AlternativeTitleService $alternativeTitle
-     * @param null                    $tmdbID
+     * @param null                    $tmdbId
      */
-    public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle, $tmdbID = null)
+    public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle, $tmdbId = null)
     {
-      $alternativeTitle->update($tmdbID);
+      $alternativeTitle->update($tmdbId);
+    }
+
+    /**
+     * Update the release dates for all tv episodes or specific tv show.
+     * For old versions of flox or to keep all release dates up to date.
+     *
+     * @param EpisodeService $episodeService
+     * @param null           $tmdbId
+     */
+    public function updateEpisodeReleases(EpisodeService $episodeService, $tmdbId = null)
+    {
+      $episodeService->updateReleases($tmdbId);
     }
 
     /**
@@ -142,12 +150,12 @@
      *
      * @param EpisodeService $episode
      */
-    public function toggleSeason(EpisodeService $episode)
+    public function toggleSeason(EpisodeService $episodeService)
     {
       $tmdbId = Input::get('tmdb_id');
       $season = Input::get('season');
       $seen = Input::get('seen');
 
-      $episode->toggleSeason($tmdbId, $season, $seen);
+      $episodeService->toggleSeason($tmdbId, $season, $seen);
     }
   }
