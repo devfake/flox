@@ -17,8 +17,7 @@ class AddReleaseDatesToEpisodes extends Migration
     public function down()
     {
         Schema::table('episodes', function (Blueprint $table) {
-            $table->dropColumn('release_episode');
-            $table->dropColumn('release_season');
+            //
         });
     }
 }
