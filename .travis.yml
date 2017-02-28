@@ -17,6 +17,7 @@ env:
   NODE_ENV: test
   TV_ROOT: /home/travis/build/devfake/flox/flox-file-parser/app/fixtures/tv
   MOVIES_ROOT: /home/travis/build/devfake/flox/flox-file-parser/app/fixtures/movies
+  FLOX_HOST: 127.0.0.1
 
 cache:
   directories:
