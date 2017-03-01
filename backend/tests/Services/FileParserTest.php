@@ -9,7 +9,6 @@
   use GuzzleHttp\HandlerStack;
   use GuzzleHttp\Psr7\Response;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
-
   use App\Services\FileParser;
 
   class FileParserTest extends TestCase {
@@ -29,21 +28,6 @@
       $this->item = app(Item::class);
       $this->episode = app(Episode::class);
       $this->parser = app(FileParser::class);
-    }
-
-    /**
-     * @test
-     * @group file-parser
-     */
-    public function it_should_call_file_parser_successfully()
-    {
-      $files = (array) $this->parser->fetch();
-
-      $this->assertArrayHasKey('tv', $files);
-      $this->assertArrayHasKey('movies', $files);
-
-      $this->assertCount(8, $files['tv']);
-      $this->assertCount(2, $files['movies']);
     }
 
     /** @test */

@@ -200,19 +200,19 @@
      * Call flox-file-parser.
      *
      * @param FileParser $parser
-     * @return JsonResponse|Response
+     * @return Response
      */
     public function fetchFiles(FileParser $parser)
     {
       increaseTimeLimit();
 
       try {
-        $files = $parser->fetch();
+        $parser->fetch();
       } catch(ConnectException $e) {
         return response("Can't connect to file-parser. Make sure the server is running.", Response::HTTP_NOT_FOUND);
+      } catch(\Exception $e) {
+        return response("Error in file-parser:" . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
       }
-
-      return $parser->updateDatabase($files);
     }
 
     /**
