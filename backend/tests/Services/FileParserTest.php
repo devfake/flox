@@ -9,7 +9,6 @@
   use GuzzleHttp\HandlerStack;
   use GuzzleHttp\Psr7\Response;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
-
   use App\Services\FileParser;
 
   class FileParserTest extends TestCase {
@@ -31,19 +30,16 @@
       $this->parser = app(FileParser::class);
     }
 
-    /**
-     * @test
-     * @group file-parser
-     */
+    /** @test */
     public function it_should_call_file_parser_successfully()
     {
-      $files = (array) $this->parser->fetch();
+      $mock = new MockHandler([new Response(200)]);
+      $this->createGuzzleMock($mock);
 
-      $this->assertArrayHasKey('tv', $files);
-      $this->assertArrayHasKey('movies', $files);
+      $user = factory(App\User::class)->create();
+      $this->actingAs($user)->post('api/fetch-files');
 
-      $this->assertCount(8, $files['tv']);
-      $this->assertCount(2, $files['movies']);
+      $this->assertResponseOk();
     }
 
     /** @test */
@@ -461,6 +457,12 @@
         'PHP_AUTH_USER' => 'jon',
         'PHP_AUTH_PW' => 'snow',
       ];
+    }
+
+    private function createGuzzleMock($mock)
+    {
+      $handler = HandlerStack::create($mock);
+      $this->app->instance(Client::class, new Client(['handler' => $handler]));
     }
 
     private function createTmdbMock($fixture, $fixture2)

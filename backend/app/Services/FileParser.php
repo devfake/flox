@@ -10,6 +10,7 @@
   use Carbon\Carbon;
   use GuzzleHttp\Client;
   use Illuminate\Support\Facades\DB;
+  use Illuminate\Support\Facades\Log;
   use Symfony\Component\HttpFoundation\Response;
 
   class FileParser {
@@ -45,7 +46,7 @@
     /**
      * Make a request to flox-file-parser and get local files data.
      *
-     * @return array
+     * @return int
      */
     public function fetch()
     {
@@ -55,7 +56,7 @@
 
       $response = $this->client->get($fpUrl . $fpUri);
 
-      return json_decode($response->getBody());
+      return $response->getStatusCode();
     }
 
     /**
