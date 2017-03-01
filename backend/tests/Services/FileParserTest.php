@@ -31,18 +31,6 @@
     }
 
     /** @test */
-    public function it_should_call_file_parser_successfully()
-    {
-      $mock = new MockHandler([new Response(200)]);
-      $this->createGuzzleMock($mock);
-
-      $user = factory(App\User::class)->create();
-      $this->actingAs($user)->post('api/fetch-files');
-
-      $this->assertResponseOk();
-    }
-
-    /** @test */
     public function it_should_make_a_rollback_if_status_for_movie_is_unknown()
     {
       $items = $this->item->get();
@@ -457,12 +445,6 @@
         'PHP_AUTH_USER' => 'jon',
         'PHP_AUTH_PW' => 'snow',
       ];
-    }
-
-    private function createGuzzleMock($mock)
-    {
-      $handler = HandlerStack::create($mock);
-      $this->app->instance(Client::class, new Client(['handler' => $handler]));
     }
 
     private function createTmdbMock($fixture, $fixture2)
