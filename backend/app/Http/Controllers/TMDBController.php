@@ -19,9 +19,9 @@
       return $this->tmdb->search(Input::get('q'));
     }
 
-    public function suggestions($tmdbID, $mediaType)
+    public function suggestions($tmdbId, $mediaType)
     {
-      return $this->tmdb->suggestions($mediaType, $tmdbID);
+      return $this->tmdb->suggestions($mediaType, $tmdbId);
     }
 
     public function trending()

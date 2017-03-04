@@ -11,9 +11,8 @@
 
     <div class="misc-btn-wrap">
       <button @click="fetchFiles()" class="export-btn">Update files</button>
-      <button @click="updateGenre()" class="export-btn">{{ lang('update genre') }}</button>
-      <button @click="updateAlternativeTitles()" class="export-btn">Update alternative titles</button>
-      <button @click="syncScout()" class="export-btn">{{ lang('sync scout') }}</button>
+      <button @click="callPatch('update-genre')" class="export-btn">{{ lang('update genre') }}</button>
+      <button @click="callPatch('update-alternative-titles')" class="export-btn">Update alternative titles</button>
     </div>
   </div>
 
@@ -83,30 +82,16 @@
         });
       },
 
-      updateGenre() {
+      callPatch(uri) {
         this.SET_LOADING(true);
 
-        http.patch(`${config.api}/update-genre`).then(() => {
+        http.patch(`${config.api}/${uri}`).then(() => {
           this.SET_LOADING(false);
-        });
-      },
-
-      updateAlternativeTitles() {
-        this.SET_LOADING(true);
-
-        http.patch(`${config.api}/update-alternative-titles`).then(() => {
+        }).catch(error => {
           this.SET_LOADING(false);
-        });
-      },
-
-      syncScout() {
-        this.SET_LOADING(true);
-
-        http(`${config.api}/sync-scout`).then(() => {
-          this.SET_LOADING(false);
+          alert(error.response.data);
         });
       }
     }
-
   }
 </script>

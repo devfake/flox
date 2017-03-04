@@ -2,9 +2,12 @@
 
   namespace App;
 
+  use Carbon\Carbon;
   use Illuminate\Database\Eloquent\Model;
 
   class Episode extends Model {
+
+    protected $appends = ['release_episode_human_format'];
 
     protected $fillable = [
       'tmdb_id',
@@ -18,6 +21,8 @@
       'subtitles',
       'created_at',
       'updated_at',
+      'release_episode',
+      'release_season',
     ];
 
     /**
@@ -29,17 +34,39 @@
     public function store($seasons, $tmdbId)
     {
       foreach($seasons as $season) {
+        $releaseSeason = Carbon::createFromFormat('Y-m-d', $season->air_date ?? '1970-12-1');
+
         foreach($season->episodes as $episode) {
+          $releaseEpisode = Carbon::createFromFormat('Y-m-d', $episode->air_date ?? '1970-12-1');
+
           $this->create([
             'season_tmdb_id' => $season->id,
             'episode_tmdb_id' => $episode->id,
             'season_number' => $episode->season_number,
             'episode_number' => $episode->episode_number,
+            'release_episode' => $releaseEpisode->getTimestamp(),
+            'release_season' => $releaseSeason->getTimestamp(),
             'name' => $episode->name,
             'tmdb_id' => $tmdbId,
           ]);
         }
       }
+    }
+
+    /**
+     * Accessors
+     */
+
+    public function getReleaseEpisodeHumanFormatAttribute()
+    {
+      $now = Carbon::now();
+      $release = Carbon::createFromTimestamp($this->release_episode);
+
+      if($release > $now) {
+        return $release->diffForHumans();
+      }
+
+      return null;
     }
 
     /*
@@ -67,15 +94,13 @@
 
     public function scopeFindByFPName($query, $item)
     {
-      $changed = isset($item->changed->name) ? $item->changed->name : $item->name;
-
-      return $query->where('fp_name', $item->name)->orWhere('fp_name', $changed);
+      return $query->where('fp_name', $item->name)->orWhere('fp_name', getFileName($item));
     }
 
     public function scopeFindSpecificEpisode($query, $tmdbId, $episode)
     {
-      $season = isset($episode->changed->season_number) ? $episode->changed->season_number : $episode->season_number;
-      $episode = isset($episode->changed->episode_number) ? $episode->changed->episode_number : $episode->episode_number;
+      $season = $episode->changed->season_number ?? $episode->season_number;
+      $episode = $episode->changed->episode_number ?? $episode->episode_number;
 
       return $query->where('tmdb_id', $tmdbId)
         ->where('season_number', $season)

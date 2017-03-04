@@ -31,6 +31,7 @@
       >
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
         <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen && auth}">{{ episode.name }}</span>
+        <span class="modal-release-episode" v-if="episode.release_episode_human_format" :title="released(episode.release_episode)"><i></i> {{ episode.release_episode_human_format }}</span>
         <span class="episode-seen" :class="{seen: episode.seen}"><i></i></span>
       </div>
     </div>
@@ -70,7 +71,13 @@
     },
 
     methods: {
-      ...mapMutations([ 'SET_SEASON_ACTIVE_MODAL', 'CLOSE_MODAL' ]),
+      ...mapMutations([ 'SET_SEASON_ACTIVE_MODAL', 'CLOSE_MODAL', 'SET_LOADING_MODAL_DATA', 'SET_MODAL_DATA' ]),
+
+      released(date) {
+        const released = new Date(date * 1000);
+
+        return this.formatLocaleDate(released);
+      },
 
       toggleAll() {
         const season = this.seasonActiveModal;

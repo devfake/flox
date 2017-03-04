@@ -21,10 +21,9 @@
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::post('/fetch-files', 'SettingController@fetchFiles');
 
-      Route::get('/sync-scout', 'SettingController@syncScout');
       Route::patch('/update-genre', 'SettingController@updateGenre');
       Route::patch('/settings', 'SettingController@updateSettings');
-      Route::patch('/update-alternative-titles/{tmdbID?}', 'ItemController@updateAlternativeTitles');
+      Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
 
       Route::get('/version', 'SettingController@getVersion');
       Route::get('/userdata', 'UserController@getUserData');
@@ -35,8 +34,8 @@
 
       Route::get('/search-tmdb', 'TMDBController@search');
       Route::post('/add', 'ItemController@add');
-      Route::patch('/change-rating/{itemID}', 'ItemController@changeRating');
-      Route::delete('/remove/{itemID}', 'ItemController@remove');
+      Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');
+      Route::delete('/remove/{itemId}', 'ItemController@remove');
     });
   });
 

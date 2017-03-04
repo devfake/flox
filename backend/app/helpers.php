@@ -6,3 +6,8 @@
   {
     set_time_limit(FIVE_MINUTES);
   }
+
+  function getFileName($file)
+  {
+    return $file->changed->name ?? $file->name;
+  }

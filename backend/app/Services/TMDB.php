@@ -4,7 +4,6 @@
 
   use App\Item;
   use Carbon\Carbon;
-  use DateTime;
   use GuzzleHttp\Client;
   use Illuminate\Support\Collection;
   use Illuminate\Support\Facades\Cache;
@@ -65,13 +64,13 @@
      * Search TMDb for recommendations and similar movies.
      *
      * @param $mediaType
-     * @param $tmdbID
+     * @param $tmdbId
      * @return \Illuminate\Support\Collection
      */
-    public function suggestions($mediaType, $tmdbID)
+    public function suggestions($mediaType, $tmdbId)
     {
-      $recommendations = $this->searchSuggestions($mediaType, $tmdbID, 'recommendations');
-      $similar = $this->searchSuggestions($mediaType, $tmdbID, 'similar');
+      $recommendations = $this->searchSuggestions($mediaType, $tmdbId, 'recommendations');
+      $similar = $this->searchSuggestions($mediaType, $tmdbId, 'similar');
 
       $items = $recommendations->merge($similar);
 
@@ -85,14 +84,14 @@
 
     /**
      * @param $mediaType
-     * @param $tmdbID
+     * @param $tmdbId
      * @param $type
      *
      * @return Collection
      */
-    private function searchSuggestions($mediaType, $tmdbID, $type)
+    private function searchSuggestions($mediaType, $tmdbId, $type)
     {
-      $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbID . '/' . $type);
+      $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId . '/' . $type);
 
       return collect($this->createItems($response, $mediaType));
     }
@@ -141,10 +140,10 @@
      */
     private function filterItems($items)
     {
-      $allID = $items->pluck('tmdb_id');
+      $allId = $items->pluck('tmdb_id');
 
       // Get all movies / tv shows from trendig / upcoming which already in database.
-      $inDB = Item::whereIn('tmdb_id', $allID)->withCount('episodesWithSrc')->get()->toArray();
+      $inDB = Item::whereIn('tmdb_id', $allId)->withCount('episodesWithSrc')->get()->toArray();
 
       // Remove all inDB movies / tv shows from trending / upcoming.
       $filtered = $items->filter(function($item) use ($inDB) {
@@ -166,7 +165,6 @@
      * @param      $response
      * @param      $mediaType
      * @return array
-     *
      */
     private function createItems($response, $mediaType)
     {
@@ -174,19 +172,16 @@
       $response = json_decode($response->getBody());
 
       foreach($response->results as $result) {
-        $dtime = DateTime::createFromFormat('Y-m-d', (array_key_exists('release_date', $result)
-          ? ($result->release_date ?: '1970-12-1')
-          : ($result->first_air_date ?: '1970-12-1')
-        ));
+        $release = Carbon::createFromFormat('Y-m-d', isset($result->release_date) ? ($result->release_date ?: '1970-12-1') : ($result->first_air_date ?: '1970-12-1'));
 
         // 'name' is from tv, 'title' from movies
         $items[] = [
           'tmdb_id' => $result->id,
-          'title' => array_key_exists('name', $result) ? $result->name : $result->title,
-          'original_title' => array_key_exists('name', $result) ? $result->original_name : $result->original_title,
+          'title' => $result->name ?? $result->title,
+          'original_title' => $result->original_name ?? $result->original_title,
           'poster' => $result->poster_path,
           'media_type' => $mediaType,
-          'released' => $dtime->getTimestamp(),
+          'released' => $release->getTimestamp(),
           'genre' => $this->parseGenre($result->genre_ids),
           'episodes' => [],
         ];
@@ -263,16 +258,16 @@
     /**
      * Get all episodes of each season.
      *
-     * @param $id
+     * @param $tmdbId
      * @return array
      */
-    public function tvEpisodes($id)
+    public function tvEpisodes($tmdbId)
     {
-      $seasons = $this->tvSeasonsCount($id, 'tv');
+      $seasons = $this->tvSeasonsCount($tmdbId, 'tv');
       $data = [];
 
       for($i = 1; $i <= $seasons; $i++) {
-        $response = $this->requestTmdb($this->base . '/3/tv/' . $id . '/season/' . $i);
+        $response = $this->requestTmdb($this->base . '/3/tv/' . $tmdbId . '/season/' . $i);
 
         $data[$i] = json_decode($response->getBody());
       }
@@ -293,7 +288,7 @@
       $body = json_decode($response->getBody());
 
       if(property_exists($body, 'titles') || property_exists($body, 'results')) {
-        return isset($body->titles) ? $body->titles : $body->results;
+        return $body->titles ?? $body->results;
       }
 
       return [];
@@ -315,7 +310,7 @@
       $genre = [];
 
       foreach($ids as $id) {
-        $genre[] = isset($this->genreList()[$id]) ? $this->genreList()[$id] : '';
+        $genre[] = $this->genreList()[$id] ?? '';
       }
 
       return implode($genre, ', ');

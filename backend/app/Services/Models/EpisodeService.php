@@ -6,6 +6,7 @@
   use App\Item;
   use App\Services\TMDB;
   use App\Setting;
+  use Carbon\Carbon;
 
   class EpisodeService {
 
@@ -61,6 +62,8 @@
      */
     public function getAllByTmdbId($tmdbId)
     {
+      Carbon::setLocale(config('app.TRANSLATION'));
+
       $episodes = $this->model->findByTmdbId($tmdbId)->get();
 
       return [

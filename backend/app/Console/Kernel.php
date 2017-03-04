@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
     protected $commands = [
       Commands\Init::class,
       Commands\DB::class,
-      Commands\Sync::class,
       ImportCommand::class,
       FlushCommand::class,
     ];

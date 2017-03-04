@@ -6,8 +6,6 @@
         <router-link to="/"><i @click="scrollToTop()" class="icon-logo-small"></i></router-link>
         <i class="icon-search"></i>
         <input type="text" :placeholder="placeholder" v-model="title" class="search-input" autofocus>
-
-        <i class="icon-algolia" v-if="algolia"></i>
       </form>
     </div>
 
@@ -36,10 +34,6 @@
     },
 
     computed: {
-      algolia() {
-        return config.scoutDriver == 'algolia' && this.$route.query.q;
-      },
-
       suggestionsFor() {
         return this.$route.query.name;
       },

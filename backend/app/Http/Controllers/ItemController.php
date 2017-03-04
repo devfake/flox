@@ -57,17 +57,13 @@
     }
 
     /**
-     * Search for items by 'title' in database or with Laravel Scout.
+     * Search for items by 'title' in database.
      *
      * @return mixed
      */
     public function search()
     {
       $title = Input::get('q');
-
-      if(config('scout.driver')) {
-        return $this->item->search($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
-      }
 
       // We don't have an smart search driver and return an simple 'like' query.
       return $this->item->findByTitle($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
@@ -114,11 +110,11 @@
      * For old versions of flox or to keep all alternative titles up to date.
      *
      * @param AlternativeTitleService $alternativeTitle
-     * @param null                    $tmdbID
+     * @param null                    $tmdbId
      */
-    public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle, $tmdbID = null)
+    public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle, $tmdbId = null)
     {
-      $alternativeTitle->update($tmdbID);
+      $alternativeTitle->update($tmdbId);
     }
 
     /**
@@ -142,12 +138,12 @@
      *
      * @param EpisodeService $episode
      */
-    public function toggleSeason(EpisodeService $episode)
+    public function toggleSeason(EpisodeService $episodeService)
     {
       $tmdbId = Input::get('tmdb_id');
       $season = Input::get('season');
       $seen = Input::get('seen');
 
-      $episode->toggleSeason($tmdbId, $season, $seen);
+      $episodeService->toggleSeason($tmdbId, $season, $seen);
     }
   }
