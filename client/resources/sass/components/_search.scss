@@ -7,9 +7,6 @@
   z-index: 200;
   opacity: 0;
 
-  //@include transition(opacity);
-  transition: opacity .7s ease .1s;
-
   .dark & {
     background: #2f2f2f;
   }
@@ -35,6 +32,7 @@
   }
 
   &.active {
+    transition: opacity .7s ease .1s;
     opacity: .97;
   }
 }

@@ -31,13 +31,12 @@
       </div>
     </section>
 
-    <div class="subpage-content" v-show=" ! loading">
+    <div class="subpage-content" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
       <div class="wrap">
         <div class="subpage-sidebar">
           <div class="subpage-poster-wrap">
             <rating :item="item" :set-item="setItem"></rating>
             <img class="real" :src="posterImage" width="272" height="408">
-            <img class="base" width="272" height="408">
           </div>
 
           <div class="subpage-sidebar-buttons">

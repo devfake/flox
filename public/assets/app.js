@@ -6432,7 +6432,10 @@ webpackJsonp([0],[
 	      value: (!_vm.loading),
 	      expression: " ! loading"
 	    }],
-	    staticClass: "subpage-content"
+	    staticClass: "subpage-content",
+	    class: {
+	      active: _vm.itemLoadedSubpage
+	    }
 	  }, [_c('div', {
 	    staticClass: "wrap"
 	  }, [_c('div', {
@@ -6448,12 +6451,6 @@ webpackJsonp([0],[
 	    staticClass: "real",
 	    attrs: {
 	      "src": _vm.posterImage,
-	      "width": "272",
-	      "height": "408"
-	    }
-	  }), _vm._v(" "), _c('img', {
-	    staticClass: "base",
-	    attrs: {
 	      "width": "272",
 	      "height": "408"
 	    }

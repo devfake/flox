@@ -53,6 +53,7 @@
      */
     public function import()
     {
+      // todo: run data update after import
       increaseTimeLimit();
 
       $file = Input::file('import');
@@ -74,6 +75,7 @@
           }
 
           $this->item->create((array) $item);
+          // todo: download backdrop and subpage poster
           $this->storage->downloadPoster($item->poster);
         }
       }

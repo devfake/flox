@@ -140,6 +140,7 @@
       $this->storage->removePosterFile($item->poster);
     }
 
+    // todo: parse english fallback trailer
     public function parseVideoTrailer($videos)
     {
       if(isset($videos->results[0])) {

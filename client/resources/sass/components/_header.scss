@@ -7,9 +7,6 @@ header {
   z-index: 20;
   opacity: 0;
 
-  //@include transition(opacity);
-  transition: opacity .7s ease .1s;
-
   @include media(5) {
     padding: 15px 0;
   }
@@ -23,6 +20,7 @@ header {
   }
 
   &.active {
+    transition: opacity .7s ease .1s;
     opacity: 1;
   }
 }

@@ -2,6 +2,7 @@
   position: absolute;
   //top: -30px;
   top: -20px;
+  opacity: 0;
   left: 0;
   background: $main2;
   background: linear-gradient(to right, $main1, $main2);
@@ -14,10 +15,11 @@
   box-shadow: 0 0 70px 0 rgba(0,0,0,.5);
 
   // todo: maybe remove...
-  transition: top .7s ease .1s;
+  transition: top .7s ease .1s, opacity .7s ease 0s;
 
   &.active {
     top: 0;
+    opacity: 1;
   }
 }
 
@@ -146,13 +148,13 @@
   top: 0;
   left: 0;
   z-index: -1;
-  opacity: 0;
+  opacity: .2;
 
-  transition: opacity 1s ease 0s;
+  //transition: opacity 1s ease 0s;
 
   .active & {
     //opacity: .15;
-    opacity: .20;
+    //opacity: .20;
   }
 }
 
@@ -190,6 +192,15 @@
 .subpage-poster-wrap {
   float: left;
   position: relative;
+  top: -20px;
+  opacity: 0;
+
+  transition: top .7s ease .1s, opacity .7s ease 0s;
+
+  .active & {
+    top: 0;
+    opacity: 1;
+  }
 
   .base {
     box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.3);
@@ -202,15 +213,9 @@
 
   .real {
     float: left;
+    border: 0;
     position: relative;
     z-index: 100;
-    //opacity: 0;
-    transition: opacity .5s ease 0s;
-
-    // todo: maybe?
-    .active & {
-      //opacity: 1;
-    }
   }
 }
 

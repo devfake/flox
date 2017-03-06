@@ -1030,9 +1030,7 @@ header {
   padding: 25px 0;
   position: relative;
   z-index: 20;
-  opacity: 0;
-  -webkit-transition: opacity .7s ease .1s;
-  transition: opacity .7s ease .1s; }
+  opacity: 0; }
   @media (max-width: 620px) {
     header {
       padding: 15px 0; } }
@@ -1041,6 +1039,8 @@ header {
   .subpage-open header {
     background: none; }
   header.active {
+    -webkit-transition: opacity .7s ease .1s;
+    transition: opacity .7s ease .1s;
     opacity: 1; }
 
 .logo {
@@ -1158,9 +1158,7 @@ header {
   box-shadow: 0 0 70px 0 rgba(0, 0, 0, 0.3);
   background: #fff;
   z-index: 200;
-  opacity: 0;
-  -webkit-transition: opacity .7s ease .1s;
-  transition: opacity .7s ease .1s; }
+  opacity: 0; }
   .dark .search-wrap {
     background: #2f2f2f; }
   .open-modal .search-wrap {
@@ -1177,6 +1175,8 @@ header {
     top: auto;
     left: auto; }
   .search-wrap.active {
+    -webkit-transition: opacity .7s ease .1s;
+    transition: opacity .7s ease .1s;
     opacity: .97; }
 
 .search-form {
@@ -1821,6 +1821,7 @@ main {
 .big-teaser-wrap {
   position: absolute;
   top: -20px;
+  opacity: 0;
   left: 0;
   background: #f1309a;
   background: -webkit-linear-gradient(left, #895bff, #f1309a);
@@ -1829,10 +1830,11 @@ main {
   height: 65vh;
   z-index: 10;
   box-shadow: 0 0 70px 0 rgba(0, 0, 0, 0.5);
-  -webkit-transition: top .7s ease .1s;
-  transition: top .7s ease .1s; }
+  -webkit-transition: top .7s ease .1s, opacity .7s ease 0s;
+  transition: top .7s ease .1s, opacity .7s ease 0s; }
   .big-teaser-wrap.active {
-    top: 0; }
+    top: 0;
+    opacity: 1; }
 
 .button-trailer {
   background: #484848;
@@ -1923,11 +1925,7 @@ main {
   top: 0;
   left: 0;
   z-index: -1;
-  opacity: 0;
-  -webkit-transition: opacity 1s ease 0s;
-  transition: opacity 1s ease 0s; }
-  .active .big-teaser-image {
-    opacity: .20; }
+  opacity: .2; }
 
 .big-teaser-data-wrap {
   float: left;
@@ -1949,7 +1947,14 @@ main {
 
 .subpage-poster-wrap {
   float: left;
-  position: relative; }
+  position: relative;
+  top: -20px;
+  opacity: 0;
+  -webkit-transition: top .7s ease .1s, opacity .7s ease 0s;
+  transition: top .7s ease .1s, opacity .7s ease 0s; }
+  .active .subpage-poster-wrap {
+    top: 0;
+    opacity: 1; }
   .subpage-poster-wrap .base {
     box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.3);
     position: absolute;
@@ -1959,10 +1964,9 @@ main {
     float: left; }
   .subpage-poster-wrap .real {
     float: left;
+    border: 0;
     position: relative;
-    z-index: 100;
-    -webkit-transition: opacity .5s ease 0s;
-    transition: opacity .5s ease 0s; }
+    z-index: 100; }
 
 .subpage-sidebar-buttons {
   float: left;
