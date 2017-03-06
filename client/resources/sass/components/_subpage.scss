@@ -1,6 +1,7 @@
 .big-teaser-wrap {
   position: absolute;
-  top: 0;
+  //top: -30px;
+  top: -20px;
   left: 0;
   background: $main2;
   background: linear-gradient(to right, $main1, $main2);
@@ -11,6 +12,13 @@
   //display: flex;
   //align-items: flex-end;
   box-shadow: 0 0 70px 0 rgba(0,0,0,.5);
+
+  // todo: maybe remove...
+  transition: top .7s ease .1s;
+
+  &.active {
+    top: 0;
+  }
 }
 
 .button-trailer {
@@ -142,7 +150,7 @@
 
   transition: opacity 1s ease 0s;
 
-  &.active {
+  .active & {
     //opacity: .15;
     opacity: .20;
   }
@@ -199,7 +207,8 @@
     //opacity: 0;
     transition: opacity .5s ease 0s;
 
-    &.active {
+    // todo: maybe?
+    .active & {
       //opacity: 1;
     }
   }

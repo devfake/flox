@@ -5,6 +5,10 @@ header {
   padding: 25px 0;
   position: relative;
   z-index: 20;
+  opacity: 0;
+
+  //@include transition(opacity);
+  transition: opacity .7s ease .1s;
 
   @include media(5) {
     padding: 15px 0;
@@ -16,6 +20,10 @@ header {
 
   .subpage-open & {
     background: none;
+  }
+
+  &.active {
+    opacity: 1;
   }
 }
 

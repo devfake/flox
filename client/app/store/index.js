@@ -19,7 +19,8 @@ export default new Vuex.Store({
     modalData: {},
     loadingModalData: true,
     seasonActiveModal: 1,
-    modalType: ''
+    modalType: '',
+    itemLoadedSubpage: false
   },
   mutations,
   actions

@@ -4,8 +4,11 @@
   position: absolute;
   box-shadow: 0 0 70px 0 rgba(0, 0, 0, .3);
   background: #fff;
-  opacity: .97;
   z-index: 200;
+  opacity: 0;
+
+  //@include transition(opacity);
+  transition: opacity .7s ease .1s;
 
   .dark & {
     background: #2f2f2f;
@@ -15,7 +18,6 @@
     padding: 0 16px 0 0;
   }
 
-  // todo: maybe remove sticky in subpage
   &.sticky {
     @include media(sticky) {
       position: fixed;
@@ -30,6 +32,10 @@
     position: absolute;
     top: auto;
     left: auto;
+  }
+
+  &.active {
+    opacity: .97;
   }
 }
 

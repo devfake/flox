@@ -313,11 +313,12 @@ main {
   }
 
   @include media(3) {
-    font-size: 12px;
+    display: none;
+    /*font-size: 12px;
     padding: 8px 1px;
     position: static;
     float: left;
-    opacity: 1 !important;
+    opacity: 1 !important;*/
   }
 }
 
@@ -379,7 +380,7 @@ main {
   }
 
   @include media(3) {
-    // opacity: 1;
+    display: none;
   }
 }
 

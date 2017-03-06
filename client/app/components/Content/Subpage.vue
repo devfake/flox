@@ -1,9 +1,9 @@
 <template>
   <main>
     <!-- todo: make header position absolute, and float teaser and content correct -->
-    <section class="big-teaser-wrap" v-show=" ! loading">
+    <section class="big-teaser-wrap" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
 
-      <div class="big-teaser-image" :class="{active: itemLoaded}" :style="backdropImage"></div>
+      <div class="big-teaser-image"  :style="backdropImage"></div>
 
       <div class="wrap">
         <div class="big-teaser-content">
@@ -15,7 +15,7 @@
             </div>
             <div class="big-teaser-buttons no-select">
               <a v-if="item.trailer_src" :href="item.trailer_src" target="_blank" class="button-trailer"><i class="icon-trailer"></i> Watch trailer</a>
-              <span v-if="item.rating == null" class="button-watchlist"><i class="icon-watchlist"></i> Add to watchlist</span>
+              <span v-if="item.rating == null && auth" class="button-watchlist"><i class="icon-watchlist"></i> Add to watchlist</span>
               <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank" class="button-tmdb-rating">
                 <i v-if="item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
                 <i v-else>No TMDb Rating</i>
@@ -36,7 +36,7 @@
         <div class="subpage-sidebar">
           <div class="subpage-poster-wrap">
             <rating :item="item" :set-item="setItem"></rating>
-            <img class="real" :class="{active: itemLoaded}" :src="posterImage" width="272" height="408">
+            <img class="real" :src="posterImage" width="272" height="408">
             <img class="base" width="272" height="408">
           </div>
 
@@ -76,20 +76,21 @@
 
     destroyed() {
       document.body.classList.remove('subpage-open');
+      this.SET_ITEM_LOADED_SUBPAGE(false);
     },
 
     data() {
       return {
         item: {},
         loadingImdb: false,
-        itemLoaded: false,
         auth: config.auth
       }
     },
 
     computed: {
       ...mapState({
-        loading: state => state.loading
+        loading: state => state.loading,
+        itemLoadedSubpage: state => state.itemLoadedSubpage
       }),
 
       overview() {
@@ -118,7 +119,7 @@
     },
 
     methods: {
-      ...mapMutations([ 'SET_LOADING' ]),
+      ...mapMutations([ 'SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE' ]),
 
       fetchImdbRating() {
         if(this.item.imdb_id && this.item.imdb_rating == null) {
@@ -153,13 +154,14 @@
         setTimeout(() => {
           this.SET_LOADING(false);
           this.displayItem();
-        }, 200);
+        }, 300);
       },
 
       displayItem() {
         setTimeout(() => {
-          this.itemLoaded = true;
-        }, 50);
+          this.SET_ITEM_LOADED_SUBPAGE(true);
+          //this.itemLoadedSubpage = true;
+        }, 100);
       },
 
       setItem(item) {

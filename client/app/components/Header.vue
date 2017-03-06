@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{active: displayHeader}">
     <div class="wrap">
       <router-link to="/" class="logo" >
         <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
@@ -41,8 +41,10 @@
     computed: {
       ...mapState({
         userFilter: state => state.userFilter,
-        colorScheme: state => state.colorScheme
+        colorScheme: state => state.colorScheme,
+        itemLoadedSubpage: state => state.itemLoadedSubpage
       }),
+
       root() {
         return config.uri;
       }

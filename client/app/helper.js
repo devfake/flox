@@ -44,5 +44,15 @@ export default {
         day: '2-digit'
       });
     }
+  },
+
+  computed: {
+    displayHeader() {
+      if(this.$route.name == 'subpage-tv' || this.$route.name == 'subpage-movie') {
+        return this.itemLoadedSubpage;
+      }
+
+      return true;
+    }
   }
 }
