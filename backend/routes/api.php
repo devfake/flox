@@ -1,3 +1,3 @@
 <?php
 
-  Route::patch('/update-files', 'SettingController@fetchFilesResponse');
+  Route::patch('/update-files', 'FileParserController@receive');

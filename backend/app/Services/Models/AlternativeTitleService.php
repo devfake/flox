@@ -45,13 +45,14 @@
     }
 
     /**
-     * @param null $tmdbId
+     * Update alternative titles for all tv shows and movies.
+     * For old versions of flox (<= 1.2.2) or to keep all alternative titles up to date.
      */
-    public function update($tmdbId = null)
+    public function update()
     {
       increaseTimeLimit();
 
-      $items = $tmdbId ? $this->item->findByTmdbId($tmdbId)->get() : $this->item->all();
+      $items = $this->item->all();
 
       $items->each(function($item) {
         $this->create($item);
