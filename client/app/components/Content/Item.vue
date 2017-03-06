@@ -2,22 +2,15 @@
   <transition mode="out-in" name="fade">
     <div class="item-wrap">
       <div class="item-image-wrap">
-        <span v-if="localItem.rating != null" :class="'item-rating rating-' + localItem.rating" @click="changeRating()">
-          <i class="icon-rating"></i>
-        </span>
-        <span v-if="localItem.rating == null && localItem.tmdb_id && ! rated" class="item-rating item-new" @click="addNewItem()">
-          <i class="icon-add"></i>
-        </span>
-        <span v-if="localItem.rating == null && localItem.tmdb_id && rated" class="item-rating item-new">
-          <span class="loader smallsize-loader"><i></i></span>
-        </span>
+        <rating :item="localItem" :set-item="setItem"></rating>
 
         <router-link v-if="localItem.tmdb_id" :to="suggestions" class="recommend-item">{{ lang('suggestions') }}</router-link>
+        <span v-if="auth && localItem.rating == null" class="add-to-watchlist" @click="addToWatchlist()">Add to watchlist</span>
 
-        <span class="remove-item" v-if="localItem.rating != null && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
-
-        <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
-        <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
+        <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id }}">
+          <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
+          <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
+        </router-link>
 
         <span class="show-episode" @click="openSeasonModal()" v-if="displaySeason">
           <span class="season-item"><i>S</i>{{ season }}</span>
@@ -28,7 +21,7 @@
       <div class="item-content">
         <span v-if="date == 1" class="item-year">{{ released }}</span>
         <i class="item-has-src" v-if="hasSrc"></i>
-        <a :href="youtube" target="_blank" :title="localItem.title" class="item-title">{{ localItem.title }}</a>
+        <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id }}" class="item-title" :title="localItem.title">{{ localItem.title }}</router-link>
         <span v-if="genre == 1" class="item-genre">{{ localItem.genre }}</span>
       </div>
     </div>
@@ -36,32 +29,24 @@
 </template>
 
 <script>
+  import Rating from '../Rating.vue';
+
   import http from 'axios';
-  import debounce from 'debounce';
   import Helper from '../../helper';
 
   import { mapMutations, mapActions } from 'vuex';
-
-  const ratingMilliseconds = 700;
-  const newItemMilliseconds = 200;
 
   export default {
     mixins: [Helper],
 
     props: ['item', 'genre', 'date'],
 
-    created() {
-      this.saveNewRating = debounce(this.saveNewRating, ratingMilliseconds);
-      this.addNewItem = debounce(this.addNewItem, newItemMilliseconds, true);
-    },
-
     data() {
       return {
         localItem: this.item,
         latestEpisode: this.item.latest_episode,
-        auth: config.auth,
         prevRating: null,
-        rated: false
+        auth: config.auth
       }
     },
 
@@ -140,50 +125,17 @@
         });
       },
 
-      changeRating() {
-        if(this.auth) {
-          this.prevRating = this.localItem.rating;
-          this.localItem.rating = this.prevRating == 3 ? 1 : +this.prevRating + 1;
-
-          this.saveNewRating();
-        }
+      setItem(item) {
+        this.localItem = item;
       },
 
-      saveNewRating() {
-        http.patch(`${config.api}/change-rating/${this.localItem.id}`, {rating: this.localItem.rating}).catch(error => {
-          this.localItem.rating = this.prevRating;
-          alert('Error in saveNewRating()');
-        });
-      },
+      addToWatchlist() {
 
-      addNewItem() {
-        if(this.auth) {
-          this.rated = true;
-
-          http.post(`${config.api}/add`, {item: this.localItem}).then(value => {
-            this.localItem = value.data;
-            this.rated = false;
-          }, error => {
-            if(error.status == 409) {
-              alert(this.localItem.title + ' already exists!');
-            }
-          });
-        }
-      },
-
-      removeItem() {
-        if(this.auth) {
-          const confirm = window.confirm(this.lang('confirm delete'));
-
-          if(confirm) {
-            http.delete(`${config.api}/remove/${this.localItem.id}`).then(value => {
-              this.localItem.rating = null;
-            }, error => {
-              alert('Error in removeItem()');
-            });
-          }
-        }
       }
+    },
+
+    components: {
+      Rating
     }
   }
 </script>

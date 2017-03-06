@@ -4,6 +4,7 @@
 
   use App\Item as Model;
   use App\Item;
+  use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
 
@@ -14,6 +15,7 @@
     private $storage;
     private $alternativeTitleService;
     private $episodeService;
+    private $imdb;
 
     /**
      * @param Model                   $model
@@ -21,19 +23,22 @@
      * @param Storage                 $storage
      * @param AlternativeTitleService $alternativeTitleService
      * @param EpisodeService          $episodeService
+     * @param IMDB                    $imdb
      */
     public function __construct(
       Model $model,
       TMDB $tmdb,
       Storage $storage,
       AlternativeTitleService $alternativeTitleService,
-      EpisodeService $episodeService
+      EpisodeService $episodeService,
+      IMDB $imdb
     ){
       $this->model = $model;
       $this->tmdb = $tmdb;
       $this->storage = $storage;
       $this->alternativeTitleService = $alternativeTitleService;
       $this->episodeService = $episodeService;
+      $this->imdb = $imdb;
     }
 
     /**
@@ -42,15 +47,53 @@
      */
     public function create($data)
     {
+      $data = $this->makeDataComplete($data);
+
       $item = $this->model->store($data);
 
-      $this->storage->downloadPoster($item->poster);
-
       $this->episodeService->create($item);
-
       $this->alternativeTitleService->create($item);
 
+      $this->storage->downloadPoster($item->poster);
+      $this->storage->downloadBackdrop($item->backdrop);
+
       return $item;
+    }
+
+    /**
+     * Search against TMDb and IMDb for more informations.
+     * We don't need to get more informations, if we add the item from the subpage.
+     *
+     * @param $data
+     * @return array
+     */
+    private function makeDataComplete($data)
+    {
+      if( ! isset($data['imdb_id'])) {
+        $details = $this->tmdb->details($data['tmdb_id'], $data['media_type']);
+
+        $data['imdb_id'] = $data['imdb_id'] ?? $this->parseImdbId($details, $data['media_type']);
+        $data['imdb_rating'] = $data['imdb_rating'] ?? $this->imdb->parseRating($data['imdb_id']);
+        $data['trailer_src'] = $data['trailer_src'] ?? $this->parseVideoTrailer($details->videos);
+      }
+
+      return $data;
+    }
+
+    /**
+     * TV shows needs an extra append for external ids.
+     *
+     * @param $details
+     * @param $mediaType
+     * @return mixed
+     */
+    public function parseImdbId($details, $mediaType)
+    {
+      if($mediaType == 'tv') {
+        return $details->external_ids->imdb_id;
+      }
+
+      return $details->imdb_id;
     }
 
     /**
@@ -60,7 +103,7 @@
      */
     public function createEmpty($data, $mediaType)
     {
-      $mediaType = $mediaType == 'movies' ? 'movie' : 'tv';
+      $mediaType = mediaType($mediaType);
 
       $data = [
         'name' => getFileName($data),
@@ -90,10 +133,24 @@
 
       $item->delete();
 
+      // todo: delete subpage poster file and backdrops
       // Delete all related episodes, alternative titles and poster image.
       $this->episodeService->remove($tmdbId);
       $this->alternativeTitleService->remove($tmdbId);
       $this->storage->removePosterFile($item->poster);
+    }
+
+    public function parseVideoTrailer($videos)
+    {
+      if(isset($videos->results[0])) {
+        $firstResult = $videos->results[0];
+
+        if($firstResult->site == 'YouTube' || $firstResult->site == 'Youtube') {
+          return 'https://www.youtube.com/watch?v=' . $firstResult->key;
+        }
+      }
+
+      return null;
     }
 
     /**
@@ -180,7 +237,7 @@
     public function findBy($type, $value, $mediaType = null)
     {
       if($mediaType) {
-        $mediaType = $mediaType == 'movies' ? 'movie' : 'tv';
+        $mediaType = mediaType($mediaType);
       }
 
       switch($type) {

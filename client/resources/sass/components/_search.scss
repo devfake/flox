@@ -5,6 +5,7 @@
   box-shadow: 0 0 70px 0 rgba(0, 0, 0, .3);
   background: #fff;
   opacity: .97;
+  z-index: 200;
 
   .dark & {
     background: #2f2f2f;
@@ -14,13 +15,21 @@
     padding: 0 16px 0 0;
   }
 
+  // todo: maybe remove sticky in subpage
   &.sticky {
     @include media(sticky) {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 10;
     }
+  }
+
+  .subpage-open & {
+    background: none;
+    box-shadow: none;
+    position: absolute;
+    top: auto;
+    left: auto;
   }
 }
 
@@ -33,6 +42,10 @@
 
   .sticky & {
     padding: 0 0 0 50px;
+  }
+
+  .subpage-open & {
+    padding: 0;
   }
 }
 
@@ -52,6 +65,10 @@
   @include media(5) {
     font-size: 16px;
   }
+
+  .subpage-open & {
+    color: #fff;
+  }
 }
 
 .icon-search {
@@ -61,6 +78,7 @@
   position: absolute;
   left: 0;
   top: 15px;
+  opacity: .5;
 
   @include transition(left);
 
@@ -70,6 +88,12 @@
 
   .sticky & {
     left: 50px;
+  }
+
+  .subpage-open & {
+    background: url(../../../public/assets/img/search-dark.png);
+    opacity: 1;
+    left: 0;
   }
 }
 
@@ -95,5 +119,9 @@
     &:active {
       opacity: .6;
     }
+  }
+
+  .subpage-open & {
+    display: none;
   }
 }

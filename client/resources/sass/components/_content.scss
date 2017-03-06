@@ -19,6 +19,14 @@ main {
   @include media(5) {
     padding: 80px 0 0 0;
   }
+
+  .subpage-open & {
+    padding: 0;
+    //padding: 65vh 0 0 0;
+    //position: absolute;
+    //top: 0;
+    //left: 0;
+  }
 }
 
 .suggestions-for {
@@ -38,8 +46,13 @@ main {
     border-top: 1px solid #474747;
   }
 
-  span {
+  a {
     color: $main2;
+    text-decoration: none;
+
+    &:active {
+      color: $main1;
+    }
   }
 }
 
@@ -75,10 +88,6 @@ main {
       .item-new {
         display: block;
       }
-
-      .show-episode {
-        bottom: 24px;
-      }
     }
 
     .show-episode {
@@ -86,24 +95,20 @@ main {
     }
 
     .recommend-item,
-    .remove-item {
+    .add-to-watchlist {
       opacity: .9;
-    }
-
-    .item-rating {
-      .logged & {
-        transform: translate(-50%, -50%) scale(1.2);
-
-        @include media(3) {
-          transform: translate(-50%, -50%) scale(1);
-        }
-      }
     }
   }
 }
 
 .item-image {
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .5);
+
+  //@include transition(box-shadow);
+
+  &:hover {
+    //box-shadow: 0 15px 20px 0 rgba(0, 0, 0, .5);
+  }
 
   @include media(3) {
     width: 100%;
@@ -127,59 +132,59 @@ main {
   @include media(5) {
     margin: 10px 0 0 0;
   }
-}
 
-.item-year,
-.item-genre {
-  float: left;
-  color: #888;
-  font-size: 14px;
-  clear: both;
-  margin: 0 5px 0 0;
+  .item-year,
+  .item-genre {
+    float: left;
+    color: #888;
+    font-size: 14px;
+    clear: both;
+    margin: 0 5px 0 0;
 
-  .dark & {
-    color: #626262;
+    .dark & {
+      color: #626262;
+    }
+
+    @include media(3) {
+      font-size: 13px;
+    }
   }
 
-  @include media(3) {
-    font-size: 13px;
-  }
-}
-
-.item-has-src {
-  float: left;
-  margin: 5px 0 0 0;
-  font-style: normal;
-  width: 12px;
-  height: 9px;
-  background: url(../../../public/assets/img/has-src.png);
-}
-
-.item-title {
-  color: $dark;
-  clear: both;
-  font-size: 17px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100%;
-  text-decoration: none;
-  float: left;
-
-  .dark & {
-    color: #717171;
+  .item-has-src {
+    float: left;
+    margin: 5px 0 0 0;
+    font-style: normal;
+    width: 12px;
+    height: 9px;
+    background: url(../../../public/assets/img/has-src.png);
   }
 
-  &:hover {
-    color: $main2;
-  }
+  .item-title {
+    color: $dark;
+    clear: both;
+    font-size: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    text-decoration: none;
+    float: left;
 
-  &:active {
-    color: $main1;
-  }
+    .dark & {
+      color: #717171;
+    }
 
-  @include media(3) {
-    font-size: 15px;
+    &:hover {
+      color: $main2;
+    }
+
+    &:active {
+      color: $main1;
+    }
+
+    @include media(3) {
+      font-size: 15px;
+    }
   }
 }
 
@@ -192,9 +197,18 @@ main {
   transform: translate(-50%, -50%);
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, .7);
   border-radius: 25px;
+  z-index: 120;
 
   .logged & {
     cursor: pointer;
+
+    &:hover {
+      transform: translate(-50%, -50%) scale(1.2);
+
+      @include media(3) {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
 
     &:active {
       transform: translate(-50%, -50%) scale(1.1) !important;
@@ -261,6 +275,10 @@ main {
       display: block;
     }
   }
+
+  .subpage-open & {
+    display: block;
+  }
 }
 
 .icon-add {
@@ -304,27 +322,59 @@ main {
 }
 
 .remove-item {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  opacity: 0;
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  //opacity: 0;
   background: $rating3;
-  padding: 3px 0;
+  padding: 5px 0;
   cursor: pointer;
   text-align: center;
   font-size: 13px;
   text-transform: uppercase;
   color: #fff;
-  height: 24px;
   width: 100%;
 
-  @include transition(opacity);
+  @include transition(background);
 
   &:hover {
+    background: lighten($rating3, 5%);
+    //opacity: 1 !important;
+  }
+
+  &:active {
+    background: $rating3;
+    //opacity: .7 !important;
+  }
+
+  @include media(3) {
+    // opacity: 1;
+  }
+}
+
+.add-to-watchlist {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  background: #238cce;
+  padding: 5px 0;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #fff;
+  width: 100%;
+
+  @include transition(background, opacity);
+
+  &:hover {
+    background: lighten(#238cce, 5%);
     opacity: 1 !important;
   }
 
   &:active {
+    background: #238cce;
     opacity: .7 !important;
   }
 

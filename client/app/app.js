@@ -1,7 +1,7 @@
 require('../resources/sass/app.scss');
 
 import Vue from 'vue';
-import { mapActions, mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 import SiteHeader from './components/Header.vue';
 import Search from './components/Search.vue';

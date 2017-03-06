@@ -6,6 +6,7 @@
       </router-link>
 
       <span class="sort-wrap">
+        <!-- todo: remove on subpage -->
         <i :title="lang('last seen')" class="icon-sort-time" :class="{active: userFilter == 'last_seen_at'}" @click="setUserFilter('last_seen_at')"></i>
         <i :title="lang('best rated')" class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
         <span :title="lang('change color')" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
@@ -17,8 +18,8 @@
       </ul>
 
       <ul class="site-nav-second">
-        <li><router-link to="/tv">{{ lang('tv') }}</router-link></li>
-        <li><router-link to="/movies">{{ lang('movies') }}</router-link></li>
+        <li><router-link to="/tv" exact>{{ lang('tv') }}</router-link></li>
+        <li><router-link to="/movies" exact>{{ lang('movies') }}</router-link></li>
       </ul>
 
     </div>

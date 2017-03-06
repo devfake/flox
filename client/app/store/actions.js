@@ -37,7 +37,11 @@ export function setSearchTitle({commit}, title) {
 }
 
 export function setColorScheme({commit}, color) {
+  document.body.classList.remove('dark', 'light');
+
   localStorage.setItem('color', color);
+  document.body.classList.add(color);
+
   commit('SET_COLOR_SCHEME', color);
 }
 

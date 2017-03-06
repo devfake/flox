@@ -8,6 +8,9 @@
     Route::get('/items/{type}/{orderBy}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
 
+    Route::get('/item/{tmdbId}/{mediaType}', 'SubpageController@item');
+    Route::get('/imdb-rating/{imdbId}', 'SubpageController@imdbRating');
+
     Route::get('/suggestions/{tmdbID}/{mediaType}', 'TMDBController@suggestions');
     Route::get('/trending', 'TMDBController@trending');
     Route::get('/upcoming', 'TMDBController@upcoming');

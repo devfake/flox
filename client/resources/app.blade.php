@@ -14,12 +14,15 @@
 <body
   data-url="{{ url('/') }}"
   data-uri="{{ config('app.CLIENT_URI') }}"
+  data-poster-tmdb="{{ config('services.tmdb.poster') }}"
+  data-poster-subpage-tmdb="{{ config('services.tmdb.poster_subpage') }}"
+  data-backdrop-tmdb="{{ config('services.tmdb.backdrop') }}"
   data-auth="{{ Auth::check() }}"
   data-language="{{ $lang }}"
   class="{{ Auth::check() ? 'logged' : 'guest' }}"
 >
 
-  <div id="app" :class="colorScheme">
+  <div id="app">
     @if(Request::is('login'))
       <login></login>
     @else

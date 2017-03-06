@@ -11,7 +11,7 @@
 
     <div class="suggestions-for" v-if="suggestionsFor">
       <div class="wrap">
-        {{ lang('suggestions for') }} <span>{{ suggestionsFor }}</span>
+        {{ lang('suggestions for') }} <router-link :to="{ name: `subpage-${$route.query.type}`, params: { tmdbId: $route.query.for }}">{{ suggestionsFor }}</router-link>
       </div>
     </div>
   </section>

@@ -3,22 +3,25 @@ header {
   background: linear-gradient(to right, $main1, $main2);
   width: 100%;
   padding: 25px 0;
+  position: relative;
+  z-index: 20;
 
   @include media(5) {
     padding: 15px 0;
   }
 
-  .dark & {
-    opacity: .9;
-  }
-
   .open-modal & {
     padding: 25px 16px 25px 0;
+  }
+
+  .subpage-open & {
+    background: none;
   }
 }
 
 .logo {
   float: left;
+  opacity: .9;
 
   @include media(5) {
     width: 80px;
@@ -36,6 +39,7 @@ header {
   float: right;
   margin: 4px 0 0 0;
   width: auto;
+  opacity: .9;
 
   .icon-sort-time,
   .icon-sort-star {
@@ -101,6 +105,7 @@ header {
   margin: 7px 0 0 40px;
   list-style: none;
   padding: 0;
+  opacity: .9;
 
   @include media(4) {
     clear: left;

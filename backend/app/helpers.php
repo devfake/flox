@@ -11,3 +11,8 @@
   {
     return $file->changed->name ?? $file->name;
   }
+
+  function mediaType($mediaType)
+  {
+    return $mediaType == 'movies' ? 'movie' : 'tv';
+  }

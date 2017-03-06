@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2f6f2e24c6494cfce80b24e0388f96a0",
-    "content-hash": "4bb9c55b817be4946797aade8d2df60b",
+    "hash": "294c93796fb9df3f91863c5c977db9af",
+    "content-hash": "b6ea193eec158865d05abcdd90db9510",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -785,6 +785,52 @@
                 "uri"
             ],
             "time": "2016-06-24 23:00:38"
+        },
+        {
+            "name": "imangazaliev/didom",
+            "version": "1.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Imangazaliev/DiDOM.git",
+                "reference": "0116a51428b6c34bcdd5d32b8674576154701196"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Imangazaliev/DiDOM/zipball/0116a51428b6c34bcdd5d32b8674576154701196",
+                "reference": "0116a51428b6c34bcdd5d32b8674576154701196",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DiDom\\": "src/DiDom/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Imangazaliev Muhammad",
+                    "email": "imangazalievm@gmail.com"
+                }
+            ],
+            "description": "Simple and fast HTML parser",
+            "homepage": "https://github.com/Imangazaliev/DiDOM",
+            "keywords": [
+                "didom",
+                "html",
+                "parser",
+                "xml"
+            ],
+            "time": "2017-02-02 05:35:44"
         },
         {
             "name": "jakub-onderka/php-console-color",

@@ -10,7 +10,8 @@
         "laravel/scout": "^1.1",
         "guzzlehttp/guzzle": "^6.2",
         "algolia/algoliasearch-client-php": "^1.10",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "imangazaliev/didom": "^1.9"
     },
     "require-dev": {
         "mockery/mockery": "^0.9.7",

@@ -28,14 +28,27 @@
     }
 
     /**
-     * Download the poster image file.
+     * Download the poster image files.
      *
      * @param $poster
      */
     public function downloadPoster($poster)
     {
       if($poster) {
-        LaravelStorage::put($poster, file_get_contents('http://image.tmdb.org/t/p/w185' . $poster));
+        LaravelStorage::put($poster, file_get_contents(config('services.tmdb.poster') . $poster));
+        LaravelStorage::disk('subpage')->put($poster, file_get_contents(config('services.tmdb.poster_subpage') . $poster));
+      }
+    }
+
+    /**
+     * Download the backdrop image file.
+     *
+     * @param $backdrop
+     */
+    public function downloadBackdrop($backdrop)
+    {
+      if($backdrop) {
+        LaravelStorage::disk('backdrop')->put($backdrop, file_get_contents(config('services.tmdb.backdrop') . $backdrop));
       }
     }
 
