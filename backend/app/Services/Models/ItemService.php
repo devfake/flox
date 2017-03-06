@@ -72,6 +72,9 @@
     }
 
     /**
+     * Delete movie or tv show (with episodes and alternative titles).
+     * Also remove the poster image file.
+     *
      * @param $itemId
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
@@ -114,7 +117,7 @@
     }
 
     /**
-     * Update rating for an movie.
+     * Update rating for a movie.
      *
      * @param $itemId
      * @param $rating
@@ -131,6 +134,36 @@
       $item->update([
         'rating' => $rating,
       ]);
+    }
+
+    /**
+     * Search for all items by title in our database.
+     *
+     * @param $title
+     * @return mixed
+     */
+    public function search($title)
+    {
+      return $this->model->findByTitle($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
+    }
+
+    /**
+     * Parse full genre list of all movies and tv shows in our database and save them.
+     */
+    public function updateGenre()
+    {
+      increaseTimeLimit();
+
+      $items = $this->model->all();
+
+      $items->each(function($item) {
+        $genres = $this->tmdb->details($item->tmdb_id, $item->media_type)->genres;
+        $data = collect($genres)->pluck('name')->all();
+
+        $item->update([
+          'genre' => implode($data, ', '),
+        ]);
+      });
     }
 
     /**

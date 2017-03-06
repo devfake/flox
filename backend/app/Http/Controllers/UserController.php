@@ -10,11 +10,6 @@
 
     private $auth;
 
-    /**
-     * Create an instance for 'auth'.
-     *
-     * @param Guard $auth
-     */
     public function __construct(Guard $auth)
     {
       $this->auth = $auth;

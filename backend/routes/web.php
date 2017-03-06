@@ -1,10 +1,10 @@
 <?php
 
   Route::group(['prefix' => 'api'], function() {
-    Route::post('/login', 'UserController@login');
     Route::get('/logout', 'UserController@logout');
+    Route::post('/login', 'UserController@login');
 
-    Route::get('/episodes/{tmdb_id}', 'ItemController@episodes');
+    Route::get('/episodes/{tmdbId}', 'ItemController@episodes');
     Route::get('/items/{type}/{orderBy}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
 
@@ -15,27 +15,27 @@
     Route::get('/settings', 'SettingController@settings');
 
     Route::group(['middleware' => 'auth'], function() {
-      Route::get('/export', 'SettingController@export');
-      Route::post('/import', 'SettingController@import');
+      Route::get('/export', 'ExportImportController@export');
+      Route::post('/import', 'ExportImportController@import');
 
       Route::get('/check-update', 'SettingController@checkForUpdate');
-      Route::post('/fetch-files', 'SettingController@fetchFiles');
-
-      Route::patch('/update-genre', 'SettingController@updateGenre');
-      Route::patch('/settings', 'SettingController@updateSettings');
-      Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
-
       Route::get('/version', 'SettingController@getVersion');
-      Route::get('/userdata', 'UserController@getUserData');
+      Route::patch('/settings', 'SettingController@updateSettings');
 
-      Route::patch('/userdata', 'UserController@changeUserData');
+      Route::post('/add', 'ItemController@add');
+      Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
+      Route::patch('/update-genre', 'ItemController@updateGenre');
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
-
-      Route::get('/search-tmdb', 'TMDBController@search');
-      Route::post('/add', 'ItemController@add');
       Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');
       Route::delete('/remove/{itemId}', 'ItemController@remove');
+
+      Route::get('/userdata', 'UserController@getUserData');
+      Route::patch('/userdata', 'UserController@changeUserData');
+
+      Route::get('/search-tmdb', 'TMDBController@search');
+
+      Route::post('/fetch-files', 'FileParserController@call');
     });
   });
 

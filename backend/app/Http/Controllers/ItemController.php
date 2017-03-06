@@ -2,148 +2,77 @@
 
   namespace App\Http\Controllers;
 
-  use App\Item;
   use App\Services\Models\AlternativeTitleService;
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
-  use App\Services\Storage;
-  use App\Services\TMDB;
   use Illuminate\Support\Facades\Input;
 
   class ItemController {
 
-    private $item;
-    private $storage;
-    private $tmdb;
+    private $itemService;
+    private $episodeService;
 
-    /**
-     * Get the amount of loading items and create an instance for 'item'.
-     *
-     * @param Item $item
-     * @param Storage $storage
-     * @param TMDB $tmdb
-     */
-    public function __construct(Item $item, Storage $storage, TMDB $tmdb)
+    public function __construct(ItemService $itemService, EpisodeService $episodeService)
     {
-      $this->item = $item;
-      $this->storage = $storage;
-      $this->tmdb = $tmdb;
+      $this->itemService = $itemService;
+      $this->episodeService = $episodeService;
     }
 
-    /**
-     * Return all items with pagination.
-     *
-     * @param ItemService $itemService
-     * @param             $type
-     * @param             $orderBy
-     * @return mixed
-     * @internal param ItemService $item
-     */
-    public function items(ItemService $itemService, $type, $orderBy)
+    public function items($type, $orderBy)
     {
-      return $itemService->getWithPagination($type, $orderBy);
+      return $this->itemService->getWithPagination($type, $orderBy);
     }
 
-    /**
-     * Get all Episodes of an tv show.
-     *
-     * @param EpisodeService $episodeService
-     * @param                $tmdbId
-     * @return array
-     */
-    public function episodes(EpisodeService $episodeService, $tmdbId)
+    public function episodes($tmdbId)
     {
-      return $episodeService->getAllByTmdbId($tmdbId);
+      return $this->episodeService->getAllByTmdbId($tmdbId);
     }
 
-    /**
-     * Search for items by 'title' in database.
-     *
-     * @return mixed
-     */
     public function search()
     {
-      $title = Input::get('q');
-
-      // We don't have an smart search driver and return an simple 'like' query.
-      return $this->item->findByTitle($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
+      return $this->itemService->search(Input::get('q'));
     }
 
-    /**
-     * Update rating for an movie.
-     *
-     * @param ItemService $itemService
-     * @param             $itemId
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    public function changeRating(ItemService $itemService, $itemId)
+    public function changeRating($itemId)
     {
-      return $itemService->changeRating($itemId, Input::get('rating'));
+      return $this->itemService->changeRating($itemId, Input::get('rating'));
     }
 
-    /**
-     * Create a new movie / tv show.
-     *
-     * @param ItemService $item
-     * @return Item
-     */
-    public function add(ItemService $item)
+    public function add()
     {
-      return $item->create(Input::get('item'));
+      return $this->itemService->create(Input::get('item'));
     }
 
-    /**
-     * Delete movie or tv show (with episodes and alternative titles).
-     * Also remove the poster image file.
-     *
-     * @param ItemService $itemService
-     * @param             $itemId
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    public function remove(ItemService $itemService, $itemId)
+    public function remove($itemId)
     {
-      return $itemService->remove($itemId);
+      return $this->itemService->remove($itemId);
     }
 
-    /**
-     * Update alternative titles for all tv shows and movies or specific item.
-     * For old versions of flox or to keep all alternative titles up to date.
-     *
-     * @param AlternativeTitleService $alternativeTitle
-     * @param null                    $tmdbId
-     */
-    public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle, $tmdbId = null)
+    public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle)
     {
-      $alternativeTitle->update($tmdbId);
+      $alternativeTitle->update();
     }
 
-    /**
-     * Set an episode as seen / unseen.
-     *
-     * @param EpisodeService $episode
-     * @param                $id
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    public function toggleEpisode(EpisodeService $episode, $id)
+    public function updateGenre()
     {
-      if( ! $episode->toggleSeen($id)) {
+      $this->itemService->updateGenre();
+    }
+
+    public function toggleEpisode($id)
+    {
+      if( ! $this->episodeService->toggleSeen($id)) {
         return response('Server Error', 500);
       }
 
       return response('Success', 200);
     }
 
-    /**
-     * Toggle all episodes of an season as seen / unseen.
-     *
-     * @param EpisodeService $episode
-     */
-    public function toggleSeason(EpisodeService $episodeService)
+    public function toggleSeason()
     {
       $tmdbId = Input::get('tmdb_id');
       $season = Input::get('season');
       $seen = Input::get('seen');
 
-      $episodeService->toggleSeason($tmdbId, $season, $seen);
+      $this->episodeService->toggleSeason($tmdbId, $season, $seen);
     }
   }

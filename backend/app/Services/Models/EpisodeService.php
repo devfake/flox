@@ -18,9 +18,7 @@
      * @param Model $model
      * @param TMDB  $tmdb
      * @param Item  $item
-     *
      * @internal param ItemService $itemService
-     *
      * @internal param Item $item
      */
     public function __construct(Model $model, TMDB $tmdb, Item $item)
@@ -64,7 +62,7 @@
     {
       Carbon::setLocale(config('app.TRANSLATION'));
 
-      $episodes = $this->model->findByTmdbId($tmdbId)->get();
+      $episodes = $this->model->findByTmdbId($tmdbId)->orderBy('release_episode')->get();
 
       return [
         'episodes' => $episodes->groupBy('season_number'),
@@ -74,6 +72,8 @@
     }
 
     /**
+     * Set an episode as seen / unseen.
+     *
      * @param $id
      * @return mixed
      */
@@ -94,6 +94,8 @@
     }
 
     /**
+     * Toggle all episodes of a season as seen / unseen.
+     *
      * @param $tmdbId
      * @param $season
      * @param $seen

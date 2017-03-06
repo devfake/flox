@@ -6,6 +6,10 @@
   use App\Services\Models\ItemService;
   use App\Services\Storage;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
+  use GuzzleHttp\Client;
+  use GuzzleHttp\Handler\MockHandler;
+  use GuzzleHttp\HandlerStack;
+  use GuzzleHttp\Psr7\Response;
 
   class ItemServiceTest extends TestCase {
 
@@ -110,6 +114,48 @@
 
       $this->assertNotNull($item1);
       $this->assertNull($item2);
+    }
+
+    /** @test */
+    public function it_should_update_genre_for_a_movie()
+    {
+      $user = factory(App\User::class)->create();
+      $this->createMovie();
+
+      $this->createGuzzleMock($this->tmdbFixtures('movie/details'));
+
+      $withoutGenre = Item::find(1);
+      $this->actingAs($user)->json('PATCH', 'api/update-genre');
+      $withGenre = Item::find(1);
+
+      $this->assertEmpty($withoutGenre->genre);
+      $this->assertNotEmpty($withGenre->genre);
+    }
+
+    /** @test */
+    public function it_should_update_genre_for_a_tv_show()
+    {
+      $user = factory(App\User::class)->create();
+      $this->createTv();
+
+      $this->createGuzzleMock($this->tmdbFixtures('tv/details'));
+
+      $withoutGenre = Item::find(1);
+      $this->actingAs($user)->json('PATCH', 'api/update-genre');
+      $withGenre = Item::find(1);
+
+      $this->assertEmpty($withoutGenre->genre);
+      $this->assertNotEmpty($withGenre->genre);
+    }
+
+    private function createGuzzleMock($fixture)
+    {
+      $mock = new MockHandler([
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
+      ]);
+
+      $handler = HandlerStack::create($mock);
+      $this->app->instance(Client::class, new Client(['handler' => $handler]));
     }
 
     private function mock($class)

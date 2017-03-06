@@ -7,4 +7,6 @@ Homestead.yaml
 
 */.DS_Store
 /public/assets/poster/*.jpg
+/public/assets/poster/subpage/*.jpg
+/public/assets/backdrop/*.jpg
 /public/exports/*.json
