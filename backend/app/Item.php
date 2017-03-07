@@ -30,6 +30,7 @@
       'imdb_rating',
       'backdrop',
       'youtube_key',
+      'slug',
     ];
 
     /**
@@ -56,6 +57,7 @@
         'imdb_rating' => $data['imdb_rating'],
         'youtube_key' => $data['youtube_key'],
         'last_seen_at' => Carbon::now(),
+        'slug' => $data['slug'],
       ]);
     }
 

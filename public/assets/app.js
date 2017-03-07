@@ -34,7 +34,7 @@ webpackJsonp([0],[
 
 	var _Index2 = _interopRequireDefault(_Index);
 
-	var _routes = __webpack_require__(126);
+	var _routes = __webpack_require__(129);
 
 	var _routes2 = _interopRequireDefault(_routes);
 
@@ -44,7 +44,7 @@ webpackJsonp([0],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(180);
+	__webpack_require__(183);
 
 	var App = new _vue2.default({
 	  store: _index2.default,
@@ -637,7 +637,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Header.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Header.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -648,9 +648,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-fe1be044", __vue_options__)
+	    hotAPI.createRecord("data-v-90f6238e", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-fe1be044", __vue_options__)
+	    hotAPI.reload("data-v-90f6238e", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Header.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -1680,7 +1680,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-fe1be044", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-90f6238e", module.exports)
 	  }
 	}
 
@@ -1713,7 +1713,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Search.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Search.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -1724,9 +1724,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-3e8ae50e", __vue_options__)
+	    hotAPI.createRecord("data-v-174d6bd4", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-3e8ae50e", __vue_options__)
+	    hotAPI.reload("data-v-174d6bd4", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Search.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -1877,7 +1877,8 @@ webpackJsonp([0],[
 	      "to": {
 	        name: ("subpage-" + (_vm.$route.query.type)),
 	        params: {
-	          tmdbId: _vm.$route.query.for
+	          tmdbId: _vm.$route.query.for,
+	          slug: _vm.$route.query.slug
 	        }
 	      }
 	    }
@@ -1886,7 +1887,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-3e8ae50e", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-174d6bd4", module.exports)
 	  }
 	}
 
@@ -1913,7 +1914,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Footer.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Footer.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -1924,9 +1925,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-5fbfabec", __vue_options__)
+	    hotAPI.createRecord("data-v-d35aeb72", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-5fbfabec", __vue_options__)
+	    hotAPI.reload("data-v-d35aeb72", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Footer.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -2029,7 +2030,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-5fbfabec", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-d35aeb72", module.exports)
 	  }
 	}
 
@@ -2056,7 +2057,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Login.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Login.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -2067,9 +2068,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-0d6db128", __vue_options__)
+	    hotAPI.createRecord("data-v-23afc926", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-0d6db128", __vue_options__)
+	    hotAPI.reload("data-v-23afc926", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Login.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -2216,7 +2217,7 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-0d6db128", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-23afc926", module.exports)
 	  }
 	}
 
@@ -2237,7 +2238,7 @@ webpackJsonp([0],[
 	__vue_exports__ = __webpack_require__(114)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(125)
+	var __vue_template__ = __webpack_require__(128)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -2249,7 +2250,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Modal\\Index.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Modal\\Index.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -2260,9 +2261,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-c47cfb7c", __vue_options__)
+	    hotAPI.createRecord("data-v-219264c7", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-c47cfb7c", __vue_options__)
+	    hotAPI.reload("data-v-219264c7", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Index.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -2288,7 +2289,7 @@ webpackJsonp([0],[
 
 	var _Season2 = _interopRequireDefault(_Season);
 
-	var _Trailer = __webpack_require__(203);
+	var _Trailer = __webpack_require__(125);
 
 	var _Trailer2 = _interopRequireDefault(_Trailer);
 
@@ -2336,7 +2337,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Modal\\Season.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Modal\\Season.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -2347,9 +2348,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-0fe28f23", __vue_options__)
+	    hotAPI.createRecord("data-v-062dfd3e", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-0fe28f23", __vue_options__)
+	    hotAPI.reload("data-v-062dfd3e", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Season.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -2691,12 +2692,131 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-0fe28f23", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-062dfd3e", module.exports)
 	  }
 	}
 
 /***/ },
 /* 125 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = {}
+
+	/* script */
+	__vue_exports__ = __webpack_require__(126)
+
+	/* template */
+	var __vue_template__ = __webpack_require__(127)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Modal\\Trailer.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-02f49568", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-02f49568", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] Trailer.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 126 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends2 = __webpack_require__(1);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _vuex = __webpack_require__(41);
+
+	var _helper = __webpack_require__(44);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  mixins: [_helper2.default],
+
+	  computed: (0, _extends3.default)({}, (0, _vuex.mapState)({
+	    modalData: function modalData(state) {
+	      return state.modalData;
+	    }
+	  }), {
+	    trailerSrc: function trailerSrc() {
+	      return 'https://www.youtube.com/embed/' + this.modalData.youtubeKey;
+	    }
+	  }),
+
+	  methods: (0, _extends3.default)({}, (0, _vuex.mapMutations)(['CLOSE_MODAL']))
+	};
+
+/***/ },
+/* 127 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "modal-wrap modal-wrap-big"
+	  }, [_c('div', {
+	    staticClass: "modal-header"
+	  }, [_c('span', [_vm._v("Trailer for " + _vm._s(_vm.modalData.title))]), _vm._v(" "), _c('span', {
+	    staticClass: "close-modal",
+	    on: {
+	      "click": function($event) {
+	        _vm.CLOSE_MODAL()
+	      }
+	    }
+	  }, [_c('i', {
+	    staticClass: "icon-close"
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: "modal-content"
+	  }, [_c('iframe', {
+	    attrs: {
+	      "width": "100%",
+	      "height": "100%",
+	      "src": _vm.trailerSrc,
+	      "frameborder": "0",
+	      "allowfullscreen": ""
+	    }
+	  })], 1)])
+	},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-02f49568", module.exports)
+	  }
+	}
+
+/***/ },
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2719,12 +2839,12 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-c47cfb7c", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-219264c7", module.exports)
 	  }
 	}
 
 /***/ },
-/* 126 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2737,31 +2857,31 @@ webpackJsonp([0],[
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _vueRouter = __webpack_require__(127);
+	var _vueRouter = __webpack_require__(130);
 
 	var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-	var _config = __webpack_require__(128);
+	var _config = __webpack_require__(131);
 
 	var _config2 = _interopRequireDefault(_config);
 
-	var _Content = __webpack_require__(129);
+	var _Content = __webpack_require__(132);
 
 	var _Content2 = _interopRequireDefault(_Content);
 
-	var _SearchContent = __webpack_require__(140);
+	var _SearchContent = __webpack_require__(143);
 
 	var _SearchContent2 = _interopRequireDefault(_SearchContent);
 
-	var _Index = __webpack_require__(159);
+	var _Index = __webpack_require__(162);
 
 	var _Index2 = _interopRequireDefault(_Index);
 
-	var _TMDBContent = __webpack_require__(174);
+	var _TMDBContent = __webpack_require__(177);
 
 	var _TMDBContent2 = _interopRequireDefault(_TMDBContent);
 
-	var _Subpage = __webpack_require__(177);
+	var _Subpage = __webpack_require__(180);
 
 	var _Subpage2 = _interopRequireDefault(_Subpage);
 
@@ -2772,12 +2892,12 @@ webpackJsonp([0],[
 	exports.default = new _vueRouter2.default({
 	    mode: 'history',
 	    base: _config2.default.uri,
-	    routes: [{ path: '/', component: _Content2.default, name: 'home' }, { path: '/movies', component: _Content2.default, name: 'movie' }, { path: '/tv', component: _Content2.default, name: 'tv' }, { path: '/movies/:tmdbId', component: _Subpage2.default, name: 'subpage-movie', props: { mediaType: 'movie' } }, { path: '/tv/:tmdbId', component: _Subpage2.default, name: 'subpage-tv', props: { mediaType: 'tv' } }, { path: '/search', component: _SearchContent2.default, name: 'search' }, { path: '/settings', component: _Index2.default, name: 'settings' }, { path: '/suggestions', component: _TMDBContent2.default, name: 'suggestions' }, { path: '/trending', component: _TMDBContent2.default, name: 'trending' }, { path: '/upcoming', component: _TMDBContent2.default, name: 'upcoming' }, { path: '*', component: _Content2.default }]
+	    routes: [{ path: '/', component: _Content2.default, name: 'home' }, { path: '/movies', component: _Content2.default, name: 'movie' }, { path: '/tv', component: _Content2.default, name: 'tv' }, { path: '/movies/:tmdbId-:slug', component: _Subpage2.default, name: 'subpage-movie', props: { mediaType: 'movie' } }, { path: '/tv/:tmdbId-:slug', component: _Subpage2.default, name: 'subpage-tv', props: { mediaType: 'tv' } }, { path: '/search', component: _SearchContent2.default, name: 'search' }, { path: '/settings', component: _Index2.default, name: 'settings' }, { path: '/suggestions', component: _TMDBContent2.default, name: 'suggestions' }, { path: '/trending', component: _TMDBContent2.default, name: 'trending' }, { path: '/upcoming', component: _TMDBContent2.default, name: 'upcoming' }, { path: '*', component: _Content2.default }]
 	});
 
 /***/ },
-/* 127 */,
-/* 128 */
+/* 130 */,
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2823,17 +2943,17 @@ webpackJsonp([0],[
 	exports.default = config;
 
 /***/ },
-/* 129 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(130)
+	__vue_exports__ = __webpack_require__(133)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(139)
+	var __vue_template__ = __webpack_require__(142)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -2845,7 +2965,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\Content.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\Content.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -2856,9 +2976,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-36b52675", __vue_options__)
+	    hotAPI.createRecord("data-v-6ad1830c", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-36b52675", __vue_options__)
+	    hotAPI.reload("data-v-6ad1830c", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Content.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -2867,7 +2987,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 130 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2880,7 +3000,7 @@ webpackJsonp([0],[
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _Item = __webpack_require__(131);
+	var _Item = __webpack_require__(134);
 
 	var _Item2 = _interopRequireDefault(_Item);
 
@@ -2963,17 +3083,17 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 131 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(132)
+	__vue_exports__ = __webpack_require__(135)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(138)
+	var __vue_template__ = __webpack_require__(141)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -2985,7 +3105,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\Item.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\Item.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -2996,9 +3116,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-92f11a72", __vue_options__)
+	    hotAPI.createRecord("data-v-a65a3e3c", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-92f11a72", __vue_options__)
+	    hotAPI.reload("data-v-a65a3e3c", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Item.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -3007,7 +3127,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 132 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3020,7 +3140,7 @@ webpackJsonp([0],[
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _Rating = __webpack_require__(133);
+	var _Rating = __webpack_require__(136);
 
 	var _Rating2 = _interopRequireDefault(_Rating);
 
@@ -3063,7 +3183,9 @@ webpackJsonp([0],[
 	      return config.posterTMDB + this.localItem.poster;
 	    },
 	    suggestions: function suggestions() {
-	      return '/suggestions?for=' + this.localItem.tmdb_id + '&name=' + this.localItem.title + '&type=' + this.localItem.media_type;
+	      var item = this.localItem;
+
+	      return '/suggestions?for=' + item.tmdb_id + '&name=' + item.title + '&slug=' + item.slug + '&type=' + item.media_type;
 	    },
 	    noImage: function noImage() {
 	      return config.url + '/assets/img/no-image.png';
@@ -3124,17 +3246,17 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 133 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(134)
+	__vue_exports__ = __webpack_require__(137)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(137)
+	var __vue_template__ = __webpack_require__(140)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -3146,7 +3268,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Rating.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Rating.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -3157,9 +3279,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-f0965224", __vue_options__)
+	    hotAPI.createRecord("data-v-8370956e", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-f0965224", __vue_options__)
+	    hotAPI.reload("data-v-8370956e", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Rating.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -3168,7 +3290,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 134 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3177,7 +3299,7 @@ webpackJsonp([0],[
 	  value: true
 	});
 
-	var _debounce = __webpack_require__(135);
+	var _debounce = __webpack_require__(138);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -3242,9 +3364,9 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 135 */,
-/* 136 */,
-/* 137 */
+/* 138 */,
+/* 139 */,
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3277,12 +3399,12 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-f0965224", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-8370956e", module.exports)
 	  }
 	}
 
 /***/ },
-/* 138 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3324,7 +3446,8 @@ webpackJsonp([0],[
 	      "to": {
 	        name: ("subpage-" + (_vm.localItem.media_type)),
 	        params: {
-	          tmdbId: _vm.localItem.tmdb_id
+	          tmdbId: _vm.localItem.tmdb_id,
+	          slug: _vm.localItem.slug
 	        }
 	      }
 	    }
@@ -3377,12 +3500,12 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-92f11a72", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-a65a3e3c", module.exports)
 	  }
 	}
 
 /***/ },
-/* 139 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3417,22 +3540,22 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-36b52675", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-6ad1830c", module.exports)
 	  }
 	}
 
 /***/ },
-/* 140 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(141)
+	__vue_exports__ = __webpack_require__(144)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(158)
+	var __vue_template__ = __webpack_require__(161)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -3444,7 +3567,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\SearchContent.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\SearchContent.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -3455,9 +3578,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-0fde54ad", __vue_options__)
+	    hotAPI.createRecord("data-v-504d94f2", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-0fde54ad", __vue_options__)
+	    hotAPI.reload("data-v-504d94f2", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] SearchContent.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -3466,7 +3589,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 141 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3475,11 +3598,11 @@ webpackJsonp([0],[
 	  value: true
 	});
 
-	var _regenerator = __webpack_require__(142);
+	var _regenerator = __webpack_require__(145);
 
 	var _regenerator2 = _interopRequireDefault(_regenerator);
 
-	var _asyncToGenerator2 = __webpack_require__(145);
+	var _asyncToGenerator2 = __webpack_require__(148);
 
 	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
@@ -3487,7 +3610,7 @@ webpackJsonp([0],[
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _Item = __webpack_require__(131);
+	var _Item = __webpack_require__(134);
 
 	var _Item2 = _interopRequireDefault(_Item);
 
@@ -3596,14 +3719,14 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 142 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(143);
+	module.exports = __webpack_require__(146);
 
 
 /***/ },
-/* 143 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {// This method of obtaining a reference to the global object needs to be
@@ -3624,7 +3747,7 @@ webpackJsonp([0],[
 	// Force reevalutation of runtime.js.
 	g.regeneratorRuntime = undefined;
 
-	module.exports = __webpack_require__(144);
+	module.exports = __webpack_require__(147);
 
 	if (hadRuntime) {
 	  // Restore the original runtime.
@@ -3641,7 +3764,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 144 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {/**
@@ -4331,14 +4454,14 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(40)))
 
 /***/ },
-/* 145 */
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _promise = __webpack_require__(146);
+	var _promise = __webpack_require__(149);
 
 	var _promise2 = _interopRequireDefault(_promise);
 
@@ -4374,29 +4497,29 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 146 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(147), __esModule: true };
+	module.exports = { "default": __webpack_require__(150), __esModule: true };
 
 /***/ },
-/* 147 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(148);
+	__webpack_require__(151);
 	__webpack_require__(80);
 	__webpack_require__(119);
-	__webpack_require__(149);
+	__webpack_require__(152);
 	module.exports = __webpack_require__(7).Promise;
 
 /***/ },
-/* 148 */
+/* 151 */
 /***/ function(module, exports) {
 
 	
 
 /***/ },
-/* 149 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4407,11 +4530,11 @@ webpackJsonp([0],[
 	  , $export            = __webpack_require__(5)
 	  , isObject           = __webpack_require__(13)
 	  , aFunction          = __webpack_require__(9)
-	  , anInstance         = __webpack_require__(150)
-	  , forOf              = __webpack_require__(151)
-	  , speciesConstructor = __webpack_require__(152)
-	  , task               = __webpack_require__(153).set
-	  , microtask          = __webpack_require__(155)()
+	  , anInstance         = __webpack_require__(153)
+	  , forOf              = __webpack_require__(154)
+	  , speciesConstructor = __webpack_require__(155)
+	  , task               = __webpack_require__(156).set
+	  , microtask          = __webpack_require__(158)()
 	  , PROMISE            = 'Promise'
 	  , TypeError          = global.TypeError
 	  , process            = global.process
@@ -4603,7 +4726,7 @@ webpackJsonp([0],[
 	    this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
 	    this._n = false;          // <- notify
 	  };
-	  Internal.prototype = __webpack_require__(156)($Promise.prototype, {
+	  Internal.prototype = __webpack_require__(159)($Promise.prototype, {
 	    // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
 	    then: function then(onFulfilled, onRejected){
 	      var reaction    = newPromiseCapability(speciesConstructor(this, $Promise));
@@ -4630,7 +4753,7 @@ webpackJsonp([0],[
 
 	$export($export.G + $export.W + $export.F * !USE_NATIVE, {Promise: $Promise});
 	__webpack_require__(90)($Promise, PROMISE);
-	__webpack_require__(157)(PROMISE);
+	__webpack_require__(160)(PROMISE);
 	Wrapper = __webpack_require__(7)[PROMISE];
 
 	// statics
@@ -4700,7 +4823,7 @@ webpackJsonp([0],[
 	});
 
 /***/ },
-/* 150 */
+/* 153 */
 /***/ function(module, exports) {
 
 	module.exports = function(it, Constructor, name, forbiddenField){
@@ -4710,7 +4833,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 151 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ctx         = __webpack_require__(8)
@@ -4740,7 +4863,7 @@ webpackJsonp([0],[
 	exports.RETURN = RETURN;
 
 /***/ },
-/* 152 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -4753,11 +4876,11 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 153 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ctx                = __webpack_require__(8)
-	  , invoke             = __webpack_require__(154)
+	  , invoke             = __webpack_require__(157)
 	  , html               = __webpack_require__(89)
 	  , cel                = __webpack_require__(17)
 	  , global             = __webpack_require__(6)
@@ -4833,7 +4956,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 154 */
+/* 157 */
 /***/ function(module, exports) {
 
 	// fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -4854,11 +4977,11 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 155 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var global    = __webpack_require__(6)
-	  , macrotask = __webpack_require__(153).set
+	  , macrotask = __webpack_require__(156).set
 	  , Observer  = global.MutationObserver || global.WebKitMutationObserver
 	  , process   = global.process
 	  , Promise   = global.Promise
@@ -4927,7 +5050,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 156 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var hide = __webpack_require__(10);
@@ -4939,7 +5062,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 157 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4958,7 +5081,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 158 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4991,22 +5114,22 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-0fde54ad", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-504d94f2", module.exports)
 	  }
 	}
 
 /***/ },
-/* 159 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(160)
+	__vue_exports__ = __webpack_require__(163)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(173)
+	var __vue_template__ = __webpack_require__(176)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5018,7 +5141,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\Settings\\Index.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\Settings\\Index.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -5029,9 +5152,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-13e6896d", __vue_options__)
+	    hotAPI.createRecord("data-v-3d415c70", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-13e6896d", __vue_options__)
+	    hotAPI.reload("data-v-3d415c70", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Index.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -5040,7 +5163,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 160 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5053,19 +5176,19 @@ webpackJsonp([0],[
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _User = __webpack_require__(161);
+	var _User = __webpack_require__(164);
 
 	var _User2 = _interopRequireDefault(_User);
 
-	var _Options = __webpack_require__(164);
+	var _Options = __webpack_require__(167);
 
 	var _Options2 = _interopRequireDefault(_Options);
 
-	var _Backup = __webpack_require__(167);
+	var _Backup = __webpack_require__(170);
 
 	var _Backup2 = _interopRequireDefault(_Backup);
 
-	var _Misc = __webpack_require__(170);
+	var _Misc = __webpack_require__(173);
 
 	var _Misc2 = _interopRequireDefault(_Misc);
 
@@ -5105,17 +5228,17 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 161 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(162)
+	__vue_exports__ = __webpack_require__(165)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(163)
+	var __vue_template__ = __webpack_require__(166)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5127,7 +5250,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\Settings\\User.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\Settings\\User.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -5138,9 +5261,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-4d0e2500", __vue_options__)
+	    hotAPI.createRecord("data-v-19e82dc5", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-4d0e2500", __vue_options__)
+	    hotAPI.reload("data-v-19e82dc5", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] User.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -5149,7 +5272,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 162 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5172,7 +5295,7 @@ webpackJsonp([0],[
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _debounce = __webpack_require__(135);
+	var _debounce = __webpack_require__(138);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -5233,7 +5356,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 163 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5304,22 +5427,22 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-4d0e2500", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-19e82dc5", module.exports)
 	  }
 	}
 
 /***/ },
-/* 164 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(165)
+	__vue_exports__ = __webpack_require__(168)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(166)
+	var __vue_template__ = __webpack_require__(169)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5331,7 +5454,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\Settings\\Options.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\Settings\\Options.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -5342,9 +5465,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-e20f270e", __vue_options__)
+	    hotAPI.createRecord("data-v-3d3eebd8", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-e20f270e", __vue_options__)
+	    hotAPI.reload("data-v-3d3eebd8", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Options.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -5353,7 +5476,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 165 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5376,7 +5499,7 @@ webpackJsonp([0],[
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _debounce = __webpack_require__(135);
+	var _debounce = __webpack_require__(138);
 
 	var _debounce2 = _interopRequireDefault(_debounce);
 
@@ -5434,7 +5557,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 166 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5565,22 +5688,22 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-e20f270e", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-3d3eebd8", module.exports)
 	  }
 	}
 
 /***/ },
-/* 167 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(168)
+	__vue_exports__ = __webpack_require__(171)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(169)
+	var __vue_template__ = __webpack_require__(172)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5592,7 +5715,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\Settings\\Backup.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\Settings\\Backup.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -5603,9 +5726,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-0755f0b7", __vue_options__)
+	    hotAPI.createRecord("data-v-2e139888", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-0755f0b7", __vue_options__)
+	    hotAPI.reload("data-v-2e139888", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Backup.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -5614,7 +5737,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 168 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5691,7 +5814,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 169 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5735,22 +5858,22 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-0755f0b7", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-2e139888", module.exports)
 	  }
 	}
 
 /***/ },
-/* 170 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(171)
+	__vue_exports__ = __webpack_require__(174)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(172)
+	var __vue_template__ = __webpack_require__(175)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5762,7 +5885,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\Settings\\Misc.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\Settings\\Misc.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -5773,9 +5896,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-befca3be", __vue_options__)
+	    hotAPI.createRecord("data-v-3e1e2334", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-befca3be", __vue_options__)
+	    hotAPI.reload("data-v-3e1e2334", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Misc.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -5784,7 +5907,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 171 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5884,7 +6007,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 172 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5932,12 +6055,12 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-befca3be", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-3e1e2334", module.exports)
 	  }
 	}
 
 /***/ },
-/* 173 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5988,22 +6111,22 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-13e6896d", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-3d415c70", module.exports)
 	  }
 	}
 
 /***/ },
-/* 174 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(175)
+	__vue_exports__ = __webpack_require__(178)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(176)
+	var __vue_template__ = __webpack_require__(179)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -6015,7 +6138,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\TMDBContent.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\TMDBContent.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -6026,9 +6149,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-54c33944", __vue_options__)
+	    hotAPI.createRecord("data-v-0a0a1e3a", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-54c33944", __vue_options__)
+	    hotAPI.reload("data-v-0a0a1e3a", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] TMDBContent.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -6037,7 +6160,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 175 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6050,7 +6173,7 @@ webpackJsonp([0],[
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _Item = __webpack_require__(131);
+	var _Item = __webpack_require__(134);
 
 	var _Item2 = _interopRequireDefault(_Item);
 
@@ -6142,7 +6265,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 176 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6170,22 +6293,22 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-54c33944", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-0a0a1e3a", module.exports)
 	  }
 	}
 
 /***/ },
-/* 177 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = {}
 
 	/* script */
-	__vue_exports__ = __webpack_require__(178)
+	__vue_exports__ = __webpack_require__(181)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(179)
+	var __vue_template__ = __webpack_require__(182)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -6197,7 +6320,7 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Content\\Subpage.vue"
+	__vue_options__.__file = "C:\\Users\\pyxl\\Code\\flox\\client\\app\\components\\Content\\Subpage.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -6208,9 +6331,9 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-68be506a", __vue_options__)
+	    hotAPI.createRecord("data-v-5f82efd0", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-68be506a", __vue_options__)
+	    hotAPI.reload("data-v-5f82efd0", __vue_options__)
 	  }
 	})()}
 	if (__vue_options__.functional) {console.error("[vue-loader] Subpage.vue: functional components are not supported and should be defined in plain js files using render functions.")}
@@ -6219,7 +6342,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 178 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6232,7 +6355,7 @@ webpackJsonp([0],[
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _Rating = __webpack_require__(133);
+	var _Rating = __webpack_require__(136);
 
 	var _Rating2 = _interopRequireDefault(_Rating);
 
@@ -6339,6 +6462,7 @@ webpackJsonp([0],[
 	    fetchData: function fetchData() {
 	      var _this2 = this;
 
+	      console.log(this.$route);
 	      var tmdbId = this.$route.params.tmdbId;
 
 	      this.SET_LOADING(true);
@@ -6396,7 +6520,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 179 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6515,156 +6639,15 @@ webpackJsonp([0],[
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-68be506a", module.exports)
+	     require("vue-hot-reload-api").rerender("data-v-5f82efd0", module.exports)
 	  }
 	}
 
 /***/ },
-/* 180 */
+/* 183 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = {}
-
-	/* script */
-	__vue_exports__ = __webpack_require__(204)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(205)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Modal\\Trailer.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-2fd24023", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-2fd24023", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] Trailer.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 204 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends2 = __webpack_require__(1);
-
-	var _extends3 = _interopRequireDefault(_extends2);
-
-	var _vuex = __webpack_require__(41);
-
-	var _helper = __webpack_require__(44);
-
-	var _helper2 = _interopRequireDefault(_helper);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	  mixins: [_helper2.default],
-
-	  computed: (0, _extends3.default)({}, (0, _vuex.mapState)({
-	    modalData: function modalData(state) {
-	      return state.modalData;
-	    }
-	  }), {
-	    trailerSrc: function trailerSrc() {
-	      return 'https://www.youtube.com/embed/' + this.modalData.youtubeKey;
-	    }
-	  }),
-
-	  methods: (0, _extends3.default)({}, (0, _vuex.mapMutations)(['CLOSE_MODAL']))
-	};
-
-/***/ },
-/* 205 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _c('div', {
-	    staticClass: "modal-wrap modal-wrap-big"
-	  }, [_c('div', {
-	    staticClass: "modal-header"
-	  }, [_c('span', [_vm._v("Trailer for " + _vm._s(_vm.modalData.title))]), _vm._v(" "), _c('span', {
-	    staticClass: "close-modal",
-	    on: {
-	      "click": function($event) {
-	        _vm.CLOSE_MODAL()
-	      }
-	    }
-	  }, [_c('i', {
-	    staticClass: "icon-close"
-	  })])]), _vm._v(" "), _c('div', {
-	    staticClass: "modal-content"
-	  }, [_c('iframe', {
-	    attrs: {
-	      "width": "100%",
-	      "height": "100%",
-	      "src": _vm.trailerSrc,
-	      "frameborder": "0",
-	      "allowfullscreen": ""
-	    }
-	  })], 1)])
-	},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-hot-reload-api").rerender("data-v-2fd24023", module.exports)
-	  }
-	}
 
 /***/ }
 ]);

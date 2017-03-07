@@ -157,6 +157,7 @@
       },
 
       fetchData() {
+        console.log(this.$route);
         const tmdbId = this.$route.params.tmdbId;
 
         this.SET_LOADING(true);

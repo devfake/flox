@@ -184,9 +184,12 @@
         isset($data->release_date) ? ($data->release_date ?: '1970-12-1') : ($data->first_air_date ?: '1970-12-1')
       );
 
+      $title = $data->name ?? $data->title;
+
       return [
         'tmdb_id' => $data->id,
-        'title' => $data->name ?? $data->title,
+        'title' => $title,
+        'slug' => str_slug($title),
         'original_title' => $data->original_name ?? $data->original_title,
         'poster' => $data->poster_path,
         'media_type' => $mediaType,

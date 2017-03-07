@@ -8,7 +8,7 @@
         <span v-if="auth && localItem.rating == null" class="add-to-watchlist" @click="addToWatchlist()">Add to watchlist</span>
         <span v-if="auth && ! localItem.tmdb_id" class="edit-item" @click="editItem()">Edit</span>
 
-        <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id }}">
+        <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id, slug: localItem.slug }}">
           <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
           <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
         </router-link>
@@ -65,7 +65,9 @@
       },
 
       suggestions() {
-        return `/suggestions?for=${this.localItem.tmdb_id}&name=${this.localItem.title}&type=${this.localItem.media_type}`;
+        const item = this.localItem;
+
+        return `/suggestions?for=${item.tmdb_id}&name=${item.title}&slug=${item.slug}&type=${item.media_type}`;
       },
 
       noImage() {

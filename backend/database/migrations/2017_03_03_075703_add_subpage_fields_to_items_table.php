@@ -10,6 +10,7 @@ class AddSubpageFieldsToItemsTable extends Migration
     {
         Schema::table('items', function (Blueprint $table) {
             $table->string('backdrop')->nullable();
+            $table->string('slug')->nullable();
             $table->string('youtube_key')->nullable();
             $table->string('imdb_id')->nullable();
             $table->text('overview')->nullable();
