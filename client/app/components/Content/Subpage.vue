@@ -76,6 +76,7 @@
     destroyed() {
       document.body.classList.remove('subpage-open');
       this.SET_ITEM_LOADED_SUBPAGE(false);
+      this.CLOSE_MODAL();
     },
 
     data() {
@@ -128,7 +129,7 @@
     },
 
     methods: {
-      ...mapMutations([ 'SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL' ]),
+      ...mapMutations([ 'SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL', 'CLOSE_MODAL' ]),
 
       openTrailer() {
         this.OPEN_MODAL({
@@ -173,13 +174,13 @@
         setTimeout(() => {
           this.SET_LOADING(false);
           this.displayItem();
-        }, 300);
+        }, 100);
       },
 
       displayItem() {
         setTimeout(() => {
           this.SET_ITEM_LOADED_SUBPAGE(true);
-        }, 100);
+        }, 50);
       },
 
       setItem(item) {

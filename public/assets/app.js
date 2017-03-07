@@ -6261,6 +6261,7 @@ webpackJsonp([0],[
 	  destroyed: function destroyed() {
 	    document.body.classList.remove('subpage-open');
 	    this.SET_ITEM_LOADED_SUBPAGE(false);
+	    this.CLOSE_MODAL();
 	  },
 	  data: function data() {
 	    return {
@@ -6310,7 +6311,7 @@ webpackJsonp([0],[
 	    }
 	  }),
 
-	  methods: (0, _extends3.default)({}, (0, _vuex.mapMutations)(['SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL']), {
+	  methods: (0, _extends3.default)({}, (0, _vuex.mapMutations)(['SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL', 'CLOSE_MODAL']), {
 	    openTrailer: function openTrailer() {
 	      this.OPEN_MODAL({
 	        type: 'trailer',
@@ -6356,14 +6357,14 @@ webpackJsonp([0],[
 	      setTimeout(function () {
 	        _this3.SET_LOADING(false);
 	        _this3.displayItem();
-	      }, 300);
+	      }, 100);
 	    },
 	    displayItem: function displayItem() {
 	      var _this4 = this;
 
 	      setTimeout(function () {
 	        _this4.SET_ITEM_LOADED_SUBPAGE(true);
-	      }, 100);
+	      }, 50);
 	    },
 	    setItem: function setItem(item) {
 	      this.item = item;

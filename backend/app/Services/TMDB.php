@@ -202,10 +202,10 @@
 
     private function requestTmdb($url, $query = [])
     {
-      $query = array_merge($query, [
+      $query = array_merge([
         'api_key' => $this->apiKey,
         'language' => strtolower($this->translation)
-      ]);
+      ], $query);
 
       try {
         $response = $this->client->get($url, [
@@ -239,6 +239,15 @@
     {
       $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId, [
         'append_to_response' => 'videos,external_ids',
+      ]);
+
+      return json_decode($response->getBody());
+    }
+
+    public function videos($tmdbId, $mediaType, $translation = null)
+    {
+      $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId . '/videos', [
+        'language' => $translation ?? $this->translation,
       ]);
 
       return json_decode($response->getBody());

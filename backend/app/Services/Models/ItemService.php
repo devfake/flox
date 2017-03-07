@@ -73,7 +73,7 @@
         $details = $this->tmdb->details($data['tmdb_id'], $data['media_type']);
 
         $data['imdb_id'] = $data['imdb_id'] ?? $this->parseImdbId($details, $data['media_type']);
-        $data['youtube_key'] = $data['youtube_key'] ?? $this->parseYoutubeKey($details->videos);
+        $data['youtube_key'] = $data['youtube_key'] ?? $this->parseYoutubeKey($details, $data['media_type']);
       }
 
       // If the user clicks to fast on adding item, we need to re-fetch the rating from IMDb.
@@ -142,18 +142,16 @@
       $this->storage->removeBackdrop($item->backdrop);
     }
 
-    // todo: parse english fallback trailer
-    public function parseYoutubeKey($videos)
+    public function parseYoutubeKey($data, $mediaType)
     {
-      if(isset($videos->results[0])) {
-        $firstResult = $videos->results[0];
-
-        if(strtolower($firstResult->site) == 'youtube') {
-          return $firstResult->key;
-        }
+      if(isset($data->videos->results[0])) {
+        return $data->videos->results[0]->key;
       }
 
-      return null;
+      // Try to fetch details again with english language as fallback.
+      $videos = $this->tmdb->videos($data->id, $mediaType, 'en');
+
+      return $videos->results[0]->key ?? null;
     }
 
     /**
