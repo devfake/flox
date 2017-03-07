@@ -1,11 +1,12 @@
 <template>
   <transition mode="out-in" name="fade">
     <div class="item-wrap">
-      <div class="item-image-wrap">
+      <div class="item-image-wrap no-select">
         <rating :item="localItem" :set-item="setItem"></rating>
 
         <router-link v-if="localItem.tmdb_id" :to="suggestions" class="recommend-item">{{ lang('suggestions') }}</router-link>
         <span v-if="auth && localItem.rating == null" class="add-to-watchlist" @click="addToWatchlist()">Add to watchlist</span>
+        <span v-if="auth && ! localItem.tmdb_id" class="edit-item" @click="editItem()">Edit</span>
 
         <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id }}">
           <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
@@ -82,10 +83,6 @@
         return released.getFullYear();
       },
 
-      youtube() {
-        return `https://www.youtube.com/results?search_query=${this.localItem.title} ${this.released} Trailer`;
-      },
-
       displaySeason() {
         return this.localItem.media_type == 'tv' && this.localItem.rating != null && this.localItem.tmdb_id;
       },
@@ -130,6 +127,10 @@
       },
 
       addToWatchlist() {
+
+      },
+
+      editItem() {
 
       }
     },

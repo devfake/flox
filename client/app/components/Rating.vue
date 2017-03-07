@@ -3,7 +3,7 @@
     <span v-if="item.rating != null" :class="'item-rating rating-' + item.rating" @click="changeRating()">
       <i class="icon-rating"></i>
     </span>
-    <span v-if="item.rating == null && item.tmdb_id && ! rated" class="item-rating item-new" @click="addNewItem()">
+    <span v-if="item.rating == null && item.tmdb_id && ! rated && auth" class="item-rating item-new" @click="addNewItem()">
       <i class="icon-add"></i>
     </span>
     <span v-if="item.rating == null && item.tmdb_id && rated" class="item-rating item-new">

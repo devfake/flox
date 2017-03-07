@@ -14,8 +14,8 @@
               <span class="item-genre">{{ item.genre }}</span>
             </div>
             <div class="big-teaser-buttons no-select">
-              <a v-if="item.trailer_src" :href="item.trailer_src" target="_blank" class="button-trailer"><i class="icon-trailer"></i> Watch trailer</a>
-              <span v-if="item.rating == null && auth" class="button-watchlist"><i class="icon-watchlist"></i> Add to watchlist</span>
+              <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> Watch Trailer</span>
+              <span v-if="item.rating == null && auth" class="button-watchlist"><i class="icon-watchlist"></i> Add to Watchlist</span>
               <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank" class="button-tmdb-rating">
                 <i v-if="item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
                 <i v-else>No TMDb Rating</i>
@@ -36,7 +36,7 @@
         <div class="subpage-sidebar">
           <div class="subpage-poster-wrap">
             <rating :item="item" :set-item="setItem"></rating>
-            <img class="base" width="272" height="408">
+            <img class="base" :src="noImage" width="272" height="408">
             <img class="real" :src="posterImage" width="272" height="408">
           </div>
 
@@ -120,14 +120,28 @@
         const released = new Date(this.item.released * 1000);
 
         return released.getFullYear();
+      },
+
+      noImage() {
+        return config.url + '/assets/img/no-image-subpage.png';
       }
     },
 
     methods: {
-      ...mapMutations([ 'SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE' ]),
+      ...mapMutations([ 'SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL' ]),
+
+      openTrailer() {
+        this.OPEN_MODAL({
+          type: 'trailer',
+          data: {
+            youtubeKey: this.item.youtube_key,
+            title: this.item.title
+          }
+        });
+      },
 
       fetchImdbRating() {
-        if(this.item.imdb_id && this.item.imdb_rating == null) {
+        if(this.item.imdb_id && this.item.rating == null) {
           this.loadingImdb = true;
 
           http(`${config.api}/imdb-rating/${this.item.imdb_id}`).then(response => {
@@ -165,8 +179,6 @@
       displayItem() {
         setTimeout(() => {
           this.SET_ITEM_LOADED_SUBPAGE(true);
-          //this.scrollToTop();
-          //this.itemLoadedSubpage = true;
         }, 100);
       },
 

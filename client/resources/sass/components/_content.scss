@@ -353,7 +353,8 @@ main {
   }
 }
 
-.add-to-watchlist {
+.add-to-watchlist,
+.edit-item {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -381,6 +382,19 @@ main {
 
   @include media(3) {
     display: none;
+  }
+}
+
+.edit-item {
+  background: $rating2;
+  opacity: 1;
+
+  &:hover {
+    background: lighten($rating2, 5%);
+  }
+
+  &:active {
+    background: $rating2;
   }
 }
 

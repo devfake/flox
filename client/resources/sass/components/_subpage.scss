@@ -8,6 +8,10 @@
   height: 65vh;
   z-index: 10;
   box-shadow: 0 0 70px 0 rgba(0,0,0,.5);
+
+  .open-modal & {
+    padding: 0 20px 0 0;
+  }
 }
 
 .button-trailer {
@@ -157,6 +161,10 @@
 .subpage-content {
   width: 100%;
   padding: calc(65vh - 90px) 0 0 0;
+
+  .open-modal & {
+    padding: calc(65vh - 90px) 20px 0 0;
+  }
 }
 
 .subpage-sidebar {
@@ -175,7 +183,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: #282828 ;
     float: left;
   }
 
@@ -206,7 +213,6 @@
 }
 
 .subpage-overview {
-  // todo: use flexbox here
   width: calc(100% - 350px);
   float: left;
   margin: 0 0 0 30px;

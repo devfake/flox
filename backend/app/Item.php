@@ -29,7 +29,7 @@
       'imdb_id',
       'imdb_rating',
       'backdrop',
-      'trailer_src',
+      'youtube_key',
     ];
 
     /**
@@ -54,7 +54,7 @@
         'tmdb_rating' => $data['tmdb_rating'],
         'imdb_id' => $data['imdb_id'],
         'imdb_rating' => $data['imdb_rating'],
-        'trailer_src' => $data['trailer_src'],
+        'youtube_key' => $data['youtube_key'],
         'last_seen_at' => Carbon::now(),
       ]);
     }

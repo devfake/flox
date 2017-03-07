@@ -1571,7 +1571,8 @@ main {
   .remove-item:active {
     background: #cd2727; }
 
-.add-to-watchlist {
+.add-to-watchlist,
+.edit-item {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -1586,15 +1587,26 @@ main {
   width: 100%;
   -webkit-transition: background 0.2s ease 0s, opacity 0.2s ease 0s;
   transition: background 0.2s ease 0s, opacity 0.2s ease 0s; }
-  .add-to-watchlist:hover {
+  .add-to-watchlist:hover,
+  .edit-item:hover {
     background: #2f99dc;
     opacity: 1 !important; }
-  .add-to-watchlist:active {
+  .add-to-watchlist:active,
+  .edit-item:active {
     background: #238cce;
     opacity: .7 !important; }
   @media (max-width: 860px) {
-    .add-to-watchlist {
+    .add-to-watchlist,
+    .edit-item {
       display: none; } }
+
+.edit-item {
+  background: #da9527;
+  opacity: 1; }
+  .edit-item:hover {
+    background: #dea03d; }
+  .edit-item:active {
+    background: #da9527; }
 
 .show-episode {
   position: absolute;
@@ -1829,6 +1841,8 @@ main {
   height: 65vh;
   z-index: 10;
   box-shadow: 0 0 70px 0 rgba(0, 0, 0, 0.5); }
+  .open-modal .big-teaser-wrap {
+    padding: 0 20px 0 0; }
 
 .button-trailer {
   background: #484848;
@@ -1936,6 +1950,8 @@ main {
 .subpage-content {
   width: 100%;
   padding: calc(65vh - 90px) 0 0 0; }
+  .open-modal .subpage-content {
+    padding: calc(65vh - 90px) 20px 0 0; }
 
 .subpage-sidebar {
   float: left;
@@ -1951,7 +1967,6 @@ main {
     position: absolute;
     top: 0;
     left: 0;
-    background: #282828;
     float: left; }
   .subpage-poster-wrap .real {
     float: left;
@@ -2134,6 +2149,18 @@ footer {
   @media (max-width: 740px) {
     .modal-wrap {
       top: 0; } }
+
+.modal-wrap-big {
+  max-width: 1300px;
+  height: 80%; }
+  .modal-wrap-big .modal-content {
+    max-height: calc(100% - 45px);
+    height: 100%; }
+    .modal-wrap-big .modal-content iframe {
+      float: left; }
+  @media (max-width: 740px) {
+    .modal-wrap-big {
+      height: 100%; } }
 
 .modal-header {
   background: #f1309a;

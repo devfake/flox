@@ -782,12 +782,15 @@ webpackJsonp([0],[
 	        month: '2-digit',
 	        day: '2-digit'
 	      });
+	    },
+	    isSubpage: function isSubpage() {
+	      return this.$route.name.includes('subpage');
 	    }
 	  },
 
 	  computed: {
 	    displayHeader: function displayHeader() {
-	      if (this.$route.name == 'subpage-tv' || this.$route.name == 'subpage-movie') {
+	      if (this.isSubpage()) {
 	        return this.itemLoadedSubpage;
 	      }
 
@@ -1612,7 +1615,7 @@ webpackJsonp([0],[
 	      "width": "108",
 	      "height": "32"
 	    }
-	  })]), _vm._v(" "), _c('span', {
+	  })]), _vm._v(" "), (!_vm.isSubpage()) ? _c('span', {
 	    staticClass: "sort-wrap"
 	  }, [_c('i', {
 	    staticClass: "icon-sort-time",
@@ -1650,7 +1653,7 @@ webpackJsonp([0],[
 	        _vm.toggleColorScheme()
 	      }
 	    }
-	  }, [_c('i')])]), _vm._v(" "), _c('ul', {
+	  }, [_c('i')])]) : _vm._e(), _vm._v(" "), _c('ul', {
 	    staticClass: "site-nav"
 	  }, [_c('li', [_c('router-link', {
 	    attrs: {
@@ -2285,6 +2288,10 @@ webpackJsonp([0],[
 
 	var _Season2 = _interopRequireDefault(_Season);
 
+	var _Trailer = __webpack_require__(203);
+
+	var _Trailer2 = _interopRequireDefault(_Trailer);
+
 	var _vuex = __webpack_require__(41);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -2302,7 +2309,7 @@ webpackJsonp([0],[
 	  methods: (0, _extends3.default)({}, (0, _vuex.mapMutations)(['CLOSE_MODAL'])),
 
 	  components: {
-	    Season: _Season2.default
+	    Season: _Season2.default, Trailer: _Trailer2.default
 	  }
 	};
 
@@ -2700,7 +2707,7 @@ webpackJsonp([0],[
 	      "mode": "out-in",
 	      "name": "fade"
 	    }
-	  }, [(_vm.modalType == 'season') ? _c('season') : _vm._e()], 1), _vm._v(" "), (_vm.overlay) ? _c('span', {
+	  }, [(_vm.modalType == 'season') ? _c('season') : _vm._e(), _vm._v(" "), (_vm.modalType == 'trailer') ? _c('trailer') : _vm._e()], 1), _vm._v(" "), (_vm.overlay) ? _c('span', {
 	    staticClass: "overlay",
 	    on: {
 	      "click": function($event) {
@@ -3071,9 +3078,6 @@ webpackJsonp([0],[
 
 	      return released.getFullYear();
 	    },
-	    youtube: function youtube() {
-	      return 'https://www.youtube.com/results?search_query=' + this.localItem.title + ' ' + this.released + ' Trailer';
-	    },
 	    displaySeason: function displaySeason() {
 	      return this.localItem.media_type == 'tv' && this.localItem.rating != null && this.localItem.tmdb_id;
 	    },
@@ -3110,7 +3114,8 @@ webpackJsonp([0],[
 	    setItem: function setItem(item) {
 	      this.localItem = item;
 	    },
-	    addToWatchlist: function addToWatchlist() {}
+	    addToWatchlist: function addToWatchlist() {},
+	    editItem: function editItem() {}
 	  }),
 
 	  components: {
@@ -3252,7 +3257,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_c('i', {
 	    staticClass: "icon-rating"
-	  })]) : _vm._e(), _vm._v(" "), (_vm.item.rating == null && _vm.item.tmdb_id && !_vm.rated) ? _c('span', {
+	  })]) : _vm._e(), _vm._v(" "), (_vm.item.rating == null && _vm.item.tmdb_id && !_vm.rated && _vm.auth) ? _c('span', {
 	    staticClass: "item-rating item-new",
 	    on: {
 	      "click": function($event) {
@@ -3289,7 +3294,7 @@ webpackJsonp([0],[
 	  }, [_c('div', {
 	    staticClass: "item-wrap"
 	  }, [_c('div', {
-	    staticClass: "item-image-wrap"
+	    staticClass: "item-image-wrap no-select"
 	  }, [_c('rating', {
 	    attrs: {
 	      "item": _vm.localItem,
@@ -3307,7 +3312,14 @@ webpackJsonp([0],[
 	        _vm.addToWatchlist()
 	      }
 	    }
-	  }, [_vm._v("Add to watchlist")]) : _vm._e(), _vm._v(" "), _c('router-link', {
+	  }, [_vm._v("Add to watchlist")]) : _vm._e(), _vm._v(" "), (_vm.auth && !_vm.localItem.tmdb_id) ? _c('span', {
+	    staticClass: "edit-item",
+	    on: {
+	      "click": function($event) {
+	        _vm.editItem()
+	      }
+	    }
+	  }, [_vm._v("Edit")]) : _vm._e(), _vm._v(" "), _c('router-link', {
 	    attrs: {
 	      "to": {
 	        name: ("subpage-" + (_vm.localItem.media_type)),
@@ -6292,14 +6304,26 @@ webpackJsonp([0],[
 	      var released = new Date(this.item.released * 1000);
 
 	      return released.getFullYear();
+	    },
+	    noImage: function noImage() {
+	      return config.url + '/assets/img/no-image-subpage.png';
 	    }
 	  }),
 
-	  methods: (0, _extends3.default)({}, (0, _vuex.mapMutations)(['SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE']), {
+	  methods: (0, _extends3.default)({}, (0, _vuex.mapMutations)(['SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL']), {
+	    openTrailer: function openTrailer() {
+	      this.OPEN_MODAL({
+	        type: 'trailer',
+	        data: {
+	          youtubeKey: this.item.youtube_key,
+	          title: this.item.title
+	        }
+	      });
+	    },
 	    fetchImdbRating: function fetchImdbRating() {
 	      var _this = this;
 
-	      if (this.item.imdb_id && this.item.imdb_rating == null) {
+	      if (this.item.imdb_id && this.item.rating == null) {
 	        this.loadingImdb = true;
 
 	        (0, _axios2.default)(config.api + '/imdb-rating/' + this.item.imdb_id).then(function (response) {
@@ -6405,19 +6429,20 @@ webpackJsonp([0],[
 	    staticClass: "item-genre"
 	  }, [_vm._v(_vm._s(_vm.item.genre))])]), _vm._v(" "), _c('div', {
 	    staticClass: "big-teaser-buttons no-select"
-	  }, [(_vm.item.trailer_src) ? _c('a', {
+	  }, [(_vm.item.youtube_key) ? _c('span', {
 	    staticClass: "button-trailer",
-	    attrs: {
-	      "href": _vm.item.trailer_src,
-	      "target": "_blank"
+	    on: {
+	      "click": function($event) {
+	        _vm.openTrailer()
+	      }
 	    }
 	  }, [_c('i', {
 	    staticClass: "icon-trailer"
-	  }), _vm._v(" Watch trailer")]) : _vm._e(), _vm._v(" "), (_vm.item.rating == null && _vm.auth) ? _c('span', {
+	  }), _vm._v(" Watch Trailer")]) : _vm._e(), _vm._v(" "), (_vm.item.rating == null && _vm.auth) ? _c('span', {
 	    staticClass: "button-watchlist"
 	  }, [_c('i', {
 	    staticClass: "icon-watchlist"
-	  }), _vm._v(" Add to watchlist")]) : _vm._e(), _vm._v(" "), _c('a', {
+	  }), _vm._v(" Add to Watchlist")]) : _vm._e(), _vm._v(" "), _c('a', {
 	    staticClass: "button-tmdb-rating",
 	    attrs: {
 	      "href": ("https://www.themoviedb.org/" + (_vm.item.media_type) + "/" + (_vm.item.tmdb_id)),
@@ -6454,6 +6479,7 @@ webpackJsonp([0],[
 	  }), _vm._v(" "), _c('img', {
 	    staticClass: "base",
 	    attrs: {
+	      "src": _vm.noImage,
 	      "width": "272",
 	      "height": "408"
 	    }
@@ -6497,6 +6523,147 @@ webpackJsonp([0],[
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = {}
+
+	/* script */
+	__vue_exports__ = __webpack_require__(204)
+
+	/* template */
+	var __vue_template__ = __webpack_require__(205)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.__file = "C:\\xampp\\htdocs\\flox\\client\\app\\components\\Modal\\Trailer.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-2fd24023", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-2fd24023", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] Trailer.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends2 = __webpack_require__(1);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _vuex = __webpack_require__(41);
+
+	var _helper = __webpack_require__(44);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  mixins: [_helper2.default],
+
+	  computed: (0, _extends3.default)({}, (0, _vuex.mapState)({
+	    modalData: function modalData(state) {
+	      return state.modalData;
+	    }
+	  }), {
+	    trailerSrc: function trailerSrc() {
+	      return 'https://www.youtube.com/embed/' + this.modalData.youtubeKey;
+	    }
+	  }),
+
+	  methods: (0, _extends3.default)({}, (0, _vuex.mapMutations)(['CLOSE_MODAL']))
+	};
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: "modal-wrap modal-wrap-big"
+	  }, [_c('div', {
+	    staticClass: "modal-header"
+	  }, [_c('span', [_vm._v("Trailer for " + _vm._s(_vm.modalData.title))]), _vm._v(" "), _c('span', {
+	    staticClass: "close-modal",
+	    on: {
+	      "click": function($event) {
+	        _vm.CLOSE_MODAL()
+	      }
+	    }
+	  }, [_c('i', {
+	    staticClass: "icon-close"
+	  })])]), _vm._v(" "), _c('div', {
+	    staticClass: "modal-content"
+	  }, [_c('iframe', {
+	    attrs: {
+	      "width": "100%",
+	      "height": "100%",
+	      "src": _vm.trailerSrc,
+	      "frameborder": "0",
+	      "allowfullscreen": ""
+	    }
+	  })], 1)])
+	},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-hot-reload-api").rerender("data-v-2fd24023", module.exports)
+	  }
+	}
 
 /***/ }
 ]);

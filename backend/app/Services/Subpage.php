@@ -25,7 +25,7 @@
       $found->genre_ids = collect($found->genres)->pluck('id')->all();
 
       $item = $this->tmdb->createItem($found, $mediaType);
-      $item['trailer_src'] = $this->itemService->parseVideoTrailer($found->videos);
+      $item['youtube_key'] = $this->itemService->parseYoutubeKey($found->videos);
       $item['imdb_id'] = $this->itemService->parseImdbId($found, $mediaType);
 
       return $item;

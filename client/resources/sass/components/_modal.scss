@@ -23,6 +23,24 @@
   }
 }
 
+.modal-wrap-big {
+  max-width: 1300px;
+  height: 80%;
+
+  .modal-content {
+    max-height: calc(100% - 45px);
+    height: 100%;
+
+    iframe {
+      float: left;
+    }
+  }
+
+  @include media(4) {
+    height: 100%;
+  }
+}
+
 .modal-header {
   background: $main2;
   background: linear-gradient(to right, $main1, $main2);

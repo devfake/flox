@@ -43,12 +43,16 @@ export default {
         month: '2-digit',
         day: '2-digit'
       });
+    },
+
+    isSubpage() {
+      return this.$route.name.includes('subpage');
     }
   },
 
   computed: {
     displayHeader() {
-      if(this.$route.name == 'subpage-tv' || this.$route.name == 'subpage-movie') {
+      if(this.isSubpage()) {
         return this.itemLoadedSubpage;
       }
 

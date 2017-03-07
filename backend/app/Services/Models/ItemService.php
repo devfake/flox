@@ -73,7 +73,7 @@
         $details = $this->tmdb->details($data['tmdb_id'], $data['media_type']);
 
         $data['imdb_id'] = $data['imdb_id'] ?? $this->parseImdbId($details, $data['media_type']);
-        $data['trailer_src'] = $data['trailer_src'] ?? $this->parseVideoTrailer($details->videos);
+        $data['youtube_key'] = $data['youtube_key'] ?? $this->parseYoutubeKey($details->videos);
       }
 
       // If the user clicks to fast on adding item, we need to re-fetch the rating from IMDb.
@@ -143,13 +143,13 @@
     }
 
     // todo: parse english fallback trailer
-    public function parseVideoTrailer($videos)
+    public function parseYoutubeKey($videos)
     {
       if(isset($videos->results[0])) {
         $firstResult = $videos->results[0];
 
         if(strtolower($firstResult->site) == 'youtube') {
-          return 'https://www.youtube.com/watch?v=' . $firstResult->key;
+          return $firstResult->key;
         }
       }
 
