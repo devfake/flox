@@ -53,13 +53,24 @@
     }
 
     /**
-     * Delete the poster image file.
+     * Delete the poster image files.
      *
      * @param $poster
      */
-    public function removePosterFile($poster)
+    public function removePoster($poster)
     {
       LaravelStorage::delete($poster);
+      LaravelStorage::disk('subpage')->delete($poster);
+    }
+
+    /**
+     * Delete the backdrop image.
+     *
+     * @param $backdrop
+     */
+    public function removeBackdrop($backdrop)
+    {
+      LaravelStorage::disk('backdrop')->delete($backdrop);
     }
 
     /**

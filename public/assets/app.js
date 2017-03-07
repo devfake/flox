@@ -6243,8 +6243,7 @@ webpackJsonp([0],[
 
 	  created: function created() {
 	    document.body.classList.add('subpage-open');
-
-	    this.scrollToTop();
+	    window.scrollTo(0, 0);
 	    this.fetchData();
 	  },
 	  destroyed: function destroyed() {
@@ -6288,6 +6287,11 @@ webpackJsonp([0],[
 	      }
 
 	      return config.posterSubpageTMDB + this.item.poster;
+	    },
+	    released: function released() {
+	      var released = new Date(this.item.released * 1000);
+
+	      return released.getFullYear();
 	    }
 	  }),
 
@@ -6395,7 +6399,7 @@ webpackJsonp([0],[
 	    staticClass: "big-teaser-item-data"
 	  }, [_c('span', {
 	    staticClass: "item-year"
-	  }, [_vm._v("2016")]), _vm._v(" "), _c('span', {
+	  }, [_vm._v(_vm._s(_vm.released))]), _vm._v(" "), _c('span', {
 	    staticClass: "item-title"
 	  }, [_vm._v(_vm._s(_vm.item.title))]), _vm._v(" "), _c('span', {
 	    staticClass: "item-genre"
@@ -6448,6 +6452,12 @@ webpackJsonp([0],[
 	      "set-item": _vm.setItem
 	    }
 	  }), _vm._v(" "), _c('img', {
+	    staticClass: "base",
+	    attrs: {
+	      "width": "272",
+	      "height": "408"
+	    }
+	  }), _vm._v(" "), _c('img', {
 	    staticClass: "real",
 	    attrs: {
 	      "src": _vm.posterImage,
@@ -6456,7 +6466,14 @@ webpackJsonp([0],[
 	    }
 	  })], 1), _vm._v(" "), _c('div', {
 	    staticClass: "subpage-sidebar-buttons"
-	  })]), _vm._v(" "), _c('div', {
+	  }, [(_vm.item.rating != null && _vm.auth) ? _c('span', {
+	    staticClass: "remove-item",
+	    on: {
+	      "click": function($event) {
+	        _vm.removeItem()
+	      }
+	    }
+	  }, [_vm._v(_vm._s(_vm.lang('delete movie')))]) : _vm._e()])]), _vm._v(" "), _c('div', {
 	    staticClass: "subpage-overview"
 	  }, [_c('h2', [_vm._v("Overview")]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.overview))])])])]), _vm._v(" "), _c('span', {
 	    directives: [{

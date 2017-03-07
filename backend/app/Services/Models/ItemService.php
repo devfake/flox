@@ -73,9 +73,11 @@
         $details = $this->tmdb->details($data['tmdb_id'], $data['media_type']);
 
         $data['imdb_id'] = $data['imdb_id'] ?? $this->parseImdbId($details, $data['media_type']);
-        $data['imdb_rating'] = $data['imdb_rating'] ?? $this->imdb->parseRating($data['imdb_id']);
         $data['trailer_src'] = $data['trailer_src'] ?? $this->parseVideoTrailer($details->videos);
       }
+
+      // If the user clicks to fast on adding item, we need to re-fetch the rating from IMDb.
+      $data['imdb_rating'] = $data['imdb_rating'] ?? $this->imdb->parseRating($data['imdb_id']);
 
       return $data;
     }
@@ -133,11 +135,11 @@
 
       $item->delete();
 
-      // todo: delete subpage poster file and backdrops
-      // Delete all related episodes, alternative titles and poster image.
+      // Delete all related episodes, alternative titles and images.
       $this->episodeService->remove($tmdbId);
       $this->alternativeTitleService->remove($tmdbId);
-      $this->storage->removePosterFile($item->poster);
+      $this->storage->removePoster($item->poster);
+      $this->storage->removeBackdrop($item->backdrop);
     }
 
     // todo: parse english fallback trailer
@@ -146,7 +148,7 @@
       if(isset($videos->results[0])) {
         $firstResult = $videos->results[0];
 
-        if($firstResult->site == 'YouTube' || $firstResult->site == 'Youtube') {
+        if(strtolower($firstResult->site) == 'youtube') {
           return 'https://www.youtube.com/watch?v=' . $firstResult->key;
         }
       }

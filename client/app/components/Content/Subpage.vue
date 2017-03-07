@@ -9,7 +9,7 @@
         <div class="big-teaser-content">
           <div class="big-teaser-data-wrap">
             <div class="big-teaser-item-data">
-              <span class="item-year">2016</span>
+              <span class="item-year">{{ released }}</span>
               <span class="item-title">{{ item.title }}</span>
               <span class="item-genre">{{ item.genre }}</span>
             </div>
@@ -36,11 +36,12 @@
         <div class="subpage-sidebar">
           <div class="subpage-poster-wrap">
             <rating :item="item" :set-item="setItem"></rating>
+            <img class="base" width="272" height="408">
             <img class="real" :src="posterImage" width="272" height="408">
           </div>
 
           <div class="subpage-sidebar-buttons">
-            <!--span class="remove-item" v-if="item.rating != null && auth" @click="removeItem()">{{ lang('delete movie') }}</span-->
+            <span class="remove-item" v-if="item.rating != null && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
           </div>
         </div>
         <div class="subpage-overview">
@@ -68,8 +69,7 @@
 
     created() {
       document.body.classList.add('subpage-open');
-      // todo: replace with transitions? after fetchdata?
-      this.scrollToTop();
+      window.scrollTo(0, 0);
       this.fetchData();
     },
 
@@ -114,6 +114,12 @@
         }
 
         return config.posterSubpageTMDB + this.item.poster;
+      },
+
+      released() {
+        const released = new Date(this.item.released * 1000);
+
+        return released.getFullYear();
       }
     },
 
@@ -159,6 +165,7 @@
       displayItem() {
         setTimeout(() => {
           this.SET_ITEM_LOADED_SUBPAGE(true);
+          //this.scrollToTop();
           //this.itemLoadedSubpage = true;
         }, 100);
       },
