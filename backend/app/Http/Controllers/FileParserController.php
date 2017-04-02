@@ -3,6 +3,7 @@
   namespace App\Http\Controllers;
 
   use App\Services\FileParser;
+  use App\Setting;
   use GuzzleHttp\Exception\ConnectException;
   use Symfony\Component\HttpFoundation\Request;
   use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +46,23 @@
       $content = json_decode($request->getContent());
 
       return $this->updateDatabase($content);
+    }
+
+    public function last_fetch()
+    {
+      $settings = Setting::first();
+
+      if( ! $settings) {
+        $settings = Setting::create([
+          'show_genre' => 0,
+          'show_date' => 1,
+          'episode_spoiler_protection' => 1,
+        ]);
+      }
+
+      $result = $settings->last_fetch_to_file_parser->timestamp ?? 0;
+
+      return ["last_fetch_to_file_parser" => $result];
     }
 
     /**

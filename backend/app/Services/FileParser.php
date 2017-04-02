@@ -362,7 +362,17 @@
      */
     private function updateLastFetched()
     {
-      Setting::first()->update([
+      $settings = Setting::first();
+
+      if( ! $settings) {
+        $settings = Setting::create([
+          'show_genre' => 0,
+          'show_date' => 1,
+          'episode_spoiler_protection' => 1,
+        ]);
+      }
+
+      $settings->update([
         'last_fetch_to_file_parser' => Carbon::now(),
       ]);
     }
