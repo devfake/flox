@@ -3,6 +3,7 @@
   namespace App\Http\Controllers;
 
   use App\Services\FileParser;
+  use App\Setting;
   use GuzzleHttp\Exception\ConnectException;
   use Symfony\Component\HttpFoundation\Request;
   use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +46,14 @@
       $content = json_decode($request->getContent());
 
       return $this->updateDatabase($content);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function lastFetched()
+    {
+      return $this->parser->lastFetched();
     }
 
     /**

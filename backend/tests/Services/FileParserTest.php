@@ -23,8 +23,6 @@
     {
       parent::setUp();
 
-      $this->createSetting();
-
       $this->item = app(Item::class);
       $this->episode = app(Episode::class);
       $this->parser = app(FileParser::class);
@@ -415,7 +413,7 @@
       $this->assertNull($item->tmdb_id);
     }
 
-    /** @test **/
+    /** @test */
     public function it_should_use_http_basic_auth()
     {
       $this->patch('/api/update-files');
@@ -425,9 +423,16 @@
       $this->assertResponseOk();
     }
 
-    /** @test **/
+    /** @test */
     public function it_should_update_database_with_given_json_param()
     {
+      $timestamp = 9999;
+
+      $settings = Setting::first();
+      $settings->last_fetch_to_file_parser = $timestamp;
+      $settings->save();
+      $this->assertEquals($timestamp, Setting::first()->last_fetch_to_file_parser->timestamp);
+
       $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
       $fixture = json_encode($this->fpFixtures("tv/added"));
 
@@ -437,6 +442,37 @@
       $episodes = $this->episode->get();
 
       $this->assertCount(4, $episodes);
+      $this->assertGreaterThan($timestamp, Setting::first()->last_fetch_to_file_parser->timestamp);
+
+      $settings->last_fetch_to_file_parser = null;
+      $settings->save();
+
+      $this->call('PATCH', '/api/update-files', [], [], [], $this->http_login(), $fixture);
+      $this->assertResponseOk();
+
+      $episodes = $this->episode->get();
+
+      $this->assertCount(4, $episodes);
+      $this->assertGreaterThan($timestamp, Setting::first()->last_fetch_to_file_parser->timestamp);
+    }
+
+    /** @test */
+    public function it_returns_last_fetch_timestamp()
+    {
+      $timestamp = 9999;
+
+      $settings = Setting::first();
+      $settings->last_fetch_to_file_parser = $timestamp;
+      $settings->save();
+
+      $this->json('GET', '/api/last-fetched')
+        ->seeJson(['last_fetch_to_file_parser' => $timestamp]);
+
+      $settings->last_fetch_to_file_parser = null;
+      $settings->save();
+
+      $this->json('GET', '/api/last-fetched')
+        ->seeJson(['last_fetch_to_file_parser' => 0]);
     }
 
     private function http_login()

@@ -51,14 +51,6 @@
     {
       $settings = $this->setting->first();
 
-      if( ! $settings) {
-        $settings = $this->setting->create([
-          'show_genre' => 0,
-          'show_date' => 1,
-          'episode_spoiler_protection' => 1,
-        ]);
-      }
-
       return [
         'username' => Auth::check() ? Auth::user()->username : '',
         'genre' => $settings->show_genre,
