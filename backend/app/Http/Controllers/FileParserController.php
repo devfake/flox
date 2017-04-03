@@ -48,21 +48,12 @@
       return $this->updateDatabase($content);
     }
 
-    public function last_fetch()
+    /**
+     * @return mixed
+     */
+    public function lastFetched()
     {
-      $settings = Setting::first();
-
-      if( ! $settings) {
-        $settings = Setting::create([
-          'show_genre' => 0,
-          'show_date' => 1,
-          'episode_spoiler_protection' => 1,
-        ]);
-      }
-
-      $result = $settings->last_fetch_to_file_parser->timestamp ?? 0;
-
-      return ["last_fetch_to_file_parser" => $result];
+      return $this->parser->lastFetched();
     }
 
     /**

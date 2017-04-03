@@ -17,33 +17,6 @@
     }
 
     /** @test */
-    public function it_should_create_settings_with_first_visit()
-    {
-      $settings1 = Setting::all();
-
-      $this->json('GET', 'api/settings');
-
-      $settings2 = Setting::all();
-
-      $this->assertCount(0, $settings1);
-      $this->assertCount(1, $settings2);
-    }
-
-    /** @test */
-    public function it_should_create_settings_only_with_first_visit()
-    {
-      $settings1 = Setting::all();
-
-      $this->json('GET', 'api/settings');
-      $this->json('GET', 'api/settings');
-
-      $settings2 = Setting::all();
-
-      $this->assertCount(0, $settings1);
-      $this->assertCount(1, $settings2);
-    }
-
-    /** @test */
     public function user_can_change_settings()
     {
       $this->json('GET', 'api/settings');

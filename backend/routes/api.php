@@ -4,4 +4,4 @@
     Route::patch('/update-files', 'FileParserController@receive');
   });
 
-  Route::get('/last-fetched', 'FileParserController@last_fetch');
+  Route::get('/last-fetched', 'FileParserController@lastFetched');

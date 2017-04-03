@@ -50,7 +50,7 @@
      */
     public function fetch()
     {
-      $timestamp = $this->lastFetched();
+      $timestamp = $this->lastFetched()['last_fetch_to_file_parser'];
       $fpUrl = config('services.fp.host') . ':' . config('services.fp.port');
       $fpUri = '/fetch/' . $timestamp;
 
@@ -362,17 +362,7 @@
      */
     private function updateLastFetched()
     {
-      $settings = Setting::first();
-
-      if( ! $settings) {
-        $settings = Setting::create([
-          'show_genre' => 0,
-          'show_date' => 1,
-          'episode_spoiler_protection' => 1,
-        ]);
-      }
-
-      $settings->update([
+      Setting::first()->update([
         'last_fetch_to_file_parser' => Carbon::now(),
       ]);
     }
@@ -380,10 +370,12 @@
     /**
      * @return mixed
      */
-    private function lastFetched()
+    public function lastFetched()
     {
       $lastFetch = Setting::first()->last_fetch_to_file_parser;
 
-      return $lastFetch ? $lastFetch->getTimestamp() : 0;
+      return [
+        'last_fetch_to_file_parser' => $lastFetch->timestamp ?? 0,
+      ];
     }
   }
