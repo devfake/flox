@@ -322,37 +322,6 @@ main {
   }
 }
 
-.remove-item {
-  //position: absolute;
-  //bottom: 0;
-  //right: 0;
-  //opacity: 0;
-  background: $rating3;
-  padding: 5px 0;
-  cursor: pointer;
-  text-align: center;
-  font-size: 13px;
-  text-transform: uppercase;
-  color: #fff;
-  width: 100%;
-
-  @include transition(background);
-
-  &:hover {
-    background: lighten($rating3, 5%);
-    //opacity: 1 !important;
-  }
-
-  &:active {
-    background: $rating3;
-    //opacity: .7 !important;
-  }
-
-  @include media(3) {
-    // opacity: 1;
-  }
-}
-
 .add-to-watchlist,
 .edit-item {
   position: absolute;

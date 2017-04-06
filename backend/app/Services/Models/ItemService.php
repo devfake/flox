@@ -62,18 +62,23 @@
 
     /**
      * Search against TMDb and IMDb for more informations.
-     * We don't need to get more informations, if we add the item from the subpage.
+     * We don't need to get more informations if we add the item from the subpage.
      *
      * @param $data
      * @return array
      */
-    private function makeDataComplete($data)
+    public function makeDataComplete($data)
     {
       if( ! isset($data['imdb_id'])) {
         $details = $this->tmdb->details($data['tmdb_id'], $data['media_type']);
+        $title = $details->name ?? $details->title;
 
-        $data['imdb_id'] = $data['imdb_id'] ?? $this->parseImdbId($details, $data['media_type']);
+        $data['imdb_id'] = $data['imdb_id'] ?? $this->parseImdbId($details);
         $data['youtube_key'] = $data['youtube_key'] ?? $this->parseYoutubeKey($details, $data['media_type']);
+        $data['overview'] = $data['overview'] ?? $details->overview;
+        $data['tmdb_rating'] = $data['tmdb_rating'] ?? $details->vote_average;
+        $data['backdrop'] = $data['backdrop'] ?? $details->backdrop_path;
+        $data['slug'] = $data['slug'] ?? (str_slug($title) != '' ? str_slug($title) : 'no-slug-available');
       }
 
       // If the user clicks to fast on adding item, we need to re-fetch the rating from IMDb.
@@ -86,16 +91,11 @@
      * TV shows needs an extra append for external ids.
      *
      * @param $details
-     * @param $mediaType
      * @return mixed
      */
-    public function parseImdbId($details, $mediaType)
+    public function parseImdbId($details)
     {
-      if($mediaType == 'tv') {
-        return $details->external_ids->imdb_id;
-      }
-
-      return $details->imdb_id;
+      return $details->external_ids->imdb_id ?? $details->imdb_id;
     }
 
     /**
@@ -142,6 +142,13 @@
       $this->storage->removeBackdrop($item->backdrop);
     }
 
+    /**
+     * Get the key for the youtube trailer video. Fallback with english trailer.
+     *
+     * @param $data
+     * @param $mediaType
+     * @return string|null
+     */
     public function parseYoutubeKey($data, $mediaType)
     {
       if(isset($data->videos->results[0])) {

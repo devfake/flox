@@ -1,10 +1,10 @@
 <?php
 
-  const FIVE_MINUTES = 300;
+  const TEN_MINUTES = 600;
 
   function increaseTimeLimit()
   {
-    set_time_limit(FIVE_MINUTES);
+    set_time_limit(TEN_MINUTES);
   }
 
   function getFileName($file)

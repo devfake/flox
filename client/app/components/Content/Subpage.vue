@@ -3,17 +3,25 @@
     <!-- todo: make header position absolute, and float teaser and content correct -->
     <section class="big-teaser-wrap" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
 
-      <div class="big-teaser-image"  :style="backdropImage"></div>
+      <div class="big-teaser-image" :style="backdropImage"></div>
 
       <div class="wrap">
         <div class="big-teaser-content">
           <div class="big-teaser-data-wrap">
+
+            <div class="subpage-poster-wrap-mobile">
+              <rating :item="item" :set-item="setItem"></rating>
+              <img class="base" :src="noImage" width="120" height="180">
+              <img class="real" :src="posterImage" width="120" height="180">
+            </div>
+
+            <!-- todo: move to own component -->
             <div class="big-teaser-item-data">
               <span class="item-year">{{ released }}</span>
               <span class="item-title">{{ item.title }}</span>
               <span class="item-genre">{{ item.genre }}</span>
             </div>
-            <div class="big-teaser-buttons no-select">
+            <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
               <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> Watch Trailer</span>
               <span v-if="item.rating == null && auth" class="button-watchlist"><i class="icon-watchlist"></i> Add to Watchlist</span>
               <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank" class="button-tmdb-rating">
@@ -33,6 +41,11 @@
 
     <div class="subpage-content" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
       <div class="wrap">
+        <div class="subpage-overview">
+          <h2>Overview</h2>
+          <p>{{ overview }}</p>
+        </div>
+
         <div class="subpage-sidebar">
           <div class="subpage-poster-wrap">
             <rating :item="item" :set-item="setItem"></rating>
@@ -40,13 +53,11 @@
             <img class="real" :src="posterImage" width="272" height="408">
           </div>
 
-          <div class="subpage-sidebar-buttons">
-            <span class="remove-item" v-if="item.rating != null && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
+          <!-- todo: move to own component -->
+          <div class="subpage-sidebar-buttons no-select" v-if="item.rating != null && auth">
+            <span class="edit-data">Edit data</span>
+            <span class="remove-item" @click="removeItem()">{{ lang('delete movie') }}</span>
           </div>
-        </div>
-        <div class="subpage-overview">
-          <h2>Overview</h2>
-          <p>{{ overview }}</p>
         </div>
       </div>
     </div>
@@ -157,7 +168,6 @@
       },
 
       fetchData() {
-        console.log(this.$route);
         const tmdbId = this.$route.params.tmdbId;
 
         this.SET_LOADING(true);
@@ -189,28 +199,20 @@
       },
 
       removeItem() {
-        if(this.auth) {
-          const confirm = window.confirm(this.lang('confirm delete'));
+        const confirm = window.confirm(this.lang('confirm delete'));
 
-          if(confirm) {
-            http.delete(`${config.api}/remove/${this.item.id}`).then(response => {
-              this.item.rating = null;
-            }, error => {
-              alert('Error in removeItem()');
-            });
-          }
+        if(confirm) {
+          http.delete(`${config.api}/remove/${this.item.id}`).then(response => {
+            this.item.rating = null;
+          }, error => {
+            alert('Error in removeItem()');
+          });
         }
       }
     },
 
     components: {
       Rating
-    },
-
-    watch: {
-      $route() {
-
-      }
     }
   }
 </script>

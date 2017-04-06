@@ -21,8 +21,8 @@ export default new Router({
     { path: '/movies', component: Content, name: 'movie' },
     { path: '/tv', component: Content, name: 'tv' },
 
-    { path: '/movies/:tmdbId-:slug', component: Subpage, name: 'subpage-movie', props: {mediaType: 'movie'} },
-    { path: '/tv/:tmdbId-:slug', component: Subpage, name: 'subpage-tv', props: {mediaType: 'tv'} },
+    { path: '/movies/:tmdbId/:slug?', component: Subpage, name: 'subpage-movie', props: {mediaType: 'movie'} },
+    { path: '/tv/:tmdbId/:slug?', component: Subpage, name: 'subpage-tv', props: {mediaType: 'tv'} },
 
     { path: '/search', component: SearchContent, name: 'search' },
     { path: '/settings', component: Settings, name: 'settings' },

@@ -26,7 +26,7 @@
 
       $item = $this->tmdb->createItem($found, $mediaType);
       $item['youtube_key'] = $this->itemService->parseYoutubeKey($found, $mediaType);
-      $item['imdb_id'] = $this->itemService->parseImdbId($found, $mediaType);
+      $item['imdb_id'] = $this->itemService->parseImdbId($found);
 
       return $item;
     }

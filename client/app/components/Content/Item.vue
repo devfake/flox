@@ -67,7 +67,7 @@
       suggestions() {
         const item = this.localItem;
 
-        return `/suggestions?for=${item.tmdb_id}&name=${item.title}&slug=${item.slug}&type=${item.media_type}`;
+        return `/suggestions?for=${item.tmdb_id}&name=${item.title}&type=${item.media_type}`;
       },
 
       noImage() {
