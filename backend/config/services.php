@@ -42,6 +42,10 @@ return [
       'backdrop' => 'http://image.tmdb.org/t/p/w1280',
     ],
 
+    'imdb' => [
+      'url' => 'http://www.imdb.com/title/',
+    ],
+
     'fp' => [
       'host' => env('FP_HOST'),
       'port' => env('FP_PORT'),

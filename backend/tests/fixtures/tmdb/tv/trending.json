@@ -12,7 +12,11 @@
         18
       ],
       "name": "Game of Thrones",
-      "original_name": "Game of Thrones"
+      "original_name": "Game of Thrones",
+      "vote_average": 1,
+      "popularity": 1,
+      "backdrop_path": "xxx",
+      "overview": "xxx"
     },
     {
       "poster_path": "/3iFm6Kz7iYoFaEcj4fLyZHAmTQA.jpg",

@@ -2,18 +2,16 @@
 
   use App\Episode;
   use App\Item;
-  use App\Services\TMDB;
   use App\Setting;
-  use GuzzleHttp\Client;
-  use GuzzleHttp\Handler\MockHandler;
-  use GuzzleHttp\HandlerStack;
-  use GuzzleHttp\Psr7\Response;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
   use App\Services\FileParser;
 
   class FileParserTest extends TestCase {
 
     use DatabaseMigrations;
+    use Factories;
+    use Fixtures;
+    use Mocks;
 
     private $item;
     private $parser;
@@ -26,6 +24,9 @@
       $this->item = app(Item::class);
       $this->episode = app(Episode::class);
       $this->parser = app(FileParser::class);
+
+      $this->createStorageDownloadsMock();
+      $this->createImdbRatingMock();
     }
 
     /** @test */
@@ -34,7 +35,7 @@
       $items = $this->item->get();
       $setting = Setting::first()->last_fetch_to_file_parser;
 
-      $this->createTmdbMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
+      $this->createGuzzleMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/unknown'));
 
@@ -53,7 +54,7 @@
       $episodes = $this->episode->get();
       $setting = Setting::first()->last_fetch_to_file_parser;
 
-      $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
+      $this->createGuzzleMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/unknown'));
 
@@ -106,7 +107,12 @@
     {
       $items = $this->item->get();
 
-      $this->createTmdbMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('movie/movie'),
+        $this->tmdbFixtures('movie/details'),
+        $this->tmdbFixtures('movie/alternative_titles')
+      );
+
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/added'));
 
@@ -126,7 +132,13 @@
       $items = $this->item->get();
       $episodes1 = $this->episode->get();
 
-      $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/tv'),
+        $this->tmdbFixtures('tv/details'),
+        $this->tmdbFixtures('tv/alternative_titles')
+      );
+      $this->createTmdbEpisodeMock();
+
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/added'));
 
@@ -150,7 +162,7 @@
     {
       $this->createMovie();
 
-      $this->createTmdbMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
+      $this->createGuzzleMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
 
       $setting1 = Setting::first();
@@ -316,7 +328,12 @@
 
       $empty = $this->item->first();
 
-      $this->createTmdbMock($this->tmdbFixtures('movie/movie'), $this->tmdbFixtures('movie/alternative_titles'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('movie/movie'),
+        $this->tmdbFixtures('movie/details'),
+        $this->tmdbFixtures('movie/alternative_titles')
+      );
+
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/updated_found'));
 
@@ -337,7 +354,13 @@
 
       $empty = $this->item->first();
 
-      $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/tv'),
+        $this->tmdbFixtures('tv/details'),
+        $this->tmdbFixtures('tv/alternative_titles')
+      );
+      $this->createTmdbEpisodeMock();
+
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/updated_found'));
 
@@ -359,7 +382,7 @@
     /** @test */
     public function it_should_create_empty_movie_from_updated_if_not_found_in_tmdb()
     {
-      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('movie/alternative_titles'));
+      $this->createGuzzleMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/updated_not_found'));
 
@@ -373,7 +396,7 @@
     /** @test */
     public function it_should_create_empty_tv_without_episodes_from_updated_if_not_found_in_tmdb()
     {
-      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('tv/alternative_titles'));
+      $this->createGuzzleMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('tv/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/updated_not_found'));
 
@@ -388,7 +411,7 @@
     /** @test */
     public function it_should_create_empty_movie_from_added_if_not_found_in_tmdb()
     {
-      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('movie/alternative_titles'));
+      $this->createGuzzleMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('movie/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('movie/added_not_found'));
 
@@ -401,7 +424,7 @@
     /** @test */
     public function it_should_create_empty_tv_without_episodes_from_added_if_not_found_in_tmdb()
     {
-      $this->createTmdbMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('tv/alternative_titles'));
+      $this->createGuzzleMock($this->tmdbFixtures('empty'), $this->tmdbFixtures('tv/alternative_titles'));
       $parser = app(FileParser::class);
       $parser->updateDatabase($this->fpFixtures('tv/added_not_found'));
 
@@ -433,7 +456,13 @@
       $settings->save();
       $this->assertEquals($timestamp, Setting::first()->last_fetch_to_file_parser->timestamp);
 
-      $this->createTmdbMock($this->tmdbFixtures('tv/tv'), $this->tmdbFixtures('tv/alternative_titles'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/tv'),
+        $this->tmdbFixtures('tv/details'),
+        $this->tmdbFixtures('tv/alternative_titles')
+      );
+      $this->createTmdbEpisodeMock();
+
       $fixture = json_encode($this->fpFixtures("tv/added"));
 
       $this->call('PATCH', '/api/update-files', [], [], [], $this->http_login(), $fixture);
@@ -481,22 +510,5 @@
         'PHP_AUTH_USER' => 'jon',
         'PHP_AUTH_PW' => 'snow',
       ];
-    }
-
-    private function createTmdbMock($fixture, $fixture2)
-    {
-      $mock = new MockHandler([
-        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
-        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture2),
-      ]);
-
-      $handler = HandlerStack::create($mock);
-      $this->app->instance(Client::class, new Client(['handler' => $handler]));
-
-      // Mock this to avoid unknown requests to TMDb (get seasons and then get episodes for each season)
-      $mock = Mockery::mock(app(TMDB::class))->makePartial();
-      $mock->shouldReceive('tvEpisodes')->andReturn(json_decode($this->tmdbFixtures('tv/episodes')));
-
-      $this->app->instance(TMDB::class, $mock);
     }
   }

@@ -3,13 +3,14 @@
   use App\Episode;
   use App\Item;
   use App\Services\Models\EpisodeService;
-  use App\Services\Models\ItemService;
-  use App\Services\TMDB;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
 
   class EpisodeServiceTest extends TestCase {
 
     use DatabaseMigrations;
+    use Factories;
+    use Fixtures;
+    use Mocks;
 
     private $episode;
     private $episodeService;
@@ -29,7 +30,7 @@
     {
       $tv = $this->getTv();
 
-      $this->createTmdbMock();
+      $this->createTmdbEpisodeMock();
       $episodeService = app(EpisodeService::class);
 
       $episodes1 = $this->episode->all();
@@ -145,14 +146,5 @@
       $itemUpdated = $this->item->find(1);
 
       $this->assertEquals($itemUpdated->last_seen_at, $item->last_seen_at);
-    }
-
-    private function createTmdbMock()
-    {
-      // Mock this to avoid unknown requests to TMDb (get seasons and then get episodes for each season)
-      $mock = Mockery::mock(app(TMDB::class))->makePartial();
-      $mock->shouldReceive('tvEpisodes')->andReturn(json_decode($this->tmdbFixtures('tv/episodes')));
-
-      $this->app->instance(TMDB::class, $mock);
     }
   }

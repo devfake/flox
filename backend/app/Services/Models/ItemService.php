@@ -99,6 +99,25 @@
     }
 
     /**
+     * Get the key for the youtube trailer video. Fallback with english trailer.
+     *
+     * @param $details
+     * @param $mediaType
+     * @return string|null
+     */
+    public function parseYoutubeKey($details, $mediaType)
+    {
+      if(isset($details->videos->results[0])) {
+        return $details->videos->results[0]->key;
+      }
+
+      // Try to fetch details again with english language as fallback.
+      $videos = $this->tmdb->videos($details->id, $mediaType, 'en');
+
+      return $videos->results[0]->key ?? null;
+    }
+
+    /**
      * @param $data
      * @param $mediaType
      * @return Item
@@ -140,25 +159,6 @@
       $this->alternativeTitleService->remove($tmdbId);
       $this->storage->removePoster($item->poster);
       $this->storage->removeBackdrop($item->backdrop);
-    }
-
-    /**
-     * Get the key for the youtube trailer video. Fallback with english trailer.
-     *
-     * @param $data
-     * @param $mediaType
-     * @return string|null
-     */
-    public function parseYoutubeKey($data, $mediaType)
-    {
-      if(isset($data->videos->results[0])) {
-        return $data->videos->results[0]->key;
-      }
-
-      // Try to fetch details again with english language as fallback.
-      $videos = $this->tmdb->videos($data->id, $mediaType, 'en');
-
-      return $videos->results[0]->key ?? null;
     }
 
     /**

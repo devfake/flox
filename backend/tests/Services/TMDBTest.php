@@ -10,11 +10,17 @@
   class TMDBTest extends TestCase {
 
     use DatabaseMigrations;
+    use Factories;
+    use Fixtures;
+    use Mocks;
 
     /** @test */
     public function it_should_search_and_merge_movies_and_tv()
     {
-      $this->createGuzzleMock($this->tmdbFixtures('tv/search'), $this->tmdbFixtures('movie/search'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/search'),
+        $this->tmdbFixtures('movie/search')
+      );
 
       $result = $this->callSearch();
 
@@ -28,7 +34,10 @@
     /** @test */
     public function it_should_only_search_for_tv()
     {
-      $this->createGuzzleMock($this->tmdbFixtures('tv/search'), $this->tmdbFixtures('movie/search'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/search'),
+        $this->tmdbFixtures('movie/search')
+      );
 
       $result = $this->callSearch('tv');
 
@@ -42,7 +51,10 @@
     /** @test */
     public function it_should_only_search_for_movies()
     {
-      $this->createGuzzleMock($this->tmdbFixtures('movie/search'), $this->tmdbFixtures('tv/search'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('movie/search'),
+        $this->tmdbFixtures('tv/search')
+      );
 
       $result = $this->callSearch('movies');
 
@@ -56,7 +68,10 @@
     /** @test */
     public function it_should_fetch_and_merge_movies_and_tv_in_trending()
     {
-      $this->createGuzzleMock($this->tmdbFixtures('tv/trending'), $this->tmdbFixtures('movie/trending'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/trending'),
+        $this->tmdbFixtures('movie/trending')
+      );
 
       $tmdb = app(TMDB::class);
       $trending = $tmdb->trending();
@@ -71,7 +86,10 @@
     /** @test */
     public function it_should_merge_database_items_in_trending()
     {
-      $this->createGuzzleMock($this->tmdbFixtures('tv/trending'), $this->tmdbFixtures('movie/trending'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/trending'),
+        $this->tmdbFixtures('movie/trending')
+      );
 
       $this->createMovie();
       $this->createTv();
@@ -87,7 +105,10 @@
     /** @test */
     public function it_should_merge_database_movie_in_upcoming()
     {
-      $this->createGuzzleMock($this->tmdbFixtures('movie/upcoming'), $this->tmdbFixtures('movie/upcoming'));
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('movie/upcoming'),
+        $this->tmdbFixtures('movie/upcoming')
+      );
 
       $this->createMovie();
 
@@ -101,11 +122,9 @@
     /** @test */
     public function it_should_respect_request_limit()
     {
-      $fixture = $this->tmdbFixtures('multi');
-
       $mock = new MockHandler([
         new Response(429, []),
-        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
+        new Response(200, ['X-RateLimit-Remaining' => [40]], $this->tmdbFixtures('multi')),
       ]);
 
       $handler = HandlerStack::create($mock);
@@ -127,16 +146,5 @@
 
     private function in_array_r($item , $array){
       return (bool) preg_match('/"' . $item . '"/i' , json_encode($array));
-    }
-
-    private function createGuzzleMock($fixture, $fixture2)
-    {
-      $mock = new MockHandler([
-        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
-        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture2),
-      ]);
-
-      $handler = HandlerStack::create($mock);
-      $this->app->instance(Client::class, new Client(['handler' => $handler]));
     }
   }

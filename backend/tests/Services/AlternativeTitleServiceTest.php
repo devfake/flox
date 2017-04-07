@@ -2,15 +2,14 @@
 
   use App\AlternativeTitle;
   use App\Services\Models\AlternativeTitleService;
-  use GuzzleHttp\Client;
-  use GuzzleHttp\Handler\MockHandler;
-  use GuzzleHttp\HandlerStack;
-  use GuzzleHttp\Psr7\Response;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
 
   class AlternativeTitleServiceTest extends TestCase {
 
     use DatabaseMigrations;
+    use Factories;
+    use Fixtures;
+    use Mocks;
 
     private $alternativeTitles;
 
@@ -126,15 +125,5 @@
 
       $this->assertNotNull($titles1);
       $this->assertCount(0, $titles2);
-    }
-
-    private function createGuzzleMock($fixture)
-    {
-      $mock = new MockHandler([
-        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
-      ]);
-
-      $handler = HandlerStack::create($mock);
-      $this->app->instance(Client::class, new Client(['handler' => $handler]));
     }
   }

@@ -13,9 +13,9 @@
       $this->document = $document;
     }
 
-    public function parseRating($id)
+    public function parseRating($id = null)
     {
-      $document = $this->document->loadHtmlFile('http://www.imdb.com/title/' . $id);
+      $document = $this->document->loadHtmlFile(config('services.imdb.url') . $id);
 
       // We don't need to check if we found a result if we loop over them.
       foreach($document->find('.ratingValue strong span') as $rating) {
