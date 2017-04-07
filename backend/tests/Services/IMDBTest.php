@@ -10,7 +10,7 @@
     /** @test */
     public function it_should_parse_imdb_rating()
     {
-      config(['services.imdb.url' => public_path('../tests/fixtures/imdb/index.html')]);
+      config(['services.imdb.url' => __DIR__ . '/../fixtures/imdb/index.html']);
 
       $imdbService = app(IMDB::class);
 
