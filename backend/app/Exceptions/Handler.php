@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 class Handler extends ExceptionHandler
 {
@@ -40,10 +41,17 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\Response|string
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof FatalErrorException) {
+          echo $exception->getMessage();
+
+          return false;
+        }
+
         return parent::render($request, $exception);
     }
 
