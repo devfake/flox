@@ -82,7 +82,7 @@
       }
 
       // If the user clicks to fast on adding item, we need to re-fetch the rating from IMDb.
-      $data['imdb_rating'] = $data['imdb_rating'] ?? $this->imdb->parseRating($data['imdb_id']);
+      $data['imdb_rating'] = $data['imdb_rating'] ?? ($data['imdb_id'] ? $this->imdb->parseRating($data['imdb_id']) : null);
 
       return $data;
     }
@@ -95,7 +95,7 @@
      */
     public function parseImdbId($details)
     {
-      return $details->external_ids->imdb_id ?? $details->imdb_id;
+      return $details->external_ids->imdb_id ?? ($details->imdb_id ?? null);
     }
 
     /**

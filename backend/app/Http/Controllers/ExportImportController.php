@@ -82,11 +82,15 @@
             $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
           }
 
-          $item = $itemService->makeDataComplete((array) $item);
+          // For empty items (from file-parser) we don't need access to details.
+          if($item->tmdb_id) {
+            $item = $itemService->makeDataComplete((array) $item);
 
-          $this->item->create($item);
-          $this->storage->downloadPoster($item['poster']);
-          $this->storage->downloadBackdrop($item['backdrop']);
+            $this->storage->downloadPoster($item['poster']);
+            $this->storage->downloadBackdrop($item['backdrop']);
+          }
+
+          $this->item->create((array) $item);
         }
       }
     }
