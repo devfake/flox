@@ -3,7 +3,6 @@
   namespace App\Http\Controllers;
 
   use App\Services\FileParser;
-  use App\Setting;
   use GuzzleHttp\Exception\ConnectException;
   use Symfony\Component\HttpFoundation\Request;
   use Symfony\Component\HttpFoundation\Response;

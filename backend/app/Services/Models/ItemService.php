@@ -81,10 +81,33 @@
         $data['slug'] = $data['slug'] ?? (str_slug($title) != '' ? str_slug($title) : 'no-slug-available');
       }
 
-      // If the user clicks to fast on adding item, we need to re-fetch the rating from IMDb.
-      $data['imdb_rating'] = $data['imdb_rating'] ?? ($data['imdb_id'] ? $this->imdb->parseRating($data['imdb_id']) : null);
+      $data['imdb_rating'] = $this->parseImdbRating($data);
 
       return $data;
+    }
+
+    /**
+     * If the user clicks to fast on adding item,
+     * we need to re-fetch the rating from IMDb.
+     *
+     * @param $data
+     *
+     * @return float|null
+     */
+    private function parseImdbRating($data)
+    {
+      if( ! isset($data['imdb_rating'])) {
+        $imdbId = $data['imdb_id'];
+
+        if($imdbId) {
+          return $this->imdb->parseRating($imdbId);
+        }
+
+        return  null;
+      }
+
+      // Otherwise we already have the rating saved.
+      return $data['imdb_rating'];
     }
 
     /**

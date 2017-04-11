@@ -25,7 +25,7 @@
               <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> Watch Trailer</span>
               <span v-if="item.rating == null && auth" class="button-watchlist"><i class="icon-watchlist"></i> Add to Watchlist</span>
               <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank" class="button-tmdb-rating">
-                <i v-if="item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
+                <i v-if="item.tmdb_rating && item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
                 <i v-else>No TMDb Rating</i>
               </a>
               <a v-if="item.imdb_id" :href="`http://www.imdb.com/title/${item.imdb_id}`" target="_blank" class="button-imdb-rating">
@@ -157,11 +157,12 @@
           this.loadingImdb = true;
 
           http(`${config.api}/imdb-rating/${this.item.imdb_id}`).then(response => {
-            this.$set(this.item, 'imdb_rating', response.data);
+            const rating = this.intToFloat(response.data);
+
+            this.$set(this.item, 'imdb_rating', rating);
             this.loadingImdb = false;
           }, error => {
-            //
-            console.log(error);
+            alert(error);
             this.loadingImdb = false;
           });
         }
@@ -173,11 +174,13 @@
         this.SET_LOADING(true);
         http(`${config.api}/item/${tmdbId}/${this.mediaType}`).then(response => {
           this.item = response.data;
+          this.item.tmdb_rating = this.intToFloat(response.data.tmdb_rating);
+
           this.disableLoading();
           this.fetchImdbRating();
         }, error => {
+          alert(error);
           this.SET_LOADING(false);
-          console.log(error);
         });
       },
 
@@ -205,7 +208,7 @@
           http.delete(`${config.api}/remove/${this.item.id}`).then(response => {
             this.item.rating = null;
           }, error => {
-            alert('Error in removeItem()');
+            alert(error);
           });
         }
       }

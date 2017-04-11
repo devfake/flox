@@ -28,6 +28,14 @@ export default {
       return item;
     },
 
+    intToFloat(int) {
+      if(int) {
+        return parseFloat(int).toFixed(1);
+      }
+
+      return null;
+    },
+
     // Language helper
     lang(text) {
       const language = JSON.parse(config.language);
