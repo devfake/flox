@@ -45,6 +45,14 @@ export function setColorScheme({commit}, color) {
   commit('SET_COLOR_SCHEME', color);
 }
 
+export function setPageTitle({}, title = null) {
+  if( ! title) {
+    document.title = 'Flox';
+  } else {
+    document.title = `${title} - Flox`;
+  }
+}
+
 export function fetchEpisodes({commit}, data) {
   commit('SET_LOADING_MODAL_DATA', true);
   http(`${config.api}/episodes/${data.tmdb_id}`).then(response => {

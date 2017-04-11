@@ -68,7 +68,7 @@
 
 <script>
   import Rating from '../Rating.vue';
-  import { mapMutations, mapState } from 'vuex'
+  import { mapMutations, mapState, mapActions } from 'vuex'
   import Helper from '../../helper';
 
   import http from 'axios';
@@ -145,6 +145,7 @@
 
     methods: {
       ...mapMutations([ 'SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL', 'CLOSE_MODAL' ]),
+      ...mapActions([ 'setPageTitle' ]),
 
       openTrailer() {
         this.OPEN_MODAL({
@@ -179,6 +180,8 @@
         http(`${config.api}/item/${tmdbId}/${this.mediaType}`).then(response => {
           this.item = response.data;
           this.item.tmdb_rating = this.intToFloat(response.data.tmdb_rating);
+
+          this.setPageTitle(this.item.title);
 
           this.disableLoading();
           this.fetchImdbRating();

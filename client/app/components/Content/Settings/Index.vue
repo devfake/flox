@@ -26,11 +26,15 @@
   import Backup from './Backup.vue';
   import Misc from './Misc.vue';
 
-  import { mapState } from 'vuex';
+  import { mapState, mapActions } from 'vuex';
   import Helper from '../../../helper';
   
   export default {
     mixins: [Helper],
+
+    created() {
+      this.setPageTitle(this.lang('settings'));
+    },
 
     components: {
       User, Options, Backup, Misc
@@ -49,6 +53,8 @@
     },
 
     methods: {
+      ...mapActions([ 'setPageTitle' ]),
+
       changeActiveTab(tab) {
         this.activeTab = tab;
       }

@@ -21,7 +21,7 @@
 
   import http from 'axios';
 
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapActions } from 'vuex'
 
   export default {
     mixins: [Helper],
@@ -45,6 +45,7 @@
 
     methods: {
       ...mapMutations([ 'SET_LOADING' ]),
+      ...mapActions([ 'setPageTitle' ]),
 
       init() {
         this.SET_LOADING(true);
@@ -64,6 +65,8 @@
         const tmdbID = this.$route.query.for;
         const type = this.$route.query.type;
 
+        this.setPageTitle(this.lang('suggestions for') + ' ' + this.$route.query.name);
+
         http(`${config.api}/suggestions/${tmdbID}/${type}`).then(value => {
           this.items = value.data;
           this.SET_LOADING(false);
@@ -71,6 +74,8 @@
       },
 
       initTrending() {
+        this.setPageTitle(this.lang('trending'));
+
         http(`${config.api}/trending`).then(value => {
           this.items = value.data;
           this.SET_LOADING(false);
@@ -78,6 +83,8 @@
       },
 
       initUpcoming() {
+        this.setPageTitle(this.lang('upcoming'));
+
         http(`${config.api}/upcoming`).then(value => {
           this.items = value.data;
           this.SET_LOADING(false);
