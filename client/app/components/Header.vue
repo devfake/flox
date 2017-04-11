@@ -1,7 +1,7 @@
 <template>
   <header :class="{active: displayHeader}">
     <div class="wrap">
-      <router-link to="/" class="logo" >
+      <router-link to="/" class="logo">
         <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
       </router-link>
 

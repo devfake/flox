@@ -110,8 +110,8 @@
     public function latestEpisode()
     {
       return $this->hasOne(Episode::class, 'tmdb_id', 'tmdb_id')
-        ->orderBy('id', 'desc')
-        ->where('seen', true)
+        ->orderBy('id', 'asc')
+        ->where('seen', false)
         ->latest();
     }
 
