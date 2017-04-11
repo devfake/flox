@@ -150,15 +150,6 @@ main {
     }
   }
 
-  .item-has-src {
-    float: left;
-    margin: 5px 0 0 0;
-    font-style: normal;
-    width: 12px;
-    height: 9px;
-    background: url(../../../public/assets/img/has-src.png);
-  }
-
   .item-title {
     color: $dark;
     clear: both;
@@ -186,6 +177,15 @@ main {
       font-size: 15px;
     }
   }
+}
+
+.item-has-src {
+  float: left;
+  margin: 5px 0 0 0;
+  font-style: normal;
+  width: 12px;
+  height: 9px;
+  background: url(../../../public/assets/img/has-src.png);
 }
 
 .item-rating {
