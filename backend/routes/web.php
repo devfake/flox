@@ -19,7 +19,7 @@
 
     Route::group(['middleware' => 'auth'], function() {
       Route::get('/export', 'ExportImportController@export');
-      Route::post('/import', 'ExportImportController@import');
+      Route::post('/import', 'ExportImportController@import')->middleware('csrf');
 
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::get('/version', 'SettingController@getVersion');
@@ -31,10 +31,10 @@
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');
-      Route::delete('/remove/{itemId}', 'ItemController@remove');
+      Route::delete('/remove/{itemId}', 'ItemController@remove')->middleware('csrf');
 
       Route::get('/userdata', 'UserController@getUserData');
-      Route::patch('/userdata', 'UserController@changeUserData');
+      Route::patch('/userdata', 'UserController@changeUserData')->middleware('csrf');
 
       Route::get('/search-tmdb', 'TMDBController@search');
 
