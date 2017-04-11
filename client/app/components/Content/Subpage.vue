@@ -121,6 +121,10 @@
       },
 
       posterImage() {
+        if( ! this.item.poster) {
+          return this.noImage;
+        }
+
         if(this.item.rating != null) {
           return config.posterSubpage + this.item.poster;
         }
@@ -128,14 +132,14 @@
         return config.posterSubpageTMDB + this.item.poster;
       },
 
+      noImage() {
+        return config.url + '/assets/img/no-image-subpage.png';
+      },
+
       released() {
         const released = new Date(this.item.released * 1000);
 
         return released.getFullYear();
-      },
-
-      noImage() {
-        return config.url + '/assets/img/no-image-subpage.png';
       }
     },
 

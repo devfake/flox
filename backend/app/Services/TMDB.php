@@ -97,14 +97,19 @@
     }
 
     /**
-     * Search TMDb for upcoming movies.
+     * Search TMDb for upcoming movies in our region.
      *
      * @return array
      */
     public function upcoming()
     {
       $cache = Cache::remember('upcoming', $this->untilEndOfDay(), function() {
-        $response = $this->requestTmdb($this->base . '/3/movie/upcoming');
+        // There is no 'EN' region in TMDb.
+        $region = strtolower($this->translation) == 'en' ? 'us' : $this->translation;
+
+        $response = $this->requestTmdb($this->base . '/3/movie/upcoming', [
+          'region' => $region,
+        ]);
 
         return collect($this->createItems($response, 'movie'));
       });
