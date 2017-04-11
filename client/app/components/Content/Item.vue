@@ -102,7 +102,7 @@
           return this.addZero(this.latestEpisode.episode_number);
         }
 
-        return '0';
+        return '01';
       }
     },
 
