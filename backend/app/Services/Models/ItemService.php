@@ -219,6 +219,11 @@
         return response('Not Found', 404);
       }
 
+      // Update the parent relation only if we change rating from neutral.
+      if($item->rating == 0) {
+        $this->model->updateLastSeenAt($item->tmdb_id);
+      }
+
       $item->update([
         'rating' => $rating,
       ]);

@@ -103,6 +103,20 @@
 
       $this->assertEquals(1, $item1->rating);
       $this->assertEquals(3, $item2->rating);
+      $this->assertEquals($item1->last_seen_at, $item2->last_seen_at);
+    }
+
+    /** @test */
+    public function it_should_change_last_seen_if_rating_was_neutral()
+    {
+      $this->createMovie(['rating' => 0]);
+
+      $itemOrignal = $this->item->find(1);
+      sleep(1);
+      $this->itemService->changeRating(1, 1);
+      $itemRated = $this->item->find(1);
+
+      $this->assertNotEquals($itemOrignal->last_seen_at, $itemRated->last_seen_at);
     }
 
     /** @test */
