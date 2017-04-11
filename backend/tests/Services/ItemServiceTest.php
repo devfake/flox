@@ -1,19 +1,15 @@
 <?php
 
   use App\Item;
-  use App\Services\Models\AlternativeTitleService;
-  use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
-  use App\Services\Storage;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
-  use GuzzleHttp\Client;
-  use GuzzleHttp\Handler\MockHandler;
-  use GuzzleHttp\HandlerStack;
-  use GuzzleHttp\Psr7\Response;
 
   class ItemServiceTest extends TestCase {
 
     use DatabaseMigrations;
+    use Factories;
+    use Fixtures;
+    use Mocks;
 
     private $item;
     private $itemService;
@@ -24,14 +20,17 @@
 
       $this->item = app(Item::class);
       $this->itemService = app(ItemService::class);
+
+      $this->createStorageDownloadsMock();
     }
 
     /** @test */
     public function it_should_create_a_new_movie()
     {
-      $this->createEpisodeMock();
-      $this->createStorageMock();
-      $this->createAlternativeTitleMock();
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('movie/details'),
+        $this->tmdbFixtures('movie/alternative_titles')
+      );
 
       $itemService = app(ItemService::class);
 
@@ -49,9 +48,12 @@
     /** @test */
     public function it_should_create_a_new_tv_show()
     {
-      $this->createEpisodeMock();
-      $this->createStorageMock();
-      $this->createAlternativeTitleMock();
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/details'),
+        $this->tmdbFixtures('tv/alternative_titles')
+      );
+
+      $this->createTmdbEpisodeMock();
 
       $itemService = app(ItemService::class);
 
@@ -119,7 +121,7 @@
     /** @test */
     public function it_should_update_genre_for_a_movie()
     {
-      $user = factory(App\User::class)->create();
+      $user = $this->createUser();
       $this->createMovie();
 
       $this->createGuzzleMock($this->tmdbFixtures('movie/details'));
@@ -135,7 +137,7 @@
     /** @test */
     public function it_should_update_genre_for_a_tv_show()
     {
-      $user = factory(App\User::class)->create();
+      $user = $this->createUser();
       $this->createTv();
 
       $this->createGuzzleMock($this->tmdbFixtures('tv/details'));
@@ -147,41 +149,42 @@
       $this->assertEmpty($withoutGenre->genre);
       $this->assertNotEmpty($withGenre->genre);
     }
-
-    private function createGuzzleMock($fixture)
+    
+    /** @test */
+    public function it_should_parse_correct_imdb_id()
     {
-      $mock = new MockHandler([
-        new Response(200, ['X-RateLimit-Remaining' => [40]], $fixture),
-      ]);
+      $idMovie = $this->itemService->parseImdbId(json_decode($this->tmdbFixtures('movie/details')));
+      $idTv = $this->itemService->parseImdbId(json_decode($this->tmdbFixtures('tv/details')));
 
-      $handler = HandlerStack::create($mock);
-      $this->app->instance(Client::class, new Client(['handler' => $handler]));
+      $this->assertEquals('tt0803096', $idMovie);
+      $this->assertEquals('tt0944947', $idTv);
     }
 
-    private function mock($class)
+    /** @test */
+    public function it_should_parse_correct_youtube_key()
     {
-      $mock = Mockery::mock($class)->makePartial();
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('videos'),
+        $this->tmdbFixtures('videos')
+      );
 
-      $this->app->instance($class, $mock);
+      $itemService = app(ItemService::class);
 
-      return $mock;
-    }
+      $fixtureMovie = json_decode($this->tmdbFixtures('movie/details'));
+      $fixtureTv = json_decode($this->tmdbFixtures('tv/details'));
 
-    private function createStorageMock()
-    {
-      $storageMock = $this->mock(Storage::class);
-      $storageMock->shouldReceive('downloadPoster')->once()->andReturn(true);
-    }
+      $foundInDetailsMovie = $itemService->parseYoutubeKey($fixtureMovie, 'movie');
+      $foundInDetailsTv = $itemService->parseYoutubeKey($fixtureTv, 'tv');
 
-    private function createEpisodeMock()
-    {
-      $episodeMock = $this->mock(EpisodeService::class);
-      $episodeMock->shouldReceive('create')->once()->andReturn(true);
-    }
+      $fixtureMovie->videos->results = null;
+      $fixtureTv->videos->results = null;
 
-    private function createAlternativeTitleMock()
-    {
-      $alternativeTitleMock = $this->mock(AlternativeTitleService::class);
-      $alternativeTitleMock->shouldReceive('create')->once()->andReturn(true);
+      $fallBackMovie = $itemService->parseYoutubeKey($fixtureMovie, 'movie');
+      $fallBackTv = $itemService->parseYoutubeKey($fixtureMovie, 'tv');
+
+      $this->assertEquals('2Rxoz13Bthc', $foundInDetailsMovie);
+      $this->assertEquals('BpJYNVhGf1s', $foundInDetailsTv);
+      $this->assertEquals('qnIhJwhBeqY', $fallBackMovie);
+      $this->assertEquals('qnIhJwhBeqY', $fallBackTv);
     }
   }

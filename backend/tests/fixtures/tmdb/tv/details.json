@@ -1,5 +1,5 @@
 {
-  "backdrop_path": "/aKz3lXU71wqdslC1IYRC3yHD6yw.jpg",
+  "backdrop_path": "/mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
   "created_by": [
     {
       "id": 9813,
@@ -38,12 +38,16 @@
     "en",
     "de"
   ],
-  "last_air_date": "2017-06-25",
+  "last_air_date": "2017-07-16",
   "name": "Game of Thrones",
   "networks": [
     {
       "id": 49,
       "name": "HBO"
+    },
+    {
+      "id": 1063,
+      "name": "Sky Atlantic"
     }
   ],
   "number_of_episodes": 61,
@@ -54,7 +58,7 @@
   "original_language": "en",
   "original_name": "Game of Thrones",
   "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
-  "popularity": 35.712295,
+  "popularity": 43.231961,
   "poster_path": "/jIhL6mlT7AblhbHJgEoiBIOUVl1.jpg",
   "production_companies": [
     {
@@ -97,14 +101,14 @@
       "air_date": "2012-04-01",
       "episode_count": 10,
       "id": 3625,
-      "poster_path": "/3U8IVLqitMHMuEAgkuz8qReguHd.jpg",
+      "poster_path": "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg",
       "season_number": 2
     },
     {
       "air_date": "2013-03-31",
       "episode_count": 10,
       "id": 3626,
-      "poster_path": "/eVWAat0GqF6s5LLThrI7ClpKr96.jpg",
+      "poster_path": "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg",
       "season_number": 3
     },
     {
@@ -129,7 +133,7 @@
       "season_number": 6
     },
     {
-      "air_date": "2017-06-25",
+      "air_date": "2017-07-16",
       "episode_count": 1,
       "id": 81266,
       "poster_path": null,
@@ -138,6 +142,27 @@
   ],
   "status": "Returning Series",
   "type": "Scripted",
-  "vote_average": 7.9,
-  "vote_count": 1528
+  "vote_average": 8,
+  "vote_count": 2074,
+  "videos": {
+    "results": [
+      {
+        "id": "572003f992514121f30003c6",
+        "iso_639_1": "en",
+        "iso_3166_1": "US",
+        "key": "BpJYNVhGf1s",
+        "name": "\"The Game Begins\"",
+        "site": "YouTube",
+        "size": 720,
+        "type": "Trailer"
+      }
+    ]
+  },
+  "external_ids": {
+    "imdb_id": "tt0944947",
+    "freebase_mid": "/m/0524b41",
+    "freebase_id": "/en/game_of_thrones",
+    "tvdb_id": 121361,
+    "tvrage_id": 24493
+  }
 }

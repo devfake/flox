@@ -57,5 +57,9 @@ export default {
 
   [type.SET_MODAL_DATA](state, data) {
     state.modalData = data;
+  },
+
+  [type.SET_ITEM_LOADED_SUBPAGE](state, bool) {
+    state.itemLoadedSubpage = bool;
   }
 }

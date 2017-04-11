@@ -48,6 +48,16 @@
         'root' => base_path('../public/assets/poster'),
       ],
 
+      'subpage' => [
+        'driver' => 'local',
+        'root' => base_path('../public/assets/poster/subpage'),
+      ],
+
+      'backdrop' => [
+        'driver' => 'local',
+        'root' => base_path('../public/assets/backdrop'),
+      ],
+
       'export' => [
         'driver' => 'local',
         'root' => base_path('../public/exports'),

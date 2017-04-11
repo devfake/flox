@@ -10,7 +10,6 @@
   use Carbon\Carbon;
   use GuzzleHttp\Client;
   use Illuminate\Support\Facades\DB;
-  use Illuminate\Support\Facades\Log;
   use Symfony\Component\HttpFoundation\Response;
 
   class FileParser {
@@ -167,7 +166,7 @@
     {
       $found = $this->searchTmdb($file);
 
-      // Remove the empty item, because we create a new empty or from TMDb.
+      // We will create a new empty or a real item from TMDb.
       $this->itemService->remove($emptyItem->id);
 
       if( ! $found) {

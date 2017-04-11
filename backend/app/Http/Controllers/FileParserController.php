@@ -3,7 +3,6 @@
   namespace App\Http\Controllers;
 
   use App\Services\FileParser;
-  use App\Setting;
   use GuzzleHttp\Exception\ConnectException;
   use Symfony\Component\HttpFoundation\Request;
   use Symfony\Component\HttpFoundation\Response;
@@ -27,12 +26,12 @@
     public function call()
     {
       try {
-        $files = $this->parser->fetch();
+        $this->parser->fetch();
       } catch(ConnectException $e) {
         return response("Can't connect to file-parser. Make sure the server is running.", Response::HTTP_NOT_FOUND);
+      } catch(\Exception $e) {
+        return response("Error in file-parser:" . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
       }
-
-      return $this->updateDatabase($files);
     }
 
     /**

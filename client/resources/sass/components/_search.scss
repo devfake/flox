@@ -4,7 +4,8 @@
   position: absolute;
   box-shadow: 0 0 70px 0 rgba(0, 0, 0, .3);
   background: #fff;
-  opacity: .97;
+  z-index: 200;
+  opacity: 0;
 
   .dark & {
     background: #2f2f2f;
@@ -19,8 +20,20 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 10;
     }
+  }
+
+  .subpage-open & {
+    background: none;
+    box-shadow: none;
+    position: absolute;
+    top: auto;
+    left: auto;
+  }
+
+  &.active {
+    transition: opacity .7s ease .1s;
+    opacity: .97;
   }
 }
 
@@ -33,6 +46,10 @@
 
   .sticky & {
     padding: 0 0 0 50px;
+  }
+
+  .subpage-open & {
+    padding: 0;
   }
 }
 
@@ -52,6 +69,10 @@
   @include media(5) {
     font-size: 16px;
   }
+
+  .subpage-open & {
+    color: #fff;
+  }
 }
 
 .icon-search {
@@ -61,6 +82,7 @@
   position: absolute;
   left: 0;
   top: 15px;
+  opacity: .5;
 
   @include transition(left);
 
@@ -70,6 +92,12 @@
 
   .sticky & {
     left: 50px;
+  }
+
+  .subpage-open & {
+    background: url(../../../public/assets/img/search-dark.png);
+    opacity: 1;
+    left: 0;
   }
 }
 
@@ -95,5 +123,9 @@
     &:active {
       opacity: .6;
     }
+  }
+
+  .subpage-open & {
+    display: none;
   }
 }

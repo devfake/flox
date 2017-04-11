@@ -1,13 +1,14 @@
 <template>
-  <header>
+  <header :class="{active: displayHeader}">
     <div class="wrap">
       <router-link to="/" class="logo" >
         <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
       </router-link>
 
-      <span class="sort-wrap">
+      <span class="sort-wrap" v-if=" ! isSubpage()">
         <i :title="lang('last seen')" class="icon-sort-time" :class="{active: userFilter == 'last_seen_at'}" @click="setUserFilter('last_seen_at')"></i>
         <i :title="lang('best rated')" class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
+        <!-- will be moved into footer -->
         <span :title="lang('change color')" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
       </span>
 
@@ -17,8 +18,8 @@
       </ul>
 
       <ul class="site-nav-second">
-        <li><router-link to="/tv">{{ lang('tv') }}</router-link></li>
-        <li><router-link to="/movies">{{ lang('movies') }}</router-link></li>
+        <li><router-link to="/tv" exact>{{ lang('tv') }}</router-link></li>
+        <li><router-link to="/movies" exact>{{ lang('movies') }}</router-link></li>
       </ul>
 
     </div>
@@ -40,8 +41,10 @@
     computed: {
       ...mapState({
         userFilter: state => state.userFilter,
-        colorScheme: state => state.colorScheme
+        colorScheme: state => state.colorScheme,
+        itemLoadedSubpage: state => state.itemLoadedSubpage
       }),
+
       root() {
         return config.uri;
       }

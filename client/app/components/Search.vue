@@ -1,5 +1,5 @@
 <template>
-  <section class="search-wrap" :class="{sticky: sticky}">
+  <section class="search-wrap" :class="{sticky: sticky, active: displayHeader}">
     <div class="wrap">
 
       <form class="search-form" @submit.prevent="search()">
@@ -11,7 +11,7 @@
 
     <div class="suggestions-for" v-if="suggestionsFor">
       <div class="wrap">
-        {{ lang('suggestions for') }} <span>{{ suggestionsFor }}</span>
+        {{ lang('suggestions for') }} <router-link :to="{ name: `subpage-${$route.query.type}`, params: { tmdbId: $route.query.for }}">{{ suggestionsFor }}</router-link>
       </div>
     </div>
   </section>
@@ -19,6 +19,7 @@
 
 <script>
   import Helper from '../helper';
+  import { mapState } from 'vuex'
 
   export default {
     mixins: [Helper],
@@ -34,6 +35,10 @@
     },
 
     computed: {
+      ...mapState({
+        itemLoadedSubpage: state => state.itemLoadedSubpage
+      }),
+
       suggestionsFor() {
         return this.$route.query.name;
       },

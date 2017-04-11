@@ -28,6 +28,14 @@ export default {
       return item;
     },
 
+    intToFloat(int) {
+      if(int) {
+        return parseFloat(int).toFixed(1);
+      }
+
+      return null;
+    },
+
     // Language helper
     lang(text) {
       const language = JSON.parse(config.language);
@@ -43,6 +51,20 @@ export default {
         month: '2-digit',
         day: '2-digit'
       });
+    },
+
+    isSubpage() {
+      return this.$route.name.includes('subpage');
+    }
+  },
+
+  computed: {
+    displayHeader() {
+      if(this.isSubpage()) {
+        return this.itemLoadedSubpage;
+      }
+
+      return true;
     }
   }
 }

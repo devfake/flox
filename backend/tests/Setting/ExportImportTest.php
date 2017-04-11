@@ -10,6 +10,7 @@
   class ExportImportTest extends TestCase {
 
     use DatabaseMigrations;
+    use Factories;
 
     protected $user;
 
@@ -17,7 +18,7 @@
     {
       parent::setUp();
 
-      $this->user = factory(App\User::class)->create();
+      $this->user = $this->createUser();
     }
 
     /** @test */
@@ -54,9 +55,9 @@
     {
       $this->callImport('export.json');
 
-      $this->assertCount(5, Item::all());
-      $this->assertCount(143, Episode::all());
-      $this->assertCount(25, AlternativeTitle::all());
+      $this->assertCount(4, Item::all());
+      $this->assertCount(10, Episode::all());
+      $this->assertCount(38, AlternativeTitle::all());
     }
 
     /** @test */

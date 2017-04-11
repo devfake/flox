@@ -51,7 +51,7 @@
         $movies = collect($this->createItems($response, 'movie'));
       }
 
-      return $tv->merge($movies)->toArray();
+      return $movies->merge($tv)->sortByDesc('popularity')->values()->all();
     }
 
     private function fetchSearch($title, $mediaType) {
@@ -172,30 +172,43 @@
       $response = json_decode($response->getBody());
 
       foreach($response->results as $result) {
-        $release = Carbon::createFromFormat('Y-m-d', isset($result->release_date) ? ($result->release_date ?: '1970-12-1') : ($result->first_air_date ?: '1970-12-1'));
-
-        // 'name' is from tv, 'title' from movies
-        $items[] = [
-          'tmdb_id' => $result->id,
-          'title' => $result->name ?? $result->title,
-          'original_title' => $result->original_name ?? $result->original_title,
-          'poster' => $result->poster_path,
-          'media_type' => $mediaType,
-          'released' => $release->getTimestamp(),
-          'genre' => $this->parseGenre($result->genre_ids),
-          'episodes' => [],
-        ];
+        $items[] = $this->createItem($result, $mediaType);
       }
 
       return $items;
     }
 
+    public function createItem($data, $mediaType)
+    {
+      $release = Carbon::createFromFormat('Y-m-d',
+        isset($data->release_date) ? ($data->release_date ?: '1970-12-1') : ($data->first_air_date ?: '1970-12-1')
+      );
+
+      $title = $data->name ?? $data->title;
+
+      return [
+        'tmdb_id' => $data->id,
+        'title' => $title,
+        'slug' => str_slug($title) != '' ? str_slug($title) : 'no-slug-available',
+        'original_title' => $data->original_name ?? $data->original_title,
+        'poster' => $data->poster_path,
+        'media_type' => $mediaType,
+        'released' => $release->getTimestamp(),
+        'genre' => $this->parseGenre($data->genre_ids),
+        'episodes' => [],
+        'overview' => $data->overview,
+        'backdrop' => $data->backdrop_path,
+        'tmdb_rating' => $data->vote_average,
+        'popularity' => $data->popularity,
+      ];
+    }
+
     private function requestTmdb($url, $query = [])
     {
-      $query = array_merge($query, [
+      $query = array_merge([
         'api_key' => $this->apiKey,
         'language' => strtolower($this->translation)
-      ]);
+      ], $query);
 
       try {
         $response = $this->client->get($url, [
@@ -219,7 +232,7 @@
     }
 
     /**
-     * Get full movie or tv details.
+     * Get full movie or tv details with trailers.
      *
      * @param $tmdbId
      * @param $mediaType
@@ -227,7 +240,18 @@
      */
     public function details($tmdbId, $mediaType)
     {
-      $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId);
+      $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId, [
+        'append_to_response' => 'videos,external_ids',
+      ]);
+
+      return json_decode($response->getBody());
+    }
+
+    public function videos($tmdbId, $mediaType, $translation = null)
+    {
+      $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId . '/videos', [
+        'language' => $translation ?? $this->translation,
+      ]);
 
       return json_decode($response->getBody());
     }

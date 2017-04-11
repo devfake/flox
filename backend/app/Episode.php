@@ -26,34 +26,6 @@
     ];
 
     /**
-     * Save all episodes of each season.
-     *
-     * @param $seasons
-     * @param $tmdbId
-     */
-    public function store($seasons, $tmdbId)
-    {
-      foreach($seasons as $season) {
-        $releaseSeason = Carbon::createFromFormat('Y-m-d', $season->air_date ?? '1970-12-1');
-
-        foreach($season->episodes as $episode) {
-          $releaseEpisode = Carbon::createFromFormat('Y-m-d', $episode->air_date ?? '1970-12-1');
-
-          $this->create([
-            'season_tmdb_id' => $season->id,
-            'episode_tmdb_id' => $episode->id,
-            'season_number' => $episode->season_number,
-            'episode_number' => $episode->episode_number,
-            'release_episode' => $releaseEpisode->getTimestamp(),
-            'release_season' => $releaseSeason->getTimestamp(),
-            'name' => $episode->name,
-            'tmdb_id' => $tmdbId,
-          ]);
-        }
-      }
-    }
-
-    /**
      * Accessors
      */
 

@@ -24,6 +24,13 @@
       'last_seen_at',
       'created_at',
       'updated_at',
+      'overview',
+      'tmdb_rating',
+      'imdb_id',
+      'imdb_rating',
+      'backdrop',
+      'youtube_key',
+      'slug',
     ];
 
     /**
@@ -43,7 +50,14 @@
         'rating' => 0,
         'released' => $data['released'],
         'genre' => $data['genre'],
+        'overview' => $data['overview'],
+        'backdrop' => $data['backdrop'],
+        'tmdb_rating' => $data['tmdb_rating'],
+        'imdb_id' => $data['imdb_id'],
+        'imdb_rating' => $data['imdb_rating'],
+        'youtube_key' => $data['youtube_key'],
         'last_seen_at' => Carbon::now(),
+        'slug' => $data['slug'],
       ]);
     }
 

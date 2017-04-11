@@ -4,6 +4,7 @@
 
   use App\Item as Model;
   use App\Item;
+  use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
 
@@ -14,6 +15,7 @@
     private $storage;
     private $alternativeTitleService;
     private $episodeService;
+    private $imdb;
 
     /**
      * @param Model                   $model
@@ -21,19 +23,22 @@
      * @param Storage                 $storage
      * @param AlternativeTitleService $alternativeTitleService
      * @param EpisodeService          $episodeService
+     * @param IMDB                    $imdb
      */
     public function __construct(
       Model $model,
       TMDB $tmdb,
       Storage $storage,
       AlternativeTitleService $alternativeTitleService,
-      EpisodeService $episodeService
+      EpisodeService $episodeService,
+      IMDB $imdb
     ){
       $this->model = $model;
       $this->tmdb = $tmdb;
       $this->storage = $storage;
       $this->alternativeTitleService = $alternativeTitleService;
       $this->episodeService = $episodeService;
+      $this->imdb = $imdb;
     }
 
     /**
@@ -42,15 +47,97 @@
      */
     public function create($data)
     {
+      $data = $this->makeDataComplete($data);
+
       $item = $this->model->store($data);
 
-      $this->storage->downloadPoster($item->poster);
-
       $this->episodeService->create($item);
-
       $this->alternativeTitleService->create($item);
 
+      $this->storage->downloadPoster($item->poster);
+      $this->storage->downloadBackdrop($item->backdrop);
+
       return $item;
+    }
+
+    /**
+     * Search against TMDb and IMDb for more informations.
+     * We don't need to get more informations if we add the item from the subpage.
+     *
+     * @param $data
+     * @return array
+     */
+    public function makeDataComplete($data)
+    {
+      if( ! isset($data['imdb_id'])) {
+        $details = $this->tmdb->details($data['tmdb_id'], $data['media_type']);
+        $title = $details->name ?? $details->title;
+
+        $data['imdb_id'] = $data['imdb_id'] ?? $this->parseImdbId($details);
+        $data['youtube_key'] = $data['youtube_key'] ?? $this->parseYoutubeKey($details, $data['media_type']);
+        $data['overview'] = $data['overview'] ?? $details->overview;
+        $data['tmdb_rating'] = $data['tmdb_rating'] ?? $details->vote_average;
+        $data['backdrop'] = $data['backdrop'] ?? $details->backdrop_path;
+        $data['slug'] = $data['slug'] ?? (str_slug($title) != '' ? str_slug($title) : 'no-slug-available');
+      }
+
+      $data['imdb_rating'] = $this->parseImdbRating($data);
+
+      return $data;
+    }
+
+    /**
+     * If the user clicks to fast on adding item,
+     * we need to re-fetch the rating from IMDb.
+     *
+     * @param $data
+     *
+     * @return float|null
+     */
+    private function parseImdbRating($data)
+    {
+      if( ! isset($data['imdb_rating'])) {
+        $imdbId = $data['imdb_id'];
+
+        if($imdbId) {
+          return $this->imdb->parseRating($imdbId);
+        }
+
+        return  null;
+      }
+
+      // Otherwise we already have the rating saved.
+      return $data['imdb_rating'];
+    }
+
+    /**
+     * TV shows needs an extra append for external ids.
+     *
+     * @param $details
+     * @return mixed
+     */
+    public function parseImdbId($details)
+    {
+      return $details->external_ids->imdb_id ?? ($details->imdb_id ?? null);
+    }
+
+    /**
+     * Get the key for the youtube trailer video. Fallback with english trailer.
+     *
+     * @param $details
+     * @param $mediaType
+     * @return string|null
+     */
+    public function parseYoutubeKey($details, $mediaType)
+    {
+      if(isset($details->videos->results[0])) {
+        return $details->videos->results[0]->key;
+      }
+
+      // Try to fetch details again with english language as fallback.
+      $videos = $this->tmdb->videos($details->id, $mediaType, 'en');
+
+      return $videos->results[0]->key ?? null;
     }
 
     /**
@@ -60,7 +147,7 @@
      */
     public function createEmpty($data, $mediaType)
     {
-      $mediaType = $mediaType == 'movies' ? 'movie' : 'tv';
+      $mediaType = mediaType($mediaType);
 
       $data = [
         'name' => getFileName($data),
@@ -90,10 +177,11 @@
 
       $item->delete();
 
-      // Delete all related episodes, alternative titles and poster image.
+      // Delete all related episodes, alternative titles and images.
       $this->episodeService->remove($tmdbId);
       $this->alternativeTitleService->remove($tmdbId);
-      $this->storage->removePosterFile($item->poster);
+      $this->storage->removePoster($item->poster);
+      $this->storage->removeBackdrop($item->backdrop);
     }
 
     /**
@@ -180,7 +268,7 @@
     public function findBy($type, $value, $mediaType = null)
     {
       if($mediaType) {
-        $mediaType = $mediaType == 'movies' ? 'movie' : 'tv';
+        $mediaType = mediaType($mediaType);
       }
 
       switch($type) {

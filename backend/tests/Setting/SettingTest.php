@@ -6,6 +6,7 @@
   class SettingTest extends TestCase {
 
     use DatabaseMigrations;
+    use Factories;
 
     protected $user;
 
@@ -13,7 +14,7 @@
     {
       parent::setUp();
 
-      $this->user = factory(App\User::class)->create();
+      $this->user = $this->createUser();
     }
 
     /** @test */

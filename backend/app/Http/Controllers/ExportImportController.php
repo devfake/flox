@@ -5,6 +5,7 @@
   use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
+  use App\Services\Models\ItemService;
   use App\Services\Storage;
   use Carbon\Carbon;
   use Illuminate\Support\Facades\Input;
@@ -49,9 +50,10 @@
      * Reset item table and restore backup.
      * Downloads every poster image new.
      *
+     * @param ItemService $itemService
      * @return Response
      */
-    public function import()
+    public function import(ItemService $itemService)
     {
       increaseTimeLimit();
 
@@ -65,6 +67,13 @@
 
       $data = json_decode(file_get_contents($file));
 
+      $this->importItems($data, $itemService);
+      $this->importEpisodes($data);
+      $this->importAlternativeTitles($data);
+    }
+
+    private function importItems($data, ItemService $itemService)
+    {
       if(isset($data->items)) {
         $this->item->truncate();
         foreach($data->items as $item) {
@@ -73,18 +82,31 @@
             $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
           }
 
+          // For empty items (from file-parser) we don't need access to details.
+          if($item->tmdb_id) {
+            $item = $itemService->makeDataComplete((array) $item);
+
+            $this->storage->downloadPoster($item['poster']);
+            $this->storage->downloadBackdrop($item['backdrop']);
+          }
+
           $this->item->create((array) $item);
-          $this->storage->downloadPoster($item->poster);
         }
       }
+    }
 
+    private function importEpisodes($data)
+    {
       if(isset($data->episodes)) {
         $this->episodes->truncate();
         foreach($data->episodes as $episode) {
           $this->episodes->create((array) $episode);
         }
       }
+    }
 
+    private function importAlternativeTitles($data)
+    {
       if(isset($data->alternative_titles)) {
         $this->alternativeTitles->truncate();
         foreach($data->alternative_titles as $title) {

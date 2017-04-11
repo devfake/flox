@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 50;
+  z-index: 250;
 }
 
 .modal-wrap {
@@ -16,10 +16,28 @@
   transform: translateX(-50%);
   width: 100%;
   box-shadow: 0 5px 20px 0 rgba(#000, .6);
-  z-index: 100;
+  z-index: 300;
 
   @include media(4) {
     top: 0;
+  }
+}
+
+.modal-wrap-big {
+  max-width: 1300px;
+  height: 80%;
+
+  .modal-content {
+    max-height: calc(100% - 45px);
+    height: 100%;
+
+    iframe {
+      float: left;
+    }
+  }
+
+  @include media(4) {
+    height: 100%;
   }
 }
 
