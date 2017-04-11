@@ -27,7 +27,7 @@
 
   import http from 'axios';
 
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapActions } from 'vuex'
 
   export default {
     mixins: [Helper],
@@ -52,10 +52,12 @@
 
     methods: {
       ...mapMutations([ 'SET_SEARCH_TITLE', 'SET_LOADING' ]),
+      ...mapActions([ 'setPageTitle' ]),
 
       initSearch() {
         this.SET_SEARCH_TITLE(this.$route.query.q);
         this.SET_LOADING(true);
+        this.setPageTitle(this.lang('search for') + ' ' + this.$route.query.q);
         this.searchFlox();
         this.searchTMDB().then(() => {
           setTimeout(() => {

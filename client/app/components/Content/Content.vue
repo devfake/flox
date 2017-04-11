@@ -52,13 +52,25 @@
     },
 
     methods: {
-      ...mapActions([ 'loadItems', 'loadMoreItems', 'setSearchTitle' ]),
+      ...mapActions([ 'loadItems', 'loadMoreItems', 'setSearchTitle', 'setPageTitle' ]),
 
       fetchData() {
         let name = this.$route.name;
 
+        this.setTitle(name);
         this.loadItems({name, filter: this.userFilter});
         this.setSearchTitle('');
+      },
+
+      setTitle(name) {
+        switch(name) {
+          case 'home':
+            return this.setPageTitle();
+          case 'tv':
+            return this.setPageTitle(this.lang('tv'));
+          case 'movie':
+            return this.setPageTitle(this.lang('movies'));
+        }
       },
 
       fetchSettings() {
