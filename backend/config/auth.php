@@ -2,9 +2,6 @@
 
 return [
 
-    'HTTP_BASIC_USERNAME' => env('HTTP_BASIC_USERNAME'),
-    'HTTP_BASIC_PASSWORD' => env('HTTP_BASIC_PASSWORD'),
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

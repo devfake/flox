@@ -21,6 +21,7 @@
     {
       parent::setUp();
 
+      $this->user = App\User::create(['username' => 'jon', 'password' => Hash::make('snow')]);
       $this->item = app(Item::class);
       $this->episode = app(Episode::class);
       $this->parser = app(FileParser::class);
