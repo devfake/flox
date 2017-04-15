@@ -39,6 +39,8 @@
       Route::get('/search-tmdb', 'TMDBController@search');
 
       Route::post('/fetch-files', 'FileParserController@call');
+
+      Route::get('/video/{type}/{id}', 'VideoController@serve');
     });
   });
 
