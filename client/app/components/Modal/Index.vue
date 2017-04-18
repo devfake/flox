@@ -3,6 +3,7 @@
     <transition mode="out-in" name="fade">
       <season v-if="modalType == 'season'"></season>
       <trailer v-if="modalType == 'trailer'"></trailer>
+      <video-player v-if="modalType == 'video-player'"></video-player>
     </transition>
     <span class="overlay" v-if="overlay" @click="CLOSE_MODAL()"></span>
   </div>
@@ -11,6 +12,7 @@
 <script>
   import Season from './Season.vue';
   import Trailer from './Trailer.vue';
+  import VideoPlayer from './VideoPlayer.vue';
 
   import { mapState, mapMutations } from 'vuex';
 
@@ -27,7 +29,7 @@
     },
 
     components: {
-      Season, Trailer
+      Season, Trailer, VideoPlayer
     }
   }
 </script>

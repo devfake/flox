@@ -55,6 +55,7 @@
 
           <!-- todo: move to own component -->
           <div class="subpage-sidebar-buttons no-select" v-if="item.rating != null && auth">
+            <span @click="openVideoPlayer()" class="button-video-player">Watch Video</span>
             <span class="edit-data">Edit data</span>
             <span class="remove-item" @click="removeItem()">{{ lang('delete movie') }}</span>
           </div>
@@ -153,6 +154,16 @@
           data: {
             youtubeKey: this.item.youtube_key,
             title: this.item.title
+          }
+        });
+      },
+
+      openVideoPlayer() {
+        this.OPEN_MODAL({
+          type: 'video-player',
+          data: {
+            title: this.item.title,
+            src: this.item.src
           }
         });
       },
