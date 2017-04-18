@@ -162,8 +162,8 @@
         this.OPEN_MODAL({
           type: 'video-player',
           data: {
-            title: this.item.title,
-            src: this.item.src
+            mediaType: this.item.media_type,
+            id: this.item.id
           }
         });
       },
