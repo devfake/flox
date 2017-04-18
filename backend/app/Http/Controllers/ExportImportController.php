@@ -7,6 +7,7 @@
   use App\Item;
   use App\Services\Models\ItemService;
   use App\Services\Storage;
+  use App\Setting;
   use Carbon\Carbon;
   use Illuminate\Support\Facades\Input;
   use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +19,15 @@
     private $storage;
     private $version;
     private $alternativeTitles;
+    private $settings;
 
-    public function __construct(Item $item, Episode $episodes, AlternativeTitle $alternativeTitles, Storage $storage)
+    public function __construct(Item $item, Episode $episodes, AlternativeTitle $alternativeTitles, Storage $storage, Setting $settings)
     {
       $this->item = $item;
       $this->episodes = $episodes;
       $this->alternativeTitles = $alternativeTitles;
       $this->storage = $storage;
+      $this->settings = $settings;
       $this->version = config('app.version');
     }
 
@@ -38,6 +41,7 @@
       $data['items'] = $this->item->all();
       $data['episodes'] = $this->episodes->all();
       $data['alternative_titles'] = $this->alternativeTitles->all();
+      $data['settings'] = $this->settings->all();
 
       $filename = $this->storage->createExportFilename();
 
@@ -70,6 +74,7 @@
       $this->importItems($data, $itemService);
       $this->importEpisodes($data);
       $this->importAlternativeTitles($data);
+      $this->importSettings($data);
     }
 
     private function importItems($data, ItemService $itemService)
@@ -111,6 +116,16 @@
         $this->alternativeTitles->truncate();
         foreach($data->alternative_titles as $title) {
           $this->alternativeTitles->create((array) $title);
+        }
+      }
+    }
+
+    private function importSettings($data)
+    {
+      if(isset($data->settings)) {
+        $this->settings->truncate();
+        foreach($data->settings as $setting) {
+          $this->settings->create((array) $setting);
         }
       }
     }

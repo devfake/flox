@@ -4,6 +4,7 @@
   use App\Episode;
   use App\Item;
   use App\Services\Storage;
+  use App\Setting;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
   use Illuminate\Http\UploadedFile;
 
@@ -42,10 +43,12 @@
       $this->assertArrayHasKey('items', $file);
       $this->assertArrayHasKey('episodes', $file);
       $this->assertArrayHasKey('alternative_titles', $file);
+      $this->assertArrayHasKey('settings', $file);
 
       $this->assertCount(2, $file['items']);
       $this->assertCount(4, $file['episodes']);
       $this->assertCount(0, $file['alternative_titles']);
+      $this->assertCount(1, $file['settings']);
 
       $this->removeExportFile($path);
     }
@@ -58,6 +61,7 @@
       $this->assertCount(4, Item::all());
       $this->assertCount(10, Episode::all());
       $this->assertCount(38, AlternativeTitle::all());
+      $this->assertCount(1, Setting::all());
     }
 
     /** @test */
