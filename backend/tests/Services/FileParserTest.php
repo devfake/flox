@@ -3,6 +3,7 @@
   use App\Episode;
   use App\Item;
   use App\Setting;
+  use App\User;
   use Illuminate\Foundation\Testing\DatabaseMigrations;
   use App\Services\FileParser;
 
@@ -16,11 +17,13 @@
     private $item;
     private $parser;
     private $episode;
+    private $user;
 
     public function setUp()
     {
       parent::setUp();
 
+      $this->user = User::create(['username' => 'jon', 'password' => Hash::make('snow')]);
       $this->item = app(Item::class);
       $this->episode = app(Episode::class);
       $this->parser = app(FileParser::class);

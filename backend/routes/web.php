@@ -18,9 +18,6 @@
     Route::get('/settings', 'SettingController@settings');
 
     Route::group(['middleware' => 'auth'], function() {
-      Route::get('/export', 'ExportImportController@export');
-      Route::post('/import', 'ExportImportController@import')->middleware('csrf');
-
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::get('/version', 'SettingController@getVersion');
       Route::patch('/settings', 'SettingController@updateSettings');
