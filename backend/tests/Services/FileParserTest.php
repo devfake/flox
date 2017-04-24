@@ -97,11 +97,13 @@
       $episodes1->each(function($episode) {
         $this->assertNull($episode->src);
         $this->assertNull($episode->subtitles);
+        $this->assertNull($episode->fp_name);
       });
 
       $episodes2->each(function($episode) {
         $this->assertNotNull($episode->src);
         $this->assertNotNull($episode->subtitles);
+        $this->assertNotNull($episode->fp_name);
       });
     }
 
@@ -124,6 +126,7 @@
       $this->assertCount(0, $items);
       $this->assertNotNull($item->src);
       $this->assertNotNull($item->subtitles);
+      $this->assertNotNull($item->fp_name);
       $this->seeInDatabase('items', [
         'title' => 'Warcraft: The Beginning'
       ]);
@@ -157,6 +160,7 @@
       $episodes2->each(function($episode) {
         $this->assertNotNull($episode->src);
         $this->assertNotNull($episode->subtitles);
+        $this->assertNotNull($episode->fp_name);
       });
     }
 
@@ -273,6 +277,7 @@
       $updatedEpisodes->each(function($episode) {
         $this->assertEquals('NEW SRC', $episode->src);
         $this->assertEquals('NEW SUB', $episode->subtitles);
+        $this->assertEquals('Game of Thrones', $episode->fp_name);
       });
     }
 
@@ -296,8 +301,10 @@
 
       $this->assertNotEquals('NEW SRC UPDATED', $episodes[1]->src);
       $this->assertNotEquals('NEW SUB UPDATED', $episodes[1]->subtitles);
+      $this->assertNull($episodes[1]->fp_name);
       $this->assertEquals('NEW SRC UPDATED', $updatedEpisodes[1]->src);
       $this->assertEquals('NEW SUB UPDATED', $updatedEpisodes[1]->subtitles);
+      $this->assertEquals('Game of Thrones', $updatedEpisodes[1]->fp_name);
     }
 
     /** @test */
