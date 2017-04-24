@@ -273,6 +273,11 @@
           }
         }
 
+        // We need to re-populate the file name. Set them to the old name, if he hasn't changed.
+        if( ! isset($item->changed->name)) {
+          $model->fp_name = $item->name;
+        }
+
         return $model->save();
       }
     }
