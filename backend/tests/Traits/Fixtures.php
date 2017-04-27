@@ -27,8 +27,8 @@
       return '/movies/Warcraft.2016.720p.WEB-DL/Warcraft.2016.720p.WEB-DL.mkv';
     }
 
-    protected function getTvSrc()
+    protected function getTvSrc($episode)
     {
-      return '/tv/Game of Thrones/S1/1.mkv';
+      return '/tv/Game of Thrones/S' . $episode->season_number . '/' . $episode->episode_number . '.mkv';
     }
   }
