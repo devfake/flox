@@ -9,6 +9,7 @@
   use App\Setting;
   use Carbon\Carbon;
   use GuzzleHttp\Client;
+  use Illuminate\Database\Eloquent\ModelNotFoundException;
   use Illuminate\Support\Facades\DB;
   use Symfony\Component\HttpFoundation\Response;
 
@@ -263,23 +264,23 @@
      */
     private function update($item, $tmdbId)
     {
+      // Remove all fields, so we can start from scratch.
+      $this->remove($item);
+
       if($model = $this->findItem($item, $tmdbId)) {
-        // Remove all fields, so we can start from scratch.
-        $this->remove($item);
-
-        foreach($item->changed as $field => $value) {
-          if(array_key_exists($field, self::SUPPORTED_FIELDS)) {
-            $model->{self::SUPPORTED_FIELDS[$field]} = $value;
+        foreach(self::SUPPORTED_FIELDS as $fromFile => $toDatabase) {
+          if(isset($item->changed->{$fromFile})) {
+            $model->{$toDatabase} = $item->changed->{$fromFile};
+          } else {
+            // Re-populate the fields which hasn't changed.
+            $model->{$toDatabase} = $item->{$fromFile};
           }
-        }
-
-        // We need to re-populate the file name. Set them to the old name, if he hasn't changed.
-        if( ! isset($item->changed->name)) {
-          $model->fp_name = $item->name;
         }
 
         return $model->save();
       }
+
+      throw new ModelNotFoundException("No item for '$item->name' found in database");
     }
 
     /**
