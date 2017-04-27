@@ -71,6 +71,49 @@
     }
 
     /** @test */
+    public function it_should_repopulate_fields_for_movies()
+    {
+      $this->createMovie(['fp_name' => 'warcraft', 'src' => $this->getMovieSrc(), 'subtitles' => 'SUB']);
+
+      $item = $this->item->first();
+      $this->parser->updateDatabase($this->fpFixtures('movie/updated_is_empty'));
+      $updatedItem = $this->item->first();
+
+      $this->assertEquals($this->getMovieSrc(), $item->src);
+      $this->assertEquals('SUB', $item->subtitles);
+      $this->assertEquals('warcraft', $item->fp_name);
+      $this->assertEquals($this->getMovieSrc(), $updatedItem->src);
+      $this->assertEquals('SUB', $updatedItem->subtitles);
+      $this->assertEquals('warcraft', $updatedItem->fp_name);
+    }
+
+    /** @test */
+    public function it_should_repopulate_fields_for_tv_episodes()
+    {
+      $this->createTv();
+
+      $this->episode->get()->each(function($episode) {
+        $episode->update(['src' => $this->getTvSrc($episode), 'fp_name' => 'Game of Thrones']);
+      });
+
+      $episodes = $this->episode->get();
+      $this->parser->updateDatabase($this->fpFixtures('tv/updated_is_empty'));
+      $updatedEpisodes = $this->episode->get();
+
+      $episodes->each(function($episode) {
+        $this->assertEquals($this->getTvSrc($episode), $episode->src);
+        $this->assertEquals('Game of Thrones', $episode->fp_name);
+        $this->assertNull($episode->subtitles);
+      });
+
+      $updatedEpisodes->each(function($episode) {
+        $this->assertEquals($this->getTvSrc($episode), $episode->src);
+        $this->assertEquals('Game of Thrones', $episode->fp_name);
+        $this->assertNull($episode->subtitles);
+      });
+    }
+
+    /** @test */
     public function it_should_store_fields_if_movie_found_in_database()
     {
       $this->createMovie(['fp_name' => 'warcraft']);
@@ -241,28 +284,12 @@
     }
 
     /** @test */
-    public function it_should_nothing_update_for_movies_if_changed_is_empty()
-    {
-      $this->createMovie();
-      $this->item->first()->update(['src' => $this->getMovieSrc()]);
-
-      $item = $this->item->first();
-      $this->parser->updateDatabase($this->fpFixtures('movie/updated_is_empty'));
-      $updatedItem = $this->item->first();
-
-      $this->assertEquals($this->getMovieSrc(), $item->src);
-      $this->assertNull($item->subtitles);
-      $this->assertEquals($this->getMovieSrc(), $updatedItem->src);
-      $this->assertNull($updatedItem->subtitles);
-    }
-
-    /** @test */
     public function it_should_update_fields_for_episodes_if_tv_found_in_database()
     {
       $this->createTv(['fp_name' => 'Game of Thrones']);
 
       $this->episode->get()->each(function($episode) {
-        $episode->update(['src' => $this->getTvSrc()]);
+        $episode->update(['src' => $this->getTvSrc($episode)]);
       });
 
       $episodes = $this->episode->get();
@@ -270,7 +297,7 @@
       $updatedEpisodes = $this->episode->get();
 
       $episodes->each(function($episode) {
-        $this->assertEquals($this->getTvSrc(), $episode->src);
+        $this->assertEquals($this->getTvSrc($episode), $episode->src);
         $this->assertNull($episode->subtitles);
       });
 
@@ -287,7 +314,7 @@
       $this->createTv(['fp_name' => 'Game of Thrones']);
 
       $this->episode->get()->each(function($episode) {
-        $episode->update(['src' => $this->getTvSrc()]);
+        $episode->update(['src' => $this->getTvSrc($episode)]);
       });
 
       $episodes = $this->episode->get();
@@ -305,30 +332,6 @@
       $this->assertEquals('NEW SRC UPDATED', $updatedEpisodes[1]->src);
       $this->assertEquals('NEW SUB UPDATED', $updatedEpisodes[1]->subtitles);
       $this->assertEquals('Game of Thrones', $updatedEpisodes[1]->fp_name);
-    }
-
-    /** @test */
-    public function it_should_nothing_update_for_episodes_if_changed_is_empty()
-    {
-      $this->createTv();
-
-      $this->episode->get()->each(function($episode) {
-        $episode->update(['src' => $this->getTvSrc()]);
-      });
-
-      $episodes = $this->episode->get();
-      $this->parser->updateDatabase($this->fpFixtures('tv/updated_is_empty'));
-      $updatedEpisodes = $this->episode->get();
-
-      $episodes->each(function($episode) {
-        $this->assertEquals($this->getTvSrc(), $episode->src);
-        $this->assertNull($episode->subtitles);
-      });
-
-      $updatedEpisodes->each(function($episode) {
-        $this->assertEquals($this->getTvSrc(), $episode->src);
-        $this->assertNull($episode->subtitles);
-      });
     }
 
     /** @test */
