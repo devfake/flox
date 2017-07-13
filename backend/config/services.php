@@ -37,13 +37,13 @@ return [
 
     'tmdb' => [
       'key' => env('TMDB_API_KEY'),
-      'poster' => 'http://image.tmdb.org/t/p/w185',
-      'poster_subpage' => 'http://image.tmdb.org/t/p/w342',
-      'backdrop' => 'http://image.tmdb.org/t/p/w1280',
+      'poster' => 'https://image.tmdb.org/t/p/w185',
+      'poster_subpage' => 'https://image.tmdb.org/t/p/w342',
+      'backdrop' => 'https://image.tmdb.org/t/p/w1280',
     ],
 
     'imdb' => [
-      'url' => 'http://www.imdb.com/title/',
+      'url' => 'https://www.imdb.com/title/',
     ],
 
     'fp' => [

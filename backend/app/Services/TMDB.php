@@ -15,7 +15,7 @@
     private $apiKey;
     private $translation;
 
-    private $base = 'http://api.themoviedb.org';
+    private $base = 'https://api.themoviedb.org';
 
     /**
      * Get the API Key for TMDb and create an instance of Guzzle.
