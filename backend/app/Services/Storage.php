@@ -25,7 +25,7 @@
     public function createPosterFile($poster)
     {
       if($poster) {
-        LaravelStorage::put($poster, file_get_contents('http://image.tmdb.org/t/p/w185' . $poster));
+        LaravelStorage::put($poster, file_get_contents('https://image.tmdb.org/t/p/w185' . $poster));
       }
     }
 

@@ -10,7 +10,7 @@ const config = {
   language,
   scoutDriver,
   poster: url + '/assets/poster',
-  posterTMDB: 'http://image.tmdb.org/t/p/w185',
+  posterTMDB: 'https://image.tmdb.org/t/p/w185',
   api: url + '/api'
 };
 

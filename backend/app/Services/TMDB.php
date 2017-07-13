@@ -19,7 +19,7 @@
     {
       $this->apiKey = config('app.TMDB_API_KEY');
       $this->translation = config('app.TRANSLATION');
-      $this->client = new Client(['base_uri' => 'http://api.themoviedb.org/']);
+      $this->client = new Client(['base_uri' => 'https://api.themoviedb.org/']);
     }
 
     /**
