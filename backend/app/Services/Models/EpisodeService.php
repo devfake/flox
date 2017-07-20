@@ -80,10 +80,10 @@
     {
       Carbon::setLocale(config('app.TRANSLATION'));
 
-      $episodes = $this->model->findByTmdbId($tmdbId)->orderBy('release_episode')->get();
+      $episodes = $this->model->findByTmdbId($tmdbId)->get();
 
       return [
-        'episodes' => $episodes->groupBy('season_number'),
+        'episodes' => $episodes->groupBy('season_number')->sortBy('episode_number'),
         'next_episode' => $episodes->where('seen', 0)->first(),
         'spoiler' => Setting::first()->episode_spoiler_protection,
       ];
