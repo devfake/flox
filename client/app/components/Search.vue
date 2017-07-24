@@ -11,18 +11,18 @@
 
     <div class="suggestions-for" v-if="suggestionsFor">
       <div class="wrap">
-        {{ lang('suggestions for') }} <router-link :to="{ name: `subpage-${$route.query.type}`, params: { tmdbId: $route.query.for }}">{{ suggestionsFor }}</router-link>
+        {{ lang('suggestions for') }} <router-link :to="{ name: `subpage-${$route.query.type}`, params: { tmdbId: $route.query.for, slug: $route.query.name }}">{{ suggestionsFor }}</router-link>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-  import Helper from '../helper';
+  import MiscHelper from '../helpers/misc';
   import { mapState } from 'vuex'
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     mounted() {
       this.initSticky();

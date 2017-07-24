@@ -21,10 +21,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import Helper from '../helper';
+  import MiscHelper from '../helpers/misc';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     data() {
       return {

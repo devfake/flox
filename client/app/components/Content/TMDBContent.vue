@@ -17,14 +17,14 @@
 
 <script>
   import Item from './Item.vue';
-  import Helper from '../../helper';
+  import MiscHelper from '../../helpers/misc';
 
   import http from 'axios';
 
   import { mapState, mapMutations, mapActions } from 'vuex'
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     created() {
       this.init();

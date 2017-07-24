@@ -10,9 +10,8 @@
     </div>
 
     <div class="misc-btn-wrap">
-      <button @click="fetchFiles()" class="export-btn">Update files</button>
-      <button @click="callPatch('update-genre')" class="export-btn">{{ lang('update genre') }}</button>
-      <button @click="callPatch('update-alternative-titles')" class="export-btn">Update alternative titles</button>
+      <button @click="fetchFiles()" class="setting-btn">{{ lang('call file-parser') }}</button>
+      <button @click="refreshAll()" class="setting-btn">{{ lang('refresh all infos') }}</button>
     </div>
   </div>
 
@@ -20,12 +19,12 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex';
-  import Helper from '../../../helper';
+  import MiscHelper from '../../../helpers/misc';
 
   import http from 'axios';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     created() {
       this.checkUpdate();
@@ -82,10 +81,10 @@
         });
       },
 
-      callPatch(uri) {
+      refreshAll() {
         this.SET_LOADING(true);
 
-        http.patch(`${config.api}/${uri}`).then(() => {
+        http.patch(`${config.api}/refresh-all`).then(() => {
           this.SET_LOADING(false);
         }).catch(error => {
           this.SET_LOADING(false);

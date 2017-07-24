@@ -27,12 +27,12 @@
 </template>
 
 <script>
-  import Helper from '../helper';
+  import MiscHelper from '../helpers/misc';
   import store from '../store/index';
   import { mapActions, mapMutations, mapState } from 'vuex'
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     created() {
       this.checkForUserFilter();

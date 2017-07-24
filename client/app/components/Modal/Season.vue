@@ -44,10 +44,11 @@
   import { mapState, mapMutations } from 'vuex';
   import http from 'axios';
 
-  import Helper from '../../helper';
+  import MiscHelper from '../../helpers/misc';
+  import ItemHelper from '../../helpers/item';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper, ItemHelper],
 
     data() {
       return {
