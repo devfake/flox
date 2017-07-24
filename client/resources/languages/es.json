@@ -5,7 +5,8 @@
   "login error": "Usuario or contraseña incorrecta",
 
   "suggestions": "Sugerencias",
-  "delete movie": "Borrar",
+  "refresh infos": "Refresh infos",
+  "delete item": "Borrar",
   "confirm delete": "¿Estás seguro?",
   "search": "Buscar",
   "search for": "Search for",
@@ -32,7 +33,6 @@
   "export button": "Exportar películas",
   "import button": "Importar películas",
   "or divider": "O",
-  "update genre": "Actualizar género",
   "sync scout": "Sincronizar Laravel Scout",
   "display genre": "Mostrar género",
   "display date": "Mostrar fecha",
@@ -43,5 +43,14 @@
   "new update": "Hay una nueva actualización de flox!",
   "no update": "Nada que actualizar",
   "checking update": "Chequeando actualizaciones...",
-  "spoiler": "Protección de spoiler para nombre de episodios"
+  "spoiler": "Protección de spoiler para nombre de episodios",
+  "call file-parser": "Call file-parser",
+  "refresh all infos": "Refresh infos for all data",
+  "watch trailer": "Watch Trailer",
+  "trailer for": "Trailer for",
+  "add to watchlist": "Add to Watchlist",
+  "no tmdb rating": "No TMDb Rating",
+  "loading imdb rating": "Loading IMDb Rating...",
+  "no imdb rating": "No IMDb Rating",
+  "overview": "Overview"
 }

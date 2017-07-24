@@ -6,7 +6,8 @@
 
   "suggestions": "Suggesties",
   "suggestions for": "Suggestions for",
-  "delete movie": "Verwijder",
+  "refresh infos": "Refresh infos",
+  "delete item": "Verwijder",
   "confirm delete": "Weet je het zeker?",
   "search": "Zoeken",
   "search for": "Search for",
@@ -35,7 +36,6 @@
   "export button": "Exporteer films",
   "import button": "Importeer films",
   "or divider": "OF",
-  "update genre": "Update genre",
   "sync scout": "Synchroniseer Laravel Scout",
   "display genre": "Weergeef genre",
   "display date": "Weergeef datum",
@@ -45,5 +45,14 @@
   "new update": "Er is een nieuwe update voor Flox!",
   "no update": "Niets te actualiseren",
   "checking update": "Controleren op updates ...",
-  "spoiler": "Spoiler bescherming voor aflevering namen"
+  "spoiler": "Spoiler bescherming voor aflevering namen",
+  "call file-parser": "Call file-parser",
+  "refresh all infos": "Refresh infos for all data",
+  "watch trailer": "Watch Trailer",
+  "trailer for": "Trailer for",
+  "add to watchlist": "Add to Watchlist",
+  "no tmdb rating": "No TMDb Rating",
+  "loading imdb rating": "Loading IMDb Rating...",
+  "no imdb rating": "No IMDb Rating",
+  "overview": "Overview"
 }

@@ -6,7 +6,8 @@
 
   "suggestions": "اقتراحات",
   "suggestions for": "Suggestions for",
-  "delete movie": "حذف",
+  "refresh infos": "Refresh infos",
+  "delete item": "حذف",
   "confirm delete": "هل أنت متأكد؟",
   "search": "بحث",
   "search for": "Search for",
@@ -35,7 +36,6 @@
   "export button": "تصدير الأفلام",
   "import button": "إستيراد الأفلام",
   "or divider": "أو",
-  "update genre": "تحديث الصنف",
   "sync scout": "مزامنة Laravel Scout",
   "display genre": "عرص الصنف",
   "display date": "عرض التاريخ",
@@ -45,5 +45,14 @@
   "new update": "هناك تحديثا جديدا لflox!",
   "no update": "لا شيء لتحديث",
   "checking update": "البحث عن تحديثات...",
-  "spoiler": "حماية المفسد لأسماء الحلقة"
+  "spoiler": "حماية المفسد لأسماء الحلقة",
+  "call file-parser": "Call file-parser",
+  "refresh all infos": "Refresh infos for all data",
+  "watch trailer": "Watch Trailer",
+  "trailer for": "Trailer for",
+  "add to watchlist": "Add to Watchlist",
+  "no tmdb rating": "No TMDb Rating",
+  "loading imdb rating": "Loading IMDb Rating...",
+  "no imdb rating": "No IMDb Rating",
+  "overview": "Overview"
 }

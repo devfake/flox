@@ -6,7 +6,8 @@
 
   "suggestions": "Vorschläge",
   "suggestions for": "Vorschläge für",
-  "delete movie": "Löschen",
+  "refresh infos": "Infos aktualisieren",
+  "delete item": "Löschen",
   "confirm delete": "Wirklich löschen?",
   "search": "Suchen",
   "search for": "Suche nach",
@@ -35,7 +36,6 @@
   "export button": "Exportieren",
   "import button": "Importieren",
   "or divider": "ODER",
-  "update genre": "Genre aktualisieren",
   "sync scout": "Sync Laravel Scout",
   "display genre": "Genre anzeigen",
   "display date": "Datum anzeigen",
@@ -45,5 +45,14 @@
   "new update": "Ein neues Update ist vorhanden",
   "no update": "Kein Update vorhanden",
   "checking update": "Suche nach Updates...",
-  "spoiler": "Spoiler-Schutz für Episodennamen"
+  "spoiler": "Spoiler-Schutz für Episodennamen",
+  "call file-parser": "File-Parser aufrufen",
+  "refresh all infos": "Infos für alle aktualisieren",
+  "watch trailer": "Trailer ansehen",
+  "trailer for": "Trailer für",
+  "add to watchlist": "Zur Watchlist",
+  "no tmdb rating": "Kein TMDb Rating",
+  "loading imdb rating": "Lade IMDb Rating...",
+  "no imdb rating": "Kein IMDb Rating",
+  "overview": "Zusammenfassung"
 }
