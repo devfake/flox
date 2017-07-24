@@ -4,8 +4,8 @@
       <div class="item-image-wrap no-select">
         <rating :item="localItem" :set-item="setItem"></rating>
 
-        <router-link v-if="localItem.tmdb_id" :to="suggestions" class="recommend-item">{{ lang('suggestions') }}</router-link>
-        <span v-if="auth && localItem.rating == null" class="add-to-watchlist" @click="addToWatchlist()">Add to watchlist</span>
+        <router-link v-if="localItem.tmdb_id" :to="suggestionsUri(localItem)" class="recommend-item">{{ lang('suggestions') }}</router-link>
+        <span v-if="auth && localItem.rating == null" class="add-to-watchlist" @click="addToWatchlist()">{{ lang('add to watchlist') }}</span>
         <span v-if="auth && ! localItem.tmdb_id" class="edit-item" @click="editItem()">Edit</span>
 
         <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id, slug: localItem.slug }}">
@@ -13,7 +13,7 @@
           <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
         </router-link>
 
-        <span class="show-episode" @click="openSeasonModal()" v-if="displaySeason">
+        <span class="show-episode" @click="openSeasonModal(localItem)" v-if="displaySeason(localItem)">
           <span class="season-item"><i>S</i>{{ season }}</span>
           <span class="episode-item"><i>E</i>{{ episode }}</span>
         </span>
@@ -33,12 +33,13 @@
   import Rating from '../Rating.vue';
 
   import http from 'axios';
-  import Helper from '../../helper';
+  import MiscHelper from '../../helpers/misc';
+  import ItemHelper from '../../helpers/item';
 
   import { mapMutations, mapActions } from 'vuex';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper, ItemHelper],
 
     props: ['item', 'genre', 'date'],
 
@@ -64,12 +65,6 @@
         return config.posterTMDB + this.localItem.poster;
       },
 
-      suggestions() {
-        const item = this.localItem;
-
-        return `/suggestions?for=${item.tmdb_id}&name=${item.title}&type=${item.media_type}`;
-      },
-
       noImage() {
         return config.url + '/assets/img/no-image.png';
       },
@@ -83,46 +78,12 @@
         }
 
         return released.getFullYear();
-      },
-
-      displaySeason() {
-        return this.localItem.media_type == 'tv' && this.localItem.rating != null && this.localItem.tmdb_id;
-      },
-
-      season() {
-        if(this.latestEpisode) {
-          return this.addZero(this.latestEpisode.season_number);
-        }
-
-        return '01';
-      },
-
-      episode() {
-        if(this.latestEpisode) {
-          return this.addZero(this.latestEpisode.episode_number);
-        }
-
-        return '01';
       }
     },
 
     methods: {
       ...mapMutations([ 'OPEN_MODAL' ]),
       ...mapActions([ 'fetchEpisodes' ]),
-
-      openSeasonModal() {
-        const data = {
-          tmdb_id: this.localItem.tmdb_id,
-          title: this.localItem.title
-        };
-
-        this.fetchEpisodes(data);
-
-        this.OPEN_MODAL({
-          type: 'season',
-          data
-        });
-      },
 
       setItem(item) {
         this.localItem = item;

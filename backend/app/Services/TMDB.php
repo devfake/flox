@@ -194,7 +194,7 @@
       return [
         'tmdb_id' => $data->id,
         'title' => $title,
-        'slug' => str_slug($title) != '' ? str_slug($title) : 'no-slug-available',
+        'slug' => getSlug($title),
         'original_title' => $data->original_name ?? $data->original_title,
         'poster' => $data->poster_path,
         'media_type' => $mediaType,

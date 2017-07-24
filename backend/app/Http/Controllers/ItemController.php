@@ -48,6 +48,16 @@
       return $this->itemService->remove($itemId);
     }
 
+    public function refresh($itemId)
+    {
+      return $this->itemService->refresh($itemId);
+    }
+
+    public function refreshAll()
+    {
+      return $this->itemService->refreshAll();
+    }
+
     public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle)
     {
       $alternativeTitle->update();

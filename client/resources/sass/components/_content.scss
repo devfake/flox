@@ -301,8 +301,13 @@ main {
   text-align: center;
   text-decoration: none;
   opacity: 0;
+  z-index: 100;
 
   @include transition(opacity);
+
+  .subpage-open & {
+    opacity: .7 !important;
+  }
 
   &:hover {
     opacity: 1 !important;
@@ -380,8 +385,13 @@ main {
   color: #fff;
   font-size: 14px;
   width: 100%;
+  z-index: 100;
 
   @include transition(opacity, bottom);
+
+  .subpage-open & {
+    opacity: .7 !important;
+  }
 
   &:hover {
     opacity: 1 !important;
@@ -635,7 +645,7 @@ main {
   float: left;
   width: 100%;
 
-  .export-btn {
+  .setting-btn {
     margin: 0 20px 20px 0;
 
     &:last-child {
@@ -644,7 +654,7 @@ main {
   }
 }
 
-.export-btn {
+.setting-btn {
   background: $main2;
   background: linear-gradient(to right, $main1, $main2);
   color: #fff;

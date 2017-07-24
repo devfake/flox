@@ -28,48 +28,33 @@
     }
 
     /**
-     * Download the poster image files.
+     * Download poster and backdrop image files.
      *
      * @param $poster
+     * @param $backdrop
      */
-    public function downloadPoster($poster)
+    public function downloadImages($poster, $backdrop)
     {
       if($poster) {
         LaravelStorage::put($poster, file_get_contents(config('services.tmdb.poster') . $poster));
         LaravelStorage::disk('subpage')->put($poster, file_get_contents(config('services.tmdb.poster_subpage') . $poster));
       }
-    }
 
-    /**
-     * Download the backdrop image file.
-     *
-     * @param $backdrop
-     */
-    public function downloadBackdrop($backdrop)
-    {
       if($backdrop) {
         LaravelStorage::disk('backdrop')->put($backdrop, file_get_contents(config('services.tmdb.backdrop') . $backdrop));
       }
     }
 
     /**
-     * Delete the poster image files.
+     * Delete poster and backdrop image files.
      *
      * @param $poster
+     * @param $backdrop
      */
-    public function removePoster($poster)
+    public function removeImages($poster, $backdrop)
     {
       LaravelStorage::delete($poster);
       LaravelStorage::disk('subpage')->delete($poster);
-    }
-
-    /**
-     * Delete the backdrop image.
-     *
-     * @param $backdrop
-     */
-    public function removeBackdrop($backdrop)
-    {
       LaravelStorage::disk('backdrop')->delete($backdrop);
     }
 
