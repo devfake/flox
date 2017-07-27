@@ -5,6 +5,7 @@
   use App\Services\Models\AlternativeTitleService;
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
+  use GuzzleHttp\Client;
   use Illuminate\Support\Facades\Input;
 
   class ItemController {
@@ -53,9 +54,14 @@
       return $this->itemService->refresh($itemId);
     }
 
+    public function refreshKickstartAll(Client $client)
+    {
+      return $this->itemService->refreshKickstartAll($client);
+    }
+
     public function refreshAll()
     {
-      return $this->itemService->refreshAll();
+      $this->itemService->refreshAll();
     }
 
     public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle)

@@ -7,6 +7,7 @@
   use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use GuzzleHttp\Client;
   use Symfony\Component\HttpFoundation\Response;
 
   class ItemService {
@@ -84,6 +85,19 @@
       $data['imdb_rating'] = $this->parseImdbRating($data);
 
       return $data;
+    }
+
+    /**
+     * Calls the refreshAll method with a seperate request to avoid blocking flox for the user.
+     *
+     * @param Client $client
+     * @return int
+     */
+    public function refreshKickstartAll(Client $client)
+    {
+      $response = $client->get(url('/api/refresh-all'));
+
+      return $response->getStatusCode();
     }
 
     /**
