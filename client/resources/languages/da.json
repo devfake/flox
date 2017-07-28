@@ -6,7 +6,8 @@
 
   "suggestions": "Forslag",
   "suggestions for": "Suggestions for",
-  "delete movie": "Slet",
+  "refresh infos": "Refresh infos",
+  "delete item": "Slet",
   "confirm delete": "Er du sikker?",
   "search": "Søg",
   "search for": "Search for",
@@ -35,7 +36,6 @@
   "export button": "Exportér film",
   "import button": "Importér film",
   "or divider": "ELLER",
-  "update genre": "Opdatér genre",
   "sync scout": "Synkronisér Laravel Scout",
   "display genre": "Vis genre",
   "display date": "Vis dato",
@@ -45,5 +45,14 @@
   "new update": "Der er en ny opdatering til flox!",
   "no update": "Intet at opdatere",
   "checking update": "Kontrollerer for opdateringer ...",
-  "spoiler": "beskyttelse Spoiler for episode navne"
+  "spoiler": "beskyttelse Spoiler for episode navne",
+  "call file-parser": "Call file-parser",
+  "refresh all infos": "Refresh infos for all data",
+  "watch trailer": "Watch Trailer",
+  "trailer for": "Trailer for",
+  "add to watchlist": "Add to Watchlist",
+  "no tmdb rating": "No TMDb Rating",
+  "loading imdb rating": "Loading IMDb Rating...",
+  "no imdb rating": "No IMDb Rating",
+  "overview": "Overview"
 }

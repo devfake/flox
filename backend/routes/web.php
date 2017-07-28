@@ -15,6 +15,7 @@
     Route::get('/trending', 'TMDBController@trending');
     Route::get('/upcoming', 'TMDBController@upcoming');
 
+    Route::patch('/refresh-all', 'ItemController@refreshAll');
     Route::get('/settings', 'SettingController@settings');
 
     Route::group(['middleware' => 'auth'], function() {
@@ -28,6 +29,8 @@
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');
+      Route::patch('/refresh/{itemId}', 'ItemController@refresh')->middleware('csrf');
+      Route::get('/refresh-kickstart-all', 'ItemController@refreshKickstartAll')->middleware('csrf');
       Route::delete('/remove/{itemId}', 'ItemController@remove')->middleware('csrf');
 
       Route::get('/userdata', 'UserController@getUserData');

@@ -20,20 +20,8 @@ export default {
       window.requestAnimationFrame(step);
     },
 
-    addZero(item) {
-      if(item < 10) {
-        return '0' + item;
-      }
-
-      return item;
-    },
-
-    intToFloat(int) {
-      if(int) {
-        return parseFloat(int).toFixed(1);
-      }
-
-      return null;
+    suggestionsUri(item) {
+      return `/suggestions?for=${item.tmdb_id}&name=${item.title}&type=${item.media_type}`;
     },
 
     // Language helper

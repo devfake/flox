@@ -90,9 +90,7 @@
           // For empty items (from file-parser) we don't need access to details.
           if($item->tmdb_id) {
             $item = $itemService->makeDataComplete((array) $item);
-
-            $this->storage->downloadPoster($item['poster']);
-            $this->storage->downloadBackdrop($item['backdrop']);
+            $this->storage->downloadImages($item['poster'], $item['backdrop']);
           }
 
           $this->item->create((array) $item);

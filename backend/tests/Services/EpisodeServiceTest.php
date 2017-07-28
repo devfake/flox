@@ -42,6 +42,44 @@
     }
 
     /** @test */
+    public function it_should_create_episodes_if_new_from_tmdb_are_available()
+    {
+      $this->createTv();
+
+      $this->createTmdbEpisodeMock();
+      $episodeService = app(EpisodeService::class);
+
+      $this->episode->destroy(1);
+
+      $item = $this->item->first();
+      $episodes = $this->episode->all();
+      $episodeService->create($item);
+      $updatedEpisodes = $this->episode->all();
+
+      $this->assertCount(3, $episodes);
+      $this->assertCount(4, $updatedEpisodes);
+    }
+
+    /** @test */
+    public function it_should_update_fields_on_refresh()
+    {
+      $this->createTv();
+
+      $this->createTmdbEpisodeMock();
+      $episodeService = app(EpisodeService::class);
+
+      $this->episode->first()->update(['name' => 'UPDATE ME']);
+
+      $item = $this->item->first();
+      $episode = $this->episode->first();
+      $episodeService->create($item);
+      $updatedEpisode = $this->episode->first();
+
+      $this->assertEquals('UPDATE ME', $episode->name);
+      $this->assertEquals('name', $updatedEpisode->name);
+    }
+
+    /** @test */
     public function it_should_set_a_episode_as_seen_or_unseen()
     {
       $this->createTv();

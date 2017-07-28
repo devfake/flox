@@ -6,7 +6,8 @@
 
   "suggestions": "Suggestions",
   "suggestions for": "Suggestions for",
-  "delete movie": "Delete",
+  "refresh infos": "Refresh infos",
+  "delete item": "Delete",
   "confirm delete": "Are you sure?",
   "search": "Search",
   "search for": "Search for",
@@ -35,7 +36,6 @@
   "export button": "Export movies",
   "import button": "Import movies",
   "or divider": "OR",
-  "update genre": "Update genre",
   "sync scout": "Sync Laravel Scout",
   "display genre": "Display genre",
   "display date": "Display date",
@@ -45,5 +45,14 @@
   "new update": "There is a new update for flox!",
   "no update": "Nothing to update",
   "checking update": "Checking for updates...",
-  "spoiler": "Spoiler protection for episode names"
+  "spoiler": "Spoiler protection for episode names",
+  "call file-parser": "Call file-parser",
+  "refresh all infos": "Refresh infos for all data",
+  "watch trailer": "Watch Trailer",
+  "trailer for": "Trailer for",
+  "add to watchlist": "Add to Watchlist",
+  "no tmdb rating": "No TMDb Rating",
+  "loading imdb rating": "Loading IMDb Rating...",
+  "no imdb rating": "No IMDb Rating",
+  "overview": "Overview"
 }

@@ -7,6 +7,8 @@
   use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use GuzzleHttp\Client;
+  use Symfony\Component\HttpFoundation\Response;
 
   class ItemService {
 
@@ -54,8 +56,7 @@
       $this->episodeService->create($item);
       $this->alternativeTitleService->create($item);
 
-      $this->storage->downloadPoster($item->poster);
-      $this->storage->downloadBackdrop($item->backdrop);
+      $this->storage->downloadImages($item->poster, $item->backdrop);
 
       return $item;
     }
@@ -78,12 +79,78 @@
         $data['overview'] = $data['overview'] ?? $details->overview;
         $data['tmdb_rating'] = $data['tmdb_rating'] ?? $details->vote_average;
         $data['backdrop'] = $data['backdrop'] ?? $details->backdrop_path;
-        $data['slug'] = $data['slug'] ?? (str_slug($title) != '' ? str_slug($title) : 'no-slug-available');
+        $data['slug'] = $data['slug'] ?? getSlug($title);
       }
 
       $data['imdb_rating'] = $this->parseImdbRating($data);
 
       return $data;
+    }
+
+    /**
+     * Calls the refreshAll method with a seperate request to avoid blocking flox for the user.
+     *
+     * @param Client $client
+     * @return int
+     */
+    public function refreshKickstartAll(Client $client)
+    {
+      $response = $client->get(url('/api/refresh-all'));
+
+      return $response->getStatusCode();
+    }
+
+    /**
+     * Refresh informations for all items.
+     */
+    public function refreshAll()
+    {
+      increaseTimeLimit();
+
+      $this->model->all()->each(function($item) {
+        $this->refresh($item->id);
+      });
+    }
+
+    /**
+     * Refresh informations for an item.
+     * Like ratings, new episodes, new poster and backdrop images.
+     *
+     * @param $itemId
+     * @return Response
+     */
+    public function refresh($itemId)
+    {
+      $item = $this->model->find($itemId);
+
+      if( ! $item) {
+        return response('Not Found', Response::HTTP_NOT_FOUND);
+      }
+
+      $this->storage->removeImages($item->poster, $item->backdrop);
+
+      $details = $this->tmdb->details($item->tmdb_id, $item->media_type);
+
+      $title = $details->name ?? $details->title;
+      $imdbId = $item->imdb_id ?? $this->parseImdbId($details);
+
+      $item->update([
+        'imdb_id' => $imdbId,
+        'youtube_key' => $this->parseYoutubeKey($details, $item->media_type),
+        'overview' => $details->overview,
+        'tmdb_rating' => $details->vote_average,
+        'imdb_rating' => $this->parseImdbRating(['imdb_id' => $imdbId]),
+        'backdrop' => $details->backdrop_path,
+        'poster' => $details->poster_path,
+        'slug' => getSlug($title),
+        'title' => $title,
+        'original_title' => $details->original_name ?? $details->original_title,
+      ]);
+
+      $this->episodeService->create($item);
+      $this->alternativeTitleService->create($item);
+
+      $this->storage->downloadImages($item->poster, $item->backdrop);
     }
 
     /**
@@ -170,7 +237,7 @@
       $item = $this->model->find($itemId);
 
       if( ! $item) {
-        return response('Not Found', 404);
+        return response('Not Found', Response::HTTP_NOT_FOUND);
       }
 
       $tmdbId = $item->tmdb_id;
@@ -180,8 +247,7 @@
       // Delete all related episodes, alternative titles and images.
       $this->episodeService->remove($tmdbId);
       $this->alternativeTitleService->remove($tmdbId);
-      $this->storage->removePoster($item->poster);
-      $this->storage->removeBackdrop($item->backdrop);
+      $this->storage->removeImages($item->poster, $item->backdrop);
     }
 
     /**
@@ -216,7 +282,7 @@
       $item = $this->model->find($itemId);
 
       if( ! $item) {
-        return response('Not Found', 404);
+        return response('Not Found', Response::HTTP_NOT_FOUND);
       }
 
       // Update the parent relation only if we change rating from neutral.
@@ -284,7 +350,7 @@
         case 'fp_name':
           return $this->model->findByFPName($value, $mediaType)->first();
         case 'tmdb_id':
-          return $this->model->findByTmdbId($value)->first();
+          return $this->model->findByTmdbId($value)->with('latestEpisode')->first();
         case 'src':
           return $this->model->findBySrc($value)->first();
       }

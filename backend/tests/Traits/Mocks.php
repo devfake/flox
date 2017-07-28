@@ -28,7 +28,7 @@
     public function createStorageDownloadsMock()
     {
       $mock = $this->mock(Storage::class);
-      $mock->shouldReceive('downloadPoster', 'downloadBackdrop')->andReturn(null, null);
+      $mock->shouldReceive('downloadImages')->andReturn(null);
     }
 
     public function createTmdbEpisodeMock()

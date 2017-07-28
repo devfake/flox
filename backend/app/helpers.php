@@ -14,3 +14,8 @@
   {
     return $mediaType == 'movies' ? 'movie' : 'tv';
   }
+
+  function getSlug($title)
+  {
+    return str_slug($title) != '' ? str_slug($title) : 'no-slug-available';
+  }

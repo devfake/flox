@@ -1,7 +1,7 @@
 <template>
 
   <div class="settings-box" v-if=" ! loading">
-    <a :href="exportLink" class="export-btn">{{ lang('export button') }}</a>
+    <a :href="exportLink" class="setting-btn">{{ lang('export button') }}</a>
 
     <form class="login-form" @submit.prevent="importMovies()">
       <span class="import-info">{{ lang('or divider') }}</span>
@@ -15,12 +15,12 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex';
-  import Helper from '../../../helper';
+  import MiscHelper from '../../../helpers/misc';
 
   import http from 'axios';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     data() {
       return {

@@ -6,7 +6,8 @@
 
   "suggestions": "Προτάσεις",
   "suggestions for": "Suggestions for",
-  "delete movie": "Διαγραφή",
+  "refresh infos": "Refresh infos",
+  "delete item": "Διαγραφή",
   "confirm delete": "Είσαι σίγουρος;",
   "search": "Αναζήτηση",
   "search for": "Search for",
@@ -35,7 +36,6 @@
   "export button": "Εξαγωγή ταινιών",
   "import button": "Εισαγωγή ταινιών",
   "or divider": "Ή",
-  "update genre": "Ενημέρωση είδους",
   "sync scout": "Συγχρονισμός Laravel Scout",
   "display genre": "Εμφάνιση είδους",
   "display date": "Εμφάνιση ημερομηνίας",
@@ -45,6 +45,14 @@
   "new update": "Υπάρχει μια νέα ενημερωμένη έκδοση για Flox!",
   "no update": "Τίποτα για να ενημερώσετε",
   "checking update": "Έλεγχος για ενημερώσεις ...",
-  "spoiler": "προστασία αεροτομή για τα ονόματα επεισόδιο"
-
+  "spoiler": "προστασία αεροτομή για τα ονόματα επεισόδιο",
+  "call file-parser": "Call file-parser",
+  "refresh all infos": "Refresh infos for all data",
+  "watch trailer": "Watch Trailer",
+  "trailer for": "Trailer for",
+  "add to watchlist": "Add to Watchlist",
+  "no tmdb rating": "No TMDb Rating",
+  "loading imdb rating": "Loading IMDb Rating...",
+  "no imdb rating": "No IMDb Rating",
+  "overview": "Overview"
 }

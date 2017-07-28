@@ -33,7 +33,6 @@
      */
     public function create($item)
     {
-      // todo: rewrite this and make this more generic. we need to use this in refresh too, if a episode is not in database.
       if($item->media_type == 'tv') {
         $seasons = $this->tmdb->tvEpisodes($item->tmdb_id);
 
@@ -43,16 +42,20 @@
           foreach($season->episodes as $episode) {
             $releaseEpisode = Carbon::createFromFormat('Y-m-d', $episode->air_date ?? '1970-12-1');
 
-            $this->model->create([
-              'season_tmdb_id' => $season->id,
-              'episode_tmdb_id' => $episode->id,
-              'season_number' => $episode->season_number,
-              'episode_number' => $episode->episode_number,
-              'release_episode' => $releaseEpisode->getTimestamp(),
-              'release_season' => $releaseSeason->getTimestamp(),
-              'name' => $episode->name,
-              'tmdb_id' => $item->tmdb_id,
-            ]);
+            $this->model->updateOrCreate(
+              [
+                'season_number' => $episode->season_number,
+                'episode_number' => $episode->episode_number,
+                'tmdb_id' => $item->tmdb_id,
+              ],
+              [
+                'season_tmdb_id' => $season->id,
+                'episode_tmdb_id' => $episode->id,
+                'release_episode' => $releaseEpisode->getTimestamp(),
+                'release_season' => $releaseSeason->getTimestamp(),
+                'name' => $episode->name,
+              ]
+            );
           }
         }
       }
@@ -83,7 +86,7 @@
       $episodes = $this->model->findByTmdbId($tmdbId)->get();
 
       return [
-        'episodes' => $episodes->groupBy('season_number')->sortBy('episode_number'),
+        'episodes' => $episodes->sortBy('episode_number')->groupBy('season_number'),
         'next_episode' => $episodes->where('seen', 0)->first(),
         'spoiler' => Setting::first()->episode_spoiler_protection,
       ];

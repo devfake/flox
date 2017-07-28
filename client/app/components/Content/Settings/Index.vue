@@ -27,10 +27,10 @@
   import Misc from './Misc.vue';
 
   import { mapState, mapActions } from 'vuex';
-  import Helper from '../../../helper';
+  import MiscHelper from '../../../helpers/misc';
   
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     created() {
       this.setPageTitle(this.lang('settings'));

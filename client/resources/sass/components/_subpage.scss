@@ -296,6 +296,7 @@
 .subpage-poster-wrap {
   float: left;
   position: relative;
+  max-height: 408px;
 
   img {
     border: 0;
@@ -351,7 +352,7 @@
 }
 
 .remove-item,
-.refresh-data,
+.refresh-infos,
 .edit-data {
   padding: 10px;
   cursor: pointer;
@@ -375,7 +376,7 @@
   }
 }
 
-.refresh-data {
+.refresh-infos {
 
   &:hover {
     color: #238cce;

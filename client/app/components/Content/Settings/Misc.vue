@@ -10,9 +10,8 @@
     </div>
 
     <div class="misc-btn-wrap">
-      <button @click="fetchFiles()" class="export-btn">Update files</button>
-      <button @click="callPatch('update-genre')" class="export-btn">{{ lang('update genre') }}</button>
-      <button @click="callPatch('update-alternative-titles')" class="export-btn">Update alternative titles</button>
+      <button @click="fetchFiles()" class="setting-btn">{{ lang('call file-parser') }}</button>
+      <button v-show=" ! refreshAllClicked" @click="refreshAll()" class="setting-btn">{{ lang('refresh all infos') }}</button>
     </div>
   </div>
 
@@ -20,12 +19,12 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex';
-  import Helper from '../../../helper';
+  import MiscHelper from '../../../helpers/misc';
 
   import http from 'axios';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     created() {
       this.checkUpdate();
@@ -35,7 +34,8 @@
     data() {
       return {
         version: '',
-        isUpdate: null
+        isUpdate: null,
+        refreshAllClicked: false
       }
     },
 
@@ -82,13 +82,13 @@
         });
       },
 
-      callPatch(uri) {
-        this.SET_LOADING(true);
+      refreshAll() {
+        this.refreshAllClicked = true;
 
-        http.patch(`${config.api}/${uri}`).then(() => {
-          this.SET_LOADING(false);
+        http(`${config.api}/refresh-kickstart-all`).then(() => {
+          this.refreshAllClicked = false;
         }).catch(error => {
-          this.SET_LOADING(false);
+          this.refreshAllClicked = false;
           alert(error.response.data);
         });
       }
