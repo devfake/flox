@@ -1,7 +1,7 @@
 <template>
   <header :class="{active: displayHeader}">
     <div class="wrap">
-      <router-link to="/" class="logo">
+      <router-link to="/" @click.native="refresh('home')" class="logo">
         <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
       </router-link>
 
@@ -13,14 +13,14 @@
       </span>
 
       <ul class="site-nav">
-        <li><router-link to="/trending">{{ lang('trending') }}</router-link></li>
-        <li><router-link to="/current">{{ lang('current') }}</router-link></li>
-        <li><router-link to="/upcoming">{{ lang('upcoming') }}</router-link></li>
+        <li><router-link to="/trending" @click.native="refresh('trending')">{{ lang('trending') }}</router-link></li>
+        <li><router-link to="/current" @click.native="refresh('current')">{{ lang('current') }}</router-link></li>
+        <li><router-link to="/upcoming" @click.native="refresh('upcoming')">{{ lang('upcoming') }}</router-link></li>
       </ul>
 
       <ul class="site-nav-second">
-        <li><router-link to="/tv" exact>{{ lang('tv') }}</router-link></li>
-        <li><router-link to="/movies" exact>{{ lang('movies') }}</router-link></li>
+        <li><router-link to="/tv" @click.native="refresh('tv')" exact>{{ lang('tv') }}</router-link></li>
+        <li><router-link to="/movies" @click.native="refresh('movie')" exact>{{ lang('movies') }}</router-link></li>
       </ul>
 
     </div>
@@ -75,6 +75,14 @@
         localStorage.setItem('filter', filter);
         this.SET_USER_FILTER(filter);
         this.loadItems({name, filter});
+      },
+
+      refresh(route) {
+        let name = this.$route.name;
+
+        if(name === route) {
+          this.loadItems({name, filter: this.userFilter});
+        }
       }
     }
   }
