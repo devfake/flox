@@ -44,6 +44,15 @@
       return $this->itemService->create(Input::get('item'));
     }
 
+    public function watchlist()
+    {
+      $item = $this->add();
+
+      $item->update(['watchlist' => true]);
+
+      return $item;
+    }
+
     public function remove($itemId)
     {
       return $this->itemService->remove($itemId);

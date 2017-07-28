@@ -25,6 +25,7 @@
       Route::patch('/settings', 'SettingController@updateSettings');
 
       Route::post('/add', 'ItemController@add');
+      Route::post('/watchlist', 'ItemController@watchlist');
       Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
       Route::patch('/update-genre', 'ItemController@updateGenre');
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');

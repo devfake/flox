@@ -3,11 +3,11 @@
   namespace App\Services\Models;
 
   use App\Item as Model;
-  use App\Item;
   use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
   use GuzzleHttp\Client;
+  use App\Setting;
   use Symfony\Component\HttpFoundation\Response;
 
   class ItemService {
@@ -18,14 +18,16 @@
     private $alternativeTitleService;
     private $episodeService;
     private $imdb;
+    private $setting;
 
     /**
-     * @param Model                   $model
-     * @param TMDB                    $tmdb
-     * @param Storage                 $storage
+     * @param Model $model
+     * @param TMDB $tmdb
+     * @param Storage $storage
      * @param AlternativeTitleService $alternativeTitleService
-     * @param EpisodeService          $episodeService
-     * @param IMDB                    $imdb
+     * @param EpisodeService $episodeService
+     * @param IMDB $imdb
+     * @param Setting $setting
      */
     public function __construct(
       Model $model,
@@ -33,7 +35,8 @@
       Storage $storage,
       AlternativeTitleService $alternativeTitleService,
       EpisodeService $episodeService,
-      IMDB $imdb
+      IMDB $imdb,
+      Setting $setting
     ){
       $this->model = $model;
       $this->tmdb = $tmdb;
@@ -41,6 +44,7 @@
       $this->alternativeTitleService = $alternativeTitleService;
       $this->episodeService = $episodeService;
       $this->imdb = $imdb;
+      $this->setting = $setting;
     }
 
     /**
@@ -170,7 +174,7 @@
           return $this->imdb->parseRating($imdbId);
         }
 
-        return  null;
+        return null;
       }
 
       // Otherwise we already have the rating saved.
@@ -210,7 +214,7 @@
     /**
      * @param $data
      * @param $mediaType
-     * @return Item
+     * @return Model
      */
     public function createEmpty($data, $mediaType)
     {
@@ -259,19 +263,23 @@
      */
     public function getWithPagination($type, $orderBy)
     {
-      $orderType = $orderBy == 'rating' ? 'asc' : 'desc';
+      $items = $this->model->orderBy($orderBy, 'asc')->with('latestEpisode')->withCount('episodesWithSrc');
 
-      $items = $this->model->orderBy($orderBy, $orderType)->with('latestEpisode')->withCount('episodesWithSrc');
+      if($type == 'watchlist') {
+        $items->where('watchlist', true);
+      } elseif( ! $this->setting->first()->show_watchlist_everywhere) {
+        $items->where('watchlist', false);
+      }
 
       if($type == 'tv' || $type == 'movie') {
-        $items = $items->where('media_type', $type);
+        $items->where('media_type', $type);
       }
 
       return $items->simplePaginate(config('app.LOADING_ITEMS'));
     }
 
     /**
-     * Update rating for a movie.
+     * Update rating.
      *
      * @param $itemId
      * @param $rating
@@ -292,6 +300,7 @@
 
       $item->update([
         'rating' => $rating,
+        'watchlist' => false,
       ]);
     }
 

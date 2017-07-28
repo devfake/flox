@@ -1,14 +1,17 @@
 <template>
 
   <div class="settings-box no-select" v-if=" ! loading">
-    <div class="checkbox">
+    <div class="setting-box">
       <input type="checkbox" value="genre" v-model="genre" id="genre" @change="updateOptions"><label for="genre">{{ lang('display genre') }}</label>
     </div>
-    <div class="checkbox">
+    <div class="setting-box">
       <input type="checkbox" value="date" v-model="date" id="date" @change="updateOptions"><label for="date">{{ lang('display date') }}</label>
     </div>
-    <div class="checkbox">
+    <div class="setting-box">
       <input type="checkbox" value="spoiler" v-model="spoiler" id="spoiler" @change="updateOptions"><label for="spoiler">{{ lang('spoiler') }}</label>
+    </div>
+    <div class="setting-box">
+      <input type="checkbox" value="watchlist" v-model="watchlist" id="watchlist" @change="updateOptions"><label for="watchlist">{{ lang('show watchlist') }}</label>
     </div>
   </div>
 
@@ -19,16 +22,12 @@
   import MiscHelper from '../../../helpers/misc';
 
   import http from 'axios';
-  import debounce from 'debounce';
-
-  const debounceMilliseconds = 700;
 
   export default {
     mixins: [MiscHelper],
 
     created() {
       this.fetchOptions();
-      this.updateOptions = debounce(this.updateOptions, debounceMilliseconds);
     },
 
     data() {
@@ -36,6 +35,7 @@
         genre: null,
         date: null,
         spoiler: null,
+        watchlist: null
       }
     },
 
@@ -57,17 +57,23 @@
           this.genre = data.genre;
           this.date = data.date;
           this.spoiler = data.spoiler;
+          this.watchlist = data.watchlist;
         });
       },
 
       updateOptions() {
+        this.SET_LOADING(true);
+
         const date = this.date;
         const genre = this.genre;
         const spoiler = this.spoiler;
+        const watchlist = this.watchlist;
 
-        http.patch(`${config.api}/settings`, {date, genre, spoiler}).catch(() => {
-          alert('Error');
-        });
+        http.patch(`${config.api}/settings`, {date, genre, spoiler, watchlist}).then(response => {
+          this.SET_LOADING(false);
+        }, error => {
+          alert(error.message);
+        })
       },
     }
 

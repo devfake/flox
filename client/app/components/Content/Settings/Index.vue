@@ -3,10 +3,10 @@
     <div class="wrap-content">
 
       <div class="navigation-tab no-select">
+        <span :class="{active: activeTab == 'misc'}" @click="changeActiveTab('misc')">{{ lang('tab misc') }}</span>
         <span :class="{active: activeTab == 'user'}" @click="changeActiveTab('user')">{{ lang('tab user') }}</span>
         <span :class="{active: activeTab == 'options'}" @click="changeActiveTab('options')">{{ lang('tab options') }}</span>
         <span :class="{active: activeTab == 'backup'}" @click="changeActiveTab('backup')">{{ lang('tab backup') }}</span>
-        <span :class="{active: activeTab == 'misc'}" @click="changeActiveTab('misc')">{{ lang('tab misc') }}</span>
       </div>
 
       <span class="loader fullsize-loader" v-if="loading"><i></i></span>
@@ -42,7 +42,7 @@
 
     data() {
       return {
-        activeTab: 'user'
+        activeTab: 'misc'
       }
     },
 

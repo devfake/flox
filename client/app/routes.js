@@ -20,6 +20,7 @@ export default new Router({
     // todo: use props for media type
     { path: '/movies', component: Content, name: 'movie' },
     { path: '/tv', component: Content, name: 'tv' },
+    { path: '/watchlist/:type?', component: Content, name: 'watchlist' },
 
     { path: '/movies/:tmdbId/:slug?', component: Subpage, name: 'subpage-movie', props: {mediaType: 'movie'} },
     { path: '/tv/:tmdbId/:slug?', component: Subpage, name: 'subpage-tv', props: {mediaType: 'tv'} },

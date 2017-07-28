@@ -30,7 +30,6 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "vue-html-loader": "^1.2.3",
-    "vue-loader": "^9.5.1",
     "vue-loader": "^9.9.5",
     "webpack": "^1.13.2"
   }

@@ -19,6 +19,7 @@
       </ul>
 
       <ul class="site-nav-second">
+        <li><router-link to="/watchlist" @click.native="refresh('watchlist')" exact>{{ lang('watchlist') }}</router-link></li>
         <li><router-link to="/tv" @click.native="refresh('tv')" exact>{{ lang('tv') }}</router-link></li>
         <li><router-link to="/movies" @click.native="refresh('movie')" exact>{{ lang('movies') }}</router-link></li>
       </ul>
