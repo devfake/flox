@@ -19,3 +19,9 @@
   {
     return str_slug($title) != '' ? str_slug($title) : 'no-slug-available';
   }
+
+  // There is no 'EN' region in TMDb.
+  function getRegion($translation)
+  {
+    return strtolower($translation) == 'en' ? 'us' : $translation;
+  }

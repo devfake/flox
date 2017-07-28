@@ -104,10 +104,29 @@
     public function upcoming()
     {
       $cache = Cache::remember('upcoming', $this->untilEndOfDay(), function() {
-        // There is no 'EN' region in TMDb.
-        $region = strtolower($this->translation) == 'en' ? 'us' : $this->translation;
+        $region = getRegion($this->translation);
 
         $response = $this->requestTmdb($this->base . '/3/movie/upcoming', [
+          'region' => $region,
+        ]);
+
+        return collect($this->createItems($response, 'movie'));
+      });
+
+      return $this->filterItems($cache);
+    }
+
+    /**
+     * Search TMDb for current playing movies in our region.
+     *
+     * @return array
+     */
+    public function current()
+    {
+      $cache = Cache::remember('current', $this->untilEndOfDay(), function() {
+        $region = getRegion($this->translation);
+
+        $response = $this->requestTmdb($this->base . '/3/movie/now_playing', [
           'region' => $region,
         ]);
 

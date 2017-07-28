@@ -73,7 +73,7 @@
         const path = this.$route.path;
         const released = new Date(this.localItem.released * 1000);
 
-        if(path == '/upcoming') {
+        if(path === '/upcoming' || path === '/current') {
           return this.formatLocaleDate(released);
         }
 
