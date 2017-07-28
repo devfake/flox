@@ -1,5 +1,5 @@
 <template>
-  <main :class="{'display-suggestions': path == 'suggestions'}">
+  <main :class="{'display-suggestions': path === 'suggestions'}">
     <div class="wrap-content" v-if=" ! loading">
       <div class="items-wrap">
         <Item v-for="(item, index) in items"
@@ -52,12 +52,12 @@
         this.path = this.$route.name;
 
         switch(this.path) {
-          case 'trending':
-            return this.initTrending();
           case 'suggestions':
             return this.initSuggestions();
+          case 'trending':
           case 'upcoming':
-            return this.initUpcoming();
+          case 'current':
+            return this.initContent(this.path);
         }
       },
 
@@ -67,26 +67,17 @@
 
         this.setPageTitle(this.lang('suggestions for') + ' ' + this.$route.query.name);
 
-        http(`${config.api}/suggestions/${tmdbID}/${type}`).then(value => {
-          this.items = value.data;
+        http(`${config.api}/suggestions/${tmdbID}/${type}`).then(response => {
+          this.items = response.data;
           this.SET_LOADING(false);
         });
       },
 
-      initTrending() {
-        this.setPageTitle(this.lang('trending'));
+      initContent(path) {
+        this.setPageTitle(this.lang(path));
 
-        http(`${config.api}/trending`).then(value => {
-          this.items = value.data;
-          this.SET_LOADING(false);
-        });
-      },
-
-      initUpcoming() {
-        this.setPageTitle(this.lang('upcoming'));
-
-        http(`${config.api}/upcoming`).then(value => {
-          this.items = value.data;
+        http(`${config.api}/${path}`).then(response => {
+          this.items = response.data;
           this.SET_LOADING(false);
         });
       }

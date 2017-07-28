@@ -29,6 +29,7 @@ export default new Router({
     { path: '/suggestions', component: TMDBContent, name: 'suggestions' },
     { path: '/trending', component: TMDBContent, name: 'trending' },
     { path: '/upcoming', component: TMDBContent, name: 'upcoming' },
+    { path: '/current', component: TMDBContent, name: 'current' },
 
     { path: '*', component: Content }
   ]
