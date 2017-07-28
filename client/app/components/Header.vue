@@ -14,8 +14,8 @@
 
       <ul class="site-nav">
         <li><router-link to="/trending">{{ lang('trending') }}</router-link></li>
+        <li><router-link to="/current">{{ lang('current') }}</router-link></li>
         <li><router-link to="/upcoming">{{ lang('upcoming') }}</router-link></li>
-        <li><router-link to="/current" @click.native="refresh('current')">{{ lang('current') }}</router-link></li>
       </ul>
 
       <ul class="site-nav-second">
