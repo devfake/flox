@@ -12,4 +12,6 @@ class AddWatchlistFieldToItemsTabe extends Migration
             $table->boolean('watchlist')->default(false);
         });
     }
+
+    public function down() {}
 }

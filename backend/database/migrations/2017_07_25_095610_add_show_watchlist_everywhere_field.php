@@ -12,4 +12,6 @@ class AddShowWatchlistEverywhereField extends Migration
             $table->boolean('show_watchlist_everywhere')->default(0);
         });
     }
+
+    public function down() {}
 }
