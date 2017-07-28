@@ -95,6 +95,8 @@
 
           $this->item->create((array) $item);
         }
+
+        $itemService->refreshAll();
       }
     }
 
