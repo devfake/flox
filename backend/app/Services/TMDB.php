@@ -121,7 +121,7 @@
      *
      * @return array
      */
-    public function current()
+    public function nowPlaying()
     {
       $cache = Cache::remember('current', $this->untilEndOfDay(), function() {
         $region = getRegion($this->translation);
