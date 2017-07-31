@@ -57,6 +57,7 @@
         'date' => $settings->show_date,
         'spoiler' => $settings->episode_spoiler_protection,
         'version' => $this->version,
+        'watchlist' => $settings->show_watchlist_everywhere,
       ];
     }
 
@@ -79,6 +80,7 @@
         'show_genre' => Input::get('genre'),
         'show_date' => Input::get('date'),
         'episode_spoiler_protection' => Input::get('spoiler'),
+        'show_watchlist_everywhere' => Input::get('watchlist'),
       ]);
     }
   }

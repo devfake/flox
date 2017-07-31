@@ -56,7 +56,7 @@
             return this.initSuggestions();
           case 'trending':
           case 'upcoming':
-          case 'current':
+          case 'now-playing':
             return this.initContent(this.path);
         }
       },

@@ -14,7 +14,7 @@
     Route::get('/suggestions/{tmdbID}/{mediaType}', 'TMDBController@suggestions');
     Route::get('/trending', 'TMDBController@trending');
     Route::get('/upcoming', 'TMDBController@upcoming');
-    Route::get('/current', 'TMDBController@current');
+    Route::get('/now-playing', 'TMDBController@nowPlaying');
 
     Route::patch('/refresh-all', 'ItemController@refreshAll');
     Route::get('/settings', 'SettingController@settings');
@@ -25,6 +25,7 @@
       Route::patch('/settings', 'SettingController@updateSettings');
 
       Route::post('/add', 'ItemController@add');
+      Route::post('/watchlist', 'ItemController@watchlist');
       Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
       Route::patch('/update-genre', 'ItemController@updateGenre');
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');

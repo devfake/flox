@@ -17,11 +17,15 @@
 
   "trending": "Beliebt",
   "upcoming": "Kommend",
-  "current": "Aktuell",
+  "now playing": "Aktuell",
   "tv": "TV",
   "movies": "Filme",
   "last seen": "Zuletzt gesehen",
   "best rated": "Am besten bewertet",
+  "title": "Titel",
+  "release": "Release",
+  "tmdb rating": "TMDb Bewertung",
+  "imdb rating": "IMDb Bewertung",
   "change color": "Farbmodus wechseln",
 
   "settings": "Einstellungen",
@@ -52,8 +56,12 @@
   "watch trailer": "Trailer ansehen",
   "trailer for": "Trailer für",
   "add to watchlist": "Zur Watchlist",
+  "remove from watchlist": "Entferne Watchlist",
   "no tmdb rating": "Kein TMDb Rating",
   "loading imdb rating": "Lade IMDb Rating...",
   "no imdb rating": "Kein IMDb Rating",
-  "overview": "Zusammenfassung"
+  "overview": "Zusammenfassung",
+  "watchlist": "Watchlist",
+  "show watchlist": "Zeige Watchlist Items überall an",
+  "feedback": "Solltest du Feedback für uns haben, erstelle bitte ein neues issue auf"
 }

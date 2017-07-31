@@ -3,10 +3,10 @@
     <span v-if="item.rating != null" :class="'item-rating rating-' + item.rating" @click="changeRating()">
       <i class="icon-rating"></i>
     </span>
-    <span v-if="item.rating == null && item.tmdb_id && ! rated && auth" class="item-rating item-new" @click="addNewItem()">
+    <span v-if="item.rating == null && item.tmdb_id && ! localRated && auth" class="item-rating item-new" @click="addNewItem()">
       <i class="icon-add"></i>
     </span>
-    <span v-if="item.rating == null && item.tmdb_id && rated" class="item-rating item-new">
+    <span v-if="(item.rating == null || item.watchlist) && item.tmdb_id && localRated" class="item-rating item-new">
       <span class="loader smallsize-loader"><i></i></span>
     </span>
   </div>
@@ -20,12 +20,17 @@
   const newItemMilliseconds = 200;
 
   export default {
-    props: ['item', 'set-item'],
+    props: ['item', 'set-item', 'rated'],
 
     data() {
       return {
-        rated: false,
         auth: config.auth
+      }
+    },
+
+    computed: {
+      localRated() {
+        return this.rated;
       }
     },
 
@@ -39,6 +44,7 @@
         if(this.auth) {
           this.prevRating = this.item.rating;
           this.item.rating = this.prevRating == 3 ? 1 : +this.prevRating + 1;
+          this.item.watchlist = false;
 
           this.saveNewRating();
         }
@@ -55,8 +61,8 @@
         if(this.auth) {
           this.rated = true;
 
-          http.post(`${config.api}/add`, {item: this.item}).then(value => {
-            this.setItem(value.data);
+          http.post(`${config.api}/add`, {item: this.item}).then(response => {
+            this.setItem(response.data);
             this.rated = false;
           }, error => {
             if(error.status == 409) {

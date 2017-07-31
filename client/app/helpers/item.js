@@ -1,7 +1,23 @@
+import http from 'axios';
+
 export default {
   methods: {
+    addToWatchlist(item) {
+      if(this.auth) {
+        this.rated = true;
+
+        http.post(`${config.api}/watchlist`, {item}).then(response => {
+          this.setItem(response.data);
+          this.rated = false;
+        }, error => {
+          alert(error.message);
+          this.rated = false;
+        });
+      }
+    },
+
     displaySeason(item) {
-      return item.media_type == 'tv' && item.rating != null && item.tmdb_id;
+      return item.media_type == 'tv' && item.rating != null && item.tmdb_id && ! item.watchlist;
     },
 
     openSeasonModal(item) {

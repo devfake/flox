@@ -31,6 +31,7 @@
       'backdrop',
       'youtube_key',
       'slug',
+      'watchlist',
     ];
 
     /**

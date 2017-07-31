@@ -117,6 +117,18 @@
   }
 }
 
+.icon-watchlist-remove {
+  background: url(../../../public/assets/img/watchlist-remove.png);
+  width: 14px;
+  height: 11px;
+  float: left;
+  margin: 7px 7px 0 0;
+
+  @include media(4) {
+    display: none;
+  }
+}
+
 .big-teaser-buttons {
   float: left;
   clear: both;

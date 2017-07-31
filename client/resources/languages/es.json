@@ -16,11 +16,15 @@
 
   "trending": "Popular",
   "upcoming": "Próximamente",
-  "current": "Current",
+  "now playing": "Now Playing",
   "tv": "TV",
   "movies": "Películas",
   "last seen": "Última vista",
   "best rated": "Mejor calificada",
+  "title": "Title",
+  "release": "Release",
+  "tmdb rating": "TMDb Rating",
+  "imdb rating": "IMDb Rating",
   "change color": "Cambiar colores",
 
   "settings": "Configuración",
@@ -50,8 +54,12 @@
   "watch trailer": "Watch Trailer",
   "trailer for": "Trailer for",
   "add to watchlist": "Add to Watchlist",
+  "remove from watchlist": "Remove from Watchlist",
   "no tmdb rating": "No TMDb Rating",
   "loading imdb rating": "Loading IMDb Rating...",
   "no imdb rating": "No IMDb Rating",
-  "overview": "Overview"
+  "overview": "Overview",
+  "watchlist": "Watchlist",
+  "show watchlist": "Show Watchlist Items everywhere",
+  "feedback": "If you have any feedback for us, please open an issue on"
 }

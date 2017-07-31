@@ -67,9 +67,9 @@
           case 'home':
             return this.setPageTitle();
           case 'tv':
-            return this.setPageTitle(this.lang('tv'));
           case 'movie':
-            return this.setPageTitle(this.lang('movies'));
+          case 'watchlist':
+            return this.setPageTitle(this.lang(name));
         }
       },
 

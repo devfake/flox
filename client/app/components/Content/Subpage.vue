@@ -10,7 +10,7 @@
           <div class="big-teaser-data-wrap">
 
             <div class="subpage-poster-wrap-mobile">
-              <rating :item="item" :set-item="setItem"></rating>
+              <rating :rated="rated" :item="item" :set-item="setItem"></rating>
               <img class="base" :src="noImage" width="120" height="180">
               <img class="real" :src="posterImage" width="120" height="180">
             </div>
@@ -23,7 +23,8 @@
             </div>
             <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
               <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
-              <span v-if="item.rating == null && auth" class="button-watchlist"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>
+              <span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>
+              <span class="button-watchlist" v-if="item.watchlist && auth && ! rated" @click="removeItem()"><i class="icon-watchlist-remove"></i> {{ lang('remove from watchlist') }}</span>
               <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank" class="button-tmdb-rating">
                 <i v-if="item.tmdb_rating && item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
                 <i v-else>{{ lang('no tmdb rating') }}</i>
@@ -48,7 +49,7 @@
 
         <div class="subpage-sidebar">
           <div class="subpage-poster-wrap">
-            <rating :item="item" :set-item="setItem"></rating>
+            <rating :rated="rated" :item="item" :set-item="setItem"></rating>
             <img class="base" :src="noImage" width="272" height="408">
             <img class="real" :src="posterImage" width="272" height="408">
 
@@ -62,7 +63,7 @@
           <!-- todo: move to own component -->
           <div class="subpage-sidebar-buttons no-select" v-if="item.rating != null && auth">
             <span class="refresh-infos" @click="refreshInfos()">{{ lang('refresh infos') }}</span>
-            <span class="remove-item" @click="removeItem()">{{ lang('delete item') }}</span>
+            <span class="remove-item" @click="removeItem()" v-if=" ! item.watchlist">{{ lang('delete item') }}</span>
           </div>
         </div>
       </div>
@@ -102,7 +103,8 @@
         item: {},
         latestEpisode: null,
         loadingImdb: false,
-        auth: config.auth
+        auth: config.auth,
+        rated: false
       }
     },
 
@@ -152,7 +154,7 @@
     },
 
     methods: {
-      ...mapMutations([ 'SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL', 'CLOSE_MODAL' ]),
+      ...mapMutations([ 'SET_LOADING', 'SET_ITEM_LOADED_SUBPAGE', 'OPEN_MODAL', 'CLOSE_MODAL', 'SET_RATED' ]),
       ...mapActions([ 'setPageTitle', 'fetchEpisodes' ]),
 
       openTrailer() {
@@ -218,15 +220,16 @@
       },
 
       removeItem() {
-        const confirm = window.confirm(this.lang('confirm delete'));
+        this.rated = true;
 
-        if(confirm) {
-          http.delete(`${config.api}/remove/${this.item.id}`).then(response => {
-            this.item.rating = null;
-          }, error => {
-            alert(error);
-          });
-        }
+        http.delete(`${config.api}/remove/${this.item.id}`).then(response => {
+          this.rated = false;
+          this.item.rating = null;
+          this.item.watchlist = null;
+        }, error => {
+          alert(error);
+          this.rated = false;
+        });
       },
 
       refreshInfos() {

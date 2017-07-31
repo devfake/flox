@@ -95,8 +95,13 @@ main {
     }
 
     .recommend-item,
-    .add-to-watchlist {
+    .add-to-watchlist,
+    .remove-from-watchlist {
       opacity: .9;
+    }
+
+    .is-on-watchlist {
+      opacity: 0;
     }
   }
 }
@@ -328,6 +333,7 @@ main {
 }
 
 .add-to-watchlist,
+.remove-from-watchlist,
 .edit-item {
   position: absolute;
   bottom: 0;
@@ -356,6 +362,28 @@ main {
 
   @include media(3) {
     display: none;
+  }
+}
+
+.remove-from-watchlist {
+  //opacity: 1 !important;
+}
+
+.is-on-watchlist {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: #238cce;
+  padding: 4px 5px;
+
+  @include transition(opacity);
+
+  @include media(3) {
+    display: none;
+  }
+
+  i {
+    margin: 0;
   }
 }
 
@@ -454,8 +482,132 @@ main {
   color: $dark;
 }
 
+.content-submenu {
+  margin-bottom: 30px;
+  margin-top: -30px;
+  position: relative;
+  z-index: 150;
+}
+
+.sort-wrap {
+  float: right;
+
+  .icon-sort-time,
+  .icon-sort-star {
+    float: left;
+    width: 32px;
+    height: 30px;
+    margin: 0 0 0 15px;
+    cursor: pointer;
+    opacity: .6;
+
+    @include transition(opacity);
+
+    &.active {
+      opacity: 1;
+    }
+
+    &:active {
+      opacity: .4;
+    }
+
+    &:first-child {
+      margin: 0;
+    }
+  }
+}
+
+.sort-direction {
+  float: left;
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #888;
+
+  &:active {
+    opacity: .6;
+  }
+
+  .dark & {
+    color: #626262;
+  }
+
+  i {
+    float: left;
+    font-style: normal;
+  }
+}
+
+.filter-wrap {
+  float: left;
+  cursor: pointer;
+  position: relative;
+}
+
+.current-filter {
+  float: left;
+  padding: 7px 9px;
+  color: #888;
+  font-size: 14px;
+
+  .dark & {
+    color: #626262;
+  }
+}
+
+.arrow-down {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px solid;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.all-filters {
+  position: absolute;
+  top: 70%;
+  right: 0;
+  background: $main2;
+  list-style: none;
+  min-width: 170px;
+  //display: none;
+  opacity: 0;
+  visibility: hidden;
+
+  @include transition(opacity, top);
+
+  &.active {
+    //display: block;
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
+
+  li {
+    float: left;
+    padding: 5px 10px;
+    color: rgba(#fff, .9);
+    font-size: 14px;
+    width: 100%;
+    border-bottom: 1px solid rgba(#fff, .3);
+
+    @include transition(background);
+
+    &:hover {
+      background: $main1;
+    }
+
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
 .current-version {
-  margin: 0 0 10px 0;
+  margin: 0;
 
   span {
     color: gray;
@@ -511,6 +663,17 @@ main {
   float: left;
   font-size: 14px;
   color: gray;
+  clear: both;
+  margin: 10px 0;
+
+  a {
+    color: $main1;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   span {
     float: left;
@@ -575,7 +738,7 @@ main {
   }
 }
 
-.checkbox {
+.setting-box {
   float: left;
   width: 100%;
   margin: 0 0 10px 0;
