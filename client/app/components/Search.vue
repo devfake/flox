@@ -53,7 +53,6 @@
       },
 
       placeholder() {
-        //return config.auth ? 'Search or add movie' : 'Search movie';
         return config.auth ? this.lang('search or add') : this.lang('search');
       }
     },
@@ -68,7 +67,7 @@
       },
 
       search() {
-        if(this.title != '') {
+        if(this.title !== '') {
           this.$router.push({
             path: '/search?q=' + this.title
           });
