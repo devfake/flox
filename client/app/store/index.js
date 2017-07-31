@@ -10,7 +10,7 @@ export default new Vuex.Store({
   state: {
     filters: [
       'last seen',
-      'best rated',
+      'own rating',
       'title',
       'release',
       'tmdb rating',

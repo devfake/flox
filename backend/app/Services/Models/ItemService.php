@@ -380,7 +380,7 @@
       switch($orderBy) {
         case 'last seen':
           return 'last_seen_at';
-        case 'best rated':
+        case 'own rating':
           return 'rating';
         case 'title':
           return 'title';
