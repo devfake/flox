@@ -9,6 +9,10 @@ export default {
     state.userFilter = filter;
   },
 
+  [type.SET_USER_SORT_DIRECTION](state, direction) {
+    state.userSortDirection = direction;
+  },
+
   [type.SET_ITEMS](state, items) {
     state.items = items;
   },
@@ -61,5 +65,9 @@ export default {
 
   [type.SET_ITEM_LOADED_SUBPAGE](state, bool) {
     state.itemLoadedSubpage = bool;
+  },
+
+  [type.SET_SHOW_FILTERS](state, bool) {
+    state.showFilters = bool;
   }
 }

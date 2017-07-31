@@ -19,9 +19,9 @@
       $this->episodeService = $episodeService;
     }
 
-    public function items($type, $orderBy)
+    public function items($type, $orderBy, $sortDirection)
     {
-      return $this->itemService->getWithPagination($type, $orderBy);
+      return $this->itemService->getWithPagination($type, $orderBy, $sortDirection);
     }
 
     public function episodes($tmdbId)

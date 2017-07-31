@@ -5,7 +5,7 @@
     Route::post('/login', 'UserController@login');
 
     Route::get('/episodes/{tmdbId}', 'ItemController@episodes');
-    Route::get('/items/{type}/{orderBy}', 'ItemController@items');
+    Route::get('/items/{type}/{orderBy}/{sortDirection}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
 
     Route::get('/item/{tmdbId}/{mediaType}', 'SubpageController@item');
