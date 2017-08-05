@@ -8,7 +8,10 @@
         This product uses the TMDb API but is not endorsed or certified by TMDb
       </span>
 
-      <a class="icon-github" href="https://github.com/devfake/flox" target="_blank"></a>
+      <span class="footer-actions">
+        <span :title="lang('change color')" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
+        <a class="icon-github" href="https://github.com/devfake/flox" target="_blank"></a>
+      </span>
 
       <div class="sub-links">
         <a v-if="auth" :href="settings" class="login-btn">{{ lang('settings') }}</a>
@@ -20,7 +23,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapState, mapActions } from 'vuex';
   import MiscHelper from '../helpers/misc';
 
   export default {
@@ -37,8 +40,19 @@
 
     computed: {
       ...mapState({
+        colorScheme: state => state.colorScheme,
         loading: state => state.loading
       })
+    },
+
+    methods: {
+      ...mapActions([ 'setColorScheme' ]),
+
+      toggleColorScheme() {
+        const color = this.colorScheme == 'light' ? 'dark' : 'light';
+
+        this.setColorScheme(color);
+      }
     }
   }
 </script>

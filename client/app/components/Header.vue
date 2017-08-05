@@ -5,13 +5,6 @@
         <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
       </router-link>
 
-      <span class="sort-wrap" v-if=" ! isSubpage()">
-        <i :title="lang('last seen')" class="icon-sort-time" :class="{active: userFilter == 'last_seen_at'}" @click="setUserFilter('last_seen_at')"></i>
-        <i :title="lang('best rated')" class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
-        <!-- will be moved into footer -->
-        <span :title="lang('change color')" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
-      </span>
-
       <ul class="site-nav">
         <li><router-link to="/trending" @click.native="refresh('trending')">{{ lang('trending') }}</router-link></li>
         <li><router-link to="/now-playing" @click.native="refresh('now-playing')">{{ lang('now playing') }}</router-link></li>
@@ -31,19 +24,13 @@
 <script>
   import MiscHelper from '../helpers/misc';
   import store from '../store/index';
-  import { mapActions, mapMutations, mapState } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     mixins: [MiscHelper],
 
-    created() {
-      this.checkForUserFilter();
-    },
-
     computed: {
       ...mapState({
-        userFilter: state => state.userFilter,
-        colorScheme: state => state.colorScheme,
         itemLoadedSubpage: state => state.itemLoadedSubpage
       }),
 
@@ -53,36 +40,13 @@
     },
 
     methods: {
-      ...mapActions([ 'setColorScheme', 'loadItems' ]),
-      ...mapMutations([ 'SET_USER_FILTER' ]),
-
-      toggleColorScheme() {
-        const color = this.colorScheme == 'light' ? 'dark' : 'light';
-
-        this.setColorScheme(color);
-      },
-
-      checkForUserFilter() {
-        if( ! localStorage.getItem('filter')) {
-          localStorage.setItem('filter', 'last_seen_at');
-        }
-
-        this.SET_USER_FILTER(localStorage.getItem('filter'));
-      },
-
-      setUserFilter(filter) {
-        let name = this.$route.name;
-
-        localStorage.setItem('filter', filter);
-        this.SET_USER_FILTER(filter);
-        this.loadItems({name, filter});
-      },
+      ...mapActions([ 'loadItems' ]),
 
       refresh(route) {
         let name = this.$route.name;
 
         if(name === route) {
-          this.loadItems({name, filter: this.userFilter});
+          this.loadItems({name});
         }
       }
     }

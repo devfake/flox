@@ -261,9 +261,11 @@
      * @param $orderBy
      * @return mixed
      */
-    public function getWithPagination($type, $orderBy)
+    public function getWithPagination($type, $orderBy, $sortDirection)
     {
-      $items = $this->model->orderBy($orderBy, 'asc')->with('latestEpisode')->withCount('episodesWithSrc');
+      $filter = $this->getSortFilter($orderBy);
+
+      $items = $this->model->orderBy($filter, $sortDirection)->with('latestEpisode')->withCount('episodesWithSrc');
 
       if($type == 'watchlist') {
         $items->where('watchlist', true);
@@ -365,5 +367,29 @@
       }
 
       return null;
+    }
+
+    /**
+     * Get the correct name from the table for sort filter.
+     *
+     * @param $orderBy
+     * @return string
+     */
+    private function getSortFilter($orderBy)
+    {
+      switch($orderBy) {
+        case 'last seen':
+          return 'last_seen_at';
+        case 'own rating':
+          return 'rating';
+        case 'title':
+          return 'title';
+        case 'release':
+          return 'released';
+        case 'tmdb rating':
+          return 'tmdb_rating';
+        case 'imdb rating':
+          return 'imdb_rating';
+      }
     }
   }

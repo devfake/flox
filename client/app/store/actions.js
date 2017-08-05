@@ -1,8 +1,8 @@
 import http from 'axios';
 
-export function loadItems({commit}, response) {
+export function loadItems({state, commit}, response) {
   commit('SET_LOADING', true);
-  http(`${config.api}/items/${response.name}/${response.filter}`).then(value => {
+  http(`${config.api}/items/${response.name}/${state.userFilter}/${state.userSortDirection}`).then(value => {
     const {data, next_page_url} = value.data;
 
     commit('SET_ITEMS', data);
@@ -12,7 +12,7 @@ export function loadItems({commit}, response) {
       commit('SET_LOADING', false);
     }, 500);
   }, error => {
-    if(error.status == 404) {
+    if(error.status === 404) {
       window.location.href = config.url;
     }
   });

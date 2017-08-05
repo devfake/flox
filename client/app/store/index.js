@@ -8,9 +8,19 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    filters: [
+      'last seen',
+      'own rating',
+      'title',
+      'release',
+      'tmdb rating',
+      'imdb rating'
+    ],
+    showFilters: false,
     items: [],
     searchTitle: '',
     userFilter: '',
+    userSortDirection: '',
     loading: false,
     clickedMoreLoading: false,
     paginator: null,
