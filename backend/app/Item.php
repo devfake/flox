@@ -21,6 +21,7 @@
       'rating',
       'released',
       'created_at',
+      'last_updated',
       'genre',
     ];
 

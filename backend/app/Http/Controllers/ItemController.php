@@ -38,7 +38,8 @@
     {
       $orderType = $orderBy == 'rating' ? 'asc' : 'desc';
 
-      $item = $this->item->orderBy($orderBy, $orderType)->with('latestEpisode');
+      // $item = $this->item->orderBy($orderBy, $orderType)->with('latestEpisode');
+      $item = $this->item->orderBy('last_updated', $orderType)->with('latestEpisode');
 
       if($type != 'home') {
         $item = $item->where('media_type', $type);
@@ -159,6 +160,7 @@
         'released' => $data['released'],
         'genre' => $data['genre'],
         'created_at' => time(),
+        'last_updated' => time(),
       ]);
 
       if($mediaType == 'tv') {
@@ -181,6 +183,11 @@
 
       if( ! $episode->save()) {
         return response('Server Error', 500);
+      }else{
+      $item = $this->item->where('tmdb_id', $episode->tmdb_id)->first();
+      $item->update([
+      'last_updated' => time(),
+    ]);
       }
     }
 
