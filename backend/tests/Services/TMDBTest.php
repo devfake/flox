@@ -137,6 +137,26 @@
       $this->assertArrayHasKey('tmdb_id', $result[0]);
     }
 
+    /** @test */
+    public function it_should_sort_by_popularity_and_title()
+    {
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('tv/search_for_the_office')
+      );
+
+      $tmdb = app(TMDB::class);
+      $results = $tmdb->search("the office", "tv");
+
+      $this->assertCount(4, $results);
+
+      $this->assertEquals("The Office", $results[0]["title"]);
+      $this->assertEquals("The Office", $results[1]["title"]);
+      $this->assertGreaterThan($results[1]["popularity"], $results[0]["popularity"]);
+
+      $this->assertEquals("Parks and Recreation", $results[2]["title"]);
+      $this->assertEquals("The Principal's Office", $results[3]["title"]);
+    }
+
     private function callSearch($type = null)
     {
       $tmdb = app(TMDB::class);
