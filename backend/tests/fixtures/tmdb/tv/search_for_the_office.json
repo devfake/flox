@@ -1,0 +1,84 @@
+{
+  "page": 1,
+  "total_results": 4,
+  "total_pages": 1,
+  "results": [
+    {
+      "original_name": "The Office",
+      "id": 2996,
+      "name": "The Office",
+      "vote_count": 143,
+      "vote_average": 8.03,
+      "poster_path": "\/tF9bX7sw3ujI8tMgUFCMtUN5hID.jpg",
+      "first_air_date": "2001-07-09",
+      "popularity": 2.257747,
+      "genre_ids": [
+        18,
+        35
+      ],
+      "original_language": "en",
+      "backdrop_path": "\/wiKFSBYv8rdiU8w2BN2nvPC0Wno.jpg",
+      "overview": "The Office is a British sitcom television series that was first broadcast in the United Kingdom on BBC Two on 9 July 2001. Created, written, and directed by Ricky Gervais and Stephen Merchant, the programme is about the day-to-day lives of office employees in the Slough branch of the fictitious Wernham Hogg Paper Company. Gervais also stars in the series, playing the central character, David Brent. Although fictional and scripted, the programme takes the form of a documentary, with the presence of the camera often acknowledged.\n\nTwo six-episode series were made, along with a pair of 45-minute Christmas specials. When it was first shown on BBC Two, it was nearly cancelled due to low ratings, but has since become one of the most successful of all British comedy exports. As well as being shown internationally on BBC Worldwide, channels such as BBC Prime, BBC America and BBC Canada, the series has been sold to broadcasters in over 80 countries, including ABC1 in Australia, The Comedy Network in Canada, TVNZ in New Zealand and the pan-Asian satellite channel STAR World, based in Hong Kong. The show began airing in The United States on Cartoon Network's late night programing block, Adult Swim on 18 September 2009 until 2012.",
+      "origin_country": [
+        "GB"
+      ]
+    },
+    {
+      "original_name": "The Office",
+      "id": 2316,
+      "name": "The Office",
+      "vote_count": 274,
+      "vote_average": 7.85,
+      "poster_path": "\/iP0uuzWOR5uornNpkkZiemVonMi.jpg",
+      "first_air_date": "2005-03-24",
+      "popularity": 9.177457,
+      "genre_ids": [
+        35
+      ],
+      "original_language": "en",
+      "backdrop_path": "\/eLiqATmcigKP8K2BhjLdELmEqsy.jpg",
+      "overview": "The everyday lives of office employees in the Scranton, Pennsylvania branch of the fictional Dunder Mifflin Paper Company.",
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "original_name": "The Principal's Office",
+      "id": 7819,
+      "name": "The Principal's Office",
+      "vote_count": 0,
+      "vote_average": 0,
+      "poster_path": null,
+      "first_air_date": "2008-08-21",
+      "popularity": 1.021749,
+      "genre_ids": [
+        99
+      ],
+      "original_language": "en",
+      "backdrop_path": null,
+      "overview": "The Principal's Office is a reality TV program on TruTV that began airing on August 21, 2008, released through Leftfield Pictures. It is set in American high schools and features dramatic and humorous encounters between students and principals. Some events that lead to such encounters are students being late to class, truancy, food fights, smoking, and disruptive conduct in class. New episodes resumed on January 8, 2009. However, the series was abruptly cancelled on February 5, 2009.",
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "original_name": "Parks and Recreation",
+      "id": 8592,
+      "name": "Parks and Recreation",
+      "vote_count": 209,
+      "vote_average": 7.53,
+      "poster_path": "\/9kWSJ9c8NlBY2WgfvOZZ71kafSx.jpg",
+      "first_air_date": "2009-04-09",
+      "popularity": 9.33512,
+      "genre_ids": [
+        35
+      ],
+      "original_language": "en",
+      "backdrop_path": "\/2T40B6Kdp8V72AdIk1yEokKAalr.jpg",
+      "overview": "Hilarious ensemble comedy that follows Leslie Knope, a mid-level bureaucrat in the Parks and Recreation Department of Pawnee, Indiana, and her tireless efforts to make her quintessentially American town just a little bit more fun.",
+      "origin_country": [
+        "US"
+      ]
+    }
+  ]
+}
