@@ -53,14 +53,14 @@
 
       $sortedEntries = $movies
         ->merge($tv)
-        ->sortByDesc("popularity");
+        ->sortByDesc('popularity');
 
       $withExactTitles = $sortedEntries->filter(function($entry) use ($title) {
-        return strtolower($entry["title"]) == strtolower($title);
+        return strtolower($entry['title']) == strtolower($title);
       });
 
       $rest = $sortedEntries->reject(function($entry) use ($title) {
-        return strtolower($entry["title"]) == strtolower($title);
+        return strtolower($entry['title']) == strtolower($title);
       });
 
       return $withExactTitles->merge($rest)->values()->all();
