@@ -3,7 +3,7 @@ set -eu
 
 prepare_flox() {
   echo Start flox db setup
-  mysql -uroot -e "drop database if exists flox; create database flox;"
+  mysql -h 0.0.0.0 -proot -uroot -e "drop database if exists flox; create database flox;"
 
   (cd backend
     : $(php artisan flox:db -n admin admin)
@@ -13,11 +13,12 @@ prepare_flox() {
 }
 
 prepare_file_parser() {
-  echo Start flox-file-parser db setup
+  echo Start flox-file-parser flush db
 
   (cd flox-file-parser
-    : $(npm run db:setup)
-    : $(./generate_fixtures.sh)
+    # : $(npm run db:setup)
+    : $(npm run db:flush)
+    : $(./bin/generate_fixtures.sh)
   )
 
   echo flox-file-parser setup done!
@@ -35,11 +36,10 @@ stop_file_parser() {
 start_file_parser() {
   echo Start file-parser...
 
-  (cd flox-file-parser
-    source .envrc
-    npm start&
-    sleep 3
-  )
+  cd flox-file-parser
+  source .envrc
+  screen -dm npm run start:watch
+  cd ..
 }
 
 stop_file_parser
@@ -51,3 +51,4 @@ wait
 
 start_file_parser
 echo Done!
+screen -x
