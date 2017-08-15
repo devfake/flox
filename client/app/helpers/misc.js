@@ -28,7 +28,7 @@ export default {
     lang(text) {
       const language = JSON.parse(config.language);
 
-      return language[text];
+      return language[text] || text;
     },
 
     formatLocaleDate(date) {
