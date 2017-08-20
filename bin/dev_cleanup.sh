@@ -3,7 +3,7 @@ set -eu
 
 prepare_flox() {
   echo Start flox db setup
-  mysql -h 0.0.0.0 -proot -uroot -e "drop database if exists flox; create database flox;"
+  mysql -h $DB_HOST -proot -uroot -e "drop database if exists flox; create database flox;"
 
   (cd backend
     : $(php artisan flox:db -n admin admin)

@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 9229, host: 9229
   config.vm.network "forwarded_port", guest: 3000, host: 3000
-  config.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
+  # config.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
 
   config.ssh.forward_agent = true
 end
