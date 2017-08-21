@@ -135,6 +135,11 @@
 
       $details = $this->tmdb->details($item->tmdb_id, $item->media_type);
 
+      // If tmdb didn't find anything then title will be not set => don't update
+      if ( ! isset($details->title)) {
+        return;
+      }
+
       $title = $details->name ?? $details->title;
       $imdbId = $item->imdb_id ?? $this->parseImdbId($details);
 

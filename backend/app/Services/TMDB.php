@@ -280,6 +280,11 @@
         'append_to_response' => 'videos,external_ids',
       ]);
 
+      if ($response->getStatusCode() != 200) {
+        // ignore any error
+        return json_decode("{}");
+      }
+
       return json_decode($response->getBody());
     }
 
@@ -289,6 +294,7 @@
         'language' => $translation ?? $this->translation,
       ]);
 
+      // TODO: what if it fails? error handling?
       return json_decode($response->getBody());
     }
 
