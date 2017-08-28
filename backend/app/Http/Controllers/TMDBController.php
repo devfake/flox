@@ -29,6 +29,11 @@
       return $this->tmdb->trending();
     }
 
+    public function nowPlaying()
+    {
+      return $this->tmdb->nowPlaying();
+    }
+
     public function upcoming()
     {
       return $this->tmdb->upcoming();

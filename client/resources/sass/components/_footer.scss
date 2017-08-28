@@ -19,6 +19,10 @@ footer {
   float: left;
 }
 
+.footer-actions {
+  float: right;
+}
+
 .icon-tmdb {
   background: url(../../../public/assets/img/tmdb.png);
   width: 139px;
@@ -45,6 +49,31 @@ footer {
 
   &:active {
     opacity: .6;
+  }
+}
+
+.icon-constrast {
+  float: right;
+  width: 30px;
+  height: 30px;
+  margin: 0 0 0 20px;
+  cursor: pointer;
+  padding: 8px;
+
+  &:active {
+    opacity: .8;
+  }
+
+  i {
+    background: darken($dark, 20%);
+    border-radius: 100%;
+    width: 100%;
+    height: 100%;
+    float: left;
+
+    .dark & {
+      background: #fff;
+    }
   }
 }
 

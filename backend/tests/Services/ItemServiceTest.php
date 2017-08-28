@@ -22,6 +22,7 @@
       $this->itemService = app(ItemService::class);
 
       $this->createStorageDownloadsMock();
+      $this->createImdbRatingMock();
     }
 
     /** @test */
@@ -66,6 +67,30 @@
       $this->seeInDatabase('items', [
         'title' => 'Game of Thrones',
       ]);
+    }
+
+    /** @test */
+    public function it_should_update_fields_on_refresh()
+    {
+      $this->createMovie();
+
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('movie/details'),
+        $this->tmdbFixtures('movie/alternative_titles')
+      );
+
+      $itemService = app(ItemService::class);
+
+      $this->item->first()->update(['title' => 'UPDATE ME', 'imdb_rating' => '1.0']);
+
+      $item = $this->item->first();
+      $itemService->refresh($item->id);
+      $updatedItem = $this->item->first();
+
+      $this->assertEquals('UPDATE ME', $item->title);
+      $this->assertEquals('1.0', $item->imdb_rating);
+      $this->assertEquals('Warcraft', $updatedItem->title);
+      $this->assertEquals('5.1', $updatedItem->imdb_rating);
     }
 
     /** @test */

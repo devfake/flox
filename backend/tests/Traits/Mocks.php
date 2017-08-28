@@ -1,6 +1,7 @@
 <?php
 
   use App\Services\IMDB;
+  use App\Services\Models\ItemService;
   use App\Services\Storage;
   use App\Services\TMDB;
   use GuzzleHttp\Client;
@@ -28,7 +29,13 @@
     public function createStorageDownloadsMock()
     {
       $mock = $this->mock(Storage::class);
-      $mock->shouldReceive('downloadPoster', 'downloadBackdrop')->andReturn(null, null);
+      $mock->shouldReceive('downloadImages')->andReturn(null);
+    }
+
+    public function createRefreshAllMock()
+    {
+      $mock = $this->mock(ItemService::class);
+      $mock->shouldReceive('refreshAll')->andReturn(null);
     }
 
     public function createTmdbEpisodeMock()

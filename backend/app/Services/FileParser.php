@@ -9,6 +9,7 @@
   use App\Setting;
   use Carbon\Carbon;
   use GuzzleHttp\Client;
+  use Illuminate\Database\Eloquent\ModelNotFoundException;
   use Illuminate\Support\Facades\DB;
   use Symfony\Component\HttpFoundation\Response;
 
@@ -263,18 +264,23 @@
      */
     private function update($item, $tmdbId)
     {
-      if($model = $this->findItem($item, $tmdbId)) {
-        // Remove all fields, so we can start from scratch.
-        $this->remove($item);
+      // Remove all fields, so we can start from scratch.
+      $this->remove($item);
 
-        foreach($item->changed as $field => $value) {
-          if(array_key_exists($field, self::SUPPORTED_FIELDS)) {
-            $model->{self::SUPPORTED_FIELDS[$field]} = $value;
+      if($model = $this->findItem($item, $tmdbId)) {
+        foreach(self::SUPPORTED_FIELDS as $fromFile => $toDatabase) {
+          if(isset($item->changed->{$fromFile})) {
+            $model->{$toDatabase} = $item->changed->{$fromFile};
+          } else {
+            // Re-populate the fields which hasn't changed.
+            $model->{$toDatabase} = $item->{$fromFile};
           }
         }
 
         return $model->save();
       }
+
+      throw new ModelNotFoundException("No item for '$item->name' found in database");
     }
 
     /**

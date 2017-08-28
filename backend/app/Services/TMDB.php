@@ -15,7 +15,7 @@
     private $apiKey;
     private $translation;
 
-    private $base = 'http://api.themoviedb.org';
+    private $base = 'https://api.themoviedb.org';
 
     /**
      * Get the API Key for TMDb and create an instance of Guzzle.
@@ -51,7 +51,19 @@
         $movies = collect($this->createItems($response, 'movie'));
       }
 
-      return $movies->merge($tv)->sortByDesc('popularity')->values()->all();
+      $sortedEntries = $movies
+        ->merge($tv)
+        ->sortByDesc('popularity');
+
+      $withExactTitles = $sortedEntries->filter(function($entry) use ($title) {
+        return strtolower($entry['title']) == strtolower($title);
+      });
+
+      $rest = $sortedEntries->reject(function($entry) use ($title) {
+        return strtolower($entry['title']) == strtolower($title);
+      });
+
+      return $withExactTitles->merge($rest)->values()->all();
     }
 
     private function fetchSearch($title, $mediaType) {
@@ -104,10 +116,29 @@
     public function upcoming()
     {
       $cache = Cache::remember('upcoming', $this->untilEndOfDay(), function() {
-        // There is no 'EN' region in TMDb.
-        $region = strtolower($this->translation) == 'en' ? 'us' : $this->translation;
+        $region = getRegion($this->translation);
 
         $response = $this->requestTmdb($this->base . '/3/movie/upcoming', [
+          'region' => $region,
+        ]);
+
+        return collect($this->createItems($response, 'movie'));
+      });
+
+      return $this->filterItems($cache);
+    }
+
+    /**
+     * Search TMDb for current playing movies in our region.
+     *
+     * @return array
+     */
+    public function nowPlaying()
+    {
+      $cache = Cache::remember('current', $this->untilEndOfDay(), function() {
+        $region = getRegion($this->translation);
+
+        $response = $this->requestTmdb($this->base . '/3/movie/now_playing', [
           'region' => $region,
         ]);
 
@@ -147,7 +178,7 @@
     {
       $allId = $items->pluck('tmdb_id');
 
-      // Get all movies / tv shows from trendig / upcoming which already in database.
+      // Get all movies/tv shows from trending/upcoming that are already in the database.
       $inDB = Item::whereIn('tmdb_id', $allId)->withCount('episodesWithSrc')->get()->toArray();
 
       // Remove all inDB movies / tv shows from trending / upcoming.
@@ -194,7 +225,7 @@
       return [
         'tmdb_id' => $data->id,
         'title' => $title,
-        'slug' => str_slug($title) != '' ? str_slug($title) : 'no-slug-available',
+        'slug' => getSlug($title),
         'original_title' => $data->original_name ?? $data->original_title,
         'poster' => $data->poster_path,
         'media_type' => $mediaType,

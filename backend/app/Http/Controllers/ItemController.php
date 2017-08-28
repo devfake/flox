@@ -5,6 +5,7 @@
   use App\Services\Models\AlternativeTitleService;
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
+  use GuzzleHttp\Client;
   use Illuminate\Support\Facades\Input;
 
   class ItemController {
@@ -18,9 +19,9 @@
       $this->episodeService = $episodeService;
     }
 
-    public function items($type, $orderBy)
+    public function items($type, $orderBy, $sortDirection)
     {
-      return $this->itemService->getWithPagination($type, $orderBy);
+      return $this->itemService->getWithPagination($type, $orderBy, $sortDirection);
     }
 
     public function episodes($tmdbId)
@@ -43,9 +44,33 @@
       return $this->itemService->create(Input::get('item'));
     }
 
+    public function watchlist()
+    {
+      $item = $this->add();
+
+      $item->update(['watchlist' => true]);
+
+      return $item;
+    }
+
     public function remove($itemId)
     {
       return $this->itemService->remove($itemId);
+    }
+
+    public function refresh($itemId)
+    {
+      return $this->itemService->refresh($itemId);
+    }
+
+    public function refreshKickstartAll(Client $client)
+    {
+      return $this->itemService->refreshKickstartAll($client);
+    }
+
+    public function refreshAll()
+    {
+      $this->itemService->refreshAll();
     }
 
     public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle)

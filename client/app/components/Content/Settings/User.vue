@@ -14,7 +14,7 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex';
-  import Helper from '../../../helper';
+  import MiscHelper from '../../../helpers/misc';
 
   import http from 'axios';
   import debounce from 'debounce';
@@ -22,7 +22,7 @@
   const debounceMilliseconds = 2000;
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     created() {
       this.fetchUserData();

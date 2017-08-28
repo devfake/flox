@@ -3,10 +3,12 @@
   namespace App\Services\Models;
 
   use App\Item as Model;
-  use App\Item;
   use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use GuzzleHttp\Client;
+  use App\Setting;
+  use Symfony\Component\HttpFoundation\Response;
 
   class ItemService {
 
@@ -16,14 +18,16 @@
     private $alternativeTitleService;
     private $episodeService;
     private $imdb;
+    private $setting;
 
     /**
-     * @param Model                   $model
-     * @param TMDB                    $tmdb
-     * @param Storage                 $storage
+     * @param Model $model
+     * @param TMDB $tmdb
+     * @param Storage $storage
      * @param AlternativeTitleService $alternativeTitleService
-     * @param EpisodeService          $episodeService
-     * @param IMDB                    $imdb
+     * @param EpisodeService $episodeService
+     * @param IMDB $imdb
+     * @param Setting $setting
      */
     public function __construct(
       Model $model,
@@ -31,7 +35,8 @@
       Storage $storage,
       AlternativeTitleService $alternativeTitleService,
       EpisodeService $episodeService,
-      IMDB $imdb
+      IMDB $imdb,
+      Setting $setting
     ){
       $this->model = $model;
       $this->tmdb = $tmdb;
@@ -39,6 +44,7 @@
       $this->alternativeTitleService = $alternativeTitleService;
       $this->episodeService = $episodeService;
       $this->imdb = $imdb;
+      $this->setting = $setting;
     }
 
     /**
@@ -54,8 +60,7 @@
       $this->episodeService->create($item);
       $this->alternativeTitleService->create($item);
 
-      $this->storage->downloadPoster($item->poster);
-      $this->storage->downloadBackdrop($item->backdrop);
+      $this->storage->downloadImages($item->poster, $item->backdrop);
 
       return $item;
     }
@@ -78,12 +83,78 @@
         $data['overview'] = $data['overview'] ?? $details->overview;
         $data['tmdb_rating'] = $data['tmdb_rating'] ?? $details->vote_average;
         $data['backdrop'] = $data['backdrop'] ?? $details->backdrop_path;
-        $data['slug'] = $data['slug'] ?? (str_slug($title) != '' ? str_slug($title) : 'no-slug-available');
+        $data['slug'] = $data['slug'] ?? getSlug($title);
       }
 
       $data['imdb_rating'] = $this->parseImdbRating($data);
 
       return $data;
+    }
+
+    /**
+     * Calls the refreshAll method with a seperate request to avoid blocking flox for the user.
+     *
+     * @param Client $client
+     * @return int
+     */
+    public function refreshKickstartAll(Client $client)
+    {
+      $response = $client->get(url('/api/refresh-all'));
+
+      return $response->getStatusCode();
+    }
+
+    /**
+     * Refresh informations for all items.
+     */
+    public function refreshAll()
+    {
+      increaseTimeLimit();
+
+      $this->model->all()->each(function($item) {
+        $this->refresh($item->id);
+      });
+    }
+
+    /**
+     * Refresh informations for an item.
+     * Like ratings, new episodes, new poster and backdrop images.
+     *
+     * @param $itemId
+     * @return Response
+     */
+    public function refresh($itemId)
+    {
+      $item = $this->model->find($itemId);
+
+      if( ! $item) {
+        return response('Not Found', Response::HTTP_NOT_FOUND);
+      }
+
+      $this->storage->removeImages($item->poster, $item->backdrop);
+
+      $details = $this->tmdb->details($item->tmdb_id, $item->media_type);
+
+      $title = $details->name ?? $details->title;
+      $imdbId = $item->imdb_id ?? $this->parseImdbId($details);
+
+      $item->update([
+        'imdb_id' => $imdbId,
+        'youtube_key' => $this->parseYoutubeKey($details, $item->media_type),
+        'overview' => $details->overview,
+        'tmdb_rating' => $details->vote_average,
+        'imdb_rating' => $this->parseImdbRating(['imdb_id' => $imdbId]),
+        'backdrop' => $details->backdrop_path,
+        'poster' => $details->poster_path,
+        'slug' => getSlug($title),
+        'title' => $title,
+        'original_title' => $details->original_name ?? $details->original_title,
+      ]);
+
+      $this->episodeService->create($item);
+      $this->alternativeTitleService->create($item);
+
+      $this->storage->downloadImages($item->poster, $item->backdrop);
     }
 
     /**
@@ -103,7 +174,7 @@
           return $this->imdb->parseRating($imdbId);
         }
 
-        return  null;
+        return null;
       }
 
       // Otherwise we already have the rating saved.
@@ -143,7 +214,7 @@
     /**
      * @param $data
      * @param $mediaType
-     * @return Item
+     * @return Model
      */
     public function createEmpty($data, $mediaType)
     {
@@ -170,7 +241,7 @@
       $item = $this->model->find($itemId);
 
       if( ! $item) {
-        return response('Not Found', 404);
+        return response('Not Found', Response::HTTP_NOT_FOUND);
       }
 
       $tmdbId = $item->tmdb_id;
@@ -180,8 +251,7 @@
       // Delete all related episodes, alternative titles and images.
       $this->episodeService->remove($tmdbId);
       $this->alternativeTitleService->remove($tmdbId);
-      $this->storage->removePoster($item->poster);
-      $this->storage->removeBackdrop($item->backdrop);
+      $this->storage->removeImages($item->poster, $item->backdrop);
     }
 
     /**
@@ -191,21 +261,27 @@
      * @param $orderBy
      * @return mixed
      */
-    public function getWithPagination($type, $orderBy)
+    public function getWithPagination($type, $orderBy, $sortDirection)
     {
-      $orderType = $orderBy == 'rating' ? 'asc' : 'desc';
+      $filter = $this->getSortFilter($orderBy);
 
-      $items = $this->model->orderBy($orderBy, $orderType)->with('latestEpisode')->withCount('episodesWithSrc');
+      $items = $this->model->orderBy($filter, $sortDirection)->with('latestEpisode')->withCount('episodesWithSrc');
+
+      if($type == 'watchlist') {
+        $items->where('watchlist', true);
+      } elseif( ! $this->setting->first()->show_watchlist_everywhere) {
+        $items->where('watchlist', false);
+      }
 
       if($type == 'tv' || $type == 'movie') {
-        $items = $items->where('media_type', $type);
+        $items->where('media_type', $type);
       }
 
       return $items->simplePaginate(config('app.LOADING_ITEMS'));
     }
 
     /**
-     * Update rating for a movie.
+     * Update rating.
      *
      * @param $itemId
      * @param $rating
@@ -216,7 +292,7 @@
       $item = $this->model->find($itemId);
 
       if( ! $item) {
-        return response('Not Found', 404);
+        return response('Not Found', Response::HTTP_NOT_FOUND);
       }
 
       // Update the parent relation only if we change rating from neutral.
@@ -226,6 +302,7 @@
 
       $item->update([
         'rating' => $rating,
+        'watchlist' => false,
       ]);
     }
 
@@ -284,11 +361,35 @@
         case 'fp_name':
           return $this->model->findByFPName($value, $mediaType)->first();
         case 'tmdb_id':
-          return $this->model->findByTmdbId($value)->first();
+          return $this->model->findByTmdbId($value)->with('latestEpisode')->first();
         case 'src':
           return $this->model->findBySrc($value)->first();
       }
 
       return null;
+    }
+
+    /**
+     * Get the correct name from the table for sort filter.
+     *
+     * @param $orderBy
+     * @return string
+     */
+    private function getSortFilter($orderBy)
+    {
+      switch($orderBy) {
+        case 'last seen':
+          return 'last_seen_at';
+        case 'own rating':
+          return 'rating';
+        case 'title':
+          return 'title';
+        case 'release':
+          return 'released';
+        case 'tmdb rating':
+          return 'tmdb_rating';
+        case 'imdb rating':
+          return 'imdb_rating';
+      }
     }
   }

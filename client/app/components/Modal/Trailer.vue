@@ -2,7 +2,7 @@
   <div class="modal-wrap modal-wrap-big">
 
     <div class="modal-header">
-      <span>Trailer for {{ modalData.title }}</span>
+      <span>{{ lang('trailer for') }} {{ modalData.title }}</span>
       <span class="close-modal" @click="CLOSE_MODAL()">
         <i class="icon-close"></i>
       </span>
@@ -17,11 +17,10 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex';
-
-  import Helper from '../../helper';
+  import MiscHelper from '../../helpers/misc';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     computed: {
       ...mapState({

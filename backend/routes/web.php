@@ -5,7 +5,7 @@
     Route::post('/login', 'UserController@login');
 
     Route::get('/episodes/{tmdbId}', 'ItemController@episodes');
-    Route::get('/items/{type}/{orderBy}', 'ItemController@items');
+    Route::get('/items/{type}/{orderBy}/{sortDirection}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
 
     Route::get('/item/{tmdbId}/{mediaType}', 'SubpageController@item');
@@ -14,7 +14,9 @@
     Route::get('/suggestions/{tmdbID}/{mediaType}', 'TMDBController@suggestions');
     Route::get('/trending', 'TMDBController@trending');
     Route::get('/upcoming', 'TMDBController@upcoming');
+    Route::get('/now-playing', 'TMDBController@nowPlaying');
 
+    Route::patch('/refresh-all', 'ItemController@refreshAll');
     Route::get('/settings', 'SettingController@settings');
 
     Route::group(['middleware' => 'auth'], function() {
@@ -23,11 +25,14 @@
       Route::patch('/settings', 'SettingController@updateSettings');
 
       Route::post('/add', 'ItemController@add');
+      Route::post('/watchlist', 'ItemController@watchlist');
       Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
       Route::patch('/update-genre', 'ItemController@updateGenre');
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');
+      Route::patch('/refresh/{itemId}', 'ItemController@refresh')->middleware('csrf');
+      Route::get('/refresh-kickstart-all', 'ItemController@refreshKickstartAll')->middleware('csrf');
       Route::delete('/remove/{itemId}', 'ItemController@remove')->middleware('csrf');
 
       Route::get('/userdata', 'UserController@getUserData');

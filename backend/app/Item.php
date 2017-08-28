@@ -31,6 +31,7 @@
       'backdrop',
       'youtube_key',
       'slug',
+      'watchlist',
     ];
 
     /**
@@ -110,7 +111,8 @@
     public function latestEpisode()
     {
       return $this->hasOne(Episode::class, 'tmdb_id', 'tmdb_id')
-        ->orderBy('id', 'asc')
+        ->orderBy('season_number', 'asc')
+        ->orderBy('episode_number', 'asc')
         ->where('seen', false)
         ->latest();
     }

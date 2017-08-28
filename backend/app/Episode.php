@@ -23,6 +23,7 @@
       'updated_at',
       'release_episode',
       'release_season',
+      'fp_name',
     ];
 
     /**

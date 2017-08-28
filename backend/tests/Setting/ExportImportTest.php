@@ -12,6 +12,7 @@
 
     use DatabaseMigrations;
     use Factories;
+    use Mocks;
 
     protected $user;
 
@@ -56,6 +57,8 @@
     /** @test */
     public function it_should_import_a_backup_file()
     {
+      $this->createStorageDownloadsMock();
+      $this->createRefreshAllMock();
       $this->callImport('export.json');
 
       $this->assertCount(4, Item::all());

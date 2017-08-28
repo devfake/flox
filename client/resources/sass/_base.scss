@@ -27,12 +27,14 @@ input {
 }
 
 .wrap,
-.wrap-content {
+.wrap-content,
+.content-submenu {
   lost-center: 1300px 20px;
   width: 100%;
 }
 
-.wrap-content {
+.wrap-content,
+.content-submenu {
   @include media(1) { lost-center: 1120px 20px; }
   @include media(2) { lost-center: 960px 20px; }
   @include media(3) { lost-center: 800px 20px; }

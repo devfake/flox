@@ -23,7 +23,7 @@
 <script>
   import { mapState, mapMutations } from 'vuex';
 
-  import Helper from '../../helper';
+  import Helper from '../../helpers/misc';
 
   export default {
     mixins: [Helper],
