@@ -79,9 +79,12 @@
 
     private function importItems($data, ItemService $itemService)
     {
+      error_log("Import Movies");
       if(isset($data->items)) {
         $this->item->truncate();
         foreach($data->items as $item) {
+          error_log("Importing: ");
+          error_log($item->title);
           // Fallback if export was from an older version of flox (<= 1.2.2).
           if( ! isset($item->last_seen_at)) {
             $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
@@ -98,6 +101,7 @@
 
         $itemService->refreshAll();
       }
+      error_log("Import Movies done.");
     }
 
     private function importEpisodes($data)

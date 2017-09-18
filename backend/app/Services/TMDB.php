@@ -8,6 +8,7 @@
   use Illuminate\Support\Collection;
   use Illuminate\Support\Facades\Cache;
   use GuzzleHttp\Exception\ClientException;
+  use Symfony\Component\HttpFoundation\Response;
 
   class TMDB {
 
@@ -280,6 +281,11 @@
         'append_to_response' => 'videos,external_ids',
       ]);
 
+      if($response->getStatusCode() != Response::HTTP_OK) {
+        // ignore any error
+        return json_decode('{}');
+      }
+
       return json_decode($response->getBody());
     }
 
@@ -289,6 +295,7 @@
         'language' => $translation ?? $this->translation,
       ]);
 
+      // TODO: what if it fails? error handling?
       return json_decode($response->getBody());
     }
 

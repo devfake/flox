@@ -226,4 +226,24 @@
       $this->assertEquals('qnIhJwhBeqY', $fallBackMovie);
       $this->assertEquals('qnIhJwhBeqY', $fallBackTv);
     }
+
+    /** @test */
+    public function it_should_accept_tmdb_decline()
+    {
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('movie/details-failing')
+      );
+
+      $itemService = app(ItemService::class);
+
+      $this->createMovie();
+      $this->item->first()->update(['title' => 'IGNORE ME', 'imdb_rating' => '1.0']);
+
+      $item = $this->item->first();
+      $itemService->refresh($item->id);
+      $updatedItem = $this->item->first();
+
+      $this->assertEquals('IGNORE ME', $item->title);
+      $this->assertEquals('IGNORE ME', $updatedItem->title);
+    }
   }
