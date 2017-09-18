@@ -121,7 +121,7 @@
      * Like ratings, new episodes, new poster and backdrop images.
      *
      * @param $itemId
-     * @return Response
+     * @return Response|false
      */
     public function refresh($itemId)
     {
@@ -131,16 +131,17 @@
         return response('Not Found', Response::HTTP_NOT_FOUND);
       }
 
-      $this->storage->removeImages($item->poster, $item->backdrop);
-
       $details = $this->tmdb->details($item->tmdb_id, $item->media_type);
 
-      // If tmdb didn't find anything then title will be not set => don't update
-      if ( ! isset($details->title)) {
-        return;
+      $title = $details->name ?? ($details->title ?? null);
+
+      // If TMDb didn't find anything then title will be not set => don't update
+      if( ! $title) {
+        return false;
       }
 
-      $title = $details->name ?? $details->title;
+      $this->storage->removeImages($item->poster, $item->backdrop);
+
       $imdbId = $item->imdb_id ?? $this->parseImdbId($details);
 
       $item->update([
