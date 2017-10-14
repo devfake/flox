@@ -50,11 +50,14 @@
      */
     public function fetch()
     {
+      error_log("Making request to flox-file-parser...");
       $timestamp = $this->lastFetched()['last_fetch_to_file_parser'];
       $fpUrl = config('services.fp.host') . ':' . config('services.fp.port');
       $fpUri = '/fetch/' . $timestamp;
 
       $response = $this->client->get($fpUrl . $fpUri);
+
+      error_log("Flox-file-parser request done!");
 
       return $response->getStatusCode();
     }
@@ -67,6 +70,7 @@
      */
     public function updateDatabase($files)
     {
+      error_log("FileParser.updateDatabase");
       DB::beginTransaction();
 
       $this->updateLastFetched();
@@ -76,13 +80,17 @@
 
         foreach($items as $item) {
           try {
+            error_log("Updating data:");
+            error_log(print_r($item, 1));
             $this->handleStatus($item);
           } catch(\Exception $e) {
+            error_log($e->getMessage(), Response::HTTP_BAD_REQUEST);
             return response()->json($e->getMessage(), Response::HTTP_BAD_REQUEST);
           }
         }
       }
 
+      error_log("Updating data: Done!");
       DB::commit();
     }
 

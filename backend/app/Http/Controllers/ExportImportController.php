@@ -106,12 +106,16 @@
 
     private function importEpisodes($data)
     {
+      error_log("Import Tv Shows");
       if(isset($data->episodes)) {
         $this->episodes->truncate();
         foreach($data->episodes as $episode) {
+          error_log("Importing: ");
+          error_log($episode->name);
           $this->episodes->create((array) $episode);
         }
       }
+      error_log("Import Tv Shows done.");
     }
 
     private function importAlternativeTitles($data)
