@@ -1,15 +1,22 @@
 <?php
 
+  namespace Tests\Traits;
+
+  use App\Episode;
+  use App\Item;
+  use App\Setting;
+  use App\User;
+
   trait Factories {
 
     public function createUser()
     {
-      return factory(App\User::class)->create();
+      return factory(User::class)->create();
     }
 
     public function createSetting()
     {
-      return factory(App\Setting::class)->create();
+      return factory(Setting::class)->create();
     }
 
     public function createMovie($custom = [])
@@ -21,7 +28,7 @@
         'media_type' => 'movie',
       ];
 
-      return factory(App\Item::class)->create(array_merge($data, $custom));
+      return factory(Item::class)->create(array_merge($data, $custom));
     }
 
     public function createTv($custom = [], $withEpisodes = true)
@@ -33,12 +40,12 @@
         'media_type' => 'tv',
       ];
 
-      factory(App\Item::class)->create(array_merge($data, $custom));
+      factory(Item::class)->create(array_merge($data, $custom));
 
       if($withEpisodes) {
         foreach([1, 2] as $season) {
           foreach([1, 2] as $episode) {
-            factory(App\Episode::class)->create([
+            factory(Episode::class)->create([
               'tmdb_id' => 1399,
               'season_number' => $season,
               'episode_number' => $episode,
@@ -55,7 +62,7 @@
         'tmdb_id' => 68735,
       ];
 
-      return factory(App\Item::class)->states('movie')->make(array_merge($data, $custom));
+      return factory(Item::class)->states('movie')->make(array_merge($data, $custom));
     }
 
     public function getTv($custom = [])
@@ -65,6 +72,6 @@
         'tmdb_id' => 1399,
       ];
 
-      return factory(App\Item::class)->states('tv')->make(array_merge($data, $custom));
+      return factory(Item::class)->states('tv')->make(array_merge($data, $custom));
     }
   }

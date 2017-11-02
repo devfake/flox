@@ -1,5 +1,7 @@
 <?php
 
+  namespace Tests\Traits;
+
   use App\Services\IMDB;
   use App\Services\Models\ItemService;
   use App\Services\Storage;
@@ -8,6 +10,7 @@
   use GuzzleHttp\Handler\MockHandler;
   use GuzzleHttp\HandlerStack;
   use GuzzleHttp\Psr7\Response;
+  use Mockery;
 
   trait Mocks {
 

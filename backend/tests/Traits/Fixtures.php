@@ -1,5 +1,7 @@
 <?php
 
+  namespace Tests\Traits;
+  
   trait Fixtures {
 
     protected function fpFixtures($type)

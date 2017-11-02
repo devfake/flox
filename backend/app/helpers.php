@@ -25,3 +25,10 @@
   {
     return strtolower($translation) == 'en' ? 'us' : $translation;
   }
+  
+  function logInfo($message, $context = [])
+  {
+    if( ! app()->runningUnitTests()) {
+      info($message, $context);
+    }
+  }

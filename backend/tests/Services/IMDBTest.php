@@ -1,11 +1,14 @@
 <?php
 
+  namespace Tests\Services;
+
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Tests\TestCase;
   use App\Services\IMDB;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
 
   class IMDBTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     public function it_should_parse_imdb_rating()

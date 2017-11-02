@@ -79,12 +79,11 @@
 
     private function importItems($data, ItemService $itemService)
     {
-      error_log("Import Movies");
+      logInfo("Import Movies");
       if(isset($data->items)) {
         $this->item->truncate();
         foreach($data->items as $item) {
-          error_log("Importing: ");
-          error_log($item->title);
+          logInfo("Importing", [$item->title]);
           // Fallback if export was from an older version of flox (<= 1.2.2).
           if( ! isset($item->last_seen_at)) {
             $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
@@ -101,21 +100,20 @@
 
         $itemService->refreshAll();
       }
-      error_log("Import Movies done.");
+      logInfo("Import Movies done.");
     }
 
     private function importEpisodes($data)
     {
-      error_log("Import Tv Shows");
+      logInfo("Import Tv Shows");
       if(isset($data->episodes)) {
         $this->episodes->truncate();
         foreach($data->episodes as $episode) {
-          error_log("Importing: ");
-          error_log($episode->name);
+          logInfo("Importing", [$episode->name]);
           $this->episodes->create((array) $episode);
         }
       }
-      error_log("Import Tv Shows done.");
+      logInfo("Import Tv Shows done.");
     }
 
     private function importAlternativeTitles($data)

@@ -1,11 +1,15 @@
 <?php
 
+  namespace Tests\Setting;
+
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Tests\TestCase;
   use App\Setting;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
+  use Tests\Traits\Factories;
 
   class SettingTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use Factories;
 
     protected $user;
@@ -20,11 +24,11 @@
     /** @test */
     public function user_can_change_settings()
     {
-      $this->json('GET', 'api/settings');
+      $this->getJson('api/settings');
 
       $setting1 = Setting::first();
 
-      $this->actingAs($this->user)->json('PATCH', 'api/settings', [
+      $this->actingAs($this->user)->patchJson('api/settings', [
         'genre' => 1,
         'date' => 0,
         'spoiler' => 0,

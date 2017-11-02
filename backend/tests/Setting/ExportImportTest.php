@@ -1,16 +1,22 @@
 <?php
 
+  namespace Tests\Setting;
+
   use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
   use App\Services\Storage;
   use App\Setting;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
+  use Illuminate\Foundation\Testing\RefreshDatabase;
   use Illuminate\Http\UploadedFile;
+  use Mockery;
+  use Tests\TestCase;
+  use Tests\Traits\Factories;
+  use Tests\Traits\Mocks;
 
   class ExportImportTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use Factories;
     use Mocks;
 
@@ -37,7 +43,8 @@
       $storage->shouldReceive('createExportFilename')->once()->andReturn($filename);
       $this->app->instance(Storage::class, $storage);
 
-      $this->actingAs($this->user)->json('GET', 'api/export')->assertResponseStatus(200);
+      $this->actingAs($this->user)->getJson('api/export')
+        ->assertSuccessful();
 
       $file = (array) json_decode(file_get_contents($path));
 
@@ -70,8 +77,8 @@
     /** @test */
     public function it_should_abort_import_if_not_json()
     {
-      $this->callImport('wrong-file.txt');
-      $this->seeStatusCode(422);
+      $this->callImport('wrong-file.txt')
+        ->assertStatus(422);
     }
 
     private function callImport($filename)
@@ -80,7 +87,7 @@
 
       $file = new UploadedFile($path, $filename);
 
-      $this->actingAs($this->user)->json('POST', 'api/import', ['import' => $file]);
+      return $this->actingAs($this->user)->postJson('api/import', ['import' => $file]);
     }
 
     private function removeExportFile($path)

@@ -1,12 +1,18 @@
 <?php
 
+  namespace Tests\Services;
+
+  use Tests\TestCase;
   use App\AlternativeTitle;
   use App\Services\Models\AlternativeTitleService;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Tests\Traits\Factories;
+  use Tests\Traits\Fixtures;
+  use Tests\Traits\Mocks;
 
   class AlternativeTitleServiceTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use Factories;
     use Fixtures;
     use Mocks;
@@ -30,7 +36,7 @@
       $model->create($movie);
 
       $this->assertCount(4, $this->alternativeTitles->get());
-      $this->seeInDatabase('alternative_titles', [
+      $this->assertDatabaseHas('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
     }
@@ -45,7 +51,7 @@
       $model->create($tv);
 
       $this->assertCount(3, $this->alternativeTitles->get());
-      $this->seeInDatabase('alternative_titles', [
+      $this->assertDatabaseHas('alternative_titles', [
         'title' => 'GOT'
       ]);
     }
@@ -60,7 +66,7 @@
       $model->update();
 
       $this->assertCount(4, $this->alternativeTitles->get());
-      $this->seeInDatabase('alternative_titles', [
+      $this->assertDatabaseHas('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
     }
@@ -75,7 +81,7 @@
       $model->update(68735);
 
       $this->assertCount(4, $this->alternativeTitles->get());
-      $this->seeInDatabase('alternative_titles', [
+      $this->assertDatabaseHas('alternative_titles', [
         'title' => 'Warcraft: The Beginning'
       ]);
     }
@@ -90,7 +96,7 @@
       $model->update();
 
       $this->assertCount(3, $this->alternativeTitles->get());
-      $this->seeInDatabase('alternative_titles', [
+      $this->assertDatabaseHas('alternative_titles', [
         'title' => 'GOT'
       ]);
     }
@@ -105,7 +111,7 @@
       $model->update(1399);
 
       $this->assertCount(3, $this->alternativeTitles->get());
-      $this->seeInDatabase('alternative_titles', [
+      $this->assertDatabaseHas('alternative_titles', [
         'title' => 'GOT'
       ]);
     }
