@@ -1,7 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const autoprefixer = require('autoprefixer');
-const lost = require('lost');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
@@ -19,36 +17,38 @@ module.exports = {
     }
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.vue$/,
-        loader: 'vue'
+        use: 'vue-loader'
       },
       {
         test: /\.js$/,
-        loader: 'babel',
+        use: 'babel-loader',
         exclude: /node_modules/
       },
       {
         test: /\.(png|jpg|svg)$/,
-        loader: 'url',
-        query: {
-          limit: 10000,
-          name: 'img/[name].[ext]',
-          emitFile: false
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: 'img/[name].[ext]',
+            emitFile: false
+          }
         }
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'postcss-loader', 'sass-loader']
+        })
       }
     ]
   },
-  postcss() {
-    return [autoprefixer, lost];
-  },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
+    new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.js'}),
     new ExtractTextPlugin('app.css')
   ]
 };
