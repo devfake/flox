@@ -18,7 +18,7 @@
     "laravel/framework": "5.5.*",
     "laravel/tinker": "~1.0",
     "guzzlehttp/guzzle": "^6.3",
-    "doctrine/dbal": "^2.6",
+    "doctrine/dbal": "^2.5",
     "imangazaliev/didom": "^1.11"
   },
   "require-dev": {
