@@ -42,7 +42,7 @@
      */
     public function receive(Request $request)
     {
-      error_log("FileParserController.receive called");
+      logInfo("FileParserController.receive called");
       $content = json_decode($request->getContent());
 
       return $this->updateDatabase($content);

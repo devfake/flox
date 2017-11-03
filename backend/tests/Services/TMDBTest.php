@@ -1,15 +1,21 @@
 <?php
 
+  namespace Tests\Services;
+
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Tests\TestCase;
   use App\Services\TMDB;
   use GuzzleHttp\Client;
   use GuzzleHttp\Handler\MockHandler;
   use GuzzleHttp\HandlerStack;
   use GuzzleHttp\Psr7\Response;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
+  use Tests\Traits\Factories;
+  use Tests\Traits\Fixtures;
+  use Tests\Traits\Mocks;
 
   class TMDBTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use Factories;
     use Fixtures;
     use Mocks;

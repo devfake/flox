@@ -1,12 +1,18 @@
 <?php
 
+  namespace Tests\Services;
+  
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Tests\TestCase;
   use App\Item;
   use App\Services\Models\ItemService;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
+  use Tests\Traits\Factories;
+  use Tests\Traits\Fixtures;
+  use Tests\Traits\Mocks;
 
   class ItemServiceTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use Factories;
     use Fixtures;
     use Mocks;
@@ -41,7 +47,7 @@
 
       $this->assertCount(0, $item1);
       $this->assertCount(1, $item2);
-      $this->seeInDatabase('items', [
+      $this->assertDatabaseHas('items', [
         'title' => 'Warcraft: The Beginning',
       ]);
     }
@@ -64,7 +70,7 @@
 
       $this->assertCount(0, $item1);
       $this->assertCount(1, $item2);
-      $this->seeInDatabase('items', [
+      $this->assertDatabaseHas('items', [
         'title' => 'Game of Thrones',
       ]);
     }
@@ -166,7 +172,7 @@
       $this->createGuzzleMock($this->tmdbFixtures('movie/details'));
 
       $withoutGenre = Item::find(1);
-      $this->actingAs($user)->json('PATCH', 'api/update-genre');
+      $this->actingAs($user)->patchJson('api/update-genre');
       $withGenre = Item::find(1);
 
       $this->assertEmpty($withoutGenre->genre);
@@ -182,7 +188,7 @@
       $this->createGuzzleMock($this->tmdbFixtures('tv/details'));
 
       $withoutGenre = Item::find(1);
-      $this->actingAs($user)->json('PATCH', 'api/update-genre');
+      $this->actingAs($user)->patchJson('api/update-genre');
       $withGenre = Item::find(1);
 
       $this->assertEmpty($withoutGenre->genre);

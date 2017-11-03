@@ -1,13 +1,19 @@
 <?php
 
+  namespace Tests\Services;
+
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Tests\TestCase;
   use App\Episode;
   use App\Item;
   use App\Services\Models\EpisodeService;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
+  use Tests\Traits\Factories;
+  use Tests\Traits\Fixtures;
+  use Tests\Traits\Mocks;
 
   class EpisodeServiceTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use Factories;
     use Fixtures;
     use Mocks;

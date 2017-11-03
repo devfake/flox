@@ -1,15 +1,22 @@
 <?php
+  
+  namespace Tests\Services;
 
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Illuminate\Support\Facades\Hash;
+  use Tests\TestCase;
   use App\Episode;
   use App\Item;
   use App\Setting;
   use App\User;
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
   use App\Services\FileParser;
+  use Tests\Traits\Factories;
+  use Tests\Traits\Fixtures;
+  use Tests\Traits\Mocks;
 
   class FileParserTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use Factories;
     use Fixtures;
     use Mocks;
@@ -170,7 +177,7 @@
       $this->assertNotNull($item->src);
       $this->assertNotNull($item->subtitles);
       $this->assertNotNull($item->fp_name);
-      $this->seeInDatabase('items', [
+      $this->assertDatabaseHas('items', [
         'title' => 'Warcraft: The Beginning'
       ]);
     }
@@ -196,7 +203,7 @@
       $this->assertCount(0, $items);
       $this->assertCount(0, $episodes1);
       $this->assertCount(4, $episodes2);
-      $this->seeInDatabase('items', [
+      $this->assertDatabaseHas('items', [
         'title' => 'Game of Thrones'
       ]);
 
@@ -452,11 +459,11 @@
     /** @test */
     public function it_should_use_http_basic_auth()
     {
-      $this->patch('/api/update-files');
-      $this->assertResponseStatus(401);
+      $this->patch('/api/update-files')
+        ->assertStatus(401);
 
-      $this->patch('/api/update-files', [], $this->http_login());
-      $this->assertResponseOk();
+      $this->patch('/api/update-files', [], $this->http_login())
+        ->assertSuccessful();
     }
 
     /** @test */
@@ -478,8 +485,8 @@
 
       $fixture = json_encode($this->fpFixtures("tv/added"));
 
-      $this->call('PATCH', '/api/update-files', [], [], [], $this->http_login(), $fixture);
-      $this->assertResponseOk();
+      $this->call('PATCH', '/api/update-files', [], [], [], $this->http_login(), $fixture)
+        ->assertSuccessful();
 
       $episodes = $this->episode->get();
 
@@ -489,8 +496,8 @@
       $settings->last_fetch_to_file_parser = null;
       $settings->save();
 
-      $this->call('PATCH', '/api/update-files', [], [], [], $this->http_login(), $fixture);
-      $this->assertResponseOk();
+      $this->call('PATCH', '/api/update-files', [], [], [], $this->http_login(), $fixture)
+        ->assertSuccessful();
 
       $episodes = $this->episode->get();
 
@@ -507,14 +514,14 @@
       $settings->last_fetch_to_file_parser = $timestamp;
       $settings->save();
 
-      $this->json('GET', '/api/last-fetched')
-        ->seeJson(['last_fetch_to_file_parser' => $timestamp]);
+      $this->getJson('/api/last-fetched')
+        ->assertJson(['last_fetch_to_file_parser' => $timestamp]);
 
       $settings->last_fetch_to_file_parser = null;
       $settings->save();
 
-      $this->json('GET', '/api/last-fetched')
-        ->seeJson(['last_fetch_to_file_parser' => 0]);
+      $this->getJson('/api/last-fetched')
+        ->assertJson(['last_fetch_to_file_parser' => 0]);
     }
 
     private function http_login()

@@ -1,6 +1,6 @@
 <?php
 
-  Route::group(['prefix' => 'api'], function() {
+  Route::prefix('api')->group(function() {
     Route::get('/logout', 'UserController@logout');
     Route::post('/login', 'UserController@login');
 
@@ -19,7 +19,7 @@
     Route::patch('/refresh-all', 'ItemController@refreshAll');
     Route::get('/settings', 'SettingController@settings');
 
-    Route::group(['middleware' => 'auth'], function() {
+    Route::middleware('auth')->group(function() {
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::get('/version', 'SettingController@getVersion');
       Route::patch('/settings', 'SettingController@updateSettings');
@@ -31,7 +31,7 @@
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');
-      Route::patch('/refresh/{itemId}', 'ItemController@refresh')->middleware('csrf');
+      Route::patch('/refresh/{itemId}', 'ItemController@refresh');
       Route::get('/refresh-kickstart-all', 'ItemController@refreshKickstartAll')->middleware('csrf');
       Route::delete('/remove/{itemId}', 'ItemController@remove')->middleware('csrf');
 
@@ -45,5 +45,5 @@
       Route::get('/video/{type}/{id}', 'VideoController@serve');
     });
   });
-
-  Route::get('/{uri?}', 'HomeController@app')->where('uri', '(.*)');
+  
+  Route::fallback('HomeController@app');
