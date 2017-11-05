@@ -20,6 +20,7 @@
             :key="index"
             :genre="displayGenre"
             :date="displayDate"
+            :ratings="displayRatings"
       ></Item>
 
       <span class="nothing-found" v-if=" ! items.length">{{ lang('nothing found') }}</span>
@@ -52,7 +53,8 @@
     data() {
       return {
         displayGenre: null,
-        displayDate: null
+        displayDate: null,
+        displayRatings: null,
       }
     },
 
@@ -98,6 +100,7 @@
 
           this.displayGenre = data.genre;
           this.displayDate = data.date;
+          this.displayRatings = data.ratings;
         });
       },
 

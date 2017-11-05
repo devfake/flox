@@ -1,6 +1,6 @@
 <template>
   <transition mode="out-in" name="fade">
-    <div class="item-wrap">
+    <div class="item-wrap" :class="'show-ratings-' + ratings">
       <div class="item-image-wrap no-select">
         <rating :rated="rated" :item="localItem" :set-item="setItem"></rating>
 
@@ -43,7 +43,7 @@
   export default {
     mixins: [MiscHelper, ItemHelper],
 
-    props: ['item', 'genre', 'date'],
+    props: ['item', 'genre', 'date', 'ratings'],
 
     data() {
       return {

@@ -64,5 +64,9 @@
   "watchlist": "Watchlist",
   "show watchlist": "Show Watchlist Items everywhere",
   "feedback": "If you have any feedback for us, please open an issue on",
-  "no release": "No release date yet"
+  "no release": "No release date yet",
+  "show own ratings": "Show own ratings",
+  "always": "Always",
+  "on hover": "On hover",
+  "never": "Never"
 }

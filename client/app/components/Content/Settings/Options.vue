@@ -13,6 +13,14 @@
     <div class="setting-box">
       <input type="checkbox" value="watchlist" v-model="watchlist" id="watchlist" @change="updateOptions"><label for="watchlist">{{ lang('show watchlist') }}</label>
     </div>
+    <div class="setting-box select-box">
+      <label for="ratings">{{ lang('show own ratings') }}</label>
+      <select id="ratings" v-model="ratings" @change="updateOptions">
+        <option value="always">{{ lang('always') }}</option>
+        <option value="hover">{{ lang('on hover') }}</option>
+        <option value="never">{{ lang('never') }}</option>
+      </select>
+    </div>
   </div>
 
 </template>
@@ -35,7 +43,8 @@
         genre: null,
         date: null,
         spoiler: null,
-        watchlist: null
+        watchlist: null,
+        ratings: null,
       }
     },
 
@@ -58,6 +67,7 @@
           this.date = data.date;
           this.spoiler = data.spoiler;
           this.watchlist = data.watchlist;
+          this.ratings = data.ratings;
         });
       },
 
@@ -68,8 +78,9 @@
         const genre = this.genre;
         const spoiler = this.spoiler;
         const watchlist = this.watchlist;
+        const ratings = this.ratings;
 
-        http.patch(`${config.api}/settings`, {date, genre, spoiler, watchlist}).then(response => {
+        http.patch(`${config.api}/settings`, {date, genre, spoiler, watchlist, ratings}).then(response => {
           this.SET_LOADING(false);
         }, error => {
           alert(error.message);

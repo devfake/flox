@@ -4,12 +4,12 @@
     <section class="big-teaser-wrap" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
 
       <div class="big-teaser-image" :style="backdropImage"></div>
-
+      
       <div class="wrap">
         <div class="big-teaser-content">
           <div class="big-teaser-data-wrap">
 
-            <div class="subpage-poster-wrap-mobile">
+            <div class="subpage-poster-wrap-mobile" :class="'show-ratings-' + displayRatings">
               <rating :rated="rated" :item="item" :set-item="setItem"></rating>
               <img class="base" :src="noImage" width="120" height="180">
               <img class="real" :src="posterImage" width="120" height="180">
@@ -48,7 +48,7 @@
         </div>
 
         <div class="subpage-sidebar">
-          <div class="subpage-poster-wrap">
+          <div class="subpage-poster-wrap"  :class="'show-ratings-' + displayRatings">
             <rating :rated="rated" :item="item" :set-item="setItem"></rating>
             <img class="base" :src="noImage" width="272" height="408">
             <img class="real" :src="posterImage" width="272" height="408">
@@ -89,6 +89,7 @@
     created() {
       document.body.classList.add('subpage-open');
       window.scrollTo(0, 0);
+      this.fetchSettings();
       this.fetchData();
     },
 
@@ -104,7 +105,8 @@
         latestEpisode: null,
         loadingImdb: false,
         auth: config.auth,
-        rated: false
+        rated: false,
+        displayRatings: null
       }
     },
 
@@ -183,6 +185,12 @@
         }
       },
 
+      fetchSettings() {
+        http(`${config.api}/settings`).then(value => {
+          this.displayRatings = value.data.ratings;
+        });
+      },
+
       fetchData() {
         const tmdbId = this.$route.params.tmdbId;
 
@@ -237,7 +245,7 @@
         this.SET_ITEM_LOADED_SUBPAGE(false);
 
         http.patch(`${config.api}/refresh/${this.item.id}`).then(response => {
-          this.fetchData();
+          location.reload();
         }, error => {
           alert(error);
           this.SET_LOADING(false);

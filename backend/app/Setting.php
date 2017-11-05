@@ -17,5 +17,6 @@
       'episode_spoiler_protection',
       'last_fetch_to_file_parser',
       'show_watchlist_everywhere',
+      'show_ratings',
     ];
   }

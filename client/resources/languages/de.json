@@ -64,5 +64,9 @@
   "watchlist": "Watchlist",
   "show watchlist": "Zeige Watchlist Items überall an",
   "feedback": "Solltest du Feedback für uns haben, erstelle bitte ein neues issue auf",
-  "no release": "Noch kein Veröffentlichungsdatum"
+  "no release": "Noch kein Veröffentlichungsdatum",
+  "show own ratings": "Zeige eigenes Rating",
+  "always": "Immer",
+  "on hover": "Beim hovern",
+  "never": "Niemals"
 }
