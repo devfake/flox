@@ -7,6 +7,7 @@
               :key="index"
               :genre="true"
               :date="true"
+              :ratings="displayRatings"
         ></Item>
       </div>
     </div>
@@ -27,13 +28,15 @@
     mixins: [MiscHelper],
 
     created() {
+      this.fetchSettings();
       this.init();
     },
 
     data() {
       return {
         items: [],
-        path: ''
+        path: '',
+        displayRatings: null
       }
     },
 
@@ -79,6 +82,12 @@
         http(`${config.api}/${path}`).then(response => {
           this.items = response.data;
           this.SET_LOADING(false);
+        });
+      },
+
+      fetchSettings() {
+        http(`${config.api}/settings`).then(value => {
+          this.displayRatings = value.data.ratings;
         });
       }
     },

@@ -69,6 +69,27 @@ main {
   @include media(6) { lost-column: 1/2; }
 }
 
+.show-ratings-never {
+  .rating-0,
+  .rating-1,
+  .rating-2,
+  .rating-3 {
+    display: none;
+  }
+}
+
+.show-ratings-hover {
+  .item-rating {
+    opacity: 0;
+  }
+
+  &:hover {
+    .item-rating {
+      opacity: 1;
+    }
+  }
+}
+
 .item-image-wrap {
   position: relative;
   float: left;
@@ -219,7 +240,7 @@ main {
       transform: translate(-50%, -50%) scale(1.1) !important;
     }
 
-    @include transition(transform, background);
+    @include transition(transform, background, opacity);
   }
 
   @include media(3) {
@@ -758,11 +779,27 @@ main {
     font-size: 15px;
     margin: 0 0 0 10px;
     cursor: pointer;
-    width: calc(100% - 30px);
+
+    @include media(5) {
+      width: calc(100% - 30px);
+    }
   }
 
   .dark & {
     color: #5d5d5d;
+  }
+}
+
+.select-box {
+  margin: 10px 0;
+
+  label {
+    margin: 0 10px 0 0;
+  }
+
+  select {
+    float: left;
+    font-size: 14px;
   }
 }
 
