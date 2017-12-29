@@ -32,6 +32,6 @@ export default new Router({
     { path: '/upcoming', component: TMDBContent, name: 'upcoming' },
     { path: '/now-playing', component: TMDBContent, name: 'now-playing' },
 
-    { path: '*', component: Content }
+    { path: '*', redirect: '/' }
   ]
 });
