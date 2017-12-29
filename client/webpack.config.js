@@ -7,6 +7,9 @@ module.exports = {
     app: './app/app.js',
     vendor: ['vue', 'axios', 'vuex', 'debounce', 'vue-router']
   },
+  watchOptions: {
+    poll: true
+  },
   output: {
     path: path.resolve('../public/assets'),
     filename: 'app.js'

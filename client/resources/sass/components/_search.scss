@@ -1,10 +1,10 @@
 .search-wrap {
   float: left;
   width: 100%;
-  position: absolute;
+  //position: absolute;
   box-shadow: 0 0 70px 0 rgba(0, 0, 0, .3);
   background: #fff;
-  z-index: 200;
+  //z-index: 200;
   opacity: 0;
 
   .dark & {
@@ -15,14 +15,6 @@
     padding: 0 16px 0 0;
   }
 
-  &.sticky {
-    @include media(sticky) {
-      position: fixed;
-      top: 0;
-      left: 0;
-    }
-  }
-
   .subpage-open & {
     background: none;
     box-shadow: none;
@@ -31,7 +23,7 @@
     left: auto;
   }
 
-  &.active {
+  .active & {
     transition: opacity .7s ease .1s;
     opacity: .97;
   }
@@ -45,7 +37,7 @@
   @include transition(padding);
 
   .sticky & {
-    padding: 0 0 0 50px;
+    //padding: 0 0 0 50px;
   }
 
   .subpage-open & {
@@ -91,7 +83,7 @@
   }
 
   .sticky & {
-    left: 50px;
+    //left: 50px;
   }
 
   .subpage-open & {

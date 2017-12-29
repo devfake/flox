@@ -28,7 +28,6 @@
     @else
       <modal></modal>
       <site-header></site-header>
-      <search></search>
       <router-view></router-view>
       <site-footer></site-footer>
     @endif

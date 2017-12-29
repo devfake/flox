@@ -1,3 +1,13 @@
+.header-wrap {
+  position: fixed;
+  z-index: 200;
+  width: 100%;
+
+  .subpage-open & {
+    position: absolute;
+  }
+}
+
 header {
   background: $main2;
   background: linear-gradient(to right, $main1, $main2);
@@ -6,22 +16,28 @@ header {
   position: relative;
   z-index: 20;
   opacity: 0;
-
+  
   @include media(5) {
-    padding: 15px 0;
+    //padding: 15px 0;
   }
 
-  .open-modal & {
-    padding: 25px 16px 25px 0;
+  .active & {
+    transition: opacity .7s ease .1s, padding-top .2s ease 0s, padding-bottom .2s ease 0s;
+    opacity: 1;
+  }
+  
+  .sticky & {
+    padding: 10px 0;
+    opacity: .97;
   }
 
   .subpage-open & {
     background: none;
+    padding: 25px 0;
   }
 
-  &.active {
-    transition: opacity .7s ease .1s;
-    opacity: 1;
+  .open-modal & {
+    padding-right: 17px;
   }
 }
 
@@ -29,6 +45,15 @@ header {
   float: left;
   opacity: .9;
   cursor: pointer;
+  
+  img {
+    @include transition(width, height);
+
+    .sticky & {
+      //width: 90px;
+      //height: auto;
+    }
+  }
 
   @include media(5) {
     width: 80px;

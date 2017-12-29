@@ -4,7 +4,6 @@ import Vue from 'vue';
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 import SiteHeader from './components/Header.vue';
-import Search from './components/Search.vue';
 import SiteFooter from './components/Footer.vue';
 import Login from './components/Login.vue';
 import Modal from './components/Modal/Index.vue';
@@ -40,7 +39,7 @@ const App = new Vue({
   },
 
   components: {
-    SiteHeader, Search, SiteFooter, Login, Modal
+    SiteHeader, SiteFooter, Login, Modal
   },
 
   methods: {

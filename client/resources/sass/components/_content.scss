@@ -1,11 +1,11 @@
 main {
   float: left;
   width: 100%;
-  padding: 110px 0 0 0;
+  padding: 200px 0 0 0;
   min-height: 100vh;
 
   &.display-suggestions {
-    padding: 150px 0 0 0;
+    padding: 250px 0 0 0;
   }
 
   .dark & {
@@ -13,7 +13,7 @@ main {
   }
 
   .open-modal & {
-    padding: 110px 16px 0 0;
+    padding: 200px 17px 0 0;
   }
 
   @include media(5) {
@@ -90,10 +90,18 @@ main {
   }
 }
 
+.item-rating-loader {
+  display: block !important;
+}
+
 .item-image-wrap {
   position: relative;
   float: left;
   max-height: 278px;
+  max-width: 185px;
+  width: 100%;
+  
+  @include transition(box-shadow);
 
   @include media(3) {
     width: 120px;
@@ -105,6 +113,8 @@ main {
   }
 
   &:hover {
+    box-shadow: 0 0 2px 2px $main2;
+    
     .logged & {
       .item-new {
         display: block;
@@ -124,20 +134,21 @@ main {
     .is-on-watchlist {
       opacity: 0;
     }
+    
+    .item-image {
+      //border: 1px solid $main2;
+    }
   }
 }
 
 .item-image {
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .5);
+  width: 100%;
+  //border: 1px solid transparent;
 
-  //@include transition(box-shadow);
-
-  &:hover {
-    //box-shadow: 0 15px 20px 0 rgba(0, 0, 0, .5);
-  }
+  @include transition(border);
 
   @include media(3) {
-    width: 100%;
     height: auto;
   }
 }
@@ -161,14 +172,20 @@ main {
 
   .item-year,
   .item-genre {
+    width: 100%;
     float: left;
     color: #888;
     font-size: 14px;
-    clear: both;
     margin: 0 5px 0 0;
 
     .dark & {
       color: #626262;
+    }
+    
+    i {
+      font-style: normal;
+      text-transform: uppercase;
+      float: right;
     }
 
     @include media(3) {

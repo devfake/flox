@@ -2,7 +2,7 @@
   <transition mode="out-in" name="fade">
     <div class="item-wrap" :class="'show-ratings-' + ratings">
       <div class="item-image-wrap no-select">
-        <rating :rated="rated" :item="localItem" :set-item="setItem"></rating>
+        <rating :rated="rated" :set-rated="setRated" :item="localItem" :set-item="setItem"></rating>
 
         <router-link v-if="localItem.tmdb_id" :to="suggestionsUri(localItem)" class="recommend-item">{{ lang('suggestions') }}</router-link>
         <span v-if="localItem.watchlist" class="is-on-watchlist"><i class="icon-watchlist"></i></span>
@@ -22,7 +22,7 @@
       </div>
 
       <div class="item-content">
-        <span v-if="date == 1" class="item-year">{{ released }}</span>
+        <span v-if="date == 1" class="item-year">{{ released }} <i>{{ localItem.media_type }}</i></span>
         <i class="item-has-src" v-if="hasSrc"></i>
         <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id }}" class="item-title" :title="localItem.title">{{ localItem.title }}</router-link>
         <span v-if="genre == 1" class="item-genre">{{ localItem.genre }}</span>
@@ -90,6 +90,10 @@
 
       setItem(item) {
         this.localItem = item;
+      },
+      
+      setRated(rated) {
+        this.rated = rated
       },
 
       removeItem() {

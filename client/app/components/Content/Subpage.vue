@@ -1,44 +1,46 @@
 <template>
   <main>
     <!-- todo: make header position absolute, and float teaser and content correct -->
-    <section class="big-teaser-wrap" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
+    <div class="bigsize-header">
+      <section class="big-teaser-wrap" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
 
-      <div class="big-teaser-image" :style="backdropImage"></div>
-      
-      <div class="wrap">
-        <div class="big-teaser-content">
-          <div class="big-teaser-data-wrap">
+        <div class="big-teaser-image" :style="backdropImage"></div>
 
-            <div class="subpage-poster-wrap-mobile" :class="'show-ratings-' + displayRatings">
-              <rating :rated="rated" :item="item" :set-item="setItem"></rating>
-              <img class="base" :src="noImage" width="120" height="180">
-              <img class="real" :src="posterImage" width="120" height="180">
-            </div>
+        <div class="wrap">
+          <div class="big-teaser-content">
+            <div class="big-teaser-data-wrap">
 
-            <!-- todo: move to own component -->
-            <div class="big-teaser-item-data">
-              <span class="item-year">{{ released }}</span>
-              <span class="item-title">{{ item.title }}</span>
-              <span class="item-genre">{{ item.genre }}</span>
-            </div>
-            <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
-              <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
-              <span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>
-              <span class="button-watchlist" v-if="item.watchlist && auth && ! rated" @click="removeItem()"><i class="icon-watchlist-remove"></i> {{ lang('remove from watchlist') }}</span>
-              <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank" class="button-tmdb-rating">
-                <i v-if="item.tmdb_rating && item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
-                <i v-else>{{ lang('no tmdb rating') }}</i>
-              </a>
-              <a v-if="item.imdb_id" :href="`http://www.imdb.com/title/${item.imdb_id}`" target="_blank" class="button-imdb-rating">
-                <i v-if="loadingImdb">{{ lang('loading imdb rating') }}</i>
-                <i v-if="item.imdb_rating && ! loadingImdb"><b>{{ item.imdb_rating }}</b> IMDb</i>
-                <i v-if=" ! item.imdb_rating && ! loadingImdb">{{ lang('no imdb rating') }}</i>
-              </a>
+              <div class="subpage-poster-wrap-mobile" :class="'show-ratings-' + displayRatings">
+                <rating :rated="rated" :item="item" :set-item="setItem" :set-rated="setRated"></rating>
+                <img class="base" :src="noImage" width="120" height="180">
+                <img class="real" :src="posterImage" width="120" height="180">
+              </div>
+
+              <!-- todo: move to own component -->
+              <div class="big-teaser-item-data">
+                <span class="item-year">{{ released }}, <i>{{ item.media_type }}</i></span>
+                <span class="item-title">{{ item.title }}</span>
+                <span class="item-genre">{{ item.genre }}</span>
+              </div>
+              <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
+                <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
+                <span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>
+                <span class="button-watchlist" v-if="item.watchlist && auth && ! rated" @click="removeItem()"><i class="icon-watchlist-remove"></i> {{ lang('remove from watchlist') }}</span>
+                <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank" class="button-tmdb-rating">
+                  <i v-if="item.tmdb_rating && item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
+                  <i v-else>{{ lang('no tmdb rating') }}</i>
+                </a>
+                <a v-if="item.imdb_id" :href="`http://www.imdb.com/title/${item.imdb_id}`" target="_blank" class="button-imdb-rating">
+                  <i v-if="loadingImdb">{{ lang('loading imdb rating') }}</i>
+                  <i v-if="item.imdb_rating && ! loadingImdb"><b>{{ item.imdb_rating }}</b> IMDb</i>
+                  <i v-if=" ! item.imdb_rating && ! loadingImdb">{{ lang('no imdb rating') }}</i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <div class="subpage-content" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
       <div class="wrap">
@@ -49,7 +51,7 @@
 
         <div class="subpage-sidebar">
           <div class="subpage-poster-wrap"  :class="'show-ratings-' + displayRatings">
-            <rating :rated="rated" :item="item" :set-item="setItem"></rating>
+            <rating :rated="rated" :item="item" :set-item="setItem" :set-rated="setRated"></rating>
             <img class="base" :src="noImage" width="272" height="408">
             <img class="real" :src="posterImage" width="272" height="408">
 
@@ -225,6 +227,10 @@
 
       setItem(item) {
         this.item = item;
+      },
+      
+      setRated(rated) {
+        this.rated = rated;
       },
 
       removeItem() {

@@ -1,9 +1,9 @@
 <template>
-  <section class="search-wrap" :class="{sticky: sticky, active: displayHeader}">
+  <section class="search-wrap">
     <div class="wrap">
 
       <form class="search-form" @submit.prevent="search()">
-        <router-link to="/"><i @click="scrollToTop()" class="icon-logo-small"></i></router-link>
+        <!--<router-link to="/"><i @click="scrollToTop()" class="icon-logo-small"></i></router-link>-->
         <i class="icon-search"></i>
         <input type="text" :placeholder="placeholder" v-model="title" class="search-input" autofocus>
       </form>
@@ -23,17 +23,7 @@
 
   export default {
     mixins: [MiscHelper],
-
-    mounted() {
-      this.initSticky();
-    },
-
-    data() {
-      return {
-        sticky: false
-      }
-    },
-
+    
     computed: {
       ...mapState({
         itemLoadedSubpage: state => state.itemLoadedSubpage
@@ -58,14 +48,6 @@
     },
 
     methods: {
-      initSticky() {
-        const height = document.querySelector('header').scrollHeight;
-
-        window.onscroll = () => {
-          this.sticky = document.body.scrollTop + document.documentElement.scrollTop > height;
-        };
-      },
-
       search() {
         if(this.title !== '') {
           this.$router.push({

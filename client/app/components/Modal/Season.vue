@@ -30,7 +30,7 @@
            :data-episode="episode.episode_number"
       >
         <span class="modal-episode no-select">E{{ addZero(episode.episode_number) }}</span>
-        <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen && auth}">{{ episode.name }}</span>
+        <span class="modal-name" :class="{'spoiler-protect': spoiler && ! episode.seen}">{{ episode.name }}</span>
         <i class="item-has-src" v-if="episode.src"></i>
         <span class="modal-release-episode" v-if="episode.release_episode_human_format" :title="released(episode.release_episode)"><i></i> {{ episode.release_episode_human_format }}</span>
         <span class="modal-release-episode" v-if=" ! episode.release_episode"><i></i> {{ lang('no release') }}</span>
