@@ -99,7 +99,7 @@
      */
     public function refreshKickstartAll(Client $client)
     {
-      $response = $client->get(url('/api/refresh-all'));
+      $response = $client->patch(url('/api/refresh-all'));
 
       return $response->getStatusCode();
     }
