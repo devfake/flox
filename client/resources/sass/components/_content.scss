@@ -139,6 +139,10 @@ main {
       //border: 1px solid $main2;
     }
   }
+  
+  &:active {
+    box-shadow: 0 0 2px 2px $main1;
+  }
 }
 
 .item-image {

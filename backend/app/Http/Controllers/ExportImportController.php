@@ -9,6 +9,7 @@
   use App\Services\Storage;
   use App\Setting;
   use Carbon\Carbon;
+  use Illuminate\Support\Facades\DB;
   use Illuminate\Support\Facades\Input;
   use Symfony\Component\HttpFoundation\Response;
 
@@ -81,7 +82,9 @@
     {
       logInfo("Import Movies");
       if(isset($data->items)) {
-        $this->item->truncate();
+        
+        DB::table('items')->delete();
+        
         foreach($data->items as $item) {
           logInfo("Importing", [$item->title]);
           // Fallback if export was from an older version of flox (<= 1.2.2).
@@ -107,7 +110,9 @@
     {
       logInfo("Import Tv Shows");
       if(isset($data->episodes)) {
+        
         $this->episodes->truncate();
+        
         foreach($data->episodes as $episode) {
           logInfo("Importing", [$episode->name]);
           $this->episodes->create((array) $episode);
@@ -119,7 +124,9 @@
     private function importAlternativeTitles($data)
     {
       if(isset($data->alternative_titles)) {
+        
         $this->alternativeTitles->truncate();
+        
         foreach($data->alternative_titles as $title) {
           $this->alternativeTitles->create((array) $title);
         }
@@ -129,7 +136,9 @@
     private function importSettings($data)
     {
       if(isset($data->settings)) {
+        
         $this->settings->truncate();
+        
         foreach($data->settings as $setting) {
           $this->settings->create((array) $setting);
         }

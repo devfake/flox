@@ -8,6 +8,7 @@
   use App\Services\TMDB;
   use GuzzleHttp\Client;
   use App\Setting;
+  use Illuminate\Support\Facades\DB;
   use Symfony\Component\HttpFoundation\Response;
 
   class ItemService {

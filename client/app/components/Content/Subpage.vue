@@ -18,7 +18,7 @@
 
               <!-- todo: move to own component -->
               <div class="big-teaser-item-data">
-                <span class="item-year">{{ released }}, <i>{{ item.media_type }}</i></span>
+                <span class="item-year">{{ released }}, <i>{{ lang(item.media_type) }}</i></span>
                 <span class="item-title">{{ item.title }}</span>
                 <span class="item-genre">{{ item.genre }}</span>
               </div>
