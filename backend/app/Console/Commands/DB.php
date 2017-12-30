@@ -36,17 +36,6 @@
         return false;
       }
       
-      try {
-        $this->info('TRYING TO CONNECT TO THE TMDb SERVICE');
-        $this->genreService->updateGenreLists();
-        $this->info('GENRELIST UPDATED');
-      } catch(\Exception $e) {
-        $this->error('Can not connect to the TMDb Service. Error: ' . $e->getMessage());
-        $this->error('Make sure you set your TMDb API Key in .env');
-
-        return false;
-      }
-
       $this->createUser();
     }
 
