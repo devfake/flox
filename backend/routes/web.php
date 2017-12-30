@@ -28,6 +28,8 @@
       Route::post('/watchlist', 'ItemController@watchlist');
       Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
       Route::patch('/update-genre', 'ItemController@updateGenre');
+      // todo: in patch
+      Route::get('/update-genre-lists', 'GenreController@updateGenreLists');
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');

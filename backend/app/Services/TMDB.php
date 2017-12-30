@@ -246,12 +246,12 @@
         'api_key' => $this->apiKey,
         'language' => strtolower($this->translation)
       ], $query);
-
+      
       try {
         $response = $this->client->get($url, [
           'query' => $query
         ]);
-
+        
         if($this->hasLimitRemaining($response)) {
           return $response;
         }
@@ -364,6 +364,20 @@
     public function fetchAlternativeTitles($item)
     {
       return $this->requestTmdb($this->base . '/3/' . $item['media_type'] . '/' . $item['tmdb_id'] . '/alternative_titles');
+    }
+
+    /**
+     * Get the lists of genres from TMDb for tv shows and movies.
+     */
+    public function getGenreLists()
+    {
+      $movies = $this->requestTmdb($this->base . '/3/genre/movie/list');
+      $tv = $this->requestTmdb($this->base . '/3/genre/tv/list');
+      
+      return [
+        'movies' => json_decode($movies->getBody()),
+        'tv' => json_decode($tv->getBody()),
+      ];
     }
 
     /**

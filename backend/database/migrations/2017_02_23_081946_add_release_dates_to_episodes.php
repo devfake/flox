@@ -14,10 +14,5 @@ class AddReleaseDatesToEpisodes extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::table('episodes', function (Blueprint $table) {
-            //
-        });
-    }
+    public function down() {}
 }
