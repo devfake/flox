@@ -77,7 +77,7 @@
 
       foreach((array) $files as $type => $items) {
         $this->itemCategory = $type;
-
+        
         foreach($items as $item) {
           try {
             logInfo("Updating data");
@@ -100,6 +100,7 @@
      *
      * @param $item
      * @return bool|mixed|void
+     * @throws \Exception
      */
     private function handleStatus($item)
     {
@@ -241,7 +242,7 @@
 
       // Otherwise create a new item from the result.
       $created = $this->itemService->create($firstResult);
-
+      
       return $this->store($item, $created->tmdb_id);
     }
 

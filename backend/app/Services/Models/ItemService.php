@@ -58,9 +58,21 @@
      */
     public function create($data)
     {
+      DB::beginTransaction();
+      
       $data = $this->makeDataComplete($data);
+      
+      $item = $this->model->store($data);
 
-      return $this->model->store($data);
+      $this->episodeService->create($item);
+      $this->genreService->sync($item, $data['genre_ids']);
+      $this->alternativeTitleService->create($item);
+
+      $this->storage->downloadImages($item->poster, $item->backdrop);
+
+      DB::commit();
+
+      return $item->fresh();
     }
 
     /**

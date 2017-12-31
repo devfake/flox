@@ -21,17 +21,17 @@ class CreateGenresTable extends Migration
       $table->string('name');
     });
 
-    try {
-      $this->genreService->updateGenreLists();
-    } catch (\Exception $e) {
-      echo 'Can not connect to the TMDb Service on "CreateGenresTable". Error: ' . $e->getMessage();
-      echo 'Make sure you set your TMDb API Key in .env';
-      
-      abort(500);
+    if( ! app()->runningUnitTests()) {
+      try {
+        $this->genreService->updateGenreLists();
+      } catch (\Exception $e) {
+        echo 'Can not connect to the TMDb Service on "CreateGenresTable". Error: ' . $e->getMessage();
+        echo 'Make sure you set your TMDb API Key in .env';
+        
+        abort(500);
+      }
     }
   }
 
-  public function down()
-  {
-  }
+  public function down() {}
 }

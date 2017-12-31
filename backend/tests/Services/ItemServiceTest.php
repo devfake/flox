@@ -162,38 +162,6 @@
       $this->assertNotNull($item1);
       $this->assertNull($item2);
     }
-
-    /** @test */
-    public function it_should_update_genre_for_a_movie()
-    {
-      $user = $this->createUser();
-      $this->createMovie();
-
-      $this->createGuzzleMock($this->tmdbFixtures('movie/details'));
-
-      $withoutGenre = Item::find(1);
-      $this->actingAs($user)->patchJson('api/update-genre');
-      $withGenre = Item::find(1);
-
-      $this->assertEmpty($withoutGenre->genre);
-      $this->assertNotEmpty($withGenre->genre);
-    }
-
-    /** @test */
-    public function it_should_update_genre_for_a_tv_show()
-    {
-      $user = $this->createUser();
-      $this->createTv();
-
-      $this->createGuzzleMock($this->tmdbFixtures('tv/details'));
-
-      $withoutGenre = Item::find(1);
-      $this->actingAs($user)->patchJson('api/update-genre');
-      $withGenre = Item::find(1);
-
-      $this->assertEmpty($withoutGenre->genre);
-      $this->assertNotEmpty($withGenre->genre);
-    }
     
     /** @test */
     public function it_should_parse_correct_imdb_id()

@@ -4,11 +4,8 @@
 
   use App\Services\Models\AlternativeTitleService;
   use App\Services\Models\EpisodeService;
-  use App\Services\Models\GenreService;
   use App\Services\Models\ItemService;
-  use App\Services\Storage;
   use GuzzleHttp\Client;
-  use Illuminate\Support\Facades\DB;
   use Illuminate\Support\Facades\Input;
 
   class ItemController {
@@ -42,26 +39,9 @@
       return $this->itemService->changeRating($itemId, Input::get('rating'));
     }
 
-    public function add(EpisodeService $episodeService, 
-                        AlternativeTitleService $alternativeTitleService, 
-                        Storage $storage, 
-                        GenreService $genreService)
+    public function add()
     {
-      DB::beginTransaction();
-      
-      $tmdbInput = Input::get('item');
-      
-      $item = $this->itemService->create($tmdbInput);
-
-      $episodeService->create($item);
-      $genreService->sync($item, $tmdbInput['genre_ids']);
-      $alternativeTitleService->create($item);
-
-      $storage->downloadImages($item->poster, $item->backdrop);
-      
-      DB::commit();
-      
-      return $item->fresh();
+      return $this->itemService->create(Input::get('item'));
     }
 
     public function watchlist()
