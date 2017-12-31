@@ -20,7 +20,7 @@
               <div class="big-teaser-item-data">
                 <span class="item-year">{{ released }}, <i>{{ lang(item.media_type) }}</i></span>
                 <span class="item-title">{{ item.title }}</span>
-                <span class="item-genre">{{ item.genre }}</span>
+                <span class="item-genre">{{ genreAsString(item.genre) }}</span>
               </div>
               <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
                 <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
