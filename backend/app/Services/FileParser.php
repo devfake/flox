@@ -7,7 +7,6 @@
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
   use App\Setting;
-  use Carbon\Carbon;
   use GuzzleHttp\Client;
   use Illuminate\Database\Eloquent\ModelNotFoundException;
   use Illuminate\Support\Facades\DB;
@@ -51,6 +50,7 @@
     public function fetch()
     {
       logInfo("Making request to flox-file-parser...");
+      
       $timestamp = $this->lastFetched()['last_fetch_to_file_parser'];
       $fpUrl = config('services.fp.host') . ':' . config('services.fp.port');
       $fpUri = '/fetch/' . $timestamp;
@@ -376,7 +376,7 @@
     private function updateLastFetched()
     {
       Setting::first()->update([
-        'last_fetch_to_file_parser' => Carbon::now(),
+        'last_fetch_to_file_parser' => now(),
       ]);
     }
 

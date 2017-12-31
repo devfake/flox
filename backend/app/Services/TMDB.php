@@ -2,6 +2,7 @@
 
   namespace App\Services;
 
+  use App\Genre;
   use App\Item;
   use Carbon\Carbon;
   use GuzzleHttp\Client;
@@ -15,7 +16,7 @@
     private $client;
     private $apiKey;
     private $translation;
-
+    
     private $base = 'https://api.themoviedb.org';
 
     /**
@@ -33,7 +34,7 @@
     /**
      * Search TMDb by 'title'.
      *
-     * @param      $title
+     * @param $title
      * @param null $mediaType
      * @return Collection
      */
@@ -199,8 +200,8 @@
     }
 
     /**
-     * @param      $response
-     * @param      $mediaType
+     * @param $response
+     * @param $mediaType
      * @return array
      */
     private function createItems($response, $mediaType)
@@ -222,7 +223,7 @@
       );
 
       $title = $data->name ?? $data->title;
-
+      
       return [
         'tmdb_id' => $data->id,
         'title' => $title,
@@ -231,7 +232,8 @@
         'poster' => $data->poster_path,
         'media_type' => $mediaType,
         'released' => $release->getTimestamp(),
-        'genre' => $this->parseGenre($data->genre_ids),
+        'genre_ids' => $data->genre_ids,
+        'genre' => Genre::whereIn('id', $data->genre_ids)->get(),
         'episodes' => [],
         'overview' => $data->overview,
         'backdrop' => $data->backdrop_path,
@@ -381,61 +383,6 @@
     }
 
     /**
-     * Create genre string from genre_ids.
-     *
-     * @param $ids
-     * @return string
-     */
-    private function parseGenre($ids)
-    {
-      $genre = [];
-
-      foreach($ids as $id) {
-        $genre[] = $this->genreList()[$id] ?? '';
-      }
-
-      return implode($genre, ', ');
-    }
-
-    /**
-     * Current genre list from TMDb.
-     *
-     * @return array
-     */
-    private function genreList()
-    {
-      return [
-        28 => 'Action',
-        12 => 'Adventure',
-        16 => 'Animation',
-        35 => 'Comedy',
-        80 => 'Crime',
-        99 => 'Documentary',
-        18 => 'Drama',
-        10751 => 'Family',
-        14 => 'Fantasy',
-        36 => 'History',
-        27 => 'Horror',
-        10402 => 'Music',
-        9648 => 'Mystery',
-        10749 => 'Romance',
-        878 => 'Sci-Fi',
-        10770 => 'TV Movie',
-        53 => 'Thriller',
-        10752 => 'War',
-        37 => 'Western',
-        10759 => 'Action & Adventure',
-        10762 => 'Kids',
-        10763 => 'News',
-        10764 => 'Reality',
-        10765 => 'Sci-Fi & Fantasy',
-        10766 => 'Soap',
-        10767 => 'Talk',
-        10768 => 'War & Politics',
-      ];
-    }
-
-    /**
      * @param $response
      * @return boolean
      */
@@ -453,6 +400,6 @@
      */
     private function untilEndOfDay()
     {
-      return Carbon::now()->secondsUntilEndOfDay() / 60;
+      return now()->secondsUntilEndOfDay() / 60;
     }
   }

@@ -10,6 +10,6 @@
 
     protected $fillable = [
       'name',
-      'tmdb_id',
+      'id',
     ];
   }

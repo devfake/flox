@@ -22,6 +22,17 @@
     }
 
     /**
+     * Sync the pivot table genre_item.
+     * 
+     * @param $item
+     * @param $ids
+     */
+    public function sync($item, $ids)
+    {
+      $item->genre()->sync($ids);
+    }
+
+    /**
      * Update the genres table.
      */
     public function updateGenreLists()
@@ -33,7 +44,7 @@
       foreach($genres as $mediaType) {
         foreach($mediaType->genres as $genre) {
           $this->model->firstOrCreate(
-            ['tmdb_id' => $genre->id],
+            ['id' => $genre->id],
             ['name' => $genre->name]
           );
         }
