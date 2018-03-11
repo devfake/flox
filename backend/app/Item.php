@@ -137,6 +137,13 @@
     /*
      * Scopes
      */
+    
+    public function scopeFindByGenreId($query, $genreId)
+    {
+      return $query->orWhereHas('genre', function($query) use ($genreId) {
+        $query->where('genre_id', $genreId);
+      });
+    }
 
     public function scopeFindByTmdbId($query, $tmdbId)
     {

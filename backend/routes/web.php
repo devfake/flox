@@ -12,6 +12,8 @@
     Route::get('/imdb-rating/{imdbId}', 'SubpageController@imdbRating');
 
     Route::get('/suggestions/{tmdbID}/{mediaType}', 'TMDBController@suggestions');
+    Route::get('/genres', 'GenreController@allGenres');
+    Route::get('/genre/{genre}', 'TMDBController@genre');
     Route::get('/trending', 'TMDBController@trending');
     Route::get('/upcoming', 'TMDBController@upcoming');
     Route::get('/now-playing', 'TMDBController@nowPlaying');

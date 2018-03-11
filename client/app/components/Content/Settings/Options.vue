@@ -1,18 +1,20 @@
 <template>
 
-  <div class="settings-box no-select" v-if=" ! loading">
+  <div class="settings-box element-ui-checkbox no-select" v-if=" ! loading">
+    
     <div class="setting-box">
-      <input type="checkbox" value="genre" v-model="genre" id="genre" @change="updateOptions"><label for="genre">{{ lang('display genre') }}</label>
+      <el-checkbox v-model="genre" @change="updateOptions">{{ lang('display genre') }}</el-checkbox>
     </div>
     <div class="setting-box">
-      <input type="checkbox" value="date" v-model="date" id="date" @change="updateOptions"><label for="date">{{ lang('display date') }}</label>
+      <el-checkbox v-model="date" @change="updateOptions">{{ lang('display date') }}</el-checkbox>
     </div>
     <div class="setting-box">
-      <input type="checkbox" value="spoiler" v-model="spoiler" id="spoiler" @change="updateOptions"><label for="spoiler">{{ lang('spoiler') }}</label>
+      <el-checkbox v-model="spoiler" @change="updateOptions">{{ lang('spoiler') }}</el-checkbox>
     </div>
     <div class="setting-box">
-      <input type="checkbox" value="watchlist" v-model="watchlist" id="watchlist" @change="updateOptions"><label for="watchlist">{{ lang('show watchlist') }}</label>
+      <el-checkbox v-model="watchlist" @change="updateOptions">{{ lang('show watchlist') }}</el-checkbox>
     </div>
+
     <div class="setting-box select-box">
       <label for="ratings">{{ lang('show own ratings') }}</label>
       <select id="ratings" v-model="ratings" @change="updateOptions">
@@ -63,6 +65,7 @@
           const data = response.data;
 
           this.SET_LOADING(false);
+          console.log(data)
           this.genre = data.genre;
           this.date = data.date;
           this.spoiler = data.spoiler;

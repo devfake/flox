@@ -171,24 +171,57 @@
     }
 
     /**
+     * Search TMDb by genre.
+     * 
+     * @param $genre
+     * @return array
+     */
+    public function byGenre($genre)
+    {
+      $genreId = Genre::findByName($genre)->firstOrFail()->id;
+
+      $cache = Cache::remember('genre-' . $genre, $this->untilEndOfDay(), function() use ($genreId) {
+        
+        $responseMovies = $this->requestTmdb($this->base . '/3/discover/movie', ['with_genres' => $genreId]);
+        $responseTv = $this->requestTmdb($this->base . '/3/discover/tv', ['with_genres' => $genreId]);
+
+        $movies = collect($this->createItems($responseMovies, 'movie'));
+        $tv = collect($this->createItems($responseTv, 'tv'));
+
+        return $tv->merge($movies)->shuffle();
+      });
+      
+      //$inDB = Item::findByGenreId($genreId)->get();
+      
+      return $this->filterItems($cache, $genreId);
+    }
+
+    /**
      * Merge the response with items from our database.
      *
      * @param Collection $items
+     * @param null $genreId
      * @return array
      */
-    private function filterItems($items)
+    private function filterItems($items, $genreId = null)
     {
       $allId = $items->pluck('tmdb_id');
 
-      // Get all movies/tv shows from trending/upcoming that are already in the database.
-      $inDB = Item::whereIn('tmdb_id', $allId)->withCount('episodesWithSrc')->get()->toArray();
+      // Get all movies / tv shows that are already in our database.
+      $searchInDB = Item::whereIn('tmdb_id', $allId)->withCount('episodesWithSrc');
+      
+      if($genreId) {
+        $searchInDB->findByGenreId($genreId);
+      }
 
-      // Remove all inDB movies / tv shows from trending / upcoming.
-      $filtered = $items->filter(function($item) use ($inDB) {
-        return ! in_array($item['tmdb_id'], array_column($inDB, 'tmdb_id'));
+      $foundInDB = $searchInDB->get()->toArray();
+
+      // Remove them from the TMDb response.
+      $filtered = $items->filter(function($item) use ($foundInDB) {
+        return ! in_array($item['tmdb_id'], array_column($foundInDB, 'tmdb_id'));
       });
 
-      $merged = $filtered->merge($inDB);
+      $merged = $filtered->merge($foundInDB);
 
       // Reset array keys to display inDB items first.
       return array_values($merged->reverse()->toArray());
@@ -390,7 +423,7 @@
     {
       if($response->getStatusCode() == 429) {
         return false;
-      } 
+      }
 
       return ((int) $response->getHeader('X-RateLimit-Remaining')[0]) > 1;
     }

@@ -23,6 +23,11 @@
     {
       return $this->tmdb->suggestions($mediaType, $tmdbId);
     }
+    
+    public function genre($genre)
+    {
+      return $this->tmdb->byGenre($genre);
+    }
 
     public function trending()
     {

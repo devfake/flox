@@ -3,6 +3,7 @@
   namespace App\Services;
 
   use App\Services\Models\ItemService;
+  use Symfony\Component\HttpFoundation\Response;
 
   class Subpage {
 
@@ -22,6 +23,11 @@
       }
 
       $found = $this->tmdb->details($tmdbId, $mediaType);
+      
+      if( ! (array) $found) {
+        return response('Not found', Response::HTTP_NOT_FOUND);
+      }
+      
       $found->genre_ids = collect($found->genres)->pluck('id')->all();
 
       $item = $this->tmdb->createItem($found, $mediaType);

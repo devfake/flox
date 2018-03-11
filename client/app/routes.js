@@ -21,7 +21,7 @@ export default new Router({
     { path: '/movies', component: Content, name: 'movie' },
     { path: '/tv', component: Content, name: 'tv' },
     { path: '/watchlist/:type?', component: Content, name: 'watchlist' },
-
+    
     { path: '/movies/:tmdbId/:slug?', component: Subpage, name: 'subpage-movie', props: {mediaType: 'movie'} },
     { path: '/tv/:tmdbId/:slug?', component: Subpage, name: 'subpage-tv', props: {mediaType: 'tv'} },
 
@@ -31,6 +31,7 @@ export default new Router({
     { path: '/trending', component: TMDBContent, name: 'trending' },
     { path: '/upcoming', component: TMDBContent, name: 'upcoming' },
     { path: '/now-playing', component: TMDBContent, name: 'now-playing' },
+    { path: '/genre/:genre', component: TMDBContent, name: 'genre' },
 
     { path: '*', redirect: '/' }
   ]

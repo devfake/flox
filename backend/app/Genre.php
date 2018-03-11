@@ -12,4 +12,9 @@
       'name',
       'id',
     ];
+    
+    public function scopeFindByName($query, $genre)
+    {
+      return $query->where('name', $genre);
+    }
   }
