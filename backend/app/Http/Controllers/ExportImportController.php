@@ -9,6 +9,7 @@
   use App\Services\Storage;
   use App\Setting;
   use Carbon\Carbon;
+  use Illuminate\Support\Facades\DB;
   use Illuminate\Support\Facades\Input;
   use Symfony\Component\HttpFoundation\Response;
 
@@ -71,28 +72,25 @@
 
       $data = json_decode(file_get_contents($file));
 
-      $this->importItems($data, $itemService);
+      $this->importSettings($data);
       $this->importEpisodes($data);
       $this->importAlternativeTitles($data);
-      $this->importSettings($data);
+      $this->importItems($data, $itemService);
     }
 
     private function importItems($data, ItemService $itemService)
     {
       logInfo("Import Movies");
+      
       if(isset($data->items)) {
-        $this->item->truncate();
+        DB::table('items')->delete();
+        
         foreach($data->items as $item) {
           logInfo("Importing", [$item->title]);
+          
           // Fallback if export was from an older version of flox (<= 1.2.2).
           if( ! isset($item->last_seen_at)) {
             $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
-          }
-
-          // For empty items (from file-parser) we don't need access to details.
-          if($item->tmdb_id) {
-            $item = $itemService->makeDataComplete((array) $item);
-            $this->storage->downloadImages($item['poster'], $item['backdrop']);
           }
 
           $this->item->create((array) $item);
@@ -107,7 +105,9 @@
     {
       logInfo("Import Tv Shows");
       if(isset($data->episodes)) {
+        
         $this->episodes->truncate();
+        
         foreach($data->episodes as $episode) {
           logInfo("Importing", [$episode->name]);
           $this->episodes->create((array) $episode);
@@ -119,7 +119,9 @@
     private function importAlternativeTitles($data)
     {
       if(isset($data->alternative_titles)) {
+        
         $this->alternativeTitles->truncate();
+        
         foreach($data->alternative_titles as $title) {
           $this->alternativeTitles->create((array) $title);
         }
@@ -129,7 +131,9 @@
     private function importSettings($data)
     {
       if(isset($data->settings)) {
+        
         $this->settings->truncate();
+        
         foreach($data->settings as $setting) {
           $this->settings->create((array) $setting);
         }

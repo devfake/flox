@@ -2,12 +2,18 @@
 
   namespace App;
 
-  use Carbon\Carbon;
   use Illuminate\Database\Eloquent\Model;
 
   class Item extends Model {
 
-    protected $dates = ['last_seen'];
+    protected $dates = [
+      'last_seen_at', 
+      'refreshed_at',
+      'created_at',
+      'updated_at',
+    ];
+    
+    protected $with = ['genre'];
 
     protected $fillable = [
       'tmdb_id',
@@ -16,8 +22,8 @@
       'poster',
       'media_type',
       'rating',
+      //'genre',
       'released',
-      'genre',
       'fp_name',
       'src',
       'subtitles',
@@ -32,6 +38,7 @@
       'youtube_key',
       'slug',
       'watchlist',
+      'refreshed_at',
     ];
 
     /**
@@ -50,14 +57,14 @@
         'poster' => $data['poster'] ? $data['poster'] : '',
         'rating' => 0,
         'released' => $data['released'],
-        'genre' => $data['genre'],
+        //'genre' => $data['genre'],
         'overview' => $data['overview'],
         'backdrop' => $data['backdrop'],
         'tmdb_rating' => $data['tmdb_rating'],
         'imdb_id' => $data['imdb_id'],
         'imdb_rating' => $data['imdb_rating'],
         'youtube_key' => $data['youtube_key'],
-        'last_seen_at' => Carbon::now(),
+        'last_seen_at' => now(),
         'slug' => $data['slug'],
       ]);
     }
@@ -79,7 +86,7 @@
         'released' => time(),
         'src' => $data['src'],
         'subtitles' => $data['subtitles'],
-        'last_seen_at' => Carbon::now(),
+        'last_seen_at' => now(),
       ]);
     }
 
@@ -90,13 +97,18 @@
     public function updateLastSeenAt($tmdbId)
     {
       return $this->where('tmdb_id', $tmdbId)->update([
-        'last_seen_at' => Carbon::now(),
+        'last_seen_at' => now(),
       ]);
     }
-
+    
     /*
      * Relations
      */
+    
+    public function genre()
+    {
+      return $this->belongsToMany(Genre::class);
+    }
 
     public function episodes()
     {
@@ -125,6 +137,13 @@
     /*
      * Scopes
      */
+    
+    public function scopeFindByGenreId($query, $genreId)
+    {
+      return $query->orWhereHas('genre', function($query) use ($genreId) {
+        $query->where('genre_id', $genreId);
+      });
+    }
 
     public function scopeFindByTmdbId($query, $tmdbId)
     {

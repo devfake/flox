@@ -8,6 +8,7 @@
   use App\Services\TMDB;
   use GuzzleHttp\Client;
   use App\Setting;
+  use Illuminate\Support\Facades\DB;
   use Symfony\Component\HttpFoundation\Response;
 
   class ItemService {
@@ -19,6 +20,7 @@
     private $episodeService;
     private $imdb;
     private $setting;
+    private $genreService;
 
     /**
      * @param Model $model
@@ -26,6 +28,7 @@
      * @param Storage $storage
      * @param AlternativeTitleService $alternativeTitleService
      * @param EpisodeService $episodeService
+     * @param GenreService $genreService
      * @param IMDB $imdb
      * @param Setting $setting
      */
@@ -35,6 +38,7 @@
       Storage $storage,
       AlternativeTitleService $alternativeTitleService,
       EpisodeService $episodeService,
+      GenreService $genreService,
       IMDB $imdb,
       Setting $setting
     ){
@@ -45,6 +49,7 @@
       $this->episodeService = $episodeService;
       $this->imdb = $imdb;
       $this->setting = $setting;
+      $this->genreService = $genreService;
     }
 
     /**
@@ -53,16 +58,21 @@
      */
     public function create($data)
     {
+      DB::beginTransaction();
+      
       $data = $this->makeDataComplete($data);
-
+      
       $item = $this->model->store($data);
 
       $this->episodeService->create($item);
+      $this->genreService->sync($item, $data['genre_ids']);
       $this->alternativeTitleService->create($item);
 
       $this->storage->downloadImages($item->poster, $item->backdrop);
 
-      return $item;
+      DB::commit();
+
+      return $item->fresh();
     }
 
     /**
@@ -110,9 +120,11 @@
     public function refreshAll()
     {
       increaseTimeLimit();
+      
+      $this->genreService->updateGenreLists();
 
-      $this->model->all()->each(function($item) {
-        $this->refresh($item->id);
+      return $this->model->orderBy('refreshed_at')->get()->each(function($item) {
+        return $this->refresh($item->id, true);
       });
     }
 
@@ -160,6 +172,11 @@
       $this->episodeService->create($item);
       $this->alternativeTitleService->create($item);
 
+      $this->genreService->sync(
+        $item, 
+        collect($details->genres)->pluck('id')->all()
+      );
+      
       $this->storage->downloadImages($item->poster, $item->backdrop);
     }
 
@@ -322,26 +339,7 @@
     {
       return $this->model->findByTitle($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
     }
-
-    /**
-     * Parse full genre list of all movies and tv shows in our database and save them.
-     */
-    public function updateGenre()
-    {
-      increaseTimeLimit();
-
-      $items = $this->model->all();
-
-      $items->each(function($item) {
-        $genres = $this->tmdb->details($item->tmdb_id, $item->media_type)->genres;
-        $data = collect($genres)->pluck('name')->all();
-
-        $item->update([
-          'genre' => implode($data, ', '),
-        ]);
-      });
-    }
-
+    
     /**
      * See if we can find a item by title, fp_name, tmdb_id or src in our database.
      *

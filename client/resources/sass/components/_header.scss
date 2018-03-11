@@ -10,7 +10,7 @@
 
 header {
   background: $main2;
-  background: linear-gradient(to right, $main1, $main2);
+  background: $gradient;
   width: 100%;
   padding: 25px 0;
   position: relative;

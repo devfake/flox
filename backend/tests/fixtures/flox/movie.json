@@ -6,5 +6,6 @@
   "media_type": "movie",
   "released": 1464185524,
   "genre": "Adventure, Fantasy, Action",
+  "genre_ids": [1,2,3],
   "episodes": []
 }

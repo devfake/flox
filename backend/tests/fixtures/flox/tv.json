@@ -6,5 +6,6 @@
   "media_type": "tv",
   "released": 1303051450,
   "genre": "Sci-Fi & Fantasy, Action & Adventure, Drama",
+  "genre_ids": [1,2,3],
   "episodes": []
 }

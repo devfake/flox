@@ -2,6 +2,7 @@
 
   namespace App\Services;
 
+  use App\Genre;
   use App\Item;
   use Carbon\Carbon;
   use GuzzleHttp\Client;
@@ -15,7 +16,7 @@
     private $client;
     private $apiKey;
     private $translation;
-
+    
     private $base = 'https://api.themoviedb.org';
 
     /**
@@ -33,7 +34,7 @@
     /**
      * Search TMDb by 'title'.
      *
-     * @param      $title
+     * @param $title
      * @param null $mediaType
      * @return Collection
      */
@@ -170,24 +171,57 @@
     }
 
     /**
+     * Search TMDb by genre.
+     * 
+     * @param $genre
+     * @return array
+     */
+    public function byGenre($genre)
+    {
+      $genreId = Genre::findByName($genre)->firstOrFail()->id;
+
+      $cache = Cache::remember('genre-' . $genre, $this->untilEndOfDay(), function() use ($genreId) {
+        
+        $responseMovies = $this->requestTmdb($this->base . '/3/discover/movie', ['with_genres' => $genreId]);
+        $responseTv = $this->requestTmdb($this->base . '/3/discover/tv', ['with_genres' => $genreId]);
+
+        $movies = collect($this->createItems($responseMovies, 'movie'));
+        $tv = collect($this->createItems($responseTv, 'tv'));
+
+        return $tv->merge($movies)->shuffle();
+      });
+      
+      //$inDB = Item::findByGenreId($genreId)->get();
+      
+      return $this->filterItems($cache, $genreId);
+    }
+
+    /**
      * Merge the response with items from our database.
      *
      * @param Collection $items
+     * @param null $genreId
      * @return array
      */
-    private function filterItems($items)
+    private function filterItems($items, $genreId = null)
     {
       $allId = $items->pluck('tmdb_id');
 
-      // Get all movies/tv shows from trending/upcoming that are already in the database.
-      $inDB = Item::whereIn('tmdb_id', $allId)->withCount('episodesWithSrc')->get()->toArray();
+      // Get all movies / tv shows that are already in our database.
+      $searchInDB = Item::whereIn('tmdb_id', $allId)->withCount('episodesWithSrc');
+      
+      if($genreId) {
+        $searchInDB->findByGenreId($genreId);
+      }
 
-      // Remove all inDB movies / tv shows from trending / upcoming.
-      $filtered = $items->filter(function($item) use ($inDB) {
-        return ! in_array($item['tmdb_id'], array_column($inDB, 'tmdb_id'));
+      $foundInDB = $searchInDB->get()->toArray();
+
+      // Remove them from the TMDb response.
+      $filtered = $items->filter(function($item) use ($foundInDB) {
+        return ! in_array($item['tmdb_id'], array_column($foundInDB, 'tmdb_id'));
       });
 
-      $merged = $filtered->merge($inDB);
+      $merged = $filtered->merge($foundInDB);
 
       // Reset array keys to display inDB items first.
       return array_values($merged->reverse()->toArray());
@@ -199,8 +233,8 @@
     }
 
     /**
-     * @param      $response
-     * @param      $mediaType
+     * @param $response
+     * @param $mediaType
      * @return array
      */
     private function createItems($response, $mediaType)
@@ -222,7 +256,7 @@
       );
 
       $title = $data->name ?? $data->title;
-
+      
       return [
         'tmdb_id' => $data->id,
         'title' => $title,
@@ -231,7 +265,8 @@
         'poster' => $data->poster_path,
         'media_type' => $mediaType,
         'released' => $release->getTimestamp(),
-        'genre' => $this->parseGenre($data->genre_ids),
+        'genre_ids' => $data->genre_ids,
+        'genre' => Genre::whereIn('id', $data->genre_ids)->get(),
         'episodes' => [],
         'overview' => $data->overview,
         'backdrop' => $data->backdrop_path,
@@ -246,12 +281,12 @@
         'api_key' => $this->apiKey,
         'language' => strtolower($this->translation)
       ], $query);
-
+      
       try {
         $response = $this->client->get($url, [
           'query' => $query
         ]);
-
+        
         if($this->hasLimitRemaining($response)) {
           return $response;
         }
@@ -367,57 +402,16 @@
     }
 
     /**
-     * Create genre string from genre_ids.
-     *
-     * @param $ids
-     * @return string
+     * Get the lists of genres from TMDb for tv shows and movies.
      */
-    private function parseGenre($ids)
+    public function getGenreLists()
     {
-      $genre = [];
-
-      foreach($ids as $id) {
-        $genre[] = $this->genreList()[$id] ?? '';
-      }
-
-      return implode($genre, ', ');
-    }
-
-    /**
-     * Current genre list from TMDb.
-     *
-     * @return array
-     */
-    private function genreList()
-    {
+      $movies = $this->requestTmdb($this->base . '/3/genre/movie/list');
+      $tv = $this->requestTmdb($this->base . '/3/genre/tv/list');
+      
       return [
-        28 => 'Action',
-        12 => 'Adventure',
-        16 => 'Animation',
-        35 => 'Comedy',
-        80 => 'Crime',
-        99 => 'Documentary',
-        18 => 'Drama',
-        10751 => 'Family',
-        14 => 'Fantasy',
-        36 => 'History',
-        27 => 'Horror',
-        10402 => 'Music',
-        9648 => 'Mystery',
-        10749 => 'Romance',
-        878 => 'Sci-Fi',
-        10770 => 'TV Movie',
-        53 => 'Thriller',
-        10752 => 'War',
-        37 => 'Western',
-        10759 => 'Action & Adventure',
-        10762 => 'Kids',
-        10763 => 'News',
-        10764 => 'Reality',
-        10765 => 'Sci-Fi & Fantasy',
-        10766 => 'Soap',
-        10767 => 'Talk',
-        10768 => 'War & Politics',
+        'movies' => json_decode($movies->getBody()),
+        'tv' => json_decode($tv->getBody()),
       ];
     }
 
@@ -429,7 +423,7 @@
     {
       if($response->getStatusCode() == 429) {
         return false;
-      } 
+      }
 
       return ((int) $response->getHeader('X-RateLimit-Remaining')[0]) > 1;
     }
@@ -439,6 +433,6 @@
      */
     private function untilEndOfDay()
     {
-      return Carbon::now()->secondsUntilEndOfDay() / 60;
+      return now()->secondsUntilEndOfDay() / 60;
     }
   }

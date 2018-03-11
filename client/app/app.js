@@ -3,13 +3,17 @@ require('../resources/sass/app.scss');
 import Vue from 'vue';
 import { mapState, mapActions, mapMutations } from 'vuex'
 
+import { Checkbox } from 'element-ui';
+
+Vue.use(Checkbox);
+
 import SiteHeader from './components/Header.vue';
 import SiteFooter from './components/Footer.vue';
 import Login from './components/Login.vue';
 import Modal from './components/Modal/Index.vue';
 
 import router from './routes';
-import store from './store/index';
+import store from './store';
 
 const App = new Vue({
   store,

@@ -18,8 +18,6 @@
      * @param Model $model
      * @param TMDB  $tmdb
      * @param Item  $item
-     * @internal param ItemService $itemService
-     * @internal param Item $item
      */
     public function __construct(Model $model, TMDB $tmdb, Item $item)
     {

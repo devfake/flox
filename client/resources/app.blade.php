@@ -9,7 +9,7 @@
   <title>Flox</title>
   <link rel="stylesheet" href="{{ url('assets/app.css') }}">
   <link href="{{ url('assets/favicon.ico?v=3') }}" rel="icon" type="image/x-icon">
-
+  
 </head>
 <body
   data-url="{{ url('/') }}"
@@ -32,7 +32,7 @@
       <site-footer></site-footer>
     @endif
   </div>
-
+  
   <script src="{{ url('assets/vendor.js') }}"></script>
   <script src="{{ url('assets/app.js') }}"></script>
 

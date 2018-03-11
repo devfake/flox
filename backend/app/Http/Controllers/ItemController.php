@@ -78,11 +78,6 @@
       $alternativeTitle->update();
     }
 
-    public function updateGenre()
-    {
-      $this->itemService->updateGenre();
-    }
-
     public function toggleEpisode($id)
     {
       if( ! $this->episodeService->toggleSeen($id)) {

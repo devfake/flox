@@ -32,7 +32,7 @@
 
     public function getReleaseEpisodeHumanFormatAttribute()
     {
-      $now = Carbon::now();
+      $now = now();
       $release = Carbon::createFromTimestamp($this->release_episode);
 
       if($release > $now) {
