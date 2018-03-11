@@ -271,7 +271,7 @@
         'overview' => $data->overview,
         'backdrop' => $data->backdrop_path,
         'tmdb_rating' => $data->vote_average,
-        'popularity' => $data->popularity,
+        'popularity' => $data->popularity ?? 0,
       ];
     }
 
