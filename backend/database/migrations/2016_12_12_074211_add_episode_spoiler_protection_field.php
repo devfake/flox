@@ -13,10 +13,5 @@ class AddEpisodeSpoilerProtectionField extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::table('settings', function (Blueprint $table) {
-            $table->dropColumn('episode_spoiler_protection');
-        });
-    }
+    public function down() {}
 }

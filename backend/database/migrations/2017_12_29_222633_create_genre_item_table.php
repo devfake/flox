@@ -6,11 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateGenreItemTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('genre_item', function (Blueprint $table) {
@@ -24,14 +19,6 @@ class CreateGenreItemTable extends Migration
           $table->dropColumn('genre');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('genre_item');
-    }
+    
+    public function down() {}
 }

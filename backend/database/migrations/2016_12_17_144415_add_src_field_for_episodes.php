@@ -13,10 +13,5 @@ class AddSrcFieldForEpisodes extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::table('episodes', function (Blueprint $table) {
-            $table->dropColumn('src');
-        });
-    }
+    public function down() {}
 }
