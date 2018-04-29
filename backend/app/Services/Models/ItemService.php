@@ -6,6 +6,7 @@
   use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use App\Jobs\UpdateItem;
   use GuzzleHttp\Client;
   use App\Setting;
   use Symfony\Component\HttpFoundation\Response;
@@ -99,9 +100,8 @@
      */
     public function refreshKickstartAll(Client $client)
     {
-      $response = $client->patch(url('/api/refresh-all'));
-
-      return $response->getStatusCode();
+      logInfo("Kickstart refresh all items");
+      $this->refreshAll();
     }
 
     /**
@@ -109,6 +109,7 @@
      */
     public function refreshAll()
     {
+      logInfo("Refresh all items");
       increaseTimeLimit();
 
       $this->model->all()->each(function($item) {
@@ -125,6 +126,11 @@
      */
     public function refresh($itemId)
     {
+      UpdateItem::dispatch($itemId);
+    }
+
+    public function _refresh($itemId)
+    {
       $item = $this->model->find($itemId);
 
       if( ! $item) {
@@ -139,6 +145,7 @@
       if( ! $title) {
         return false;
       }
+      logInfo("Refresh", [$title]);
 
       $this->storage->removeImages($item->poster, $item->backdrop);
 

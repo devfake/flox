@@ -151,11 +151,14 @@
         $query->where('media_type', $mediaType);
       }
 
+      $title = strtolower($title);
+
+      // Some database queries using case sensitive likes -> compare lower case
       return $query->where(function($query) use ($title) {
-        return $query->where('title', 'like', '%' . $title . '%')
-          ->orWhere('original_title', 'like', '%' . $title . '%')
+        return $query->whereRaw('lower(title) like ?', ["%$title%"])
+          ->orWhereRaw('lower(original_title) like ?', ["%$title%"])
           ->orWhereHas('alternativeTitles', function($query) use ($title) {
-            return $query->where('title', 'like', '%' . $title . '%');
+            return $query->whereRaw('lower(title) like ?', ["%$title%"]);
           });
       });
     }

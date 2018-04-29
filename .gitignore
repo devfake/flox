@@ -4,6 +4,7 @@ node_modules
 Homestead.json
 Homestead.yaml
 /backend/.env
+/bin/.worker.pid
 
 */.DS_Store
 /public/assets/poster/*.jpg

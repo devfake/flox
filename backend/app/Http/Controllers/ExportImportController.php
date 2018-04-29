@@ -2,6 +2,8 @@
 
   namespace App\Http\Controllers;
 
+  use App\Jobs\ImportItem;
+  use App\Jobs\ImportEpisode;
   use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
@@ -54,7 +56,6 @@
      * Reset item table and restore backup.
      * Downloads every poster image new.
      *
-     * @param ItemService $itemService
      * @return Response
      */
     public function import(ItemService $itemService)
@@ -71,34 +72,22 @@
 
       $data = json_decode(file_get_contents($file));
 
-      $this->importItems($data, $itemService);
+      $this->importItems($data);
       $this->importEpisodes($data);
       $this->importAlternativeTitles($data);
       $this->importSettings($data);
+
+      $itemService->refreshAll();
     }
 
-    private function importItems($data, ItemService $itemService)
+    private function importItems($data)
     {
       logInfo("Import Movies");
       if(isset($data->items)) {
         $this->item->truncate();
         foreach($data->items as $item) {
-          logInfo("Importing", [$item->title]);
-          // Fallback if export was from an older version of flox (<= 1.2.2).
-          if( ! isset($item->last_seen_at)) {
-            $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
-          }
-
-          // For empty items (from file-parser) we don't need access to details.
-          if($item->tmdb_id) {
-            $item = $itemService->makeDataComplete((array) $item);
-            $this->storage->downloadImages($item['poster'], $item['backdrop']);
-          }
-
-          $this->item->create((array) $item);
+          ImportItem::dispatch(json_encode($item));
         }
-
-        $itemService->refreshAll();
       }
       logInfo("Import Movies done.");
     }
@@ -108,9 +97,8 @@
       logInfo("Import Tv Shows");
       if(isset($data->episodes)) {
         $this->episodes->truncate();
-        foreach($data->episodes as $episode) {
-          logInfo("Importing", [$episode->name]);
-          $this->episodes->create((array) $episode);
+        foreach(array_chunk($data->episodes, 50) as $chunk) {
+          ImportEpisode::dispatch(json_encode($chunk));
         }
       }
       logInfo("Import Tv Shows done.");
