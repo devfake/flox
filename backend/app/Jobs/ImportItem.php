@@ -52,8 +52,6 @@ class ImportItem implements ShouldQueue
         }
 
         $item = \App\Item::create((array) $item);
-
-        /* $itemService->_refresh($item->id); */
       } catch(\Exception $e) {
         $this->fail();
       }

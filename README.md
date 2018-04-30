@@ -56,6 +56,8 @@ composer install
 php artisan migrate
 ```
 
+If you go to the settings page of your installation, flox will automatically check for new updates.
+
 ### Queue
 
 To import or update any of your entries you need to have at least one worker running.
@@ -70,7 +72,28 @@ php artisan queue:work --daemon --tries=3
 ./bin/stop_queue  # stop all workers
 ```
 
-If you go to the settings page of your installation, flox will automatically check for new updates.
+### Cron Job
+
+To utilize the queues to update automatically you have to set up a cron task once manually on your server.
+
+```
+* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+```
+
+You can use ```crontab -e``` to add this new Cron task.
+
+Make sure Cron is running and you are good to go.
+```
+sudo service cron status
+```
+
+This Cron will call the Laravel command scheduler every minute. Then, Laravel evaluates your scheduled tasks and runs the tasks that are due.
+
+Currently in Flox defined tasks:
+
+| When   | Description                     |
+| ------ | ------------------------------- |
+| Daily  | Update all Entities from TMDb   |
 
 ### Export / Import
 
@@ -96,6 +119,12 @@ You can also set options to display release date and/or genre of your own list. 
 There is an option to enable or disable spoiler protection for episode names.
 
 ![spoiler](http://80.240.132.120/flox-demo/public/assets/spoiler.png)
+
+### Troubleshooting
+
+## Import does not work
+
+Your import file is probably to big. In default php.ini the max upload file is 2MB. Set the number higher and try again.
 
 ### Development
 
