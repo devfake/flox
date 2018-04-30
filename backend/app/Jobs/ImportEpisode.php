@@ -37,6 +37,7 @@ class ImportEpisode implements ShouldQueue
         try {
           $episode->create((array) $ep);
         } catch(\Exception $e) {
+          logInfo("Failed:", [$e]);
           $this->fail();
         }
       }
