@@ -16,8 +16,5 @@ class CreateAlternativeTitlesTable extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::dropIfExists('alternative_titles');
-    }
+    public function down() {}
 }

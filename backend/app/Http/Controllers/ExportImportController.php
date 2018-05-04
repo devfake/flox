@@ -11,6 +11,7 @@
   use App\Services\Storage;
   use App\Setting;
   use Carbon\Carbon;
+  use Illuminate\Support\Facades\DB;
   use Illuminate\Support\Facades\Input;
   use Symfony\Component\HttpFoundation\Response;
 
@@ -83,8 +84,10 @@
     private function importItems($data)
     {
       logInfo("Import Movies");
+
       if(isset($data->items)) {
-        $this->item->truncate();
+        DB::table('items')->delete();
+
         foreach($data->items as $item) {
           ImportItem::dispatch(json_encode($item));
         }
@@ -96,6 +99,7 @@
     {
       logInfo("Import Tv Shows");
       if(isset($data->episodes)) {
+
         $this->episodes->truncate();
         foreach(array_chunk($data->episodes, 50) as $chunk) {
           ImportEpisode::dispatch(json_encode($chunk));
@@ -107,7 +111,9 @@
     private function importAlternativeTitles($data)
     {
       if(isset($data->alternative_titles)) {
+        
         $this->alternativeTitles->truncate();
+        
         foreach($data->alternative_titles as $title) {
           $this->alternativeTitles->create((array) $title);
         }
@@ -117,7 +123,9 @@
     private function importSettings($data)
     {
       if(isset($data->settings)) {
+        
         $this->settings->truncate();
+        
         foreach($data->settings as $setting) {
           $this->settings->create((array) $setting);
         }

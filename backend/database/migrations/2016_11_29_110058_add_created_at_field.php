@@ -13,10 +13,5 @@ class AddCreatedAtField extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::table('episodes', function (Blueprint $table) {
-            $table->dropColumn('created_at');
-        });
-    }
+    public function down() {}
 }

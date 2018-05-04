@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="content-submenu">
+    <div class="content-submenu" v-if=" ! loading && items.length">
       <div class="sort-wrap no-select">
         <div class="sort-direction" @click="setUserSortDirection()">
           <i v-if="userSortDirection == 'asc'">&#8593;</i>

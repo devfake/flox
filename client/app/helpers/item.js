@@ -15,6 +15,14 @@ export default {
         });
       }
     },
+    
+    genreAsString(genre) {
+      if(typeof genre == 'object') {
+        return genre.map(item => item.name).join(', ');
+      }
+      
+      return genre
+    },
 
     displaySeason(item) {
       return item.media_type == 'tv' && item.rating != null && item.tmdb_id && ! item.watchlist;

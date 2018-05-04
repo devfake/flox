@@ -1,0 +1,29 @@
+@import '../../node_modules/element-ui/lib/theme-chalk/checkbox.css';
+
+.element-ui-checkbox {
+  .el-checkbox__inner {
+    background: transparent;
+    border-radius: 0 !important;
+    transition: none;
+    border: 1px solid darken(#626262, 10%) !important;
+
+    &:after {
+      transition: none;
+    }
+  }
+
+  .el-checkbox__label {
+    color: #888 !important;
+    padding-left: 7px;
+
+    .dark & {
+      color: #626262 !important;
+    }
+  }
+
+  .el-checkbox__input.is-checked .el-checkbox__inner,
+  .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    border: 1px solid transparent !important;
+    background: $main2;
+  }
+}

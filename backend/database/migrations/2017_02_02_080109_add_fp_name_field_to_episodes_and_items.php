@@ -17,14 +17,5 @@ class AddFPNameFieldToEpisodesAndItems extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropColumn('fp_name');
-        });
-
-        Schema::table('episodes', function (Blueprint $table) {
-            $table->dropColumn('fp_name');
-        });
-    }
+    public function down() {}
 }

@@ -139,6 +139,10 @@ main {
       //border: 1px solid $main2;
     }
   }
+  
+  &:active {
+    box-shadow: 0 0 2px 2px $main1;
+  }
 }
 
 .item-image {
@@ -224,7 +228,8 @@ main {
 
 .item-has-src {
   float: left;
-  margin: 5px 0 0 0;
+  //margin: 5px 0 0 0;
+  margin: 7px 6px 0 0;
   font-style: normal;
   width: 12px;
   height: 9px;
@@ -444,7 +449,7 @@ main {
   right: 0;
   opacity: 0;
   background: $main2;
-  background: linear-gradient(to right, $main1, $main2);
+  background: $gradient;
   padding: 3px 6px;
   cursor: pointer;
   text-transform: uppercase;
@@ -493,7 +498,8 @@ main {
   visibility: visible;
 }
 
-.fade-enter {
+.fade-enter,
+.fade-leave {
   top: -10px;
   opacity: 0;
   visibility: hidden;
@@ -582,7 +588,8 @@ main {
   position: relative;
 }
 
-.current-filter {
+.current-filter,
+.show-watchlist-items {
   float: left;
   padding: 7px 9px;
   color: #888;
@@ -591,6 +598,10 @@ main {
   .dark & {
     color: #626262;
   }
+}
+
+.show-watchlist-items {
+  cursor: pointer;
 }
 
 .arrow-down {
@@ -614,6 +625,8 @@ main {
   //display: none;
   opacity: 0;
   visibility: hidden;
+  max-height: 300px;
+  overflow-y: auto;
 
   @include transition(opacity, top);
 
@@ -624,12 +637,14 @@ main {
     visibility: visible;
   }
 
-  li {
+  li,
+  a {
     float: left;
     padding: 5px 10px;
     color: rgba(#fff, .9);
     font-size: 14px;
     width: 100%;
+    text-decoration: none;
     border-bottom: 1px solid rgba(#fff, .3);
 
     @include transition(background);
@@ -873,7 +888,7 @@ main {
 
 .setting-btn {
   background: $main2;
-  background: linear-gradient(to right, $main1, $main2);
+  background: $gradient;
   color: #fff;
   font-size: 17px;
   border: 0;

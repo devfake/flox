@@ -11,7 +11,7 @@
   width: 100%;
   height: 30px;
   background: $main2;
-  background: linear-gradient(to right, $main1, $main2);
+  background: $gradient;
 }
 
 .logo-login {
@@ -38,7 +38,7 @@
 
   input[type="submit"] {
     background: $main2;
-    background: linear-gradient(to right, $main1, $main2);
+    background: $gradient;
     color: #fff;
     font-size: 17px;
     border: 0;

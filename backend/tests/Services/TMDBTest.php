@@ -53,6 +53,24 @@
       $this->assertTrue($hasTv);
       $this->assertFalse($hasMovie);
     }
+    
+    /** @test */
+    public function it_should_fetch_all_genres()
+    {
+      $this->createGuzzleMock(
+        $this->tmdbFixtures('movie/genres'),
+        $this->tmdbFixtures('tv/genres')
+      );
+
+      $tmdb = app(TMDB::class);
+      $genres = $tmdb->getGenreLists();
+
+      $this->assertArrayHasKey('tv', $genres);
+      $this->assertArrayHasKey('movies', $genres);
+      
+      $this->assertCount(16, $genres['tv']->genres);
+      $this->assertCount(19, $genres['movies']->genres);
+    }
 
     /** @test */
     public function it_should_only_search_for_movies()

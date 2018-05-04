@@ -20,8 +20,5 @@ class CreateEpisodesTable extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::dropIfExists('episodes');
-    }
+    public function down() {}
 }

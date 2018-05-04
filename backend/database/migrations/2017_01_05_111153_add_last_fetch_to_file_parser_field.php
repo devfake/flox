@@ -13,10 +13,5 @@
       });
     }
 
-    public function down()
-    {
-      Schema::table('settings', function (Blueprint $table) {
-        $table->dropColumn('last_fetch_to_file_parser');
-      });
-    }
+    public function down() {}
   }

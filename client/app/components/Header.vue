@@ -27,7 +27,7 @@
 <script>
   import Search from './Search.vue';
   import MiscHelper from '../helpers/misc';
-  import store from '../store/index';
+  import store from '../store';
   
   import { mapActions, mapState } from 'vuex'
 

@@ -19,4 +19,11 @@
       'show_watchlist_everywhere',
       'show_ratings',
     ];
+    
+    protected $casts = [
+      'show_date' => 'boolean',
+      'show_genre' => 'boolean',
+      'episode_spoiler_protection' => 'boolean',
+      'show_watchlist_everywhere' => 'boolean',
+    ];
   }

@@ -13,10 +13,5 @@ class AddSrcFieldForItems extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropColumn('src');
-        });
-    }
+    public function down() {}
 }

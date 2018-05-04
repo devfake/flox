@@ -13,10 +13,5 @@ class ChangeOriginalTitleField extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::table('items', function (Blueprint $table) {
-
-        });
-    }
+    public function down() {}
 }

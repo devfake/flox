@@ -21,8 +21,5 @@ class CreateSettingsTable extends Migration
         ]);
     }
 
-    public function down()
-    {
-        Schema::dropIfExists('settings');
-    }
+    public function down() {}
 }

@@ -25,7 +25,7 @@
     return [
       'poster' => '',
       'rating' => 1,
-      'genre' => '',
+      //'genre' => '',
       'released' => time(),
       'last_seen_at' => Carbon::now(),
       'src' => null,
