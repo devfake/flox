@@ -36,7 +36,7 @@ class UpdateItem implements ShouldQueue
         $itemService->_refresh($this->itemId);
       } catch(\Exception $e) {
         logInfo("Failed:", [$e]);
-        $this->fail();
+        throw $e;
       }
     }
 }

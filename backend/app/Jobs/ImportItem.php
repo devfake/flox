@@ -54,7 +54,7 @@ class ImportItem implements ShouldQueue
         $item = \App\Item::create((array) $item);
       } catch(\Exception $e) {
         logInfo("Failed:", [$e]);
-        $this->fail();
+        throw $e;
       }
     }
 }
