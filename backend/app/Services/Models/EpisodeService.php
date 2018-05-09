@@ -49,8 +49,8 @@
               [
                 'season_tmdb_id' => $season->id,
                 'episode_tmdb_id' => $episode->id,
-                'release_episode' => $releaseEpisode->getTimestamp(),
-                'release_season' => $releaseSeason->getTimestamp(),
+                'release_episode' => $releaseEpisode->getTimestamp() >= 0 ? $releaseEpisode->getTimestamp() : 0,
+                'release_season' => $releaseSeason->getTimestamp() >= 0 ? $releaseSeason->getTimestamp() : 0,
                 'name' => $episode->name,
               ]
             );
