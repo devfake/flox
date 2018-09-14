@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Item;
 use App\Services\Models\ItemService;
 use App\Services\Storage;
 use Illuminate\Bus\Queueable;
@@ -20,21 +21,25 @@ class ImportItem implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $item
      */
     public function __construct($item)
     {
       $this->item = json_decode($item);
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
+  /**
+   * Execute the job.
+   *
+   * @param ItemService $itemService
+   * @param Storage $storage
+   * 
+   * @return void
+   * 
+   * @throws \Exception
+   */
     public function handle(ItemService $itemService, Storage $storage)
     {
-
       try {
         logInfo("Importing", [$this->item->title]);
 
@@ -51,7 +56,7 @@ class ImportItem implements ShouldQueue
           $storage->downloadImages($item['poster'], $item['backdrop']);
         }
 
-        $item = \App\Item::create((array) $item);
+        Item::create((array) $item);
       } catch(\Exception $e) {
         logInfo("Failed:", [$e]);
         throw $e;
