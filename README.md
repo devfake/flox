@@ -72,6 +72,8 @@ php artisan queue:work --daemon --tries=3
 ./bin/stop_queue  # stop all workers
 ```
 
+Check the [documentation](https://laravel.com/docs/5.5/queues) for more informations.
+
 ### Cron Job
 
 To utilize the queues to update automatically you have to set up a cron task once manually on your server.
@@ -101,6 +103,8 @@ Also you can make a backup of all your movies and shows in the settings page. If
 
 If you import an backup, all movies and shows in your database will be deleted and replaced. Be sure to make an current backup before you import.
 The import will download all poster images.
+
+Make sure that the queue worker is active! Otherwise flox will tell you the import is running, but nothing happens!
 
 ### Translation
 
