@@ -35,10 +35,12 @@
         $seasons = $this->tmdb->tvEpisodes($item->tmdb_id);
 
         foreach($seasons as $season) {
-          $releaseSeason = Carbon::createFromFormat('Y-m-d', $season->air_date ?? '1970-12-1');
+          $seasonAirDate = isset($season->air_date) ? ($season->air_date ?: Item::FALLBACK_DATE) : Item::FALLBACK_DATE; 
+          $releaseSeason = Carbon::createFromFormat('Y-m-d', $seasonAirDate);
 
           foreach($season->episodes as $episode) {
-            $releaseEpisode = Carbon::createFromFormat('Y-m-d', $episode->air_date ?? '1970-12-1');
+            $episodeAirDate = isset($episode->air_date) ? ($episode->air_date ?: Item::FALLBACK_DATE) : Item::FALLBACK_DATE;
+            $releaseEpisode = Carbon::createFromFormat('Y-m-d', $episodeAirDate);
 
             $this->model->updateOrCreate(
               [
@@ -49,8 +51,8 @@
               [
                 'season_tmdb_id' => $season->id,
                 'episode_tmdb_id' => $episode->id,
-                'release_episode' => $releaseEpisode->getTimestamp(),
-                'release_season' => $releaseSeason->getTimestamp(),
+                'release_episode' => $releaseEpisode->getTimestamp() >= 0 ? $releaseEpisode->getTimestamp() : 0,
+                'release_season' => $releaseSeason->getTimestamp() >= 0 ? $releaseSeason->getTimestamp() : 0,
                 'name' => $episode->name,
               ]
             );

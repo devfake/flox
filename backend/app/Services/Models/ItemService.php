@@ -6,6 +6,7 @@
   use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
+  use App\Jobs\UpdateItem;
   use GuzzleHttp\Client;
   use App\Setting;
   use Illuminate\Support\Facades\DB;
@@ -102,46 +103,33 @@
     }
 
     /**
-     * Calls the refreshAll method with a seperate request to avoid blocking flox for the user.
-     *
-     * @param Client $client
-     * @return int
-     */
-    public function refreshKickstartAll(Client $client)
-    {
-      $response = $client->patch(url('/api/refresh-all'));
-
-      return $response->getStatusCode();
-    }
-
-    /**
      * Refresh informations for all items.
      */
     public function refreshAll()
     {
+      logInfo("Refresh all items");
       increaseTimeLimit();
       
       $this->genreService->updateGenreLists();
 
-      return $this->model->orderBy('refreshed_at')->get()->each(function($item) {
-        return $this->refresh($item->id, true);
+      $this->model->orderBy('refreshed_at')->get()->each(function($item) {
+        UpdateItem::dispatch($item->id);
       });
     }
-
+    
     /**
      * Refresh informations for an item.
      * Like ratings, new episodes, new poster and backdrop images.
      *
      * @param $itemId
+     * 
      * @return Response|false
      */
     public function refresh($itemId)
     {
-      $item = $this->model->find($itemId);
-
-      if( ! $item) {
-        return response('Not Found', Response::HTTP_NOT_FOUND);
-      }
+      logInfo("Start refresh for item [$itemId]");
+      
+      $item = $this->model->findOrFail($itemId);
 
       $details = $this->tmdb->details($item->tmdb_id, $item->media_type);
 
@@ -151,6 +139,8 @@
       if( ! $title) {
         return false;
       }
+      
+      logInfo("Refresh", [$title]);
 
       $this->storage->removeImages($item->poster, $item->backdrop);
 

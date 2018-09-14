@@ -13,6 +13,7 @@
     <div class="misc-btn-wrap">
       <button @click="fetchFiles()" class="setting-btn">{{ lang('call file-parser') }}</button>
       <button v-show=" ! refreshAllClicked" @click="refreshAll()" class="setting-btn">{{ lang('refresh all infos') }}</button>
+      <span v-show="showRefreshAllMessage" class="update-check">{{ lang('refresh all triggered') }}</span>
     </div>
   </div>
 
@@ -36,7 +37,8 @@
       return {
         version: '',
         isUpdate: null,
-        refreshAllClicked: false
+        refreshAllClicked: false,
+        showRefreshAllMessage: false,
       }
     },
 
@@ -86,8 +88,8 @@
       refreshAll() {
         this.refreshAllClicked = true;
 
-        http(`${config.api}/refresh-kickstart-all`).then(() => {
-          this.refreshAllClicked = false;
+        http.patch(`${config.api}/refresh-all`).then(() => {
+          this.showRefreshAllMessage = true;
         }).catch(error => {
           this.refreshAllClicked = false;
           alert(error.response.data);

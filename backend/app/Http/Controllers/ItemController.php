@@ -2,11 +2,13 @@
 
   namespace App\Http\Controllers;
 
+  use App\Jobs\UpdateItem;
   use App\Services\Models\AlternativeTitleService;
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
   use GuzzleHttp\Client;
   use Illuminate\Support\Facades\Input;
+  use Symfony\Component\HttpFoundation\Response;
 
   class ItemController {
 
@@ -60,17 +62,16 @@
 
     public function refresh($itemId)
     {
-      return $this->itemService->refresh($itemId);
-    }
-
-    public function refreshKickstartAll(Client $client)
-    {
-      return $this->itemService->refreshKickstartAll($client);
+      $this->itemService->refresh($itemId);
+      
+      return response([], Response::HTTP_OK);
     }
 
     public function refreshAll()
     {
       $this->itemService->refreshAll();
+
+      return response([], Response::HTTP_OK);
     }
 
     public function updateAlternativeTitles(AlternativeTitleService $alternativeTitle)

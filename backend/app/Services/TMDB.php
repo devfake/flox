@@ -252,7 +252,7 @@
     public function createItem($data, $mediaType)
     {
       $release = Carbon::createFromFormat('Y-m-d',
-        isset($data->release_date) ? ($data->release_date ?: '1970-12-1') : ($data->first_air_date ?: '1970-12-1')
+        isset($data->release_date) ? ($data->release_date ?: Item::FALLBACK_DATE) : ($data->first_air_date ?: Item::FALLBACK_DATE)
       );
 
       $title = $data->name ?? $data->title;

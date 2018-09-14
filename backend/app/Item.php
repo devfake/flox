@@ -6,6 +6,8 @@
 
   class Item extends Model {
 
+    const FALLBACK_DATE = '1970-12-1';
+    
     protected $dates = [
       'last_seen_at', 
       'refreshed_at',
@@ -170,11 +172,14 @@
         $query->where('media_type', $mediaType);
       }
 
+      $title = strtolower($title);
+
+      // Some database queries using case sensitive likes -> compare lower case
       return $query->where(function($query) use ($title) {
-        return $query->where('title', 'like', '%' . $title . '%')
-          ->orWhere('original_title', 'like', '%' . $title . '%')
+        return $query->whereRaw('lower(title) like ?', ["%$title%"])
+          ->orWhereRaw('lower(original_title) like ?', ["%$title%"])
           ->orWhereHas('alternativeTitles', function($query) use ($title) {
-            return $query->where('title', 'like', '%' . $title . '%');
+            return $query->whereRaw('lower(title) like ?', ["%$title%"]);
           });
       });
     }
