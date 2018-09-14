@@ -103,18 +103,6 @@
     }
 
     /**
-     * Calls the refreshAll method with a seperate request to avoid blocking flox for the user.
-     *
-     * @param Client $client
-     * @return int
-     */
-    public function refreshKickstartAll(Client $client)
-    {
-      logInfo("Kickstart refresh all items");
-      $this->refreshAll();
-    }
-
-    /**
      * Refresh informations for all items.
      */
     public function refreshAll()
@@ -124,30 +112,24 @@
       
       $this->genreService->updateGenreLists();
 
-      return $this->model->orderBy('refreshed_at')->get()->each(function($item) {
-        return $this->refresh($item->id, true);
+      $this->model->orderBy('refreshed_at')->get()->each(function($item) {
+        UpdateItem::dispatch($item->id);
       });
     }
-
+    
     /**
      * Refresh informations for an item.
      * Like ratings, new episodes, new poster and backdrop images.
      *
      * @param $itemId
+     * 
      * @return Response|false
      */
     public function refresh($itemId)
     {
-      UpdateItem::dispatch($itemId);
-    }
-
-    public function _refresh($itemId)
-    {
-      $item = $this->model->find($itemId);
-
-      if( ! $item) {
-        return response('Not Found', Response::HTTP_NOT_FOUND);
-      }
+      logInfo("Start refresh for item [$itemId]");
+      
+      $item = $this->model->findOrFail($itemId);
 
       $details = $this->tmdb->details($item->tmdb_id, $item->media_type);
 
@@ -157,6 +139,7 @@
       if( ! $title) {
         return false;
       }
+      
       logInfo("Refresh", [$title]);
 
       $this->storage->removeImages($item->poster, $item->backdrop);

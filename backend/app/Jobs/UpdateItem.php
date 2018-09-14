@@ -25,15 +25,19 @@ class UpdateItem implements ShouldQueue
       $this->itemId = $itemId;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
+  /**
+   * Execute the job.
+   *
+   * @param ItemService $itemService
+   * 
+   * @return void
+   * 
+   * @throws \Exception
+   */
     public function handle(ItemService $itemService)
     {
       try {
-        $itemService->_refresh($this->itemId);
+        $itemService->refresh($this->itemId);
       } catch(\Exception $e) {
         logInfo("Failed:", [$e]);
         throw $e;

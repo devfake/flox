@@ -36,7 +36,6 @@
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');
       Route::patch('/refresh/{itemId}', 'ItemController@refresh');
-      Route::get('/refresh-kickstart-all', 'ItemController@refreshKickstartAll')->middleware('csrf');
       Route::delete('/remove/{itemId}', 'ItemController@remove')->middleware('csrf');
 
       Route::get('/userdata', 'UserController@getUserData');
