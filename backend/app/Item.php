@@ -6,6 +6,8 @@
 
   class Item extends Model {
 
+    const FALLBACK_DATE = '1970-12-1';
+    
     protected $dates = [
       'last_seen_at', 
       'refreshed_at',

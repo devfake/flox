@@ -57,6 +57,8 @@
      * Reset item table and restore backup.
      * Downloads every poster image new.
      *
+     * @param ItemService $itemService
+     * 
      * @return Response
      */
     public function import(ItemService $itemService)
