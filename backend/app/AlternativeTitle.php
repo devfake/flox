@@ -6,13 +6,19 @@
 
   class AlternativeTitle extends Model {
 
+    /**
+     * No timestamps needed.
+     * 
+     * @var bool 
+     */
     public $timestamps = false;
 
-    protected $fillable = [
-      'title',
-      'tmdb_id',
-      'country',
-    ];
+    /**
+     * Don't auto-apply mass assignment protection.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
     /**
      * Store all alternative titles for tv shows and movies.
@@ -32,9 +38,8 @@
     }
 
     /*
-     * Scopes
+     * Scope to find the result via tmdb_id.
      */
-
     public function scopeFindByTmdbId($query, $tmdbId)
     {
       return $query->where('tmdb_id', $tmdbId);
