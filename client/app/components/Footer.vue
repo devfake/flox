@@ -1,5 +1,5 @@
 <template>
-  <footer v-show=" ! loading">
+  <footer v-show=" ! loading && ! hideFooter">
     <div class="wrap">
       <span class="attribution">
         <a href="https://www.themoviedb.org/" target="_blank">
@@ -31,6 +31,7 @@
 
     data() {
       return {
+        hideFooter: false,
         auth: config.auth,
         logout: config.api + '/logout',
         login: config.url + '/login',
@@ -44,14 +45,28 @@
         loading: state => state.loading
       })
     },
+    
+    created() {
+      this.disableFooter();
+    },
 
     methods: {
       ...mapActions([ 'setColorScheme' ]),
 
       toggleColorScheme() {
-        const color = this.colorScheme == 'light' ? 'dark' : 'light';
+        const color = this.colorScheme === 'light' ? 'dark' : 'light';
 
         this.setColorScheme(color);
+      },
+      
+      disableFooter() {
+        this.hideFooter = this.$route.name === 'calendar';
+      }
+    },
+
+    watch: {
+      $route() {
+        this.disableFooter();
       }
     }
   }
