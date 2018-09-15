@@ -14,12 +14,12 @@
   "type": "project",
   "require": {
     "php": "^7.1",
-    "fideloper/proxy": "~3.3",
-    "laravel/framework": "5.5.*",
-    "laravel/tinker": "~1.0",
-    "guzzlehttp/guzzle": "^6.3",
     "doctrine/dbal": "^2.6",
-    "imangazaliev/didom": "^1.11"
+    "fideloper/proxy": "~3.3",
+    "guzzlehttp/guzzle": "^6.3",
+    "imangazaliev/didom": "^1.11",
+    "laravel/framework": "5.5.*",
+    "laravel/tinker": "~1.0"
   },
   "require-dev": {
     "filp/whoops": "~2.0",
