@@ -13,11 +13,8 @@
   }
   
   .cv-week {
-    overflow: hidden !important;
-    
-    &:hover {
-      overflow-y: auto !important;
-    }
+    width: calc(100% + 17px);
+    overflow-y: scroll !important;
   }
   
   .cv-header {
