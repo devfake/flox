@@ -8,7 +8,7 @@
     Route::get('/items/{type}/{orderBy}/{sortDirection}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
     
-    Route::get('/calendar', 'CalendarController@episodes');
+    Route::get('/calendar', 'CalendarController@items');
 
     Route::get('/item/{tmdbId}/{mediaType}', 'SubpageController@item');
     Route::get('/imdb-rating/{imdbId}', 'SubpageController@imdbRating');
