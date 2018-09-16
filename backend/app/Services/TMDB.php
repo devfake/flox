@@ -40,6 +40,10 @@
      */
     public function search($title, $mediaType = null)
     {
+      if( ! $title) {
+        return response([], Response::HTTP_UNPROCESSABLE_ENTITY);
+      }
+      
       $tv = collect();
       $movies = collect();
 
