@@ -25,11 +25,14 @@ class ImportEpisode implements ShouldQueue
       $this->episodes = json_decode($episodes);
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
+  /**
+   * Execute the job.
+   *
+   * @param Episode $episode
+   * @return void
+   * 
+   * @throws \Exception
+   */
     public function handle(Episode $episode)
     {
       foreach($this->episodes as $ep) {

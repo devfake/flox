@@ -56,12 +56,10 @@
     /**
      * Reset item table and restore backup.
      * Downloads every poster image new.
-     *
-     * @param ItemService $itemService
      * 
      * @return Response
      */
-    public function import(ItemService $itemService)
+    public function import()
     {
       increaseTimeLimit();
 
@@ -79,8 +77,6 @@
       $this->importEpisodes($data);
       $this->importAlternativeTitles($data);
       $this->importSettings($data);
-
-      $itemService->refreshAll();
     }
 
     private function importItems($data)

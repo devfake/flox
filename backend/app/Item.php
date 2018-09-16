@@ -41,11 +41,11 @@
     protected $with = ['genre'];
 
     /**
-     * Don't auto-apply mass assignment protection.
+     * Guard accessors from import.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['startDate'];
 
     /**
      * Create the new movie / tv show.

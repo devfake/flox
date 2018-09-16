@@ -18,11 +18,11 @@
     ];
 
     /**
-     * Don't auto-apply mass assignment protection.
+     * Guard accessors from import.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['release_episode_human_format', 'startDate'];
 
     /**
      * Accessor for human formatted release date.
