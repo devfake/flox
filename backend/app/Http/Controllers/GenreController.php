@@ -20,9 +20,4 @@
     {
       return $this->genre->all();
     }
-
-    public function updateGenreLists()
-    {
-      $this->genreService->updateGenreLists();
-    }
   }
