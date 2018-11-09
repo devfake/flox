@@ -2,11 +2,9 @@
 
   namespace App\Http\Controllers;
 
-  use App\Jobs\UpdateItem;
   use App\Services\Models\AlternativeTitleService;
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
-  use GuzzleHttp\Client;
   use Illuminate\Support\Facades\Input;
   use Symfony\Component\HttpFoundation\Response;
 

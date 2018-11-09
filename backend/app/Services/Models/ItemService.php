@@ -3,11 +3,11 @@
   namespace App\Services\Models;
 
   use App\Item as Model;
+  use App\Item;
   use App\Services\IMDB;
   use App\Services\Storage;
   use App\Services\TMDB;
   use App\Jobs\UpdateItem;
-  use GuzzleHttp\Client;
   use App\Setting;
   use Illuminate\Support\Facades\DB;
   use Symfony\Component\HttpFoundation\Response;
@@ -272,6 +272,7 @@
      *
      * @param $type
      * @param $orderBy
+     * @param $sortDirection
      * @return mixed
      */
     public function getWithPagination($type, $orderBy, $sortDirection)
@@ -328,6 +329,34 @@
     public function search($title)
     {
       return $this->model->findByTitle($title)->with('latestEpisode')->withCount('episodesWithSrc')->get();
+    }
+
+    /**
+     * Create a new item from import.
+     * 
+     * @param $item
+     */
+    public function import($item)
+    {
+      logInfo("Importing", [$item->title]);
+
+      // Fallback if export was from an older version of flox (<= 1.2.2).
+      if( ! isset($item->last_seen_at)) {
+        $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
+      }
+      
+      // New versions of flox has no genre field anymore.
+      if(isset($item->genre)) {
+        unset($item->genre);
+      }
+      
+      // For empty items (from file-parser) we don't need access to details.
+      if($item->tmdb_id) {
+        $item = $this->makeDataComplete((array) $item);
+        $this->storage->downloadImages($item['poster'], $item['backdrop']);
+      }
+      
+      Item::create((array) $item);
     }
     
     /**

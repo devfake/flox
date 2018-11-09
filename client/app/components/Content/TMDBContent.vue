@@ -132,11 +132,12 @@
       },
 
       initContent(path) {
+        this.items = [];
         this.setPageTitle(this.lang(path));
 
         http(`${config.api}/${path}`).then(response => {
           this.items = response.data;
-          this.SET_LOADING(false);
+          this.SET_LOADING(false); 
         });
       },
 

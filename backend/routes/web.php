@@ -7,6 +7,8 @@
     Route::get('/episodes/{tmdbId}', 'ItemController@episodes');
     Route::get('/items/{type}/{orderBy}/{sortDirection}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
+    
+    Route::get('/calendar', 'CalendarController@items');
 
     Route::get('/item/{tmdbId}/{mediaType}', 'SubpageController@item');
     Route::get('/imdb-rating/{imdbId}', 'SubpageController@imdbRating');
@@ -30,8 +32,6 @@
       Route::post('/watchlist', 'ItemController@watchlist');
       Route::patch('/update-alternative-titles/{tmdbId?}', 'ItemController@updateAlternativeTitles');
       Route::patch('/update-genre', 'ItemController@updateGenre');
-      // todo: in patch
-      Route::get('/update-genre-lists', 'GenreController@updateGenreLists');
       Route::patch('/toggle-episode/{id}', 'ItemController@toggleEpisode');
       Route::patch('/toggle-season', 'ItemController@toggleSeason');
       Route::patch('/change-rating/{itemId}', 'ItemController@changeRating');

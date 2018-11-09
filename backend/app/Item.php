@@ -2,46 +2,50 @@
 
   namespace App;
 
+  use Carbon\Carbon;
   use Illuminate\Database\Eloquent\Model;
 
   class Item extends Model {
 
+    /**
+     * Fallback date string for a item.
+     */
     const FALLBACK_DATE = '1970-12-1';
     
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
     protected $dates = [
       'last_seen_at', 
       'refreshed_at',
       'created_at',
       'updated_at',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+      'startDate',
+    ];
     
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
     protected $with = ['genre'];
 
-    protected $fillable = [
-      'tmdb_id',
-      'title',
-      'original_title',
-      'poster',
-      'media_type',
-      'rating',
-      //'genre',
-      'released',
-      'fp_name',
-      'src',
-      'subtitles',
-      'last_seen_at',
-      'created_at',
-      'updated_at',
-      'overview',
-      'tmdb_rating',
-      'imdb_id',
-      'imdb_rating',
-      'backdrop',
-      'youtube_key',
-      'slug',
-      'watchlist',
-      'refreshed_at',
-    ];
+    /**
+     * Guard accessors from import.
+     *
+     * @var array
+     */
+    protected $guarded = ['startDate'];
 
     /**
      * Create the new movie / tv show.
@@ -59,7 +63,6 @@
         'poster' => $data['poster'] ? $data['poster'] : '',
         'rating' => 0,
         'released' => $data['released'],
-        //'genre' => $data['genre'],
         'overview' => $data['overview'],
         'backdrop' => $data['backdrop'],
         'tmdb_rating' => $data['tmdb_rating'],
@@ -72,6 +75,8 @@
     }
 
     /**
+     * Create a new empty movie / tv show (for FP).
+     * 
      * @param $data
      * @param $mediaType
      * @return Item
@@ -102,26 +107,44 @@
         'last_seen_at' => now(),
       ]);
     }
-    
-    /*
-     * Relations
+
+    /**
+     * Accessor for formatted release date.
      */
+    public function getStartDateAttribute()
+    {
+      if($this->released) {
+        return Carbon::createFromTimestamp($this->released)->format('Y-m-d');
+      }
+    }
     
+    /**
+     * Belongs to many genres.
+     */
     public function genre()
     {
       return $this->belongsToMany(Genre::class);
     }
 
+    /**
+     * Can have many episodes.
+     */
     public function episodes()
     {
       return $this->hasMany(Episode::class, 'tmdb_id', 'tmdb_id');
     }
 
+    /**
+     * Can have many alternative titles.
+     */
     public function alternativeTitles()
     {
       return $this->hasMany(AlternativeTitle::class, 'tmdb_id', 'tmdb_id');
     }
 
+    /**
+     * The latest unseen episode. 
+     */
     public function latestEpisode()
     {
       return $this->hasOne(Episode::class, 'tmdb_id', 'tmdb_id')
@@ -131,15 +154,17 @@
         ->latest();
     }
 
+    /**
+     * Can have many episodes with a src (from FP).
+     */
     public function episodesWithSrc()
     {
-      return $this->hasOne(Episode::class, 'tmdb_id', 'tmdb_id')->whereNotNull('src');
+      return $this->hasMany(Episode::class, 'tmdb_id', 'tmdb_id')->whereNotNull('src');
     }
 
-    /*
-     * Scopes
+    /**
+     * Scope to find the result by a genre.
      */
-    
     public function scopeFindByGenreId($query, $genreId)
     {
       return $query->orWhereHas('genre', function($query) use ($genreId) {
@@ -147,11 +172,17 @@
       });
     }
 
+    /**
+     * Scope to find the result via tmdb_id.
+     */
     public function scopeFindByTmdbId($query, $tmdbId)
     {
       return $query->where('tmdb_id', $tmdbId);
     }
 
+    /**
+     * Scope to find the result via fp_name.
+     */
     public function scopeFindByFPName($query, $item, $mediaType)
     {
       return $query->where('media_type', $mediaType)
@@ -160,11 +191,17 @@
         });
     }
 
+    /**
+     * Scope to find the result via src.
+     */
     public function scopeFindBySrc($query, $src)
     {
       return $query->where('src', $src);
     }
 
+    /**
+     * Scope to find the result via title.
+     */
     public function scopeFindByTitle($query, $title, $mediaType = null)
     {
       // Only necessarily if we search from file-parser.
@@ -184,6 +221,9 @@
       });
     }
 
+    /**
+     * Scope to find the result via title without a like query.
+     */
     public function scopeFindByTitleStrict($query, $title, $mediaType)
     {
       return $query->where('media_type', $mediaType)

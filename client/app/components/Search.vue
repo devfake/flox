@@ -1,9 +1,8 @@
 <template>
-  <section class="search-wrap">
+  <section class="search-wrap" v-show=" ! hideSearch">
     <div class="wrap">
 
       <form class="search-form" @submit.prevent="search()">
-        <!--<router-link to="/"><i @click="scrollToTop()" class="icon-logo-small"></i></router-link>-->
         <i class="icon-search"></i>
         <input type="text" :placeholder="placeholder" v-model="title" class="search-input" autofocus>
       </form>
@@ -23,6 +22,22 @@
 
   export default {
     mixins: [MiscHelper],
+    
+    data() {
+      return {
+        hideSearch: false
+      }
+    },
+    
+    created() {
+      this.disableSearch();
+    },
+
+    watch: {
+      $route() {
+        this.disableSearch();
+      }
+    },
     
     computed: {
       ...mapState({
@@ -54,6 +69,10 @@
             path: '/search?q=' + this.title
           });
         }
+      },
+
+      disableSearch() {
+        this.hideSearch = this.$route.name === 'calendar';
       }
     }
   }

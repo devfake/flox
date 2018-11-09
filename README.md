@@ -44,6 +44,12 @@ If you hover over an item, you can click on `Suggestions` to search for recommen
 
 `Upcoming` will display new movies which will be released soon. TMDb do not yet support regional queries but this is coming soon.
 
+### Calendar
+
+The `Calendar` will show you a simple calendar for your episodes and movies (items from the watchlist have a small eye icon next to the title). If you click on a item, flox will redirect you to the subpage of this item. The calendar will be expanded in the future.
+
+Movies and tv shows have different colors for better differentiation. You can also use the arrow keys to jump months forward or backward.
+
 ### Update
 
 For each update i will make an extra [release](https://github.com/devfake/flox/releases).
@@ -104,7 +110,7 @@ Also you can make a backup of all your movies and shows in the settings page. If
 If you import an backup, all movies and shows in your database will be deleted and replaced. Be sure to make an current backup before you import.
 The import will download all poster images.
 
-Make sure that the queue worker is active! Otherwise flox will tell you the import is running, but nothing happens!
+After the import, you can refresh the complete data (add missing episodes, update ratings and more) in the settings page.
 
 ### Translation
 
@@ -118,17 +124,16 @@ If there isn't a translation for your language, english will be used.
 
 You can edit your admin account (username and password) in the settings page (link is in footer).
 
-You can also set options to display release date and/or genre of your own list. Both will still display on search, trending and upcoming.
+You can also set options to display release date and/or genre of your own list. Both will still display on search, trending and upcoming. If you want to hide your ratings (or show only on hover) there is also an option for this.
 
 There is an option to enable or disable spoiler protection for episode names.
 
-![spoiler](http://80.240.132.120/flox-demo/public/assets/spoiler.png)
-
 ### Troubleshooting
 
-## Import does not work
+#### Import does not work
 
-Your import file is probably to big. In default php.ini the max upload file is 2MB. Set the number higher and try again.
+- Your import file is probably to big. In default php.ini the max upload file is 2MB. Set the number higher and try again.
+- Make sure that the queue worker is active! Otherwise flox will tell you the import is running, but nothing happens!
 
 ### Development
 

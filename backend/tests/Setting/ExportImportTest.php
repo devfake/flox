@@ -5,10 +5,14 @@
   use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
+  use App\Jobs\ImportEpisode;
+  use App\Jobs\ImportItem;
+  use App\Services\Models\ItemService;
   use App\Services\Storage;
   use App\Setting;
   use Illuminate\Foundation\Testing\RefreshDatabase;
   use Illuminate\Http\UploadedFile;
+  use Illuminate\Support\Facades\Queue;
   use Mockery;
   use Tests\TestCase;
   use Tests\Traits\Factories;
@@ -62,16 +66,56 @@
     }
 
     /** @test */
-    public function it_should_import_a_backup_file()
+    public function it_should_start_the_queues_from_import()
+    {
+      Queue::fake();
+
+      $this->callImport('export.json');
+
+      Queue::assertPushed(ImportItem::class, 4);
+      Queue::assertPushed(ImportEpisode::class);
+
+      $this->assertCount(38, AlternativeTitle::all());
+      $this->assertCount(1, Setting::all());
+    }
+    
+    /** @test */
+    public function it_should_import_from_old_backup_file()
+    {
+      $oldBackupFile = json_decode(file_get_contents(__DIR__ . '/../fixtures/flox/export.json'));
+      
+      $this->import($oldBackupFile);
+    }
+    
+    /** @test */
+    public function it_should_import_from_new_backup_file()
+    {
+      $newBackupFile = json_decode(file_get_contents(__DIR__ . '/../fixtures/flox/export-new-version.json'));
+      
+      $this->import($newBackupFile);
+    }
+    
+    private function import($data)
     {
       $this->createStorageDownloadsMock();
       $this->createRefreshAllMock();
-      $this->callImport('export.json');
+      
+      $itemService = app(ItemService::class);
+
+      if(isset($data->items)) {
+        foreach($data->items as $item) {
+          $itemService->import($item);
+        }
+      }
+
+      if(isset($data->episodes)) {
+        foreach($data->episodes as $episode) {
+          Episode::create((array) $episode);
+        }
+      }
 
       $this->assertCount(4, Item::all());
       $this->assertCount(10, Episode::all());
-      $this->assertCount(38, AlternativeTitle::all());
-      $this->assertCount(1, Setting::all());
     }
 
     /** @test */

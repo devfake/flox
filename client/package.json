@@ -7,11 +7,14 @@
   "dependencies": {
     "axios": "^0.17.0",
     "babel-runtime": "^6.26.0",
+    "dayjs": "^1.7.5",
     "debounce": "^1.1.0",
     "element-ui": "^2.0.10",
+    "v-hotkey": "^0.2.3",
     "vue": "^2.5.2",
     "vue-checkbox-radio": "^0.6.0",
     "vue-router": "^3.0.1",
+    "vue-simple-calendar": "4.1.*",
     "vuex": "^3.0.0"
   },
   "devDependencies": {

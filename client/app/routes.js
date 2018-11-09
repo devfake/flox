@@ -8,6 +8,7 @@ import SearchContent from './components/Content/SearchContent.vue';
 import Settings from './components/Content/Settings/Index.vue';
 import TMDBContent from './components/Content/TMDBContent.vue';
 import Subpage from './components/Content/Subpage.vue';
+import Calendar from './components/Content/Calendar.vue';
 
 Vue.use(Router);
 
@@ -32,6 +33,7 @@ export default new Router({
     { path: '/upcoming', component: TMDBContent, name: 'upcoming' },
     { path: '/now-playing', component: TMDBContent, name: 'now-playing' },
     { path: '/genre/:genre', component: TMDBContent, name: 'genre' },
+    { path: '/calendar', component: Calendar, name: 'calendar' },
 
     { path: '*', redirect: '/' }
   ]

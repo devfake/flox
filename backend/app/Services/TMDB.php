@@ -40,6 +40,10 @@
      */
     public function search($title, $mediaType = null)
     {
+      if( ! $title) {
+        return response([], Response::HTTP_UNPROCESSABLE_ENTITY);
+      }
+      
       $tv = collect();
       $movies = collect();
 
@@ -208,7 +212,7 @@
       $allId = $items->pluck('tmdb_id');
 
       // Get all movies / tv shows that are already in our database.
-      $searchInDB = Item::whereIn('tmdb_id', $allId)->withCount('episodesWithSrc');
+      $searchInDB = Item::whereIn('tmdb_id', $allId)->with('latestEpisode')->withCount('episodesWithSrc');
       
       if($genreId) {
         $searchInDB->findByGenreId($genreId);

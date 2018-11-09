@@ -2,10 +2,12 @@ require('../resources/sass/app.scss');
 
 import Vue from 'vue';
 import { mapState, mapActions, mapMutations } from 'vuex'
+import VueHotkey from 'v-hotkey';
 
 import { Checkbox } from 'element-ui';
 
 Vue.use(Checkbox);
+Vue.use(VueHotkey);
 
 import SiteHeader from './components/Header.vue';
 import SiteFooter from './components/Footer.vue';
