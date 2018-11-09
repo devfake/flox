@@ -8,6 +8,7 @@
   use App\Setting;
   use GuzzleHttp\Client;
   use Illuminate\Support\Facades\Auth;
+  use Illuminate\Support\Facades\Cache;
   use Illuminate\Support\Facades\Input;
 
   class SettingController {
@@ -77,6 +78,8 @@
      */
     public function updateSettings()
     {
+      Cache::flush();
+      
       $this->setting->first()->update([
         'show_genre' => Input::get('genre'),
         'show_date' => Input::get('date'),
