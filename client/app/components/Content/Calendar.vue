@@ -4,7 +4,7 @@
       <div class="wrap-content calendar-wrap" v-if=" ! loading">
         <calendar-view
           :show-date="showDate"
-          :events="events"
+          :events="filteredEvents"
           @click-event="navigateToItem"
           :starting-day-of-week="1"
           class="theme-default">
@@ -27,12 +27,14 @@
 <script>
   import { CalendarView, CalendarViewHeader } from "vue-simple-calendar";
   import http from 'axios';
+  import isBetween from 'dayjs/plugin/isBetween';
   import dayjs from 'dayjs';
   import {mapState, mapMutations, mapActions} from 'vuex';
   import MiscHelper from '../../helpers/misc';
 
   import 'vue-simple-calendar/static/css/default.css';
-  import 'vue-simple-calendar/static/css/holidays-us.css';
+
+  dayjs.extend(isBetween);
   
   export default  {
     mixins: [MiscHelper],
@@ -40,7 +42,8 @@
     data() {
       return {
         showDate: new Date(),
-        events: []
+        events: [],
+        filteredEvents: []
       }
     },
 
@@ -64,14 +67,15 @@
 
       http(`${config.api}/calendar`).then(value => {
         this.events = value.data;
-
         this.SET_LOADING(false);
+        this.removeEventsOutsideOfMonth();
       });
     },
 
     watch: {
       $route() {
         this.checkForDate();
+        this.removeEventsOutsideOfMonth();
       }
     },
     
@@ -79,6 +83,16 @@
       ...mapMutations([ 'SET_LOADING' ]),
       ...mapActions([ 'setPageTitle' ]),
 
+      removeEventsOutsideOfMonth() {
+        const date = dayjs(this.showDate);
+        const firstDay = date.startOf('month');
+        const lastDay = date.endOf('month');
+
+        this.filteredEvents = this.events.filter(event => {
+          return dayjs(event.startDate).isBetween(firstDay, lastDay);
+        });
+      },
+      
       navigateViaKey({keyCode}) {
         const date = dayjs(this.showDate);
         
@@ -103,7 +117,11 @@
       setShowDate(date) {
         date = dayjs(date).format('YYYY-MM-DD');
         
+        this.showDate = date;
+
         this.$router.push({ name: 'calendar', query: {date}});
+
+        this.removeEventsOutsideOfMonth();
       },
 
       navigateToItem(event) {

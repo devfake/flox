@@ -14,7 +14,7 @@
     "vue": "^2.5.2",
     "vue-checkbox-radio": "^0.6.0",
     "vue-router": "^3.0.1",
-    "vue-simple-calendar": "^4.0.2",
+    "vue-simple-calendar": "4.1.*",
     "vuex": "^3.0.0"
   },
   "devDependencies": {
