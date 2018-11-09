@@ -54,7 +54,7 @@
       $mock->shouldReceive('parseRating')->andReturn(json_decode($this->imdbFixtures('rating.txt')));
     }
 
-    public function mock($class)
+    public function mock($class, $mock = null)
     {
       $mock = Mockery::mock(app($class))->makePartial();
 
