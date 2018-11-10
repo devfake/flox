@@ -7,6 +7,7 @@
         <span :class="{active: activeTab == 'user'}" @click="changeActiveTab('user')">{{ lang('tab user') }}</span>
         <span :class="{active: activeTab == 'options'}" @click="changeActiveTab('options')">{{ lang('tab options') }}</span>
         <span :class="{active: activeTab == 'backup'}" @click="changeActiveTab('backup')">{{ lang('tab backup') }}</span>
+        <span :class="{active: activeTab == 'refresh'}" @click="changeActiveTab('refresh')">{{ lang('refresh') }}</span>
       </div>
 
       <span class="loader fullsize-loader" v-if="loading"><i></i></span>
@@ -15,6 +16,7 @@
       <options v-if="activeTab == 'options'"></options>
       <backup v-if="activeTab == 'backup'"></backup>
       <misc v-if="activeTab == 'misc'"></misc>
+      <refresh v-if="activeTab == 'refresh'"></refresh>
 
     </div>
   </main>
@@ -25,6 +27,7 @@
   import Options from './Options.vue';
   import Backup from './Backup.vue';
   import Misc from './Misc.vue';
+  import Refresh from './Refresh.vue';
 
   import { mapState, mapActions } from 'vuex';
   import MiscHelper from '../../../helpers/misc';
@@ -37,7 +40,7 @@
     },
 
     components: {
-      User, Options, Backup, Misc
+      User, Options, Backup, Misc, Refresh
     },
 
     data() {

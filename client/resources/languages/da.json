@@ -37,6 +37,8 @@
   "tab backup": "Backup",
   "tab misc": "Diverse",
 
+  "refresh": "Refresh",
+  "refresh automatically": "Refresh items automatically",
   "save button": "Gem",
   "password message": "Efterlad dette adgangkodefelt blankt hvis du ikke vil ændre det",
   "success message": "Succesfuldt ændret",

@@ -24,8 +24,6 @@
     /** @test */
     public function user_can_change_settings()
     {
-      $this->getJson('api/settings');
-
       $oldSettings = Setting::first();
 
       $this->actingAs($this->user)->patchJson('api/settings', [
@@ -48,5 +46,20 @@
       $this->assertEquals(0, $newSettings->episode_spoiler_protection);
       $this->assertEquals(1, $newSettings->show_watchlist_everywhere);
       $this->assertEquals('hover', $newSettings->show_ratings);
+    }
+    
+    /** @test */
+    public function user_can_change_refresh()
+    {
+      $oldSettings = Setting::first();
+
+      $this->actingAs($this->user)->patchJson('api/settings/refresh', [
+        'refresh' => 1,
+      ]);
+
+      $newSettings = Setting::first();
+
+      $this->assertEquals(0, $oldSettings->refresh_automatically);
+      $this->assertEquals(1, $newSettings->refresh_automatically);
     }
   }

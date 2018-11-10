@@ -37,6 +37,8 @@
   "tab backup": "Backup",
   "tab misc": "Misc",
 
+  "refresh": "Refresh",
+  "refresh automatically": "Refresh items automatically",
   "save button": "Save",
   "password message": "Leave the password field blank if you don't want to change it",
   "success message": "Successful changed",

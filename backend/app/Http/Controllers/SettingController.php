@@ -60,6 +60,7 @@
         'version' => $this->version,
         'watchlist' => $settings->show_watchlist_everywhere,
         'ratings' => $settings->show_ratings,
+        'refresh' => $settings->refresh_automatically,
       ];
     }
 
@@ -86,6 +87,16 @@
         'episode_spoiler_protection' => Input::get('spoiler'),
         'show_watchlist_everywhere' => Input::get('watchlist'),
         'show_ratings' => Input::get('ratings'),
+      ]);
+    }
+
+    /**
+     * Update refresh check.
+     */
+    public function updateRefresh()
+    {
+      $this->setting->first()->update([
+        'refresh_automatically' => Input::get('refresh'),
       ]);
     }
   }

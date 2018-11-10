@@ -10,11 +10,9 @@
       <span class="update-check">{{ lang('feedback') }} <a href="https://github.com/devfake/flox/issues" target="_blank">GitHub</a></span>
     </div>
 
-    <div class="misc-btn-wrap">
-      <button @click="fetchFiles()" class="setting-btn">{{ lang('call file-parser') }}</button>
-      <button v-show=" ! refreshAllClicked" @click="refreshAll()" class="setting-btn">{{ lang('refresh all infos') }}</button>
-      <span v-show="showRefreshAllMessage" class="update-check">{{ lang('refresh all triggered') }}</span>
-    </div>
+    <!--<div class="misc-btn-wrap">-->
+      <!--<button @click="fetchFiles()" class="setting-btn">{{ lang('call file-parser') }}</button>-->
+    <!--</div>-->
   </div>
 
 </template>
@@ -37,8 +35,6 @@
       return {
         version: '',
         isUpdate: null,
-        refreshAllClicked: false,
-        showRefreshAllMessage: false,
       }
     },
 
@@ -82,17 +78,6 @@
         http(`${config.api}/version`).then(response => {
           this.SET_LOADING(false);
           this.version = response.data.version;
-        });
-      },
-
-      refreshAll() {
-        this.refreshAllClicked = true;
-
-        http.patch(`${config.api}/refresh-all`).then(() => {
-          this.showRefreshAllMessage = true;
-        }).catch(error => {
-          this.refreshAllClicked = false;
-          alert(error.response.data);
         });
       }
     }

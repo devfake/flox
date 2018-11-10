@@ -37,6 +37,8 @@
   "tab backup": "Backup",
   "tab misc": "Διάφορα",
 
+  "refresh": "Refresh",
+  "refresh automatically": "Refresh items automatically",
   "save button": "Αποθήκευση",
   "password message": "Άφησε το πεδίο του κωδικού κενό αν δεν θέλεις να το αλλάξεις",
   "success message": "Επιτυχής αλλαγή",

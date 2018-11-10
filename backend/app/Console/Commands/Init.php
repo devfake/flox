@@ -9,11 +9,6 @@
     protected $signature = 'flox:init {database?} {username?} {password?}';
     protected $description = 'Create .env file, set the app key and fill database credentials';
 
-    public function __construct()
-    {
-      parent::__construct();
-    }
-
     public function handle()
     {
       $this->createENVFile();

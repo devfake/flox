@@ -37,6 +37,8 @@
   "tab backup": "Backup",
   "tab misc": "Sonstiges",
 
+  "refresh": "Aktualisieren",
+  "refresh automatically": "Infos automatisch aktualisieren",
   "save button": "Speichern",
   "password message": "Lasse das Passwort-Feld leer, wenn du es nicht ändern willst",
   "success message": "Erfolgreich gespeichert",
