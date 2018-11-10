@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Refresh;
+use App\Setting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,6 +17,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
       Commands\Init::class,
       Commands\DB::class,
+      Commands\Refresh::class,
     ];
 
     /**
@@ -25,7 +28,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-      $schedule->call("\App\Services\Models\ItemService@refreshAll")->daily();
+      $settings = Setting::first();
+      
+      if ($settings->refresh_automatically) {
+        $schedule->command(Refresh::class)->dailyAt('06:00');
+      }
     }
 
     /**
