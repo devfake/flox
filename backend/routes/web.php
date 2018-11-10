@@ -27,6 +27,8 @@
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::get('/version', 'SettingController@getVersion');
       Route::patch('/settings/refresh', 'SettingController@updateRefresh');
+      Route::patch('/settings/reminders-send-to', 'SettingController@updateRemindersSendTo');
+      Route::patch('/settings/reminder-options', 'SettingController@updateReminderOptions');
       Route::patch('/settings', 'SettingController@updateSettings');
 
       Route::post('/add', 'ItemController@add');

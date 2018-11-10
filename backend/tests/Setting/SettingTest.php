@@ -62,4 +62,37 @@
       $this->assertEquals(0, $oldSettings->refresh_automatically);
       $this->assertEquals(1, $newSettings->refresh_automatically);
     }
+    
+    /** @test */
+    public function user_can_change_reminders_send_to()
+    {
+      $oldSettings = Setting::first();
+
+      $this->actingAs($this->user)->patchJson('api/settings/reminders-send-to', [
+        'reminders_send_to' => 'jon@snow.io',
+      ]);
+
+      $newSettings = Setting::first();
+
+      $this->assertNull($oldSettings->reminders_send_to);
+      $this->assertEquals('jon@snow.io', $newSettings->reminders_send_to);
+    }
+    
+    /** @test */
+    public function user_can_change_reminder_options()
+    {
+      $oldSettings = Setting::first();
+
+      $this->actingAs($this->user)->patchJson('api/settings/reminder-options', [
+        'daily' => 1,
+        'weekly' => 1,
+      ]);
+
+      $newSettings = Setting::first();
+
+      $this->assertEquals(0, $oldSettings->daily_reminder);
+      $this->assertEquals(0, $oldSettings->weekly_reminder);
+      $this->assertEquals(1, $newSettings->daily_reminder);
+      $this->assertEquals(1, $newSettings->weekly_reminder);
+    }
   }

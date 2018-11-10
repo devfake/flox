@@ -37,6 +37,10 @@
   "tab backup": "Backup",
   "tab misc": "Diversen",
 
+  "daily reminder": "Daily",
+  "weekly reminder": "Weekly summary",
+  "reminders send to": "Send reminders to",
+  "reminders": "Reminders",
   "refresh": "Refresh",
   "refresh automatically": "Refresh items automatically",
   "save button": "Sla op",

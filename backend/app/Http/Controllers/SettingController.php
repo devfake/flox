@@ -61,6 +61,9 @@
         'watchlist' => $settings->show_watchlist_everywhere,
         'ratings' => $settings->show_ratings,
         'refresh' => $settings->refresh_automatically,
+        'reminders_send_to' => $settings->reminders_send_to,
+        'daily' => $settings->daily_reminder,
+        'weekly' => $settings->weekly_reminder,
       ];
     }
 
@@ -97,6 +100,27 @@
     {
       $this->setting->first()->update([
         'refresh_automatically' => Input::get('refresh'),
+      ]);
+    }
+    
+    /**
+     * Update reminders mail.
+     */
+    public function updateRemindersSendTo()
+    {
+      $this->setting->first()->update([
+        'reminders_send_to' => Input::get('reminders_send_to'),
+      ]);
+    }
+    
+    /**
+     * Update reminder options.
+     */
+    public function updateReminderOptions()
+    {
+      $this->setting->first()->update([
+        'daily_reminder' => Input::get('daily'),
+        'weekly_reminder' => Input::get('weekly'),
       ]);
     }
   }

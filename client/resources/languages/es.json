@@ -35,6 +35,10 @@
   "headline export import": "Exportar / Importar",
   "headline misc": "Misc",
 
+  "daily reminder": "Daily",
+  "weekly reminder": "Weekly summary",
+  "reminders send to": "Send reminders to",
+  "reminders": "Reminders",
   "refresh": "Refresh",
   "refresh automatically": "Refresh items automatically",
   "save button": "Guardar",

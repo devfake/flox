@@ -28,6 +28,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+      if(app()->runningUnitTests()) {
+        return null;
+      }
+      
       $settings = Setting::first();
       
       if ($settings->refresh_automatically) {

@@ -37,6 +37,10 @@
   "tab backup": "Backup",
   "tab misc": "Sonstiges",
 
+  "daily reminder": "Täglich",
+  "weekly reminder": "Wöchentliche zusammenfassung",
+  "reminders send to": "Sende Erinnerungen an",
+  "reminders": "Erinnerungen",
   "refresh": "Aktualisieren",
   "refresh automatically": "Infos automatisch aktualisieren",
   "save button": "Speichern",
