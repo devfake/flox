@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Daily;
 use App\Console\Commands\Refresh;
 use App\Setting;
 use Illuminate\Console\Scheduling\Schedule;
@@ -17,7 +18,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
       Commands\Init::class,
       Commands\DB::class,
-      Commands\Refresh::class,
+      Refresh::class,
+      Daily::class,
     ];
 
     /**
@@ -36,6 +38,10 @@ class Kernel extends ConsoleKernel
       
       if ($settings->refresh_automatically) {
         $schedule->command(Refresh::class)->dailyAt('06:00');
+      }
+      
+      if ($settings->daily_reminder) {
+        $schedule->command(Daily::class)->dailyAt('07:00');
       }
     }
 
