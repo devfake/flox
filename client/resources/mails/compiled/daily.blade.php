@@ -166,7 +166,7 @@
                           <tr>
                             <td style="width:108px;">
                               <a href="{{ url('/') }}" target="_blank">
-                                <img height="32" src="http://flox.pyxl.cloud/assets/img/logo-login.png" style="border:0;display:block;outline:none;text-decoration:none;height:32px;width:100%;" width="108" />
+                                <img height="32" src="{{ url('/assets/img/logo-login.png') }}" style="border:0;display:block;outline:none;text-decoration:none;height:32px;width:100%;" width="108" />
                               </a>
                             </td>
                           </tr>
@@ -235,7 +235,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"> @if(count($episodes)) <tr>
                     <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                       <div style="font-family:Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#000000;">
-                        <span class="headline">Episoden Heute</span>
+                        <span class="headline">{{ $episodesHeadline }}</span>
                         <br> @foreach($episodes as $episode) <a href="{{ url("/tv/{$episode->tmdb_id}") }}" class="link-title" target="_blank">
                           {{ $episode->item->title }}
                           <br>
@@ -245,7 +245,7 @@
                   </tr> @endif @if(count($movies)) <tr>
                     <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                       <div style="font-family:Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
-                        <span class="headline">Filme Heute</span>
+                        <span class="headline">{{ $moviesHeadline }}</span>
                         <br> @foreach($movies as $movie) <a href="{{ url("/movie/{$movie->tmdb_id}") }}" class="link-title" target="_blank">
                           {{ $movie->title }}
                         </a> @endforeach </div>

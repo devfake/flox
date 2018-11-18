@@ -39,6 +39,8 @@ class DailyReminder extends Mailable
       
         return $this->view('mails.compiled.daily')->with([
           'headline' => $lang['daily reminder'],
+          'episodesHeadline' => $lang['episodes today'],
+          'moviesHeadline' => $lang['movies today'],
           'episodes' => $this->episodes,
           'movies' => $this->movies,
         ]);

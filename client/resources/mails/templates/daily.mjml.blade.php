@@ -54,7 +54,7 @@
       <mj-column>
         <mj-raw>@if(count($episodes))</mj-raw>
         <mj-text font-size="14px" line-height="20px">
-          <span class="headline">Episoden Heute</span>
+          <span class="headline">{{ $episodesHeadline }}</span>
           <br>
           @foreach($episodes as $episode)
             <a href="{{ url("/tv/{$episode->tmdb_id}") }}" class="link-title" target="_blank">
@@ -69,7 +69,7 @@
           @if(count($movies))
         </mj-raw>
         <mj-text>
-          <span class="headline">Filme Heute</span>
+          <span class="headline">{{ $moviesHeadline }}</span>
           <br>
           @foreach($movies as $movie)
             <a href="{{ url("/movie/{$movie->tmdb_id}") }}" class="link-title" target="_blank">
