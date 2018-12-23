@@ -38,7 +38,9 @@ class ImportEpisode implements ShouldQueue
       foreach($this->episodes as $ep) {
         logInfo("Importing episode", [$ep->name]);
         try {
-          $episode->create((array) $ep);
+          $ep = collect($ep)->except('id')->toArray();
+          
+          $episode->create($ep);
         } catch(\Exception $e) {
           logInfo("Failed:", [$e]);
           throw $e;

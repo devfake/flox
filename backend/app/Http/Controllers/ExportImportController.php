@@ -7,10 +7,8 @@
   use App\AlternativeTitle;
   use App\Episode;
   use App\Item;
-  use App\Services\Models\ItemService;
   use App\Services\Storage;
   use App\Setting;
-  use Carbon\Carbon;
   use Illuminate\Support\Facades\DB;
   use Illuminate\Support\Facades\Input;
   use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +18,6 @@
     private $item;
     private $episodes;
     private $storage;
-    private $version;
     private $alternativeTitles;
     private $settings;
 
@@ -31,7 +28,6 @@
       $this->alternativeTitles = $alternativeTitles;
       $this->storage = $storage;
       $this->settings = $settings;
-      $this->version = config('app.version');
     }
 
     /**
@@ -90,30 +86,34 @@
           ImportItem::dispatch(json_encode($item));
         }
       }
+      
       logInfo("Import Movies done.");
     }
 
     private function importEpisodes($data)
     {
       logInfo("Import Tv Shows");
+      
       if(isset($data->episodes)) {
-
         $this->episodes->truncate();
+        
         foreach(array_chunk($data->episodes, 50) as $chunk) {
           ImportEpisode::dispatch(json_encode($chunk));
         }
       }
+      
       logInfo("Import Tv Shows done.");
     }
 
     private function importAlternativeTitles($data)
     {
       if(isset($data->alternative_titles)) {
-        
         $this->alternativeTitles->truncate();
         
         foreach($data->alternative_titles as $title) {
-          $this->alternativeTitles->create((array) $title);
+          $title = collect($title)->except('id')->toArray();
+          
+          $this->alternativeTitles->create($title);
         }
       }
     }
@@ -125,7 +125,9 @@
         $this->settings->truncate();
         
         foreach($data->settings as $setting) {
-          $this->settings->create((array) $setting);
+          $setting = collect($setting)->except('id')->toArray();
+          
+          $this->settings->create($setting);
         }
       }
     }

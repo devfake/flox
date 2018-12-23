@@ -2,9 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Item;
 use App\Services\Models\ItemService;
-use App\Services\Storage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
