@@ -16,10 +16,6 @@ header {
   position: relative;
   z-index: 20;
   opacity: 0;
-  
-  @include media(5) {
-    //padding: 15px 0;
-  }
 
   .active & {
     transition: opacity .7s ease .1s, padding-top .2s ease 0s, padding-bottom .2s ease 0s;
@@ -35,6 +31,10 @@ header {
     background: none;
     padding: 25px 0;
   }
+  
+  .mobile-open & {
+    background: $gradient;
+  }
 
   .open-modal & {
     padding-right: 17px;
@@ -45,6 +45,7 @@ header {
   float: left;
   opacity: .9;
   cursor: pointer;
+  user-select: none;
   
   img {
     @include transition(width, height);
@@ -56,13 +57,13 @@ header {
   }
 
   @include media(5) {
-    width: 80px;
-    height: auto;
-    margin: 7px 0 0 0;
+    //width: 80px;
+    //height: auto;
+    //margin: 7px 0 0 0;
 
     img {
-      width: 100%;
-      height: auto;
+      //width: 100%;
+      //height: auto;
     }
   }
 }
@@ -75,10 +76,20 @@ header {
   padding: 0;
   opacity: .9;
 
-  @include media(4) {
+  @include media(3) {
     clear: left;
     float: left;
     margin: 20px 0 0 0;
+  }
+  
+  @include media(5) {
+    display: none;
+    margin: 0;
+    width: 100%;
+    
+    .mobile-open & {
+      display: block;
+    }
   }
 
   li {
@@ -88,6 +99,15 @@ header {
     &:last-child {
       margin: 0;
     }
+    
+    @include media(5) {
+      width: 33%;
+      margin: 0;
+    }
+    
+    @include media(6) {
+      width: 100%;
+    }
   }
 
   a {
@@ -95,6 +115,7 @@ header {
     text-decoration: none;
     text-transform: uppercase;
     font-size: 16px;
+    float: left;
     border-bottom: 2px solid transparent;
 
     &.router-link-active {
@@ -105,9 +126,19 @@ header {
       opacity: .6;
     }
 
-    @include media(5) {
+    @include media(3) {
       font-size: 14px;
     }
+    
+    @include media(5) {
+      padding: 8px 0;
+    }
+  }
+}
+
+.site-nav-first {
+  @include media(5) {
+    margin: 15px 0 0 0;
   }
 }
 
@@ -115,9 +146,31 @@ header {
   float: right;
   margin: 7px 0 0 0;
 
-  @include media(4) {
+  @include media(3) {
     clear: none;
     float: left;
     margin: 20px 0 0 15px;
+  }
+  
+  @include media(5) {
+    margin: 0;
+  }
+}
+
+.icon-hamburger {
+  background: url(../../../public/assets/img/hamburger.png);
+  width: 31px;
+  height: 23px;
+  float: right;
+  display: none;
+  margin: 6px 0 0 0;
+  cursor: pointer;
+  
+  &:active {
+    opacity: .6;
+  }
+  
+  @include media(5) {
+    display: block;
   }
 }

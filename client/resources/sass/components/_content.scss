@@ -16,8 +16,12 @@ main {
     padding: 200px 17px 0 0;
   }
 
+  @include media(3) {
+    padding: 230px 0 0 0;
+  }
+  
   @include media(5) {
-    padding: 80px 0 0 0;
+    padding: 190px 0 0 0;
   }
 
   .subpage-open & {
