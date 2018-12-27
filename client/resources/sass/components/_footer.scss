@@ -17,10 +17,27 @@ footer {
 .attribution {
   color: #fff;
   float: left;
+  
+  @include media(4) {
+    font-size: 14px;
+  }
+}
+
+.tmdb-logo {
+  @include media(4) {
+    width: 100%;
+    float: left;
+  }
 }
 
 .footer-actions {
   float: right;
+  
+  @include media(3) {
+    float: left;
+    clear: both;
+    margin: 20px 0 0 0;
+  }
 }
 
 .icon-tmdb {
@@ -43,8 +60,8 @@ footer {
 
   @include media(3) {
     float: left;
-    clear: both;
-    margin: 30px 0 0 0;
+    //clear: both;
+    //margin: 30px 0 0 0;
   }
 
   &:active {
