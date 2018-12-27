@@ -489,6 +489,12 @@ main {
   .season-item {
     float: left;
   }
+  
+  .item-done {
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
 
   .episode-item {
     float: right;

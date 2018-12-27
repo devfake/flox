@@ -37,8 +37,9 @@
   "tab options": "Options",
   "tab backup": "Backup",
   "tab misc": "Divers",
-
-  "episodes today": "Episoden today",
+  
+  "finished": "Finished",
+  "episodes today": "Episodes today",
   "movies today": "Movies today",
   "daily reminder": "Daily",
   "weekly reminder": "Weekly summary",

@@ -64,16 +64,12 @@ export default {
       if(this.latestEpisode) {
         return this.addZero(this.latestEpisode.season_number);
       }
-
-      return '01';
     },
 
     episode() {
       if(this.latestEpisode) {
         return this.addZero(this.latestEpisode.episode_number);
       }
-
-      return '01';
     }
   }
 }

@@ -16,8 +16,9 @@
         </router-link>
 
         <span class="show-episode" @click="openSeasonModal(localItem)" v-if="displaySeason(localItem)">
-          <span class="season-item"><i>S</i>{{ season }}</span>
-          <span class="episode-item"><i>E</i>{{ episode }}</span>
+          <span class="season-item" v-if="latestEpisode"><i>S</i>{{ season }}</span>
+          <span class="episode-item" v-if="latestEpisode"><i>E</i>{{ episode }}</span>
+          <span class="item-done" v-if="!latestEpisode">{{ lang('finished') }}</span>
         </span>
       </div>
 
