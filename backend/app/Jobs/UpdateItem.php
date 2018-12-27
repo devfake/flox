@@ -11,36 +11,36 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class UpdateItem implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+  use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $itemId;
+  protected $itemId;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct($itemId)
-    {
-      $this->itemId = $itemId;
-    }
+  /**
+   * Create a new job instance.
+   *
+   * @param $itemId
+   */
+  public function __construct($itemId)
+  {
+    $this->itemId = $itemId;
+  }
 
   /**
    * Execute the job.
    *
    * @param ItemService $itemService
-   * 
+   *
    * @return void
-   * 
+   *
    * @throws \Exception
    */
-    public function handle(ItemService $itemService)
-    {
-      try {
-        $itemService->refresh($this->itemId);
-      } catch(\Exception $e) {
-        logInfo("Failed:", [$e]);
-        throw $e;
-      }
+  public function handle(ItemService $itemService)
+  {
+    try {
+      $itemService->refresh($this->itemId);
+    } catch (\Exception $e) {
+      logInfo("Failed:", [$e]);
+      throw $e;
     }
+  }
 }

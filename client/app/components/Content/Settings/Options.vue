@@ -65,7 +65,7 @@
           const data = response.data;
 
           this.SET_LOADING(false);
-          console.log(data)
+          
           this.genre = data.genre;
           this.date = data.date;
           this.spoiler = data.spoiler;

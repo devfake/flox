@@ -356,7 +356,9 @@
         $this->storage->downloadImages($item['poster'], $item['backdrop']);
       }
       
-      Item::create((array) $item);
+      $item = collect($item)->except('id')->toArray();
+      
+      Item::create($item);
     }
     
     /**

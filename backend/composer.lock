@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf5202abb7de87ccf7e8f79f018d72a2",
+    "content-hash": "7c42445afb3d31be041791569951f35f",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1277,6 +1277,47 @@
                 "psr-3"
             ],
             "time": "2018-11-05T09:00:11+00:00"
+        },
+        {
+            "name": "morrislaptop/laravel-queue-clear",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/morrislaptop/laravel-queue-clear.git",
+                "reference": "ea814b360322fcdf2e9397b7a77b1ce4e96423a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/morrislaptop/laravel-queue-clear/zipball/ea814b360322fcdf2e9397b7a77b1ce4e96423a4",
+                "reference": "ea814b360322fcdf2e9397b7a77b1ce4e96423a4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.0.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Morrislaptop\\LaravelQueueClear\\LaravelQueueClearServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Morrislaptop\\LaravelQueueClear\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Craig Morris",
+                    "email": "craig.michael.morris@gmail.com"
+                }
+            ],
+            "description": "Command for wiping your queues clear",
+            "time": "2017-09-04T08:02:44+00:00"
         },
         {
             "name": "nesbot/carbon",

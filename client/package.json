@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "dev": "webpack -w --progress --hide-modules"
+    "dev": "webpack -w --progress --hide-modules",
+    "mail": "./node_modules/.bin/mjml ./resources/mails/templates/*.mjml.blade.php -o ./resources/mails/compiled"
   },
   "dependencies": {
     "axios": "^0.17.0",
@@ -26,6 +27,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "cross-env": "^5.1.1",
+    "mjml": "^4.2.0",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",

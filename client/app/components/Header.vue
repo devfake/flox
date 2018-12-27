@@ -1,12 +1,14 @@
 <template>
-  <div class="header-wrap" :class="{active: displayHeader, sticky: sticky}">
+  <div class="header-wrap" :class="{active: displayHeader, sticky: sticky, 'mobile-open': mobileNavigationOpen}">
     <header>
       <div class="wrap">
         <router-link to="/" @click.native="refresh('home')" class="logo">
           <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
         </router-link>
+        
+        <i @click="toggleMobileNavigation()" class="icon-hamburger"></i>
 
-        <ul class="site-nav">
+        <ul class="site-nav site-nav-first">
           <li>
             <router-link to="/trending" @click.native="refresh('trending')">{{ lang('trending') }}</router-link>
           </li>
@@ -44,7 +46,6 @@
 <script>
   import Search from './Search.vue';
   import MiscHelper from '../helpers/misc';
-  import store from '../store';
 
   import {mapActions, mapState} from 'vuex'
 
@@ -55,7 +56,8 @@
       return {
         sticky: false,
         enableStickyOn: 100,
-        latestRoute: ''
+        latestRoute: '',
+        mobileNavigationOpen: false
       }
     },
 
@@ -83,7 +85,12 @@
         };
       },
 
+      toggleMobileNavigation() {
+        this.mobileNavigationOpen = !this.mobileNavigationOpen;
+      },
+      
       refresh(route) {
+        this.mobileNavigationOpen = false;
         let name = this.$route.name;
         
         // Reload only if the page is the same.

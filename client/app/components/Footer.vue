@@ -2,7 +2,7 @@
   <footer v-show=" ! loading && ! hideFooter">
     <div class="wrap">
       <span class="attribution">
-        <a href="https://www.themoviedb.org/" target="_blank">
+        <a class="tmdb-logo" href="https://www.themoviedb.org/" target="_blank">
           <i class="icon-tmdb"></i>
         </a>
         This product uses the TMDb API but is not endorsed or certified by TMDb

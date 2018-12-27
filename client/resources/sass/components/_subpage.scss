@@ -11,11 +11,11 @@
   }
 
   @include media(4) {
-    height: 450px;
+    height: 590px;
   }
 
   @include media(6) {
-    height: 550px;
+    height: 650px;
   }
 }
 
@@ -108,9 +108,9 @@
   width: 7px;
   height: 8px;
   float: left;
-  margin: 9px 7px 0 0;
+  margin: 0 7px 0 0;
 
-  @include media(4) {
+  @include media(6) {
     display: none;
   }
 }
@@ -120,9 +120,9 @@
   width: 14px;
   height: 11px;
   float: left;
-  margin: 7px 7px 0 0;
+  margin: 0 7px 0 0;
 
-  @include media(4) {
+  @include media(6) {
     display: none;
   }
 }
@@ -132,9 +132,9 @@
   width: 14px;
   height: 11px;
   float: left;
-  margin: 7px 7px 0 0;
+  margin: 0 7px 0 0;
 
-  @include media(4) {
+  @include media(6) {
     display: none;
   }
 }
@@ -143,6 +143,7 @@
   float: left;
   clear: both;
   margin: 0 0 0 272px;
+  display: flex;
 
   span,
   a {
@@ -151,19 +152,26 @@
     font-size: 17px;
     cursor: pointer;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    flex: auto;
 
     @include transition(background);
 
     @include media(4) {
-      padding: 5px 8px;
+      //padding: 5px 8px;
       font-size: 15px;
+      //width: 50%;
+      //text-align: center;
     }
 
     @include media(5) {
-      clear: both;
+      // clear: both;
+      //width: 50%;
     }
 
     @include media(6) {
+      width: auto;
       //width: 50%;
       //overflow: hidden;
       //text-overflow: ellipsis;
@@ -176,8 +184,13 @@
     margin: 0 0 0 200px;
   }
 
-  @include media(5) {
+  @include media(4) {
     margin: 0 0 0 -20px;
+    width: 100%;
+  }
+  
+  @include media(6) {
+    flex-direction: column;
   }
 }
 
@@ -212,7 +225,8 @@
       background: rgba($dark, .5);
       font-size: 14px;
       padding: 3px 7px;
-      margin: 0 5px 0 0;
+      margin: 0 5px 5px 0;
+      float: left;
       
       @include transition(background);
       
@@ -233,18 +247,15 @@
       font-style: normal;
       text-transform: uppercase;
     }
-
-    @include media(4) {
-      //font-size: 14px;
-    }
   }
 
   @include media(3) {
     margin: 0 0 40px 230px;
   }
 
-  @include media(5) {
-    margin: 0 0 20px 0;
+  @include media(4) {
+    clear: both;
+    margin: 30px 0 40px 0;
   }
 }
 
@@ -278,6 +289,10 @@
 .big-teaser-content {
   position: absolute;
   bottom: 0;
+  
+  @include media(4) {
+    width: 100%;
+  }
 }
 
 .subpage-content {
@@ -303,18 +318,14 @@
   z-index: 50;
 
   @include media(3) {
-    margin: -360px 0 0 0;
-  }
-
-  @include media(4) {
-    margin: -450px 0 0 0;
+    margin: -250px 0 0 0;
   }
 
   @include media(5) {
     margin: 0;
   }
 
-  @include media(6) {
+  @include media(4) {
     width: 100%;
     margin: 0 0 30px 0;
   }
@@ -325,7 +336,7 @@
   position: relative;
   display: none;
 
-  @include media(5) {
+  @include media(4) {
     display: block;
   }
 
@@ -381,7 +392,7 @@
     }
   }
 
-  @include media(5) {
+  @include media(4) {
     //max-width: 100px;
     //height: auto;
     display: none;
@@ -462,7 +473,11 @@
   //margin: 0 0 0 30px;
   padding: 0 0 30px 0;
 
-  @include media(6) {
+  @include media(3) {
+    width: calc(100% - 240px);
+  }
+  
+  @include media(4) {
     margin: 0;
     width: 100%;
   }

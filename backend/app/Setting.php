@@ -38,5 +38,8 @@
       'show_genre' => 'boolean',
       'episode_spoiler_protection' => 'boolean',
       'show_watchlist_everywhere' => 'boolean',
+      'refresh_automatically' => 'boolean',
+      'daily_reminder' => 'boolean',
+      'weekly_reminder' => 'boolean',
     ];
   }
