@@ -9,6 +9,7 @@
     'LOADING_ITEMS' => env('LOADING_ITEMS'),
     'CLIENT_URI' => env('CLIENT_URI'),
     'PHP_TIME_LIMIT' => env('PHP_TIME_LIMIT'),
+    'DATE_FORMAT_PATTERN' => env('DATE_FORMAT_PATTERN'),
 
     /*
     |--------------------------------------------------------------------------

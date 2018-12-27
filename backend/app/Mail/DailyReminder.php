@@ -36,13 +36,16 @@ class DailyReminder extends Mailable
     public function build(Storage $storage)
     {
         $lang = collect(json_decode($storage->parseLanguage()));
-      
+        $headline = $lang['daily reminder'];
+        $date = date(config('app.DATE_FORMAT_PATTERN'));
+        
         return $this->view('mails.compiled.daily')->with([
-          'headline' => $lang['daily reminder'],
+          'headline' => $headline,
           'episodesHeadline' => $lang['episodes today'],
           'moviesHeadline' => $lang['movies today'],
           'episodes' => $this->episodes,
           'movies' => $this->movies,
-        ]);
+          'date' => $date,
+        ])->subject("$headline $date");
     }
 }
