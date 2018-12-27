@@ -66,7 +66,7 @@ If you go to the settings page of your installation, flox will automatically che
 
 ### Queue
 
-To import or update any of your entries you need to have at least one worker running.
+To import or refresh any of your entries you need to have at least one worker running.
 
 ```bash
 # spawn a single worker
@@ -111,6 +111,16 @@ If you import an backup, all movies and shows in your database will be deleted a
 The import will download all poster images.
 
 After the import, you can refresh the complete data (add missing episodes, update ratings and more) in the settings page.
+
+### Refresh data
+
+To keep your entries up to date (e.g. ratings, episodes, images) you need to refresh them. In the settings there is the possibility to refresh the data manually or via a cron job (you need the queue worker for this). If you want to refresh only a single entry, there is a button on the subpage of this item.
+
+### Reminders
+
+Flox can send you a daily reminder of episodes or movies coming out today via mail. Or a weekly summary of episodes and movies coming out in the last 7 days. There are options in the settings page for this.
+
+Make sure you tweak the `DATE_FORMAT_PATTERN` config in your `.env` file.
 
 ### Translation
 
