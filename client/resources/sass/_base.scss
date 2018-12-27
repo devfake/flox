@@ -51,3 +51,9 @@ a {
   background: rgba($main1, .99);
   color: #fff;
 }
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: .3; }
+  100% { opacity: 1; }
+}

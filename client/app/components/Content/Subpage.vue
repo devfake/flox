@@ -1,6 +1,5 @@
 <template>
   <main>
-    <!-- todo: make header position absolute, and float teaser and content correct -->
     <div class="bigsize-header">
       <section class="big-teaser-wrap" :class="{active: itemLoadedSubpage}" v-show=" ! loading">
 

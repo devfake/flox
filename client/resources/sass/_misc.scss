@@ -45,6 +45,16 @@ $gradient: linear-gradient(to right, $main1, $main2);
 }
 
 .loader {
+  background: url(../../../public/assets/img/logo-small.png);
+  width: 32px;
+  height: 25px;
+  
+  @include transition(opacity);
+
+  animation: blink 1s infinite;
+}
+
+.loader-old {
   width: 29px;
   height: 29px;
   display: block;
