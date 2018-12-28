@@ -66,7 +66,7 @@
       $item = $this->model->store($data);
 
       $this->episodeService->create($item);
-      $this->genreService->sync($item, $data['genre_ids']);
+      $this->genreService->sync($item, $data['genre_ids'] ?? []);
       $this->alternativeTitleService->create($item);
 
       $this->storage->downloadImages($item->poster, $item->backdrop);

@@ -15,7 +15,7 @@
       </div>
     </div>
 
-      <div class="wrap-content" v-if=" ! loading">
+    <div class="wrap-content" v-if=" ! loading">
       <Item :item="item" v-for="(item, index) in items"
             :key="index"
             :genre="displayGenre"
