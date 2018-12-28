@@ -25,8 +25,12 @@
           <li>
             <router-link to="/calendar" @click.native="refresh('calendar')">{{ lang('calendar') }}</router-link>
           </li>
+          <!--<li>-->
+            <!--<router-link to="/watchlist" @click.native="refresh('watchlist')" exact>{{ lang('watchlist') }}-->
+            <!--</router-link>-->
+          <!--</li>-->
           <li>
-            <router-link to="/watchlist" @click.native="refresh('watchlist')" exact>{{ lang('watchlist') }}
+            <router-link to="/lists" @click.native="refresh('lists')" exact>{{ lang('lists') }}
             </router-link>
           </li>
           <li>
