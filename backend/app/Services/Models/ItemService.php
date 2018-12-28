@@ -156,6 +156,7 @@
         'poster' => $details->poster_path,
         'slug' => getSlug($title),
         'title' => $title,
+        'homepage' => $details->homepage ?? null,
         'original_title' => $details->original_name ?? $details->original_title,
       ]);
 

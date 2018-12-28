@@ -2,7 +2,9 @@
   <div class="modal-wrap">
 
     <div class="modal-header">
-      <span>New List</span>
+      <span>
+        {{ modalData.list ? 'Edit List' : 'New List' }}
+      </span>
       <span class="close-modal" @click="CLOSE_MODAL()">
         <i class="icon-close"></i>
       </span>
@@ -28,7 +30,7 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex';
+  import {mapState, mapMutations, mapActions} from 'vuex';
   import http from 'axios';
 
   import MiscHelper from '../../helpers/misc';
@@ -45,10 +47,10 @@
         is_public: true
       }
     },
-    
+
     created() {
       const {list} = this.modalData;
-      
+
       if (list) {
         this.name = list.name;
         this.is_public = list.is_public;
@@ -64,19 +66,28 @@
     },
 
     methods: {
-      ...mapMutations([ 'SET_SEASON_ACTIVE_MODAL', 'CLOSE_MODAL', 'SET_LOADING_MODAL_DATA', 'SET_MODAL_DATA' ]),
+      ...mapMutations(['SET_SEASON_ACTIVE_MODAL', 'CLOSE_MODAL', 'SET_LOADING_MODAL_DATA', 'SET_MODAL_DATA']),
+      ...mapActions(['loadLists']),
 
       saveList() {
         if (this.name) {
           const name = this.name;
           const is_public = this.is_public;
           const list = this.modalData.list;
-          
+
           if (!list) {
             http.post(`${config.api}/list`, {name, is_public})
+              .then(() => {
+                this.CLOSE_MODAL();
+                this.loadLists();
+              })
           } else {
             http.put(`${config.api}/list/${list.id}`, {name, is_public})
-          } 
+              .then(() => {
+                this.CLOSE_MODAL();
+                this.loadLists();
+              })
+          }
         }
       }
     }

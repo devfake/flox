@@ -60,7 +60,7 @@
         'title' => $data['title'],
         'media_type' => $data['media_type'],
         'original_title' => $data['original_title'],
-        'poster' => $data['poster'] ? $data['poster'] : '',
+        'poster' => $data['poster'] ?? '',
         'rating' => 0,
         'released' => $data['released'],
         'overview' => $data['overview'],
@@ -71,6 +71,7 @@
         'youtube_key' => $data['youtube_key'],
         'last_seen_at' => now(),
         'slug' => $data['slug'],
+        'homepage' => $data['homepage'] ?? null,
       ]);
     }
 

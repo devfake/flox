@@ -103,16 +103,46 @@
   }
 }
 
+.button-netflix {
+  background: #e50914;
+  color: rgba(255,255,255,.9);
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#e50914, 10%);
+  }
+
+  &:active {
+    background: #e50914;
+  }
+}
+
+.button-amazon {
+  background: #ff9900;
+  color: $dark;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#ff9900, 10%);
+  }
+
+  &:active {
+    background: #ff9900;
+  }
+}
+
 .icon-trailer {
   background: url(../../../public/assets/img/trailer.png);
   width: 7px;
   height: 8px;
   float: left;
   margin: 0 7px 0 0;
-
-  @include media(6) {
-    display: none;
-  }
 }
 
 .icon-watchlist {
