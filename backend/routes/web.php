@@ -26,6 +26,9 @@
     Route::get('/settings', 'SettingController@settings');
 
     Route::middleware('auth')->group(function() {
+      Route::put('list/{list}', 'ListsController@update');
+      Route::post('list', 'ListsController@store');
+      
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::get('/version', 'SettingController@getVersion');
       Route::patch('/settings/refresh', 'SettingController@updateRefresh');

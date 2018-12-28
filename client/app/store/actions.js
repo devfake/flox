@@ -18,6 +18,21 @@ export function loadItems({state, commit}, response) {
   });
 }
 
+export function loadLists({state, commit}) {
+  commit('SET_LOADING', true);
+  http(`${config.api}/lists`).then(value => {
+    commit('SET_LISTS', value.data);
+
+    setTimeout(() => {
+      commit('SET_LOADING', false);
+    }, 500);
+  }, error => {
+    if(error.status === 404) {
+      window.location.href = config.url;
+    }
+  });
+}
+
 export function loadMoreItems({commit}, next_page_url) {
   commit('SET_CLICKED_LOADING', true);
   http(next_page_url).then(value => {

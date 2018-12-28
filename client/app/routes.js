@@ -9,6 +9,7 @@ import Settings from './components/Content/Settings/Index.vue';
 import TMDBContent from './components/Content/TMDBContent.vue';
 import Subpage from './components/Content/Subpage.vue';
 import Calendar from './components/Content/Calendar.vue';
+import Lists from './components/Content/Lists.vue';
 
 Vue.use(Router);
 
@@ -18,9 +19,9 @@ export default new Router({
   routes: [
     { path: '/', component: Content, name: 'home' },
 
-    // todo: use props for media type
     { path: '/movies', component: Content, name: 'movie' },
     { path: '/tv', component: Content, name: 'tv' },
+    { path: '/lists', component: Lists, name: 'lists' },
     { path: '/watchlist/:type?', component: Content, name: 'watchlist' },
     
     { path: '/movies/:tmdbId/:slug?', component: Subpage, name: 'subpage-movie', props: {mediaType: 'movie'} },

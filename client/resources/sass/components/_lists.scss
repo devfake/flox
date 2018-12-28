@@ -9,6 +9,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 20px;
+  text-decoration: none;
 
   lost-column: 1/3;
 
@@ -16,11 +17,41 @@
   @include media(3) { lost-column: 1; }
 
   &:hover {
+    .edit-list {
+      opacity: .5;
+    }
     //box-shadow: 0 0 2px 2px $main2;
   }
   
   &:active {
     //box-shadow: 0 0 2px 2px $main1;
+  }
+}
+
+.icon-edit {
+  background: url(../../../public/assets/img/edit.png);
+  width: 19px;
+  height: 19px;
+  float: left;
+  margin: 0 7px 0 0;
+}
+
+.edit-list {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  opacity: 0;
+  z-index: 10;
+  
+  @include transition(opacity);
+  
+  &:hover {
+    opacity: 1 !important;
+  }
+  
+  &:active {
+    opacity: .5 !important;
   }
 }
 

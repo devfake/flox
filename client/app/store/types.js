@@ -2,6 +2,7 @@ export const SET_SEARCH_TITLE = 'SET_SEARCH_TITLE';
 export const SET_USER_FILTER = 'SET_USER_FILTER';
 export const SET_USER_SORT_DIRECTION = 'SET_USER_SORT_DIRECTION';
 export const SET_ITEMS = 'SET_ITEMS';
+export const SET_LISTS = 'SET_LISTS';
 export const PUSH_TO_ITEMS = 'PUSH_TO_ITEMS';
 export const SET_LOADING = 'SET_LOADING';
 export const SET_PAGINATOR = 'SET_PAGINATOR';

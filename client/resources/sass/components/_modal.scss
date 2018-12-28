@@ -138,6 +138,16 @@
   @include media(4) {
     max-height: calc(100vh - 150px);
   }
+  
+  &.list-modal-content {
+    padding: 20px;
+  }
+}
+
+.list-modal-content {
+  .login-form {
+    max-width: 100%;
+  }
 }
 
 .item-header {
