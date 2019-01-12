@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cat ./bin/.worker.pid | xargs -I pid bash -c 'echo "Stopping worker #pid"&& kill "pid"'
-rm ./bin/.worker.pid

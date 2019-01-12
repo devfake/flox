@@ -72,10 +72,13 @@ To import or refresh any of your entries you need to have at least one worker ru
 # spawn a single worker
 php artisan queue:work --daemon --tries=3
 
-# or
+# Alternatively install it as a systemctl service:
 
-./bin/start_queue 4  # number determines the amount of workers, defaults to 1
-./bin/stop_queue  # stop all workers
+# The script uses the current directory as Flox root path. To override
+# use the first argument and set a new absolute Flox (root) path.
+# A second argument takes the php path (defaults to /usr/bin)
+bash ./bin/install_worker_service.sh
+# bash ./bin/install_worker_service.sh $HOME/flox /custom/path/to/php/
 ```
 
 Check the [documentation](https://laravel.com/docs/5.5/queues) for more informations.
@@ -126,7 +129,7 @@ Make sure you tweak the `DATE_FORMAT_PATTERN` config in your `.env` file.
 
 All titles are in english by default. You can change your language by setting `TRANSLATION` in `backend/.env`. The most commons are `DE`, `IT`, `FR`, `ES` and `RU`. You can try to use your language code.
 
-This will also affect the language of you website. See in `client/resources/languages` if your language is supported. Pull requests are welcome :) 
+This will also affect the language of you website. See in `client/resources/languages` if your language is supported. Pull requests are welcome :)
 
 If there isn't a translation for your language, english will be used.
 
