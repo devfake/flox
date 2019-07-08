@@ -19,6 +19,7 @@ The rating based on an 3-Point system for `good`, `medium` and `bad`.
 ### Install
 
 ```bash
+apt install git zip composer php php-mbstring php-dom 
 git clone https://github.com/devfake/flox
 cd flox/backend
 composer install
