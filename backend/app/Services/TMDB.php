@@ -432,8 +432,12 @@
       if($response->getStatusCode() == 429) {
         return false;
       }
+      
+      $rateLimit = $response->getHeader('X-RateLimit-Remaining');
 
-      return ((int) $response->getHeader('X-RateLimit-Remaining')[0]) > 1;
+      // Change it on production, good idea...
+      // https://www.themoviedb.org/talk/5df7d28326dac100145530f2
+      return $rateLimit ? (int) $rateLimit[0] > 1 : true;
     }
 
     /**
