@@ -10,6 +10,8 @@
     'CLIENT_URI' => env('CLIENT_URI'),
     'PHP_TIME_LIMIT' => env('PHP_TIME_LIMIT'),
     'DATE_FORMAT_PATTERN' => env('DATE_FORMAT_PATTERN'),
+    'DAILY_REMINDER_TIME' => env('DAILY_REMINDER_TIME'),
+    'WEEKLY_REMINDER_TIME' => env('WEEKLY_REMINDER_TIME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -115,7 +117,7 @@
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
-    
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -169,7 +171,7 @@
       // App\Providers\BroadcastServiceProvider::class,
       App\Providers\EventServiceProvider::class,
       App\Providers\RouteServiceProvider::class,
-      
+
     ],
 
     /*

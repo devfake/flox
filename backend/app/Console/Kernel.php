@@ -45,12 +45,12 @@ class Kernel extends ConsoleKernel
         }
 
         if ($settings->daily_reminder) {
-          $schedule->command(Daily::class)->dailyAt('07:00');
+          $schedule->command(Daily::class)->dailyAt(config('app.DAILY_REMINDER_TIME'));
         }
 
         if ($settings->weekly_reminder) {
-          $schedule->command(Weekly::class)->saturdays()->at('18:00');
-        } 
+          $schedule->command(Weekly::class)->sundays()->at(config('app.WEEKLY_REMINDER_TIME'));
+        }
       }
     }
 
