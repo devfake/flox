@@ -18,6 +18,7 @@ export default new Vuex.Store({
     ],
     showFilters: false,
     items: [],
+    total: null,
     lists: [],
     searchTitle: '',
     userFilter: '',

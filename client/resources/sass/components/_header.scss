@@ -1,5 +1,7 @@
 .header-wrap {
-  position: fixed;
+  //position: fixed;
+  position: sticky;
+  top: 0;
   z-index: 200;
   width: 100%;
 
@@ -21,7 +23,7 @@ header {
     transition: opacity .7s ease .1s, padding-top .2s ease 0s, padding-bottom .2s ease 0s;
     opacity: 1;
   }
-  
+
   .sticky & {
     padding: 10px 0;
     opacity: .97;
@@ -31,7 +33,7 @@ header {
     background: none;
     padding: 25px 0;
   }
-  
+
   .mobile-open & {
     background: $gradient;
   }
@@ -46,7 +48,7 @@ header {
   opacity: .9;
   cursor: pointer;
   user-select: none;
-  
+
   img {
     @include transition(width, height);
 
@@ -81,12 +83,12 @@ header {
     float: left;
     margin: 20px 0 0 0;
   }
-  
+
   @include media(5) {
     display: none;
     margin: 0;
     width: 100%;
-    
+
     .mobile-open & {
       display: block;
     }
@@ -99,12 +101,12 @@ header {
     &:last-child {
       margin: 0;
     }
-    
+
     @include media(5) {
       width: 33%;
       margin: 0;
     }
-    
+
     @include media(6) {
       width: 100%;
     }
@@ -129,7 +131,7 @@ header {
     @include media(3) {
       font-size: 14px;
     }
-    
+
     @include media(5) {
       padding: 8px 0;
     }
@@ -151,7 +153,7 @@ header {
     float: left;
     margin: 20px 0 0 15px;
   }
-  
+
   @include media(5) {
     margin: 0;
   }
@@ -165,11 +167,11 @@ header {
   display: none;
   margin: 6px 0 0 0;
   cursor: pointer;
-  
+
   &:active {
     opacity: .6;
   }
-  
+
   @include media(5) {
     display: block;
   }

@@ -1,7 +1,8 @@
 main {
   float: left;
   width: 100%;
-  padding: 200px 0 0 0;
+  padding: 50px 0;
+  //padding: 200px 0 0 0;
   min-height: 100vh;
 
   &.display-suggestions {
@@ -19,7 +20,7 @@ main {
   @include media(3) {
     padding: 230px 0 0 0;
   }
-  
+
   @include media(5) {
     padding: 190px 0 0 0;
   }
@@ -61,17 +62,17 @@ main {
 }
 
 .item-wrap {
-  margin: 0 0 60px 0;
+  //margin: 0 0 60px 0;
   position: relative;
 
-  lost-column: 1/6;
+  //lost-column: 1/6;
 
-  @include media(1) { lost-column: 1/4; }
-  //@include media(3) { lost-column: 1/5; }
-  @include media(3) { lost-column: 1/3; }
-  //@include media(4) { lost-column: 1/4; }
-  @include media(5) { lost-column: 1/2; }
-  @include media(6) { lost-column: 1; }
+  //@include media(1) { lost-column: 1/4; }
+  ////@include media(3) { lost-column: 1/5; }
+  //@include media(3) { lost-column: 1/3; }
+  ////@include media(4) { lost-column: 1/4; }
+  //@include media(5) { lost-column: 1/2; }
+  //@include media(6) { lost-column: 1; }
 }
 
 .show-ratings-never {
@@ -105,7 +106,7 @@ main {
   max-height: 278px;
   max-width: 185px;
   width: 100%;
-  
+
   @include transition(box-shadow);
 
   @include media(3) {
@@ -119,7 +120,7 @@ main {
 
   &:hover {
     box-shadow: 0 0 2px 2px $main2;
-    
+
     .logged & {
       .item-new {
         display: block;
@@ -129,7 +130,7 @@ main {
     .show-episode {
       opacity: .9;
     }
-    
+
     .item-actions {
       opacity: 1;
     }
@@ -139,12 +140,12 @@ main {
     .remove-from-watchlist {
       opacity: .9;
     }
-    
+
     .item-image {
       //border: 1px solid $main2;
     }
   }
-  
+
   &:active {
     box-shadow: 0 0 2px 2px $main1;
   }
@@ -191,7 +192,7 @@ main {
     .dark & {
       color: #626262;
     }
-    
+
     i {
       font-style: normal;
       text-transform: uppercase;
@@ -431,18 +432,23 @@ main {
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 120;
   opacity: 0;
-  
+
+  .subpage-poster-wrap & {
+    opacity: 1;
+  }
+
   @include transition(opacity);
-  
+
   @include media(4) {
     opacity: 1;
   }
-  
+
   span,
   a {
     margin: 0 0 0 5px;
-    
+
     &:first-child {
       margin: 0;
     }
@@ -459,7 +465,7 @@ main {
   height: 25px;
   display: flex;
   align-items: center;
-  
+
   opacity: .8;
 
   @include transition(opacity);
@@ -467,7 +473,7 @@ main {
   &:hover {
     opacity: 1;
   }
-  
+
   &:active {
     opacity: .8;
   }
@@ -481,11 +487,11 @@ main {
   background: $dark;
   padding: 0 8px;
   cursor: pointer;
-  
+
   opacity: .8;
 
   @include transition(opacity);
-  
+
   &:hover {
     opacity: 1;
   }
@@ -530,7 +536,7 @@ main {
   &:active {
     opacity: .8;
   }
-  
+
   i {
     margin: 0;
   }
@@ -591,7 +597,7 @@ main {
   .season-item {
     float: left;
   }
-  
+
   .item-done {
     text-align: center;
     display: block;
@@ -640,13 +646,25 @@ main {
 
 .content-submenu {
   margin-bottom: 30px;
-  margin-top: -30px;
+  //margin-top: -30px;
   position: relative;
   z-index: 150;
+  display: flex;
+  align-items: center;
+}
+
+.content-submenu-headline {
+  color: #888;
+  font-size: 15px;
+  text-transform: uppercase;
+
+  .dark & {
+    color: #626262;
+  }
 }
 
 .sort-wrap {
-  float: right;
+  margin-left: auto;
 
   .icon-sort-time,
   .icon-sort-star {
@@ -903,11 +921,25 @@ main {
   }
 }
 
+.btn-delete-light {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: $lightGray;
+  cursor: pointer;
+  margin: 10px 0 0 0;
+
+  &:hover {
+    color: $rating3;
+  }
+}
+
 .setting-box {
   float: left;
   width: 100%;
   margin: 0 0 10px 0;
-  
+
   &.with-margin {
     margin: 10px 0 30px 0;
   }

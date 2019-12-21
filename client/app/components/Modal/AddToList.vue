@@ -3,24 +3,32 @@
 
     <div class="modal-header">
       <span>
-        {{ modalData.list ? 'Edit List' : 'New List' }}
+        Add To List
       </span>
       <span class="close-modal" @click="CLOSE_MODAL()">
         <i class="icon-close"></i>
       </span>
     </div>
 
-    <div class="modal-content list-modal-content">
-      <form class="login-form settings-box element-ui-checkbox" @submit.prevent="saveList()">
-        <input type="text" name="name" placeholder="Name" v-model="name">
+    <div class="modal-content modal-content-loading" v-if="loadingModalData">
+      <span class="loader fullsize-loader"><i></i></span>
+    </div>
 
-        <div class="setting-box with-margin">
-          <el-checkbox v-model="is_public">Public</el-checkbox>
-        </div>
-
-        <input type="submit" :value="lang('save button')">
-        <input type="button" v-if="modalData.list" class="btn-delete-light" @click="removeList()" :value="lang('delete item')">
-      </form>
+    <div class="item-header no-select" v-if=" ! loadingModalData">
+      <span class="header-seen" v-if="auth">New List</span>
+    </div>
+    
+    <div class="modal-content" v-if="!loadingModalData">
+      <div class="modal-item" key="watchlist">
+        <span class="modal-name">Watchlist</span>
+        <span class="episode-seen" :class="{seen: true}"><i></i></span>
+      </div>
+      
+      <div class="modal-item" v-for="list in lists.lists" :key="list.id">
+        <span class="modal-name">{{ list.name }}</span>
+        <span class="modal-release-episode" v-if="!list.is_public">Privat</span>
+        <span class="episode-seen" :class="{seen: true}"><i></i></span>
+      </div>
     </div>
 
   </div>
@@ -39,44 +47,24 @@
     data() {
       return {
         auth: config.auth,
-        name: '',
-        is_public: true
       }
     },
 
     created() {
-      const {list} = this.modalData;
-
-      if (list) {
-        this.name = list.name;
-        this.is_public = list.is_public;
-      }
+      this.loadListsForItem(this.modalData.tmdb_id);
     },
 
     computed: {
       ...mapState({
         modalData: state => state.modalData,
-        seasonActiveModal: state => state.seasonActiveModal
+        lists: state => state.lists,
+        loadingModalData: state => state.loadingModalData,
       }),
     },
 
     methods: {
       ...mapMutations(['CLOSE_MODAL']),
-      ...mapActions(['loadLists']),
-
-      removeList() {
-        const confirm = window.confirm(this.lang('confirm delete'));
-
-        if (confirm) {
-          const list = this.modalData.list;
-
-          http.delete(`${config.api}/list/${list.id}`)
-            .then(() => {
-              this.CLOSE_MODAL();
-              this.loadLists();
-            })
-        }
-      },
+      ...mapActions(['loadListsForItem']),
 
       saveList() {
         if (this.name) {

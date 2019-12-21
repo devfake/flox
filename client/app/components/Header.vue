@@ -5,7 +5,7 @@
         <router-link to="/" @click.native="refresh('home')" class="logo">
           <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
         </router-link>
-        
+
         <i @click="toggleMobileNavigation()" class="icon-hamburger"></i>
 
         <ul class="site-nav site-nav-first">
@@ -67,7 +67,7 @@
 
     mounted() {
       this.latestRoute = this.$route.name;
-      this.initSticky();
+      // this.initSticky();
     },
 
     computed: {
@@ -92,11 +92,11 @@
       toggleMobileNavigation() {
         this.mobileNavigationOpen = !this.mobileNavigationOpen;
       },
-      
+
       refresh(route) {
         this.mobileNavigationOpen = false;
         let name = this.$route.name;
-        
+
         // Reload only if the page is the same.
         if (this.latestRoute === route) {
           this.loadItems({name});

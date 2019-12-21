@@ -3,9 +3,10 @@ import http from 'axios';
 export function loadItems({state, commit}, response) {
   commit('SET_LOADING', true);
   http(`${config.api}/items/${response.name}/${state.userFilter}/${state.userSortDirection}`).then(value => {
-    const {data, next_page_url} = value.data;
+    const {data, next_page_url, total} = value.data;
 
     commit('SET_ITEMS', data);
+    commit('SET_TOTAL', total);
     commit('SET_PAGINATOR', next_page_url);
 
     setTimeout(() => {
@@ -25,6 +26,21 @@ export function loadLists({state, commit}) {
 
     setTimeout(() => {
       commit('SET_LOADING', false);
+    }, 500);
+  }, error => {
+    if(error.status === 404) {
+      window.location.href = config.url;
+    }
+  });
+}
+
+export function loadListsForItem({state, commit}, tmdbId) {
+  commit('SET_LOADING_MODAL_DATA', true);
+  http(`${config.api}/lists/${tmdbId}`).then(value => {
+    commit('SET_LISTS', value.data);
+
+    setTimeout(() => {
+      commit('SET_LOADING_MODAL_DATA', false);
     }, 500);
   }, error => {
     if(error.status === 404) {

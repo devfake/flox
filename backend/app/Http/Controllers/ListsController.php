@@ -20,6 +20,11 @@
       return $this->listsService->all();
     }
     
+    public function forItem($tmdbId)
+    {
+      return $this->listsService->forItem($tmdbId);
+    }
+    
     public function store()
     {
       return $this->listsService->store(request()->all());
@@ -28,6 +33,13 @@
     public function update(Lists $list)
     {
       $this->listsService->update($list, request()->all());
+      
+      return response([], Response::HTTP_OK);
+    }
+    
+    public function remove(Lists $list)
+    {
+      $this->listsService->remove($list);
       
       return response([], Response::HTTP_OK);
     }

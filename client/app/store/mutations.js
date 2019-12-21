@@ -16,7 +16,11 @@ export default {
   [type.SET_ITEMS](state, items) {
     state.items = items;
   },
-  
+
+  [type.SET_TOTAL](state, total) {
+    state.total = total;
+  },
+
   [type.SET_LISTS](state, lists) {
     state.lists = lists;
   },

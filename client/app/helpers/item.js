@@ -27,6 +27,14 @@ export default {
     displaySeason(item) {
       return item.media_type == 'tv' && item.rating != null && item.tmdb_id && ! item.watchlist;
     },
+    
+    isOnNetflix(homepage) {
+      return homepage && homepage.includes('netflix');
+    },
+    
+    isOnAmazon(homepage) {
+      return homepage && homepage.includes('amazon');
+    },
 
     openSeasonModal(item) {
       const data = {
@@ -38,6 +46,18 @@ export default {
 
       this.OPEN_MODAL({
         type: 'season',
+        data
+      });
+    },
+
+    openListModal(item) {
+      const data = {
+        tmdb_id: item.tmdb_id,
+        title: item.title
+      };
+
+      this.OPEN_MODAL({
+        type: 'add-to-list',
         data
       });
     },

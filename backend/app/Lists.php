@@ -32,11 +32,11 @@
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function items()
     {
-      return $this->hasMany(ListItem::class, 'list_id');
+      return $this->belongsToMany(Item::class, 'list_items', 'list_id');
     }
 
     /**

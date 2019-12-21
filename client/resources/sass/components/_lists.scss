@@ -20,11 +20,10 @@
     .edit-list {
       opacity: .5;
     }
-    //box-shadow: 0 0 2px 2px $main2;
   }
   
   &:active {
-    //box-shadow: 0 0 2px 2px $main1;
+    box-shadow: 0 8px 15px 0 rgba(0, 0, 0, .5);
   }
 }
 
@@ -40,7 +39,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  padding: 10px;
+  padding: 15px 10px;
   opacity: 0;
   z-index: 10;
   
@@ -67,7 +66,7 @@
   opacity: .2;
 
   transition: opacity 1s ease 0s;
-
+  
   .active & {
     opacity: .2;
   }

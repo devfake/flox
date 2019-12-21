@@ -26,20 +26,31 @@ input {
   -webkit-appearance: none !important;
 }
 
+#app {
+  display: grid;
+}
+
 .wrap,
 .wrap-content,
 .content-submenu {
-  lost-center: 1300px 20px;
+  display: grid;
+  //lost-center: 1640px 20px;
+  //max-width: 1640px;
+  max-width: 85%;
+  //padding: 0 20px;
   width: 100%;
+  margin: 0 auto;
 }
 
 .wrap-content,
 .content-submenu {
-  @include media(1) { lost-center: 1120px 20px; }
-  @include media(2) { lost-center: 960px 20px; }
-  @include media(3) { lost-center: 800px 20px; }
-  @include media(4) { lost-center: 620px 20px; }
-  @include media(6) { lost-center: 290px 20px; }
+  grid-gap: 80px 10px;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  //@include media(1) { lost-center: 1120px 20px; }
+  //@include media(2) { lost-center: 960px 20px; }
+  //@include media(3) { lost-center: 800px 20px; }
+  //@include media(4) { lost-center: 620px 20px; }
+  //@include media(6) { lost-center: 290px 20px; }
 }
 
 input,

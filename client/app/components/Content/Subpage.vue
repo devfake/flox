@@ -9,7 +9,7 @@
           <div class="big-teaser-content">
             <div class="big-teaser-data-wrap">
 
-              <div class="subpage-poster-wrap-mobile" :class="'show-ratings-' + displayRatings">
+              <div class="subpage-poster-wrap-mobile no-select" :class="'show-ratings-' + displayRatings">
                 <rating :rated="rated" :item="item" :set-item="setItem" :set-rated="setRated"></rating>
                 <img class="base" :src="noImage" width="120" height="180">
                 <img class="real" :src="posterImage" width="120" height="180">
@@ -31,8 +31,8 @@
                   Amazon
                 </a>
                 <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
-                <span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>
-                <span class="button-watchlist" v-if="item.watchlist && auth && ! rated" @click="removeItem()"><i class="icon-watchlist-remove"></i> {{ lang('remove from watchlist') }}</span>
+                <!--<span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>-->
+                <!--<span class="button-watchlist" v-if="item.watchlist && auth && ! rated" @click="removeItem()"><i class="icon-watchlist-remove"></i> {{ lang('remove from watchlist') }}</span>-->
                 <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank" class="button-tmdb-rating">
                   <i v-if="item.tmdb_rating && item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
                   <i v-else>{{ lang('no tmdb rating') }}</i>
@@ -57,16 +57,29 @@
         </div>
 
         <div class="subpage-sidebar">
-          <div class="subpage-poster-wrap"  :class="'show-ratings-' + displayRatings">
+          <div class="subpage-poster-wrap no-select" :class="'show-ratings-' + displayRatings">
+            <div class="item-actions">
+              <router-link :title="lang('suggestions')" :to="suggestionsUri(item)" v-if="item.tmdb_id" class="has-suggestion">
+                <i class="icon-suggest"></i>
+              </router-link>
+              <span :title="lang('add to list')" class="is-on-watchlist" v-if="auth" @click="openListModal(item)"><i class="icon-watchlist"></i></span>
+              <span :title="lang('episodes')" v-if="displaySeason(item) && latestEpisode" @click="openSeasonModal(item)" class="is-a-show">
+                S{{ season }}E{{ episode }}
+              </span>
+              <span :title="lang('episodes')" v-if="displaySeason(item) && !latestEpisode" @click="openSeasonModal(item)" class="is-a-show">
+                <i class="is-finished"></i>
+              </span>
+            </div>
+
             <rating :rated="rated" :item="item" :set-item="setItem" :set-rated="setRated"></rating>
             <img class="base" :src="noImage" width="272" height="408">
             <img class="real" :src="posterImage" width="272" height="408">
 
-            <router-link v-if="item.tmdb_id" :to="suggestionsUri(item)" class="recommend-item">{{ lang('suggestions') }}</router-link>
-            <span class="show-episode" @click="openSeasonModal(item)" v-if="displaySeason(item)">
-              <span class="season-item"><i>S</i>{{ season }}</span>
-              <span class="episode-item"><i>E</i>{{ episode }}</span>
-            </span>
+            <!--<router-link v-if="item.tmdb_id" :to="suggestionsUri(item)" class="recommend-item">{{ lang('suggestions') }}</router-link>-->
+            <!--<span class="show-episode" @click="openSeasonModal(item)" v-if="displaySeason(item)">-->
+              <!--<span class="season-item"><i>S</i>{{ season }}</span>-->
+              <!--<span class="episode-item"><i>E</i>{{ episode }}</span>-->
+            <!--</span>-->
           </div>
 
           <!-- todo: move to own component -->
@@ -236,7 +249,7 @@
       setItem(item) {
         this.item = item;
       },
-      
+
       setRated(rated) {
         this.rated = rated;
       },

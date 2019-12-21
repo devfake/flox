@@ -11,14 +11,14 @@
      * Fallback date string for a item.
      */
     const FALLBACK_DATE = '1970-12-1';
-    
+
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = [
-      'last_seen_at', 
+      'last_seen_at',
       'refreshed_at',
       'created_at',
       'updated_at',
@@ -32,7 +32,7 @@
     protected $appends = [
       'startDate',
     ];
-    
+
     /**
      * The relations to eager load on every query.
      *
@@ -77,7 +77,7 @@
 
     /**
      * Create a new empty movie / tv show (for FP).
-     * 
+     *
      * @param $data
      * @param $mediaType
      * @return Item
@@ -118,7 +118,7 @@
         return Carbon::createFromTimestamp($this->released)->format('Y-m-d');
       }
     }
-    
+
     /**
      * Belongs to many genres.
      */
@@ -144,7 +144,7 @@
     }
 
     /**
-     * The latest unseen episode. 
+     * The latest unseen episode.
      */
     public function latestEpisode()
     {
@@ -236,5 +236,15 @@
             $query->where('title', $title);
           });
         });
+    }
+
+    /**
+     * @param $query
+     * @param $bool true
+     * @return mixed
+     */
+    public function scopeWatchlist($query, $bool = true)
+    {
+      return $query->where('watchlist', $bool);
     }
   }

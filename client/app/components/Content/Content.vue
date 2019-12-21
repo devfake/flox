@@ -1,6 +1,8 @@
 <template>
   <main>
     <div class="content-submenu" v-if=" ! loading && items.length">
+      <div class="content-submenu-headline" v-if="showTotal">Added: {{ total }}</div>
+
       <div class="sort-wrap no-select">
         <div class="sort-direction" @click="setUserSortDirection()">
           <i v-if="userSortDirection == 'asc'">&#8593;</i>
@@ -52,6 +54,7 @@
 
     data() {
       return {
+        showTotal: false,
         displayGenre: null,
         displayDate: null,
         displayRatings: null,
@@ -64,6 +67,7 @@
         showFilters: state => state.showFilters,
         loading: state => state.loading,
         items: state => state.items,
+        total: state => state.total,
         userFilter: state => state.userFilter,
         userSortDirection: state => state.userSortDirection,
         clickedMoreLoading: state => state.clickedMoreLoading,
@@ -86,10 +90,12 @@
       setTitle(name) {
         switch(name) {
           case 'home':
+            this.showTotal = false;
             return this.setPageTitle();
           case 'tv':
           case 'movie':
           case 'watchlist':
+            this.showTotal = true;
             return this.setPageTitle(this.lang(name));
         }
       },

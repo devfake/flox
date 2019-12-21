@@ -8,24 +8,23 @@
       </div>
     </div>
 
-    <div class="wrap-content" v-if=" ! loading">
-      <transition-group mode="out-in" name="fade">
-        <!-- Watchlist -->
-        <router-link key="watchlist" to="/watchlist" class="list-item-wrap">
-          <div class="list-item-teaser-image" style="background-image: url(https://flox.test/assets/backdrop/VuukZLgaCrho2Ar8Scl9HtV3yD.jpg)"></div>
-          <span class="list-item-title">Watchlist</span>
-          <span class="list-item-amount">12 Items</span>
-        </router-link>
-        
-        <router-link to="/" class="list-item-wrap" :key="list.id" v-for="list in lists">
-          <span class="edit-list" v-if="auth" @click.prevent="openList(list)"><i class="icon-edit"></i></span>
-          <div class="list-item-teaser-image" :style="backdropImage(list.latest_backdrop)"></div>
-          <span class="list-item-title">{{ list.name }}</span>
-          <span class="list-item-amount">{{ list.items_count }} Items</span>
-        </router-link>
-        
-      </transition-group>
-    </div>
+    <transition mode="out-in" name="fade">
+      <div class="wrap-content" v-if=" ! loading">
+          <!-- Watchlist -->
+          <router-link key="watchlist" to="/watchlist" class="list-item-wrap">
+            <div class="list-item-teaser-image" v-if="lists.latest_watchlist" :style="backdropImage(lists.latest_watchlist.backdrop)"></div>
+            <span class="list-item-title">Watchlist</span>
+            <span class="list-item-amount">{{ lists.watchlist_count }} Items</span>
+          </router-link>
+
+          <router-link to="/" class="list-item-wrap" :key="list.id" v-for="list in lists.lists">
+            <span class="edit-list" v-if="auth" @click.prevent="openList(list)"><i class="icon-edit"></i></span>
+            <div class="list-item-teaser-image" :style="backdropImage(list.latest_backdrop)"></div>
+            <span class="list-item-title">{{ list.name }}</span>
+            <span class="list-item-amount">{{ list.items_count }} Items</span>
+          </router-link>
+      </div>
+    </transition>
 
     <span class="loader fullsize-loader" v-if="loading"><i></i></span>
   </main>
@@ -75,7 +74,7 @@
 
       openList(list = null) {
         this.OPEN_MODAL({
-          type: 'list',
+          type: 'list-form',
           data: {
             list
           }
@@ -84,11 +83,11 @@
 
       backdropImage(latestBackdrop) {
         let backdropUrl = config.backdropTMDB;
-        
+
         if (!latestBackdrop) {
           return {}
         }
-        
+
         return {
           backgroundImage: `url(${backdropUrl}${latestBackdrop})`
         }

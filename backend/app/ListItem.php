@@ -7,13 +7,6 @@
   class ListItem extends Model {
     
     /**
-     * Don't auto-apply mass assignment protection.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function item()

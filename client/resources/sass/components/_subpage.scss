@@ -219,7 +219,8 @@
   }
 
   @include media(4) {
-    margin: 0 0 0 -20px;
+    //margin: 0 0 0 -20px;
+    margin: 0;
     width: 100%;
   }
   
@@ -289,7 +290,7 @@
 
   @include media(4) {
     clear: both;
-    margin: 30px 0 40px 0;
+    margin: 30px 0 40px 20px;
   }
 }
 
@@ -326,6 +327,7 @@
   
   @include media(4) {
     width: 100%;
+    left: 0;
   }
 }
 
@@ -372,6 +374,7 @@
 
   @include media(4) {
     display: block;
+    margin: 0 0 0 20px;
   }
 
   // todo: remove

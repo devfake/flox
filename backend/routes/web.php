@@ -5,6 +5,7 @@
     Route::post('/login', 'UserController@login');
 
     Route::get('lists', 'ListsController@all');
+    Route::get('lists/{tmdbId}', 'ListsController@forItem');
     
     Route::get('/episodes/{tmdbId}', 'ItemController@episodes');
     Route::get('/items/{type}/{orderBy}/{sortDirection}', 'ItemController@items');
@@ -28,6 +29,7 @@
     Route::middleware('auth')->group(function() {
       Route::put('list/{list}', 'ListsController@update');
       Route::post('list', 'ListsController@store');
+      Route::delete('list/{list}', 'ListsController@remove');
       
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::get('/version', 'SettingController@getVersion');
