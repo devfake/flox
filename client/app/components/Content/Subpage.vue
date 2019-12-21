@@ -25,14 +25,17 @@
                 </span>
               </div>
               <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
-                <a v-if="isOnNetflix(item.homepage)" :href="item.homepage" target="_blank" class="button-netflix">
+                <a v-if="isOn('netflix', item.homepage)" :href="item.homepage" target="_blank" class="button-netflix">
                   Netflix
                 </a>
-                <a v-if="isOnAmazon(item.homepage)" :href="item.homepage" target="_blank" class="button-amazon">
-                  Amazon
+                <a v-if="isOn('amazon', item.homepage)" :href="item.homepage" target="_blank" class="button-amazon">
+                  Amazon Prime
                 </a>
-                <a v-if="isOnDisney(item.homepage)" :href="item.homepage" target="_blank" class="button-disney">
+                <a v-if="isOn('disney', item.homepage)" :href="item.homepage" target="_blank" class="button-disney">
                   Disney+
+                </a>
+                <a v-if="isOn('apple', item.homepage)" :href="item.homepage" target="_blank" class="button-apple">
+                  Apple TV+
                 </a>
                 <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
                 <!--                <span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>-->

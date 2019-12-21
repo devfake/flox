@@ -16,16 +16,8 @@ export default {
       }
     },
 
-    isOnNetflix(homepage) {
-      return homepage && homepage.includes('netflix');
-    },
-
-    isOnAmazon(homepage) {
-      return homepage && homepage.includes('amazon');
-    },
-    
-    isOnDisney(homepage) {
-      return homepage && homepage.includes('disney');
+    isOn(type, homepage) {
+      return homepage && homepage.includes(type);
     },
 
     genreAsString(genre) {

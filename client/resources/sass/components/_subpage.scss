@@ -154,6 +154,24 @@
   }
 }
 
+
+.button-apple {
+  background: #444444;
+  color: #fff;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#444444, 10%);
+  }
+
+  &:active {
+    background: #444444;
+  }
+}
+
 .icon-trailer {
   background: url(../../../public/assets/img/trailer.png);
   width: 7px;
