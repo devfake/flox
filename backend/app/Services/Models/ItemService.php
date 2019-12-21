@@ -60,9 +60,9 @@
     public function create($data)
     {
       DB::beginTransaction();
-      
+
       $data = $this->makeDataComplete($data);
-      
+
       $item = $this->model->store($data);
 
       $this->episodeService->create($item);
@@ -95,6 +95,7 @@
         $data['tmdb_rating'] = $data['tmdb_rating'] ?? $details->vote_average;
         $data['backdrop'] = $data['backdrop'] ?? $details->backdrop_path;
         $data['slug'] = $data['slug'] ?? getSlug($title);
+        $data['homepage'] = $data['homepage'] ?? $details->homepage;
       }
 
       $data['imdb_rating'] = $this->parseImdbRating($data);
@@ -109,26 +110,26 @@
     {
       logInfo("Refresh all items");
       increaseTimeLimit();
-      
+
       $this->genreService->updateGenreLists();
 
       $this->model->orderBy('refreshed_at')->get()->each(function($item) {
         UpdateItem::dispatch($item->id);
       });
     }
-    
+
     /**
      * Refresh informations for an item.
      * Like ratings, new episodes, new poster and backdrop images.
      *
      * @param $itemId
-     * 
+     *
      * @return Response|false
      */
     public function refresh($itemId)
     {
       logInfo("Start refresh for item [$itemId]");
-      
+
       $item = $this->model->findOrFail($itemId);
 
       $details = $this->tmdb->details($item->tmdb_id, $item->media_type);
@@ -139,7 +140,7 @@
       if( ! $title) {
         return false;
       }
-      
+
       logInfo("Refresh", [$title]);
 
       $this->storage->removeImages($item->poster, $item->backdrop);
@@ -164,10 +165,10 @@
       $this->alternativeTitleService->create($item);
 
       $this->genreService->sync(
-        $item, 
+        $item,
         collect($details->genres)->pluck('id')->all()
       );
-      
+
       $this->storage->downloadImages($item->poster, $item->backdrop);
     }
 
@@ -334,7 +335,7 @@
 
     /**
      * Create a new item from import.
-     * 
+     *
      * @param $item
      */
     public function import($item)
@@ -345,23 +346,23 @@
       if( ! isset($item->last_seen_at)) {
         $item->last_seen_at = Carbon::createFromTimestamp($item->created_at);
       }
-      
+
       // New versions of flox has no genre field anymore.
       if(isset($item->genre)) {
         unset($item->genre);
       }
-      
+
       // For empty items (from file-parser) we don't need access to details.
       if($item->tmdb_id) {
         $item = $this->makeDataComplete((array) $item);
         $this->storage->downloadImages($item['poster'], $item['backdrop']);
       }
-      
+
       $item = collect($item)->except('id')->toArray();
-      
+
       Item::create($item);
     }
-    
+
     /**
      * See if we can find a item by title, fp_name, tmdb_id or src in our database.
      *

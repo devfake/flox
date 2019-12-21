@@ -168,10 +168,14 @@
   height: 11px;
   float: left;
   margin: 0 7px 0 0;
+}
 
-  @include media(6) {
-    display: none;
-  }
+.icon-suggest {
+  background: url(../../../public/assets/img/suggest.png);
+  width: 18px;
+  height: 12px;
+  float: left;
+  margin: 0 7px 0 0;
 }
 
 .icon-watchlist-remove {
@@ -537,7 +541,7 @@
     margin: 30px 0 10px 0;
 
     @include media(6) {
-      font-size: 15px;
+      font-size: 14px;
     }
   }
 

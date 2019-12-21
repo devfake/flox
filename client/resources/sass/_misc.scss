@@ -86,10 +86,12 @@ $gradient: linear-gradient(to right, $main1, $main2);
 }
 
 .smallsize-loader {
-  border: 4px solid #fff;
-  width: 19px;
-  height: 19px;
-  margin: 15px auto;
+  //border: 4px solid #fff;
+  //width: 19px;
+  //height: 19px;
+  display: block;
+  margin: 13px auto;
+  background: url(../../../public/assets/img/logo-small-light.png);
 
   i {
     background-color: #fff;

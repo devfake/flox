@@ -4,10 +4,30 @@
       <div class="item-image-wrap no-select">
         <rating :rated="rated" :set-rated="setRated" :item="localItem" :set-item="setItem"></rating>
 
-        <router-link v-if="localItem.tmdb_id" :to="suggestionsUri(localItem)" class="recommend-item">{{ lang('suggestions') }}</router-link>
-        <span v-if="localItem.watchlist" class="is-on-watchlist"><i class="icon-watchlist"></i></span>
-        <span v-if="auth && localItem.rating == null && ! rated" class="add-to-watchlist" @click="addToWatchlist(localItem)">{{ lang('add to watchlist') }}</span>
-        <span v-if="auth && localItem.watchlist && ! rated" class="remove-from-watchlist" @click="removeItem()">{{ lang('remove from watchlist') }}</span>
+        <!--<router-link v-if="localItem.tmdb_id" :to="suggestionsUri(localItem)" class="recommend-item">-->
+          <!--{{ lang('suggestions') }}-->
+        <!--</router-link>-->
+
+        <div class="item-actions">
+          <router-link :title="lang('suggestions')" :to="suggestionsUri(localItem)" v-if="localItem.tmdb_id" class="has-suggestion">
+            <i class="icon-suggest"></i>
+          </router-link>
+          <span class="is-on-watchlist" :title="lang('add to watchlist')" v-if="auth && localItem.rating == null && ! rated" @click="addToWatchlist(localItem)">
+            <i class="icon-watchlist"></i>
+          </span>
+          <span class="is-on-watchlist" :title="lang('remove from watchlist')" v-if="auth && localItem.watchlist && ! rated" @click="removeItem()">
+            <i class="icon-watchlist-remove"></i>
+          </span>
+          <span :title="lang('episodes')" v-if="displaySeason(localItem) && latestEpisode" @click="openSeasonModal(localItem)" class="is-a-show">
+            S{{ season }}E{{ episode }}
+          </span>
+          <span :title="lang('finished')" v-if="displaySeason(localItem) && !latestEpisode" @click="openSeasonModal(localItem)" class="is-a-show">
+            <i class="is-finished"></i>
+          </span>
+        </div>
+
+        <!--<span v-if="auth && localItem.rating == null && ! rated" class="add-to-watchlist" @click="addToWatchlist(localItem)">{{ lang('add to watchlist') }}</span>-->
+        <!--<span v-if="auth && localItem.watchlist && ! rated" class="remove-from-watchlist" @click="removeItem()">{{ lang('remove from watchlist') }}</span>-->
         <span v-if="auth && ! localItem.tmdb_id" class="edit-item" @click="editItem()">Edit</span>
 
         <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id, slug: localItem.slug }}">
@@ -15,11 +35,11 @@
           <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
         </router-link>
 
-        <span class="show-episode" @click="openSeasonModal(localItem)" v-if="displaySeason(localItem)">
-          <span class="season-item" v-if="latestEpisode"><i>S</i>{{ season }}</span>
-          <span class="episode-item" v-if="latestEpisode"><i>E</i>{{ episode }}</span>
-          <span class="item-done" v-if="!latestEpisode">{{ lang('finished') }}</span>
-        </span>
+        <!--<span class="show-episode" @click="openSeasonModal(localItem)" v-if="displaySeason(localItem)">-->
+          <!--<span class="season-item" v-if="latestEpisode"><i>S</i>{{ season }}</span>-->
+          <!--<span class="episode-item" v-if="latestEpisode"><i>E</i>{{ episode }}</span>-->
+          <!--<span class="item-done" v-if="!latestEpisode">{{ lang('finished') }}</span>-->
+        <!--</span>-->
       </div>
 
       <div class="item-content">
@@ -94,7 +114,7 @@
       setItem(item) {
         this.localItem = item;
       },
-      
+
       setRated(rated) {
         this.rated = rated
       },

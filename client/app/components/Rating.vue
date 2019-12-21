@@ -10,7 +10,7 @@
       <i class="icon-add"></i>
     </span>
     <span v-if="item.rating == null && item.tmdb_id && localRated" class="item-rating item-new item-rating-loader">
-      <span class="loader smallsize-loader"><i></i></span>
+      <span class="loader smallsize-loader"></span>
     </span>
   </div>
 </template>
