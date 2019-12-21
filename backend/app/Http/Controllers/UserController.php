@@ -4,7 +4,7 @@
 
   use Illuminate\Contracts\Auth\Guard;
   use Illuminate\Support\Facades\Auth;
-  use Illuminate\Support\Facades\Input;
+  use Illuminate\Support\Facades\Request;
 
   class UserController {
 
@@ -22,8 +22,8 @@
      */
     public function login()
     {
-      $username = Input::get('username');
-      $password = Input::get('password');
+      $username = Request::input('username');
+      $password = Request::input('password');
 
       if($this->auth->attempt(['username' => $username, 'password' => $password], true)) {
         return response('Success', 200);
@@ -49,8 +49,8 @@
      */
     public function changeUserData()
     {
-      $username = Input::get('username');
-      $password = Input::get('password');
+      $username = Request::input('username');
+      $password = Request::input('password');
 
       $user = Auth::user();
       $user->username = $username;

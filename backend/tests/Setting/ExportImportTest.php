@@ -26,7 +26,7 @@
 
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
       parent::setUp();
 
@@ -78,28 +78,28 @@
       $this->assertCount(38, AlternativeTitle::all());
       $this->assertCount(1, Setting::all());
     }
-    
+
     /** @test */
     public function it_should_import_from_old_backup_file()
     {
       $oldBackupFile = json_decode(file_get_contents(__DIR__ . '/../fixtures/flox/export.json'));
-      
+
       $this->import($oldBackupFile);
     }
-    
+
     /** @test */
     public function it_should_import_from_new_backup_file()
     {
       $newBackupFile = json_decode(file_get_contents(__DIR__ . '/../fixtures/flox/export-new-version.json'));
-      
+
       $this->import($newBackupFile);
     }
-    
+
     private function import($data)
     {
       $this->createStorageDownloadsMock();
       $this->createRefreshAllMock();
-      
+
       $itemService = app(ItemService::class);
 
       if(isset($data->items)) {

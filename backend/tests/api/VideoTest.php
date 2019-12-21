@@ -1,7 +1,7 @@
 <?php
 
   namespace Tests\Api;
-  
+
   use App\Episode;
   use App\Item;
   use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,7 +17,7 @@
     private $episode;
     private $movie;
 
-    public function setUp()
+    public function setUp(): void
     {
       parent::setUp();
 

@@ -10,7 +10,7 @@
   use App\Services\Storage;
   use App\Setting;
   use Illuminate\Support\Facades\DB;
-  use Illuminate\Support\Facades\Input;
+  use Illuminate\Support\Facades\Request;
   use Symfony\Component\HttpFoundation\Response;
 
   class ExportImportController {
@@ -52,14 +52,14 @@
     /**
      * Reset item table and restore backup.
      * Downloads every poster image new.
-     * 
+     *
      * @return Response
      */
     public function import()
     {
       increaseTimeLimit();
 
-      $file = Input::file('import');
+      $file = Request::file('import');
 
       $extension = $file->getClientOriginalExtension();
 
@@ -86,22 +86,22 @@
           ImportItem::dispatch(json_encode($item));
         }
       }
-      
+
       logInfo("Import Movies done.");
     }
 
     private function importEpisodes($data)
     {
       logInfo("Import Tv Shows");
-      
+
       if(isset($data->episodes)) {
         $this->episodes->truncate();
-        
+
         foreach(array_chunk($data->episodes, 50) as $chunk) {
           ImportEpisode::dispatch(json_encode($chunk));
         }
       }
-      
+
       logInfo("Import Tv Shows done.");
     }
 
@@ -109,10 +109,10 @@
     {
       if(isset($data->alternative_titles)) {
         $this->alternativeTitles->truncate();
-        
+
         foreach($data->alternative_titles as $title) {
           $title = collect($title)->except('id')->toArray();
-          
+
           $this->alternativeTitles->create($title);
         }
       }
@@ -121,12 +121,12 @@
     private function importSettings($data)
     {
       if(isset($data->settings)) {
-        
+
         $this->settings->truncate();
-        
+
         foreach($data->settings as $setting) {
           $setting = collect($setting)->except('id')->toArray();
-          
+
           $this->settings->create($setting);
         }
       }

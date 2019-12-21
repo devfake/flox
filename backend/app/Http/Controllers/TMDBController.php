@@ -4,6 +4,7 @@
 
   use App\Services\TMDB;
   use Illuminate\Support\Facades\Input;
+  use Illuminate\Support\Facades\Request;
 
   class TMDBController {
 
@@ -16,14 +17,14 @@
 
     public function search()
     {
-      return $this->tmdb->search(Input::get('q'));
+      return $this->tmdb->search(Request::input('q'));
     }
 
     public function suggestions($tmdbId, $mediaType)
     {
       return $this->tmdb->suggestions($mediaType, $tmdbId);
     }
-    
+
     public function genre($genre)
     {
       return $this->tmdb->byGenre($genre);

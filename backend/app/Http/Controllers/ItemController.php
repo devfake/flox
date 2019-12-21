@@ -5,7 +5,7 @@
   use App\Services\Models\AlternativeTitleService;
   use App\Services\Models\EpisodeService;
   use App\Services\Models\ItemService;
-  use Illuminate\Support\Facades\Input;
+  use Illuminate\Support\Facades\Request;
   use Symfony\Component\HttpFoundation\Response;
 
   class ItemController {
@@ -31,17 +31,17 @@
 
     public function search()
     {
-      return $this->itemService->search(Input::get('q'));
+      return $this->itemService->search(Request::input('q'));
     }
 
     public function changeRating($itemId)
     {
-      return $this->itemService->changeRating($itemId, Input::get('rating'));
+      return $this->itemService->changeRating($itemId, Request::input('rating'));
     }
 
     public function add()
     {
-      return $this->itemService->create(Input::get('item'));
+      return $this->itemService->create(Request::input('item'));
     }
 
     public function watchlist()
@@ -61,7 +61,7 @@
     public function refresh($itemId)
     {
       $this->itemService->refresh($itemId);
-      
+
       return response([], Response::HTTP_OK);
     }
 
@@ -88,9 +88,9 @@
 
     public function toggleSeason()
     {
-      $tmdbId = Input::get('tmdb_id');
-      $season = Input::get('season');
-      $seen = Input::get('seen');
+      $tmdbId = Request::input('tmdb_id');
+      $season = Request::input('season');
+      $seen = Request::input('seen');
 
       $this->episodeService->toggleSeason($tmdbId, $season, $seen);
     }

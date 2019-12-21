@@ -14,7 +14,7 @@
 
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
       parent::setUp();
 
@@ -47,7 +47,7 @@
       $this->assertEquals(1, $newSettings->show_watchlist_everywhere);
       $this->assertEquals('hover', $newSettings->show_ratings);
     }
-    
+
     /** @test */
     public function user_can_change_refresh()
     {
@@ -62,7 +62,7 @@
       $this->assertEquals(0, $oldSettings->refresh_automatically);
       $this->assertEquals(1, $newSettings->refresh_automatically);
     }
-    
+
     /** @test */
     public function user_can_change_reminders_send_to()
     {
@@ -77,7 +77,7 @@
       $this->assertNull($oldSettings->reminders_send_to);
       $this->assertEquals('jon@snow.io', $newSettings->reminders_send_to);
     }
-    
+
     /** @test */
     public function user_can_change_reminder_options()
     {

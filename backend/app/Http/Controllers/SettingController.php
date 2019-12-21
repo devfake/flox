@@ -9,7 +9,7 @@
   use GuzzleHttp\Client;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Cache;
-  use Illuminate\Support\Facades\Input;
+  use Illuminate\Support\Facades\Request;
 
   class SettingController {
 
@@ -83,13 +83,13 @@
     public function updateSettings()
     {
       Cache::flush();
-      
+
       $this->setting->first()->update([
-        'show_genre' => Input::get('genre'),
-        'show_date' => Input::get('date'),
-        'episode_spoiler_protection' => Input::get('spoiler'),
-        'show_watchlist_everywhere' => Input::get('watchlist'),
-        'show_ratings' => Input::get('ratings'),
+        'show_genre' => Request::input('genre'),
+        'show_date' => Request::input('date'),
+        'episode_spoiler_protection' => Request::input('spoiler'),
+        'show_watchlist_everywhere' => Request::input('watchlist'),
+        'show_ratings' => Request::input('ratings'),
       ]);
     }
 
@@ -99,28 +99,28 @@
     public function updateRefresh()
     {
       $this->setting->first()->update([
-        'refresh_automatically' => Input::get('refresh'),
+        'refresh_automatically' => Request::input('refresh'),
       ]);
     }
-    
+
     /**
      * Update reminders mail.
      */
     public function updateRemindersSendTo()
     {
       $this->setting->first()->update([
-        'reminders_send_to' => Input::get('reminders_send_to'),
+        'reminders_send_to' => Request::input('reminders_send_to'),
       ]);
     }
-    
+
     /**
      * Update reminder options.
      */
     public function updateReminderOptions()
     {
       $this->setting->first()->update([
-        'daily_reminder' => Input::get('daily'),
-        'weekly_reminder' => Input::get('weekly'),
+        'daily_reminder' => Request::input('daily'),
+        'weekly_reminder' => Request::input('weekly'),
       ]);
     }
   }

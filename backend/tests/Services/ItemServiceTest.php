@@ -1,7 +1,7 @@
 <?php
 
   namespace Tests\Services;
-  
+
   use Illuminate\Foundation\Testing\RefreshDatabase;
   use Tests\TestCase;
   use App\Item;
@@ -20,7 +20,7 @@
     private $item;
     private $itemService;
 
-    public function setUp()
+    public function setUp(): void
     {
       parent::setUp();
 
@@ -162,7 +162,7 @@
       $this->assertNotNull($item1);
       $this->assertNull($item2);
     }
-    
+
     /** @test */
     public function it_should_parse_correct_imdb_id()
     {

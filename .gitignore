@@ -5,6 +5,7 @@ Homestead.json
 Homestead.yaml
 /backend/.env
 /bin/.worker.pid
+/backend/.phpunit.result.cache
 
 */.DS_Store
 /public/assets/app.css

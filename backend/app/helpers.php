@@ -17,7 +17,9 @@
 
   function getSlug($title)
   {
-    return str_slug($title) != '' ? str_slug($title) : 'no-slug-available';
+    $slug = Illuminate\Support\Str::slug($title);
+
+    return $slug != '' ? $slug : 'no-slug-available';
   }
 
   // There is no 'EN' region in TMDb.
@@ -25,7 +27,7 @@
   {
     return strtolower($translation) == 'en' ? 'us' : $translation;
   }
-  
+
   function logInfo($message, $context = [])
   {
     if( ! app()->runningUnitTests()) {
