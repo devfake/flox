@@ -57,6 +57,10 @@
      */
     public function import()
     {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
       increaseTimeLimit();
 
       $file = Request::file('import');

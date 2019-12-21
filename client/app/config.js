@@ -1,9 +1,10 @@
 import http from 'axios';
 http.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
 
-const {url, uri, auth, language, posterTmdb, posterSubpageTmdb, backdropTmdb} = document.body.dataset;
+const {env, url, uri, auth, language, posterTmdb, posterSubpageTmdb, backdropTmdb} = document.body.dataset;
 
 const config = {
+  env,
   uri,
   url,
   auth,

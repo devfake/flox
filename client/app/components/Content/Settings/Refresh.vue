@@ -1,7 +1,8 @@
 <template>
 
   <div class="settings-box element-ui-checkbox no-select" v-if=" ! loading">
-    
+    <div class="login-error" v-if="config.env === 'demo'"><span>Data cannot be changed in the demo</span></div>
+
     <div class="setting-box">
       <el-checkbox v-model="refresh" @change="updateRefresh">{{ lang('refresh automatically') }}</el-checkbox>
     </div>
@@ -10,7 +11,7 @@
       <button v-show=" ! refreshAllClicked" @click="refreshAll()" class="setting-btn">{{ lang('refresh all infos') }}</button>
       <span v-show="showRefreshAllMessage" class="update-check">{{ lang('refresh all triggered') }}</span>
     </div>
-    
+
   </div>
 
 </template>
@@ -30,6 +31,7 @@
 
     data() {
       return {
+        config: window.config,
         refresh: false,
         refreshAllClicked: false,
         showRefreshAllMessage: false,
@@ -56,14 +58,14 @@
 
       updateRefresh() {
         this.SET_LOADING(true);
-        
+
         http.patch(`${config.api}/settings/refresh`, {refresh: this.refresh}).then(() => {
           this.SET_LOADING(false);
         }, error => {
           alert(error.message);
         })
       },
-      
+
       refreshAll() {
         this.refreshAllClicked = true;
 

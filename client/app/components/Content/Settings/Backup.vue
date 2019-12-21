@@ -1,6 +1,8 @@
 <template>
 
   <div class="settings-box" v-if=" ! loading">
+    <div class="login-error" v-if="config.env === 'demo'"><span>Data cannot be changed in the demo</span></div>
+
     <a :href="exportLink" class="setting-btn">{{ lang('export button') }}</a>
 
     <form class="login-form" @submit.prevent="importMovies()">
@@ -24,6 +26,7 @@
 
     data() {
       return {
+        config: window.config,
         uploadSuccess: false,
         uploadedFile: null
       }

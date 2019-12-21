@@ -5,6 +5,11 @@
     set_time_limit(config('app.PHP_TIME_LIMIT'));
   }
 
+  function isDemo()
+  {
+    return config('app.env') === 'demo';
+  }
+
   function getFileName($file)
   {
     return $file->changed->name ?? $file->name;

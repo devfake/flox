@@ -10,6 +10,7 @@
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Cache;
   use Illuminate\Support\Facades\Request;
+  use Symfony\Component\HttpFoundation\Response;
 
   class SettingController {
 
@@ -82,6 +83,10 @@
      */
     public function updateSettings()
     {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
       Cache::flush();
 
       $this->setting->first()->update([
@@ -98,6 +103,10 @@
      */
     public function updateRefresh()
     {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
       $this->setting->first()->update([
         'refresh_automatically' => Request::input('refresh'),
       ]);
@@ -108,6 +117,10 @@
      */
     public function updateRemindersSendTo()
     {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
       $this->setting->first()->update([
         'reminders_send_to' => Request::input('reminders_send_to'),
       ]);
@@ -118,6 +131,10 @@
      */
     public function updateReminderOptions()
     {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
       $this->setting->first()->update([
         'daily_reminder' => Request::input('daily'),
         'weekly_reminder' => Request::input('weekly'),

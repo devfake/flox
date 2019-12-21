@@ -67,6 +67,10 @@
 
     public function refreshAll()
     {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
       $this->itemService->refreshAll();
 
       return response([], Response::HTTP_OK);
@@ -80,10 +84,10 @@
     public function toggleEpisode($id)
     {
       if( ! $this->episodeService->toggleSeen($id)) {
-        return response('Server Error', 500);
+        return response('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
       }
 
-      return response('Success', 200);
+      return response('Success', Response::HTTP_OK);
     }
 
     public function toggleSeason()

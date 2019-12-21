@@ -1,7 +1,8 @@
 <template>
 
   <div class="settings-box element-ui-checkbox no-select" v-if=" ! loading">
-    
+    <div class="login-error" v-if="config.env === 'demo'"><span>Data cannot be changed in the demo</span></div>
+
     <div class="setting-box">
       <el-checkbox v-model="genre" @change="updateOptions">{{ lang('display genre') }}</el-checkbox>
     </div>
@@ -42,6 +43,7 @@
 
     data() {
       return {
+        config: window.config,
         genre: null,
         date: null,
         spoiler: null,
@@ -65,7 +67,7 @@
           const data = response.data;
 
           this.SET_LOADING(false);
-          
+
           this.genre = data.genre;
           this.date = data.date;
           this.spoiler = data.spoiler;

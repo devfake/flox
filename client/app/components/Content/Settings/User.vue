@@ -1,6 +1,7 @@
 <template>
 
   <div class="settings-box" v-if=" ! loading">
+    <div class="login-error" v-if="config.env === 'demo'"><span>Data cannot be changed in the demo</span></div>
     <form class="login-form" @submit.prevent="editUser()">
       <input type="text" :placeholder="lang('username')" v-model="username">
       <input type="password" :placeholder="lang('password')" v-model="password" autocomplete="off">
@@ -31,6 +32,7 @@
 
     data() {
       return {
+        config: window.config,
         username: '',
         password: '',
         success: false

@@ -1,6 +1,8 @@
 <template>
 
   <div class="settings-box element-ui-checkbox no-select" v-if=" ! loading">
+    <div class="login-error" v-if="config.env === 'demo'"><span>Data cannot be changed in the demo</span></div>
+
     <form class="login-form" @submit.prevent="editSetting()">
       <span class="update-check">{{ lang('reminders send to') }}</span>
 
@@ -8,7 +10,7 @@
       <span class="userdata-changed"><span v-if="success">{{ lang('success message') }}</span></span>
       <input type="submit" :value="lang('save button')">
     </form>
-    
+
     <div class="setting-box">
       <el-checkbox v-model="daily" @change="updateReminders">{{ lang('daily reminder') }}</el-checkbox>
     </div>
@@ -38,6 +40,7 @@
 
     data() {
       return {
+        config: window.config,
         reminders_send_to: '',
         success: false,
         daily: false,
@@ -78,7 +81,7 @@
 
       updateReminders() {
         this.SET_LOADING(true);
-        
+
         const daily = this.daily;
         const weekly = this.weekly;
 

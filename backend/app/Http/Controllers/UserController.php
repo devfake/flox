@@ -5,6 +5,7 @@
   use Illuminate\Contracts\Auth\Guard;
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Request;
+  use Symfony\Component\HttpFoundation\Response;
 
   class UserController {
 
@@ -26,10 +27,10 @@
       $password = Request::input('password');
 
       if($this->auth->attempt(['username' => $username, 'password' => $password], true)) {
-        return response('Success', 200);
+        return response('Success', Response::HTTP_OK);
       }
 
-      return response('Unauthorized', 401);
+      return response('Unauthorized', Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -49,6 +50,10 @@
      */
     public function changeUserData()
     {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
       $username = Request::input('username');
       $password = Request::input('password');
 
@@ -60,10 +65,10 @@
       }
 
       if($user->save()) {
-        return response('Success', 200);
+        return response('Success', Response::HTTP_OK);
       }
 
-      return response('Server Error', 500);
+      return response('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
