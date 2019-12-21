@@ -24,6 +24,15 @@
                 </span>
               </div>
               <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
+                <a v-if="isOnNetflix(item.homepage)" :href="item.homepage" target="_blank" class="button-netflix">
+                  Netflix
+                </a>
+                <a v-if="isOnAmazon(item.homepage)" :href="item.homepage" target="_blank" class="button-amazon">
+                  Amazon
+                </a>
+                <a v-if="isOnDisney(item.homepage)" :href="item.homepage" target="_blank" class="button-disney">
+                  Disney+
+                </a>
                 <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
                 <span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>
                 <span class="button-watchlist" v-if="item.watchlist && auth && ! rated" @click="removeItem()"><i class="icon-watchlist-remove"></i> {{ lang('remove from watchlist') }}</span>
@@ -230,7 +239,7 @@
       setItem(item) {
         this.item = item;
       },
-      
+
       setRated(rated) {
         this.rated = rated;
       },

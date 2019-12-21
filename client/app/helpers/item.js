@@ -15,12 +15,24 @@ export default {
         });
       }
     },
+
+    isOnNetflix(homepage) {
+      return homepage && homepage.includes('netflix');
+    },
+
+    isOnAmazon(homepage) {
+      return homepage && homepage.includes('amazon');
+    },
     
+    isOnDisney(homepage) {
+      return homepage && homepage.includes('disney');
+    },
+
     genreAsString(genre) {
       if(typeof genre == 'object') {
         return genre.map(item => item.name).join(', ');
       }
-      
+
       return genre
     },
 

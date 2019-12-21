@@ -278,6 +278,7 @@
         'episodes' => [],
         'overview' => $data->overview,
         'backdrop' => $data->backdrop_path,
+        'homepage' => $data->homepage ?? null,
         'tmdb_rating' => $data->vote_average,
         'popularity' => $data->popularity ?? 0,
       ];

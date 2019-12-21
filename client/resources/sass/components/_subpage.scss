@@ -3,7 +3,7 @@
   width: 100%;
   height: 600px;
   position: relative;
-  
+
   @include transition(height);
 
   @include media(3) {
@@ -31,7 +31,7 @@
   height: 100%;
   z-index: 10;
   box-shadow: 0 0 70px 0 rgba(0,0,0,.5);
-  
+
   .open-modal & {
     padding-right: 17px;
   }
@@ -103,16 +103,63 @@
   }
 }
 
+.button-netflix {
+  background: #e50914;
+  color: rgba(255,255,255,.9);
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#e50914, 10%);
+  }
+
+  &:active {
+    background: #e50914;
+  }
+}
+
+.button-amazon {
+  background: #ff9900;
+  color: $dark;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#ff9900, 10%);
+  }
+
+  &:active {
+    background: #ff9900;
+  }
+}
+
+.button-disney {
+  background: #234c97;
+  color: #fff;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#234c97, 10%);
+  }
+
+  &:active {
+    background: #234c97;
+  }
+}
+
 .icon-trailer {
   background: url(../../../public/assets/img/trailer.png);
   width: 7px;
   height: 8px;
   float: left;
   margin: 0 7px 0 0;
-
-  @include media(6) {
-    display: none;
-  }
 }
 
 .icon-watchlist {
@@ -188,7 +235,7 @@
     margin: 0 0 0 -20px;
     width: 100%;
   }
-  
+
   @include media(6) {
     flex-direction: column;
   }
@@ -218,7 +265,7 @@
   .item-year,
   .item-genre {
     color: rgba(#fff, .8);
-    
+
     a {
       color: rgba(#fff, .8);
       text-decoration: none;
@@ -227,22 +274,22 @@
       padding: 3px 7px;
       margin: 0 5px 5px 0;
       float: left;
-      
+
       @include transition(background);
-      
+
       &:last-child {
         margin: 0;
       }
-      
+
       &:hover {
         background: $dark;
       }
-      
+
       &:active {
         background: rgba($dark, .7);
       }
     }
-    
+
     i {
       font-style: normal;
       text-transform: uppercase;
@@ -289,7 +336,7 @@
 .big-teaser-content {
   position: absolute;
   bottom: 0;
-  
+
   @include media(4) {
     width: 100%;
   }
@@ -476,7 +523,7 @@
   @include media(3) {
     width: calc(100% - 240px);
   }
-  
+
   @include media(4) {
     margin: 0;
     width: 100%;
