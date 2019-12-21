@@ -15,13 +15,12 @@
     public function __construct(ItemService $itemService)
     {
       parent::__construct();
-      
+
       $this->itemService = $itemService;
     }
 
     public function handle()
     {
-      $this->callSilent('queue:clear');
       $this->itemService->refreshAll();
     }
   }
