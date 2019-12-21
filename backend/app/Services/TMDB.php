@@ -16,7 +16,7 @@
     private $client;
     private $apiKey;
     private $translation;
-    
+
     private $base = 'https://api.themoviedb.org';
 
     /**
@@ -43,7 +43,7 @@
       if( ! $title) {
         return response([], Response::HTTP_UNPROCESSABLE_ENTITY);
       }
-      
+
       $tv = collect();
       $movies = collect();
 
@@ -176,7 +176,7 @@
 
     /**
      * Search TMDb by genre.
-     * 
+     *
      * @param $genre
      * @return array
      */
@@ -185,7 +185,7 @@
       $genreId = Genre::findByName($genre)->firstOrFail()->id;
 
       $cache = Cache::remember('genre-' . $genre, $this->untilEndOfDay(), function() use ($genreId) {
-        
+
         $responseMovies = $this->requestTmdb($this->base . '/3/discover/movie', ['with_genres' => $genreId]);
         $responseTv = $this->requestTmdb($this->base . '/3/discover/tv', ['with_genres' => $genreId]);
 
@@ -194,9 +194,9 @@
 
         return $tv->merge($movies)->shuffle();
       });
-      
+
       //$inDB = Item::findByGenreId($genreId)->get();
-      
+
       return $this->filterItems($cache, $genreId);
     }
 
@@ -213,7 +213,7 @@
 
       // Get all movies / tv shows that are already in our database.
       $searchInDB = Item::whereIn('tmdb_id', $allId)->with('latestEpisode')->withCount('episodesWithSrc');
-      
+
       if($genreId) {
         $searchInDB->findByGenreId($genreId);
       }
@@ -264,7 +264,7 @@
       }
 
       $title = $data->name ?? $data->title;
-      
+
       return [
         'tmdb_id' => $data->id,
         'title' => $title,
@@ -290,12 +290,12 @@
         'api_key' => $this->apiKey,
         'language' => strtolower($this->translation)
       ], $query);
-      
+
       try {
         $response = $this->client->get($url, [
           'query' => $query
         ]);
-        
+
         if($this->hasLimitRemaining($response)) {
           return $response;
         }
@@ -417,7 +417,7 @@
     {
       $movies = $this->requestTmdb($this->base . '/3/genre/movie/list');
       $tv = $this->requestTmdb($this->base . '/3/genre/tv/list');
-      
+
       return [
         'movies' => json_decode($movies->getBody()),
         'tv' => json_decode($tv->getBody()),
@@ -433,7 +433,7 @@
       if($response->getStatusCode() == 429) {
         return false;
       }
-      
+
       $rateLimit = $response->getHeader('X-RateLimit-Remaining');
 
       // Change it on production, good idea...
@@ -446,6 +446,6 @@
      */
     private function untilEndOfDay()
     {
-      return now()->secondsUntilEndOfDay() / 60;
+      return now()->secondsUntilEndOfDay();
     }
   }
