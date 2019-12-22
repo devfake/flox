@@ -3,6 +3,8 @@ Flox
 Flox is a self hosted Movie, Series and Animes watch list. It's build on top of Laravel and Vue.js and uses [The Movie Database](https://www.themoviedb.org/) API.
 The rating based on an 3-Point system for `good`, `medium` and `bad`.
 
+### [Try live demo](https://flox-demo.pyxl.dev) and [login](https://flox-demo.pyxl.dev/login) with `demo / demo` to add new stuff or change ratings.
+
 ![flox](./public/assets/screenshot.jpg)
 
 ### Requirements
