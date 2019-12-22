@@ -1,7 +1,7 @@
 <?php
 
   namespace App\Services;
-  
+
   use App\Episode;
   use App\Item;
   use Illuminate\Support\Collection;
@@ -10,12 +10,13 @@
 
     /**
      * Get all formatted episodes and movies.
-     * 
+     *
      * @return Collection|array
      */
     public function items()
     {
       $episodes = Episode::with('calendarItem')
+        ->whereHas('calendarItem')
         //->whereBetween('release_episode', [today()->subDays(7)->timestamp, today()->addDays(7)->timestamp])
         ->get(['id', 'tmdb_id', 'release_episode', 'season_number', 'episode_number']);
 
