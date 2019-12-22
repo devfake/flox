@@ -3,12 +3,15 @@
   return [
 
     // Current version. Is synced with git releases.
-    'version' => '1.2.2',
+    'version' => '2.0.0',
 
-    'TMDB_API_KEY' => env('TMDB_API_KEY'),
-    'TRANSLATION' => env('TRANSLATION'),
+    'TRANSLATION' => env('TRANSLATION', 'EN'),
     'LOADING_ITEMS' => env('LOADING_ITEMS'),
     'CLIENT_URI' => env('CLIENT_URI'),
+    'PHP_TIME_LIMIT' => env('PHP_TIME_LIMIT'),
+    'DATE_FORMAT_PATTERN' => env('DATE_FORMAT_PATTERN'),
+    'DAILY_REMINDER_TIME' => env('DAILY_REMINDER_TIME'),
+    'WEEKLY_REMINDER_TIME' => env('WEEKLY_REMINDER_TIME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -72,7 +75,7 @@
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -114,23 +117,6 @@
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Logging Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the log settings for your application. Out of
-    | the box, Laravel uses the Monolog PHP logging library. This gives
-    | you a variety of powerful log handlers / formatters to utilize.
-    |
-    | Available Settings: "single", "daily", "syslog", "errorlog"
-    |
-    */
-
-    'log' => env('APP_LOG', 'daily'),
-
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
     |--------------------------------------------------------------------------
@@ -185,8 +171,6 @@
       // App\Providers\BroadcastServiceProvider::class,
       App\Providers\EventServiceProvider::class,
       App\Providers\RouteServiceProvider::class,
-
-      Laravel\Scout\ScoutServiceProvider::class,
 
     ],
 

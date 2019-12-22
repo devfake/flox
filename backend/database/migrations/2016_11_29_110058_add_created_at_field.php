@@ -6,11 +6,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddCreatedAtField extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('episodes', function (Blueprint $table) {
@@ -18,15 +13,5 @@ class AddCreatedAtField extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('episodes', function (Blueprint $table) {
-            $table->dropColumn('created_at');
-        });
-    }
+    public function down() {}
 }

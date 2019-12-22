@@ -1,0 +1,46 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "poster_path": "/kmcqlZGaSh20zpTbuoF0Cdn07dT.jpg",
+      "adult": false,
+      "overview": "overview",
+      "release_date": "2009-12-10",
+      "genre_ids": [
+        28,
+        12,
+        14,
+        878
+      ],
+      "id": 19995,
+      "original_title": "Avatar",
+      "original_language": "en",
+      "title": "Avatar: Aufbruch nach Pandora",
+      "backdrop_path": "/5XPPB44RQGfkBrbJxmtdndKz05n.jpg",
+      "popularity": 13.117401,
+      "vote_count": 8721,
+      "video": false,
+      "vote_average": 7.1
+    },
+    {
+      "poster_path": "/famiFiwZPQ3A8WVjKFhCplKrZgr.jpg",
+      "adult": false,
+      "overview": "overview",
+      "release_date": "2011-04-30",
+      "genre_ids": [
+        27
+      ],
+      "id": 282908,
+      "original_title": "Abataa",
+      "original_language": "ja",
+      "title": "Avatar",
+      "backdrop_path": null,
+      "popularity": 1.001713,
+      "vote_count": 0,
+      "video": false,
+      "vote_average": 0
+    }
+  ],
+  "total_results": 29,
+  "total_pages": 2
+}

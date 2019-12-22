@@ -1,0 +1,581 @@
+.bigsize-header {
+  float: left;
+  width: 100%;
+  height: 600px;
+  position: relative;
+
+  @include transition(height);
+
+  @include media(3) {
+    height: 500px;
+  }
+
+  @include media(4) {
+    height: 590px;
+  }
+
+  @include media(6) {
+    height: 650px;
+  }
+}
+
+.big-teaser-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $main2;
+  background: $gradient;
+  width: 100%;
+  //height: 65vh;
+  //height: 600px;
+  height: 100%;
+  z-index: 10;
+  box-shadow: 0 0 70px 0 rgba(0,0,0,.5);
+
+  .open-modal & {
+    padding-right: 17px;
+  }
+}
+
+.button-trailer {
+  background: $dark;
+  color: rgba(255,255,255,.9);
+
+  &:hover {
+    background: lighten($dark, 5%);
+  }
+
+  &:active {
+    background: $dark;
+  }
+
+  @include media(4) {
+    .without-watchlist & {
+      //width: 100% !important;
+    }
+  }
+}
+
+.button-watchlist {
+  background: #238cce;
+  color: rgba(255,255,255,.9);
+
+  &:hover {
+    background: lighten(#238cce, 5%);
+  }
+
+  &:active {
+    background: #238cce;
+  }
+}
+
+.button-tmdb-rating {
+  background: #00d373;
+  color: $dark;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#00d373, 5%);
+  }
+
+  &:active {
+    background: #00d373;
+  }
+}
+
+.button-imdb-rating {
+  background: #e3b81f;
+  color: $dark;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#e3b81f, 10%);
+  }
+
+  &:active {
+    background: #e3b81f;
+  }
+}
+
+.button-netflix {
+  background: #e50914;
+  color: rgba(255,255,255,.9);
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#e50914, 10%);
+  }
+
+  &:active {
+    background: #e50914;
+  }
+}
+
+.button-amazon {
+  background: #ff9900;
+  color: $dark;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#ff9900, 10%);
+  }
+
+  &:active {
+    background: #ff9900;
+  }
+}
+
+.button-disney {
+  background: #234c97;
+  color: #fff;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#234c97, 10%);
+  }
+
+  &:active {
+    background: #234c97;
+  }
+}
+
+
+.button-apple {
+  background: #444444;
+  color: #fff;
+
+  i {
+    font-style: normal;
+  }
+
+  &:hover {
+    background: lighten(#444444, 10%);
+  }
+
+  &:active {
+    background: #444444;
+  }
+}
+
+.icon-trailer {
+  background: url(../../../public/assets/img/trailer.png);
+  width: 7px;
+  height: 8px;
+  float: left;
+  margin: 0 7px 0 0;
+}
+
+.icon-watchlist {
+  background: url(../../../public/assets/img/watchlist.png);
+  width: 14px;
+  height: 11px;
+  float: left;
+  margin: 0 7px 0 0;
+}
+
+.icon-suggest {
+  background: url(../../../public/assets/img/suggest.png);
+  width: 18px;
+  height: 12px;
+  float: left;
+  margin: 0 7px 0 0;
+}
+
+.icon-watchlist-remove {
+  background: url(../../../public/assets/img/watchlist-remove.png);
+  width: 14px;
+  height: 11px;
+  float: left;
+  margin: 0 7px 0 0;
+
+  @include media(6) {
+    display: none;
+  }
+}
+
+.big-teaser-buttons {
+  float: left;
+  clear: both;
+  margin: 0 0 0 272px;
+  display: flex;
+
+  span,
+  a {
+    float: left;
+    padding: 6px 14px;
+    font-size: 17px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    flex: auto;
+
+    @include transition(background);
+
+    @include media(4) {
+      //padding: 5px 8px;
+      font-size: 15px;
+      //width: 50%;
+      //text-align: center;
+    }
+
+    @include media(5) {
+      // clear: both;
+      //width: 50%;
+    }
+
+    @include media(6) {
+      width: auto;
+      //width: 50%;
+      //overflow: hidden;
+      //text-overflow: ellipsis;
+      //white-space: nowrap;
+      //text-align: center;
+    }
+  }
+
+  @include media(3) {
+    margin: 0 0 0 200px;
+  }
+
+  @include media(4) {
+    margin: 0 0 0 -20px;
+    width: 100%;
+  }
+
+  @include media(6) {
+    flex-direction: column;
+  }
+}
+
+.big-teaser-item-data {
+  float: left;
+  margin: 0 0 40px 300px;
+
+  .item-year,
+  .item-title,
+  .item-genre {
+    float: left;
+    clear: both;
+  }
+
+  .item-title {
+    color: #fff;
+    font-size: 34px;
+    margin: 0 0 10px 0;
+
+    @include media(4) {
+      font-size: 18px;
+    }
+  }
+
+  .item-year,
+  .item-genre {
+    color: rgba(#fff, .8);
+
+    a {
+      color: rgba(#fff, .8);
+      text-decoration: none;
+      background: rgba($dark, .5);
+      font-size: 14px;
+      padding: 3px 7px;
+      margin: 0 5px 5px 0;
+      float: left;
+
+      @include transition(background);
+
+      &:last-child {
+        margin: 0;
+      }
+
+      &:hover {
+        background: $dark;
+      }
+
+      &:active {
+        background: rgba($dark, .7);
+      }
+    }
+
+    i {
+      font-style: normal;
+      text-transform: uppercase;
+    }
+  }
+
+  @include media(3) {
+    margin: 0 0 40px 230px;
+  }
+
+  @include media(4) {
+    clear: both;
+    margin: 30px 0 40px 0;
+  }
+}
+
+.big-teaser-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: 100% 25%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0;
+
+  transition: opacity 1s ease 0s;
+
+  .active & {
+    opacity: .2;
+  }
+
+  .open-modal & {
+    padding-right: 17px;
+  }
+}
+
+.big-teaser-data-wrap {
+  float: left;
+  width: 100%;
+}
+
+.big-teaser-content {
+  position: absolute;
+  bottom: 0;
+
+  @include media(4) {
+    width: 100%;
+  }
+}
+
+.subpage-content {
+  width: 100%;
+  float: left;
+  padding: 0 0 50px 0;
+  //padding: calc(65vh - 90px) 0 0 0;
+  //padding: 520px 0 0 0;
+
+  @include media(6) {
+    //padding: 300px 0 0 0;
+  }
+
+  .open-modal & {
+    padding-right: 17px;
+  }
+}
+
+.subpage-sidebar {
+  float: left;
+  margin: -330px 0 0 0;
+  position: relative;
+  z-index: 50;
+
+  @include media(3) {
+    margin: -250px 0 0 0;
+  }
+
+  @include media(5) {
+    margin: 0;
+  }
+
+  @include media(4) {
+    width: 100%;
+    margin: 0 0 30px 0;
+  }
+}
+
+.subpage-poster-wrap-mobile {
+  float: left;
+  position: relative;
+  display: none;
+
+  @include media(4) {
+    display: block;
+  }
+
+  // todo: remove
+  .base {
+    box-shadow: 0 20px 20px 0 rgba(0, 0, 0, .3);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .real {
+    position: relative;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 1s ease 0s;
+
+    .active & {
+      opacity: 1;
+    }
+  }
+}
+
+.subpage-poster-wrap {
+  float: left;
+  position: relative;
+  max-height: 408px;
+
+  img {
+    border: 0;
+
+    @include media(3) {
+      max-width: 200px;
+      height: auto;
+    }
+  }
+
+  .base {
+    box-shadow: 0 20px 20px 0 rgba(0, 0, 0, .3);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .real {
+    position: relative;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 1s ease 0s;
+
+    .active & {
+      opacity: 1;
+    }
+  }
+
+  @include media(4) {
+    //max-width: 100px;
+    //height: auto;
+    display: none;
+  }
+}
+
+.subpage-sidebar-buttons {
+  float: left;
+  clear: both;
+  width: 100%;
+  position: relative;
+  z-index: 100;
+  margin: 30px 0 0 0;
+
+  span {
+    float: left;
+    clear: both;
+  }
+
+  @include media(6) {
+    //clear: none;
+    //width: auto;
+  }
+}
+
+.remove-item,
+.refresh-infos,
+.edit-data {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: $dark;
+
+  .dark & {
+    color: #717171;
+  }
+
+  @include transition(color);
+
+  &:hover {
+    color: $rating3;
+    text-decoration: underline;
+  }
+
+  &:active {
+    text-decoration: none;
+  }
+}
+
+.refresh-infos {
+
+  &:hover {
+    color: #238cce;
+    text-decoration: underline;
+  }
+
+  &:active {
+    text-decoration: none;
+  }
+}
+
+.edit-data {
+
+  &:hover {
+    color: $rating2;
+    text-decoration: underline;
+  }
+
+  &:active {
+    text-decoration: none;
+  }
+}
+
+.subpage-overview {
+  width: calc(100% - 310px);
+  float: right;
+  //margin: 0 0 0 30px;
+  padding: 0 0 30px 0;
+
+  @include media(3) {
+    width: calc(100% - 240px);
+  }
+
+  @include media(4) {
+    margin: 0;
+    width: 100%;
+  }
+
+  h2 {
+    float: left;
+    color: $main2;
+    text-transform: uppercase;
+    font-size: 18px;
+    margin: 30px 0 10px 0;
+
+    @include media(6) {
+      font-size: 14px;
+    }
+  }
+
+  p {
+    float: left;
+    clear: both;
+    color: $dark;
+    font-size: 15px;
+    line-height: 19pt;
+
+    @include media(6) {
+      font-size: 14px;
+    }
+
+    .dark & {
+      color: #717171;
+    }
+  }
+}

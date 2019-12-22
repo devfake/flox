@@ -1,9 +1,9 @@
 language: php
 
+sudo: false
+
 php:
-  - 5.6
-  - 7.0
-  - 7.1
+  - 7.2
 
 env:
   APP_ENV: testing
@@ -13,11 +13,18 @@ env:
   APP_KEY: 16efa6c23c2e8c705826b0e66778fbe7
   DB_CONNECTION: sqlite
 
-before_install:
-  - cd backend
+cache:
+  directories:
+    - backend/vendor
 
-install:
-  - composer install --prefer-source --no-interaction
+services:
+  - mysql
 
 script:
-  - phpunit
+  - (cd backend && vendor/bin/phpunit --testdox)
+
+install:
+  - (cd backend && composer install --prefer-source --no-interaction)
+
+notifications:
+  email: false

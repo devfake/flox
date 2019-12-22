@@ -1,10 +1,17 @@
-/client/node_modules
+node_modules
 /backend/vendor
 /.idea
 Homestead.json
 Homestead.yaml
 /backend/.env
+/bin/.worker.pid
+/backend/.phpunit.result.cache
 
 */.DS_Store
+/public/assets/app.css
+/public/assets/app.js
+/public/assets/vendor.js
 /public/assets/poster/*.jpg
+/public/assets/poster/subpage/*.jpg
+/public/assets/backdrop/*.jpg
 /public/exports/*.json

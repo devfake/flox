@@ -35,4 +35,20 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'tmdb' => [
+      'key' => env('TMDB_API_KEY'),
+      'poster' => 'https://image.tmdb.org/t/p/w185',
+      'poster_subpage' => 'https://image.tmdb.org/t/p/w342',
+      'backdrop' => 'https://image.tmdb.org/t/p/w1280',
+    ],
+
+    'imdb' => [
+      'url' => 'https://www.imdb.com/title/',
+    ],
+
+    'fp' => [
+      'host' => env('FP_HOST'),
+      'port' => env('FP_PORT'),
+    ],
+
 ];

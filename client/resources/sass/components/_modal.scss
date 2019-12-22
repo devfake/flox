@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 50;
+  z-index: 250;
 }
 
 .modal-wrap {
@@ -16,21 +16,65 @@
   transform: translateX(-50%);
   width: 100%;
   box-shadow: 0 5px 20px 0 rgba(#000, .6);
-  z-index: 100;
+  z-index: 300;
 
   @include media(4) {
     top: 0;
   }
 }
 
+.modal-wrap-big {
+  max-width: 1300px;
+  height: 80%;
+
+  .modal-content {
+    max-height: calc(100% - 45px);
+    height: 100%;
+
+    iframe {
+      float: left;
+    }
+  }
+
+  @include media(4) {
+    height: 100%;
+  }
+}
+
 .modal-header {
   background: $main2;
-  background: linear-gradient(to right, $main1, $main2);
+  background: $gradient;
   color: #fff;
   float: left;
   font-size: 20px;
   width: 100%;
   padding: 10px 15px;
+}
+
+.modal-options {
+  float: left;
+  clear: both;
+  font-size: 14px;
+  margin: 10px 0 0 0;
+
+  span {
+    border: 1px solid rgba(#fff, .3);
+    padding: 2px 5px;
+    border-radius: 3px;
+    float: left;
+    cursor: pointer;
+    color: rgba(#fff, .8);
+
+    @include transition(background);
+
+    &:hover {
+      background: rgba(#fff, .2);
+    }
+
+    &:active {
+      background: rgba(#fff, .1);
+    }
+  }
 }
 
 .close-modal {
@@ -148,11 +192,17 @@
   }
 
   &:active {
-    background: darken(#2f2f2f, 3%);
+    .logged & {
+      background: darken(#2f2f2f, 3%);
+    }
   }
 
   &:last-child {
     border: none;
+  }
+
+  .item-has-src {
+    margin: 7px 0 0 5px;
   }
 }
 
@@ -177,6 +227,24 @@
   &.spoiler-protect {
     background: rgba(#fff, .4);
     color: transparent;
+
+    @extend .no-select;
+  }
+}
+
+.modal-release-episode {
+  float: left;
+  color: rgba(#fff, .4);
+  font-size: 13px;
+  margin: 2px 0 0 10px;
+
+  i {
+    float: left;
+    width: 13px;
+    height: 13px;
+    margin: 3px 6px 0 0;
+    opacity: .8;
+    background: url(../../../public/assets/img/clock.png) no-repeat;
   }
 }
 

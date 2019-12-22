@@ -1,0 +1,57 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "poster_path": "/jIhL6mlT7AblhbHJgEoiBIOUVl1.jpg",
+      "id": 1399,
+      "media_type": "tv",
+      "first_air_date": "2011-04-17",
+      "genre_ids": [
+        10765,
+        10759,
+        18
+      ],
+      "name": "Game of Thrones",
+      "original_name": "Game of Thrones",
+      "vote_average": 1,
+      "popularity": 1,
+      "backdrop_path": "xxx",
+      "overview": "xxx"
+    },
+    {
+      "poster_path": "/8y1LSfnb8Dfd3XPIrxlpvZ4e8d.jpg",
+      "release_date": "2011-05-13",
+      "original_title": "Game of Thrones: Complete History and Lore",
+      "genre_ids": [
+        16,
+        14,
+        28,
+        12
+      ],
+      "id": 269623,
+      "media_type": "movie",
+      "original_language": "en",
+      "title": "Game of Thrones: Complete History and Lore",
+      "vote_average": 1,
+      "popularity": 1,
+      "backdrop_path": "xxx",
+      "overview": "xxx"
+    },
+    {
+      "poster_path": null,
+      "release_date": "2015-02-08",
+      "original_title": "Game of Thrones: A Day in the Life",
+      "genre_ids": [
+        99
+      ],
+      "id": 340200,
+      "media_type": "movie",
+      "original_language": "en",
+      "title": "Game of Thrones: A Day in the Life",
+      "vote_average": 1,
+      "popularity": 1,
+      "backdrop_path": "xxx",
+      "overview": "xxx"
+    }
+  ]
+}

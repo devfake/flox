@@ -1,16 +1,19 @@
 $main1: #895bff;
 $main2: #f1309a;
 $dark: #484848;
+$lightGray: #838383;
 $rating1: #6bb01a;
 $rating2: #da9527;
 $rating3: #cd2727;
+$gradient: linear-gradient(to right, $main1, $main2);
 
-@mixin transition($type, $type2: '') {
-  @if $type2 == '' {
-    transition: $type .2s ease 0s;
-  }
-  @else {
+@mixin transition($type, $type2: '', $type3: '') {
+  @if $type3 != '' {
+    transition: $type .2s ease 0s, $type2 .2s ease 0s, $type3 .2s ease 0s;
+  } @else if $type2 != '' {
     transition: $type .2s ease 0s, $type2 .2s ease 0s;
+  } @else {
+    transition: $type .2s ease 0s;
   }
 }
 
@@ -42,6 +45,16 @@ $rating3: #cd2727;
 }
 
 .loader {
+  background: url(../../../public/assets/img/logo-small.png);
+  width: 32px;
+  height: 25px;
+  
+  @include transition(opacity);
+
+  animation: blink 1s infinite;
+}
+
+.loader-old {
   width: 29px;
   height: 29px;
   display: block;
@@ -73,10 +86,12 @@ $rating3: #cd2727;
 }
 
 .smallsize-loader {
-  border: 4px solid #fff;
-  width: 19px;
-  height: 19px;
-  margin: 15px auto;
+  //border: 4px solid #fff;
+  //width: 19px;
+  //height: 19px;
+  display: block;
+  margin: 13px auto;
+  background: url(../../../public/assets/img/logo-small-light.png);
 
   i {
     background-color: #fff;

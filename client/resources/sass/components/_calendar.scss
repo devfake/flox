@@ -1,0 +1,206 @@
+.calendar-main {
+  padding: 100px 0 0 0;
+}
+
+.calendar-wrap {
+  height: calc(100vh - 100px) !important;
+  max-width: 100%;
+  padding: 0;
+  
+  .cv-weeks {
+    overflow: hidden !important;
+    border: none;
+  }
+  
+  .cv-week {
+    //width: calc(100% + 17px);
+    overflow-y: scroll !important;
+  }
+  
+  .cv-header {
+    background: transparent !important;
+    border: none !important;
+    position: relative;
+  }
+
+  .cv-header-days {
+    border: none !important;
+    padding: 0 0 10px 0;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
+    
+    .dark & {
+      box-shadow: 0 10px 10px 0 rgba(0,0,0,.3);
+    }
+  }
+
+  .cv-header-day {
+    border: none;
+    font-size: 14px;
+    justify-content: flex-end;
+    background: transparent !important;
+    
+    .dark & {
+      color: $lightGray;
+    }
+  }
+  
+  .cv-day-number {
+    
+    .dark & {
+      color: $lightGray !important;
+    }
+  }
+
+  .cv-day {
+    background: transparent !important;
+    color: #484848 !important;
+    border-color: #cbcbcb;
+    
+    &.today {
+      background: #cbcbcb !important;
+      
+      .dark & {
+        background: #2a2a2a !important;
+      }
+    }
+    
+    .dark & {
+      border-color: #484848;
+    }
+  }
+
+  .dow0 {
+    border-right: none;
+  }
+  
+  .week1 .cv-day {
+    border-top: none !important;
+  }
+
+  .cv-event {
+    color: #fff !important;
+    border-radius: 0;
+    font-size: 14px;
+    border: none !important;
+    cursor: pointer;
+    width: auto !important;
+    max-width: calc(14.28571% - 20px);
+    margin: 0 0 0 10px;
+    
+    &.eventRow1 {
+      top: calc(1 * 1.4em + 1px) !important;
+    }
+    
+    &.eventRow2 {
+      top: calc(2 * 1.4em + 2px) !important;
+    }
+
+    &.eventRow3 {
+      top: calc(3 * 1.4em + 3px) !important;
+    }
+
+    &.eventRow4 {
+      top: calc(4 * 1.4em + 4px) !important;
+    }
+
+    &.tv {
+      background: $main1;
+    }
+    
+    &.movies {
+      background: $main2;
+    }
+    
+    &.watchlist-1 {
+      &:before {
+        content: "👁 ";
+      }
+    }
+    
+    &:active {
+      opacity: .6;
+    }
+    
+    .dark & {
+      color: rgba(#fff, .8) !important;
+    }
+  }
+  
+  .nextYear,
+  .previousYear {
+    display: none !important;
+  }
+  
+  .currentPeriod {
+    float: left;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    margin: 0 50px 0 0;
+    outline: none;
+    
+    &:hover {
+      color: $dark;
+    }
+    
+    &:active {
+      color: $lightGray;
+    }
+  }
+
+  .previousPeriod,
+  .nextPeriod {
+    background: #cbcbcb;
+    border: none !important;
+    cursor: pointer;
+    outline: none;
+
+    .dark & {
+      background: #2a2a2a;
+    }
+
+    &:hover {
+      background: #383838;
+    }
+
+    &:active {
+      background: #2a2a2a;
+    }
+  }
+
+  .periodLabel {
+    margin: 0 !important;
+    justify-content: center;
+    font-size: 18px !important;
+    padding: 5px 0 0 0 !important;
+    flex: none !important;
+    display: block;
+
+    .dark & {
+      color: $lightGray !important;
+    }
+  }
+
+  .dayList {
+    border: none !important;
+  }
+
+  .today {
+    
+    .cv-day-number {
+      color: $main2 !important;
+    }
+  }
+  
+  .outsideOfMonth {
+    .cv-day-number {
+      display: none;
+      //opacity: .5;
+      //color: $lightGray !important;
+    }
+  }
+  
+  .hidden-event {
+    display: none;
+  }
+}

@@ -4,17 +4,13 @@
 
   use Illuminate\Contracts\Auth\Guard;
   use Illuminate\Support\Facades\Auth;
-  use Illuminate\Support\Facades\Input;
+  use Illuminate\Support\Facades\Request;
+  use Symfony\Component\HttpFoundation\Response;
 
   class UserController {
 
     private $auth;
 
-    /**
-     * Create an instance for 'auth'.
-     *
-     * @param Guard $auth
-     */
     public function __construct(Guard $auth)
     {
       $this->auth = $auth;
@@ -27,14 +23,24 @@
      */
     public function login()
     {
-      $username = Input::get('username');
-      $password = Input::get('password');
+      $username = Request::input('username');
+      $password = Request::input('password');
 
       if($this->auth->attempt(['username' => $username, 'password' => $password], true)) {
-        return response('Success', 200);
+        return response('Success', Response::HTTP_OK);
       }
 
-      return response('Unauthorized', 401);
+      return response('Unauthorized', Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserData()
+    {
+      return [
+        'username' => Auth::user()->username,
+      ];
     }
 
     /**
@@ -44,8 +50,12 @@
      */
     public function changeUserData()
     {
-      $username = Input::get('username');
-      $password = Input::get('password');
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
+      $username = Request::input('username');
+      $password = Request::input('password');
 
       $user = Auth::user();
       $user->username = $username;
@@ -55,10 +65,10 @@
       }
 
       if($user->save()) {
-        return response('Success', 200);
+        return response('Success', Response::HTTP_OK);
       }
 
-      return response('Server Error', 500);
+      return response('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**

@@ -2,128 +2,46 @@
 
   namespace App\Http\Controllers;
 
+  use App\AlternativeTitle;
   use App\Episode;
-  use App\Http\Requests\ImportRequest;
   use App\Item;
-  use App\Services\Storage;
-  use App\Services\TMDB;
   use App\Setting;
   use GuzzleHttp\Client;
-  use Illuminate\Support\Facades\Artisan;
   use Illuminate\Support\Facades\Auth;
-  use Illuminate\Support\Facades\Input;
+  use Illuminate\Support\Facades\Cache;
+  use Illuminate\Support\Facades\Request;
+  use Symfony\Component\HttpFoundation\Response;
 
   class SettingController {
 
     private $item;
     private $episodes;
-    private $storage;
     private $version;
+    private $setting;
+    private $alternativeTitles;
 
-    public function __construct(Item $item, Episode $episodes, Storage $storage)
+    public function __construct(Item $item, Episode $episodes, AlternativeTitle $alternativeTitles, Setting $setting)
     {
       $this->item = $item;
       $this->episodes = $episodes;
-      $this->storage = $storage;
+      $this->alternativeTitles = $alternativeTitles;
+      $this->setting = $setting;
       $this->version = config('app.version');
-    }
-
-    /**
-     * Save all movies and series as json file and return an download response.
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function export()
-    {
-      $data['items'] = $this->item->all();
-      $data['episodes'] = $this->episodes->all();
-
-      $file = 'flox--' . date('Y-m-d---H-i') . '.json';
-
-      $this->storage->saveExport($file, json_encode($data));
-
-      return response()->download(base_path('../public/exports/' . $file));
-    }
-
-    /**
-     * Reset item table and restore backup. Download every poster image new.
-     *
-     * @param ImportRequest $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    public function import(ImportRequest $request)
-    {
-      set_time_limit(300);
-
-      $file = $request->file('import');
-      $extension = $file->getClientOriginalExtension();
-
-      if($extension !== 'json') {
-        return response('Wrong File', 422);
-      }
-
-      $data = json_decode(file_get_contents($file));
-
-      $this->item->truncate();
-      foreach($data->items as $item) {
-        $this->item->create((array) $item);
-        $this->storage->createPosterFile($item->poster);
-      }
-
-      $this->episodes->truncate();
-      foreach($data->episodes as $episode) {
-        $this->episodes->create((array) $episode);
-      }
     }
 
     /**
      * Check the latest release of flox and compare them to the local version.
      *
+     * @param Client $client
      * @return string
      */
-    public function checkUpdate()
+    public function checkForUpdate(Client $client)
     {
-      $client = new Client();
       $response = json_decode($client->get('https://api.github.com/repos/devfake/flox/releases')->getBody());
 
       $lastestVersion = $response[0]->name;
 
       return version_compare($this->version, $lastestVersion, '<') ? 'true' : 'false';
-    }
-    /**
-     * Parse full genre list of all movies in database and save them.
-     *
-     * @param TMDB $tmdb
-     */
-    public function updateGenre(TMDB $tmdb)
-    {
-      set_time_limit(300);
-
-      $items = Item::all();
-
-      foreach($items as $item) {
-        if( ! $item->genre) {
-          $data = [];
-          $genres = $tmdb->movie($item->tmdb_id)->genres;
-          foreach($genres as $genre) {
-            $data[] = $genre->name;
-          }
-
-          $item->genre = implode($data, ', ');
-          $item->save();
-
-          // Help for TMDb request limit.
-          sleep(1);
-        }
-      }
-    }
-
-    /**
-     * Sync Flox with laravel scout driver in settings.
-     */
-    public function syncScout()
-    {
-      Artisan::call('flox:sync');
     }
 
     /**
@@ -133,15 +51,7 @@
      */
     public function settings()
     {
-      $settings = Setting::first();
-
-      if( ! $settings) {
-        $settings = Setting::create([
-          'show_genre' => 0,
-          'show_date' => 1,
-          'episode_spoiler_protection' => 1,
-        ]);
-      }
+      $settings = $this->setting->first();
 
       return [
         'username' => Auth::check() ? Auth::user()->username : '',
@@ -149,18 +59,85 @@
         'date' => $settings->show_date,
         'spoiler' => $settings->episode_spoiler_protection,
         'version' => $this->version,
+        'watchlist' => $settings->show_watchlist_everywhere,
+        'ratings' => $settings->show_ratings,
+        'refresh' => $settings->refresh_automatically,
+        'reminders_send_to' => $settings->reminders_send_to,
+        'daily' => $settings->daily_reminder,
+        'weekly' => $settings->weekly_reminder,
       ];
     }
 
     /**
-     * Save new user settings.
+     * @return array
      */
-    public function changeSettings()
+    public function getVersion()
     {
-      Setting::first()->update([
-        'show_genre' => Input::get('genre'),
-        'show_date' => Input::get('date'),
-        'episode_spoiler_protection' => Input::get('spoiler'),
+      return [
+        'version' => $this->version,
+      ];
+    }
+
+    /**
+     * Update new settings.
+     */
+    public function updateSettings()
+    {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
+      Cache::flush();
+
+      $this->setting->first()->update([
+        'show_genre' => Request::input('genre'),
+        'show_date' => Request::input('date'),
+        'episode_spoiler_protection' => Request::input('spoiler'),
+        'show_watchlist_everywhere' => Request::input('watchlist'),
+        'show_ratings' => Request::input('ratings'),
+      ]);
+    }
+
+    /**
+     * Update refresh check.
+     */
+    public function updateRefresh()
+    {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
+      $this->setting->first()->update([
+        'refresh_automatically' => Request::input('refresh'),
+      ]);
+    }
+
+    /**
+     * Update reminders mail.
+     */
+    public function updateRemindersSendTo()
+    {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
+      $this->setting->first()->update([
+        'reminders_send_to' => Request::input('reminders_send_to'),
+      ]);
+    }
+
+    /**
+     * Update reminder options.
+     */
+    public function updateReminderOptions()
+    {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
+      $this->setting->first()->update([
+        'daily_reminder' => Request::input('daily'),
+        'weekly_reminder' => Request::input('weekly'),
       ]);
     }
   }

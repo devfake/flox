@@ -1,0 +1,52 @@
+{
+  "tv": [
+    {
+      "name": "Game of Thrones",
+      "season_number": 2,
+      "episode_number": 1,
+      "status": "added",
+      "extension": "mkv",
+      "tags": [],
+      "year": null,
+      "filename": "1",
+      "subtitles": "src",
+      "src": "/tv/Game of Thrones/S1/1.mkv"
+    },
+    {
+      "name": "Game of Thrones",
+      "season_number": 2,
+      "episode_number": 2,
+      "tags": [],
+      "status": "added",
+      "extension": "mkv",
+      "year": null,
+      "filename": "2",
+      "subtitles": "src",
+      "src": "/tv/Game of Thrones/S1/1.mkv"
+    },
+    {
+      "name": "Game of Thrones",
+      "season_number": 1,
+      "episode_number": 1,
+      "extension": "mkv",
+      "status": "added",
+      "filename": "1",
+      "tags": [],
+      "subtitles": "src",
+      "year": null,
+      "src": "/tv/Game of Thrones/s1/1.mkv"
+    },
+    {
+      "name": "Game of Thrones",
+      "season_number": 1,
+      "tags": [],
+      "episode_number": 2,
+      "status": "added",
+      "extension": "mp4",
+      "filename": "2",
+      "year": null,
+      "subtitles": "src",
+      "src": "/tv/Game of Thrones/s1/1.mkv"
+    }
+  ]
+}

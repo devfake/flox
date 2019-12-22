@@ -1,0 +1,58 @@
+export default {
+  methods: {
+    // http://stackoverflow.com/a/24559613
+    scrollToTop(scrollDuration = 300) {
+      let cosParameter = window.scrollY / 2;
+      let scrollCount = 0;
+      let oldTimestamp = performance.now();
+
+      function step(newTimestamp) {
+        scrollCount += Math.PI / (scrollDuration / (newTimestamp - oldTimestamp));
+
+        if(scrollCount >= Math.PI) window.scrollTo(0, 0);
+        if(window.scrollY === 0) return;
+
+        window.scrollTo(0, Math.round(cosParameter + cosParameter * Math.cos(scrollCount)));
+        oldTimestamp = newTimestamp;
+        window.requestAnimationFrame(step);
+      }
+
+      window.requestAnimationFrame(step);
+    },
+
+    suggestionsUri(item) {
+      return `/suggestions?for=${item.tmdb_id}&name=${item.title}&type=${item.media_type}`;
+    },
+
+    // Language helper
+    lang(text) {
+      const language = JSON.parse(config.language);
+
+      return language[text] || text;
+    },
+
+    formatLocaleDate(date) {
+      const language = navigator.language || navigator.userLanguage;
+
+      return date.toLocaleDateString(language, {
+        year: '2-digit',
+        month: '2-digit',
+        day: '2-digit'
+      });
+    },
+
+    isSubpage() {
+      return this.$route.name.includes('subpage');
+    }
+  },
+
+  computed: {
+    displayHeader() {
+      if(this.isSubpage()) {
+        return this.itemLoadedSubpage;
+      }
+
+      return true;
+    }
+  }
+}

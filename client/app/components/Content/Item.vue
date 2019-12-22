@@ -1,60 +1,88 @@
 <template>
   <transition mode="out-in" name="fade">
-    <div class="item-wrap">
-      <div class="item-image-wrap">
-        <span v-if="localItem.rating" :class="'item-rating rating-' + localItem.rating" @click="changeRating()">
-          <i class="icon-rating"></i>
-        </span>
-        <span v-if=" ! localItem.rating" class="item-rating item-new" :class="{disabled: disabled}" @click="addNewItem()">
-          <span class="loader smallsize-loader" v-if="rated"><i></i></span>
-          <i class="icon-add" v-if=" ! rated"></i>
-        </span>
+    <div class="item-wrap" :class="'show-ratings-' + ratings">
+      <div class="item-image-wrap no-select">
+        <rating :rated="rated" :set-rated="setRated" :item="localItem" :set-item="setItem"></rating>
 
-        <router-link :to="'/suggestions?for=' + localItem.tmdb_id + '&type=' + localItem.media_type" class="recommend-item">{{ lang('suggestions') }}</router-link>
-        <span class="remove-item" v-if="localItem.rating && auth" @click="removeItem()">{{ lang('delete movie') }}</span>
+        <!--<router-link v-if="localItem.tmdb_id" :to="suggestionsUri(localItem)" class="recommend-item">-->
+          <!--{{ lang('suggestions') }}-->
+        <!--</router-link>-->
 
-        <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
-        <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
+        <div class="item-actions">
+          <router-link :title="lang('suggestions')" :to="suggestionsUri(localItem)" v-if="localItem.tmdb_id" class="has-suggestion">
+            <i class="icon-suggest"></i>
+          </router-link>
+          <span class="is-on-watchlist" :title="lang('add to watchlist')" v-if="auth && localItem.rating == null && ! rated" @click="addToWatchlist(localItem)">
+            <i class="icon-watchlist"></i>
+          </span>
+          <span class="is-on-watchlist" :title="lang('remove from watchlist')" v-if="auth && localItem.watchlist && ! rated" @click="removeItem()">
+            <i class="icon-watchlist-remove"></i>
+          </span>
+          <span :title="lang('episodes')" v-if="displaySeason(localItem) && latestEpisode" @click="openSeasonModal(localItem)" class="is-a-show">
+            S{{ season }}E{{ episode }}
+          </span>
+          <span :title="lang('finished')" v-if="displaySeason(localItem) && !latestEpisode" @click="openSeasonModal(localItem)" class="is-a-show">
+            <i class="is-finished"></i>
+          </span>
+        </div>
 
-        <span class="show-episode" @click="editEpisodes()" v-if="localItem.media_type == 'tv' && localItem.rating">
-          <span class="season-item"><i>S</i>{{ season }}</span>
-          <span class="episode-item"><i>E</i>{{ episode }}</span>
-        </span>
+        <!--<span v-if="auth && localItem.rating == null && ! rated" class="add-to-watchlist" @click="addToWatchlist(localItem)">{{ lang('add to watchlist') }}</span>-->
+        <!--<span v-if="auth && localItem.watchlist && ! rated" class="remove-from-watchlist" @click="removeItem()">{{ lang('remove from watchlist') }}</span>-->
+        <span v-if="auth && ! localItem.tmdb_id" class="edit-item" @click="editItem()">Edit</span>
+
+        <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id, slug: localItem.slug }}">
+          <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
+          <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
+        </router-link>
+
+        <!--<span class="show-episode" @click="openSeasonModal(localItem)" v-if="displaySeason(localItem)">-->
+          <!--<span class="season-item" v-if="latestEpisode"><i>S</i>{{ season }}</span>-->
+          <!--<span class="episode-item" v-if="latestEpisode"><i>E</i>{{ episode }}</span>-->
+          <!--<span class="item-done" v-if="!latestEpisode">{{ lang('finished') }}</span>-->
+        <!--</span>-->
       </div>
 
       <div class="item-content">
-        <span v-if="date == 1" class="item-year">{{ released }}</span>
-        <a :href="youtube" target="_blank" :title="localItem.title" class="item-title">{{ localItem.title }}</a>
-        <span v-if="genre == 1" class="item-genre">{{ localItem.genre }}</span>
+        <span v-if="date == 1" class="item-year">{{ released }} <i>{{ lang(localItem.media_type) }}</i></span>
+        <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id }}" class="item-title" :title="localItem.title">
+          <i class="item-has-src" v-if="hasSrc"></i>
+          {{ localItem.title }}
+        </router-link>
+        <span v-if="genre == 1" class="item-genre">{{ genreAsString(localItem.genre) }}</span>
       </div>
     </div>
   </transition>
 </template>
 
 <script>
+  import Rating from '../Rating.vue';
+
   import http from 'axios';
-  import Helper from '../../helper';
+  import MiscHelper from '../../helpers/misc';
+  import ItemHelper from '../../helpers/item';
 
   import { mapMutations, mapActions } from 'vuex';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper, ItemHelper],
 
-    props: ['item', 'genre', 'date'],
+    props: ['item', 'genre', 'date', 'ratings'],
 
     data() {
       return {
         localItem: this.item,
         latestEpisode: this.item.latest_episode,
-        saveTimeout: null,
-        auth: config.auth,
         prevRating: null,
-        rated: false,
-        disabled: false
+        auth: config.auth,
+        rated: false
       }
     },
 
     computed: {
+      hasSrc() {
+        return this.localItem.src || this.localItem.episodes_with_src_count > 0;
+      },
+
       poster() {
         if(this.localItem.rating) {
           return config.poster + this.localItem.poster;
@@ -71,114 +99,46 @@
         const path = this.$route.path;
         const released = new Date(this.localItem.released * 1000);
 
-        if(path == '/upcoming') {
-          const language = navigator.language || navigator.userLanguage;
-
-          return released.toLocaleDateString(language, {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric'
-          });
+        if(path === '/upcoming' || path === '/now-playing') {
+          return this.formatLocaleDate(released);
         }
 
         return released.getFullYear();
-      },
-
-      youtube() {
-        return `https://www.youtube.com/results?search_query=${this.localItem.title} ${this.released} Trailer`;
-      },
-
-      season() {
-        if(this.latestEpisode) {
-          return this.addZero(this.latestEpisode.season_number);
-        }
-
-        return '01';
-      },
-
-      episode() {
-        if(this.latestEpisode) {
-          return this.addZero(this.latestEpisode.episode_number);
-        }
-
-        return '0';
       }
     },
 
     methods: {
-      ...mapMutations([ 'OPEN_MODAL' ]),
+      ...mapMutations([ 'OPEN_MODAL', 'SET_RATED' ]),
       ...mapActions([ 'fetchEpisodes' ]),
 
-      editEpisodes() {
-        this.fetchEpisodes({
-          tmdb_id: this.localItem.tmdb_id,
-          title: this.localItem.title
-        });
-        this.openModal();
+      setItem(item) {
+        this.localItem = item;
       },
 
-      openModal() {
-        if(this.auth) {
-          this.OPEN_MODAL({
-            type: 'season',
-            data: {
-              tmdb_id: this.localItem.tmdb_id,
-              title: this.localItem.title
-            }
-          });
-        }
-      },
-
-      changeRating() {
-        if(this.auth) {
-          clearTimeout(this.saveTimeout);
-
-          this.prevRating = this.localItem.rating;
-          this.localItem.rating = this.prevRating == 3 ? 1 : +this.prevRating + 1;
-
-          this.saveTimeout = setTimeout(() => {
-            this.saveNewRating();
-          }, 500);
-        }
-      },
-
-      saveNewRating() {
-        http.patch(`${config.api}/change-rating/${this.localItem.id}`, {rating: this.localItem.rating}).catch(error => {
-          this.localItem.rating = this.prevRating;
-          alert('Error in saveNewRating()');
-        });
-      },
-
-      addNewItem() {
-        if(this.auth) {
-          this.disabled = true;
-          this.rated = true;
-
-          http.post(`${config.api}/add`, {item: this.localItem}).then(value => {
-            this.localItem = value.data;
-            this.disabled = false;
-            this.rated = false;
-          }, error => {
-            if(error.status == 409) {
-              alert(this.localItem.title + ' already exists!');
-            }
-          });
-        }
+      setRated(rated) {
+        this.rated = rated
       },
 
       removeItem() {
-        if(this.auth) {
-          const confirm = window.confirm(this.lang('confirm delete'));
+        this.rated = true;
 
-          if(confirm) {
-            http.delete(`${config.api}/remove/${this.localItem.id}`).then(value => {
-              this.localItem.rating = null;
-            }, error => {
-              alert('Error in removeItem()');
-            });
-          }
-        }
+        http.delete(`${config.api}/remove/${this.localItem.id}`).then(response => {
+          this.rated = false;
+          this.localItem.rating = null;
+          this.localItem.watchlist = null;
+        }, error => {
+          alert(error);
+          this.rated = false;
+        });
+      },
+
+      editItem() {
+
       }
+    },
+
+    components: {
+      Rating
     }
   }
 </script>

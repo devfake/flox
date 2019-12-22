@@ -1,0 +1,87 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "poster_path": "/jVT1MYp58SSzXc6BKetkGxVS3Ze.jpg",
+      "adult": false,
+      "overview": "overview",
+      "release_date": "2016-05-25",
+      "original_title": "Warcraft",
+      "genre_ids": [
+        14
+      ],
+      "id": 68735,
+      "media_type": "movie",
+      "original_language": "en",
+      "title": "Warcraft: The Beginning",
+      "backdrop_path": "/lubzBMQLLmG88CLQ4F3TxZr2Q7N.jpg",
+      "popularity": 130.924005,
+      "vote_count": 2070,
+      "video": false,
+      "vote_average": 5.8
+    },
+    {
+      "poster_path": "/WLQN5aiQG8wc9SeKwixW7pAR8K.jpg",
+      "adult": false,
+      "overview": "overview",
+      "release_date": "2016-06-18",
+      "genre_ids": [
+        12,
+        16,
+        35,
+        10751
+      ],
+      "id": 328111,
+      "original_title": "The Secret Life of Pets",
+      "original_language": "en",
+      "title": "The Secret Life of Pets",
+      "backdrop_path": "/lubzBMQLLmG88CLQ4F3TxZr2Q7N.jpg",
+      "popularity": 130.924005,
+      "vote_count": 2070,
+      "video": false,
+      "vote_average": 5.8
+    },
+    {
+      "poster_path": "/e1mjopzAS2KNsvpbpahQ1a6SkSn.jpg",
+      "adult": false,
+      "overview": "overview",
+      "release_date": "2016-08-02",
+      "genre_ids": [
+        28,
+        80,
+        14,
+        878
+      ],
+      "id": 297761,
+      "original_title": "Suicide Squad",
+      "original_language": "en",
+      "title": "Suicide Squad",
+      "backdrop_path": "/34dxtTxMHGKw1njHpTjDqR8UBHd.jpg",
+      "popularity": 116.221277,
+      "vote_count": 4156,
+      "video": false,
+      "vote_average": 5.9
+    },
+    {
+      "poster_path": "/z09QAf8WbZncbitewNk6lKYMZsh.jpg",
+      "adult": false,
+      "overview": "overview",
+      "release_date": "2016-06-16",
+      "genre_ids": [
+        16,
+        10751
+      ],
+      "id": 127380,
+      "original_title": "Finding Dory",
+      "original_language": "en",
+      "title": "Finding Dory",
+      "backdrop_path": "/iWRKYHTFlsrxQtfQqFOQyceL83P.jpg",
+      "popularity": 97.267924,
+      "vote_count": 2140,
+      "video": false,
+      "vote_average": 6.7
+    }
+  ],
+  "total_results": 19539,
+  "total_pages": 977
+}

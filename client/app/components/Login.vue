@@ -20,10 +20,10 @@
 
 <script>
   import http from 'axios';
-  import Helper from '../helper';
+  import MiscHelper from '../helpers/misc';
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
     created() {
       document.body.classList.add('dark');

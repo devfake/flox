@@ -1,30 +1,32 @@
 <?php
 
-  use Illuminate\Foundation\Testing\DatabaseMigrations;
+  namespace Tests\Settting;
+
+  use App\User;
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Tests\TestCase;
   use Illuminate\Support\Facades\Hash;
 
   class UserTest extends TestCase {
 
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
       parent::setUp();
 
-      $this->user = factory(App\User::class)->create();
+      $this->user = factory(User::class)->create();
     }
 
     /** @test */
     public function change_user_data_only_if_user_is_logged_in()
     {
-      $this->json('PATCH', 'api/userdata', [
+      $this->patchJson('api/userdata', [
         'username' => 'Ganta',
         'password' => 'Igarashi',
-      ]);
-
-      $this->seeStatusCode(401);
+      ])->assertStatus(401);
     }
 
     /** @test */
@@ -32,7 +34,7 @@
     {
       $this->assertNotEquals('Ganta', $this->user->username);
 
-      $this->actingAs($this->user)->json('PATCH', 'api/userdata', [
+      $this->actingAs($this->user)->patchJson('api/userdata', [
         'username' => 'Ganta',
         'password' => 'Igarashi',
       ]);
@@ -43,7 +45,7 @@
     /** @test */
     public function save_new_password()
     {
-      $this->actingAs($this->user)->json('PATCH', 'api/userdata', [
+      $this->actingAs($this->user)->patchJson('api/userdata', [
         'username' => 'Ganta',
         'password' => 'Igarashi'
       ]);
@@ -56,7 +58,7 @@
     {
       $oldPassword = $this->user->password;
 
-      $this->actingAs($this->user)->json('PATCH', 'api/userdata', [
+      $this->actingAs($this->user)->patchJson('api/userdata', [
         'username' => 'Ganta',
         'password' => ''
       ]);
@@ -67,22 +69,18 @@
     /** @test */
     public function user_can_login_with_correct_credentials()
     {
-      $this->json('POST', 'api/login', [
+      $this->postJson('api/login', [
         'username' => $this->user->username,
         'password' => 'secret',
-      ]);
-
-      $this->seeStatusCode(200);
+      ])->assertSuccessful();
     }
 
     /** @test */
     public function user_can_not_login_with_wrong_credentials()
     {
-      $this->json('POST', 'api/login', [
+      $this->postJson('api/login', [
         'username' => $this->user->username,
         'password' => 'wrong_password',
-      ]);
-
-      $this->seeStatusCode(401);
+      ])->assertStatus(401);
     }
   }

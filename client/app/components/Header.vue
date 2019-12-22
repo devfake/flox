@@ -1,77 +1,109 @@
 <template>
-  <header>
-    <div class="wrap">
-      <router-link to="/" class="logo" >
-        <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
-      </router-link>
+  <div class="header-wrap" :class="{active: displayHeader, sticky: sticky, 'mobile-open': mobileNavigationOpen}">
+    <header>
+      <div class="wrap">
+        <router-link to="/" @click.native="refresh('home')" class="logo">
+          <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
+        </router-link>
+        
+        <i @click="toggleMobileNavigation()" class="icon-hamburger"></i>
 
-      <span class="sort-wrap">
-        <i :title="lang('last seen')" class="icon-sort-time" :class="{active: userFilter == 'created_at'}" @click="setUserFilter('created_at')"></i>
-        <i :title="lang('best rated')" class="icon-sort-star" :class="{active: userFilter == 'rating'}" @click="setUserFilter('rating')"></i>
-        <span :title="lang('change color')" class="icon-constrast"  @click="toggleColorScheme()"><i></i></span>
-      </span>
+        <ul class="site-nav site-nav-first">
+          <li>
+            <router-link to="/trending" @click.native="refresh('trending')">{{ lang('trending') }}</router-link>
+          </li>
+          <li>
+            <router-link to="/now-playing" @click.native="refresh('now-playing')">{{ lang('now-playing') }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/upcoming" @click.native="refresh('upcoming')">{{ lang('upcoming') }}</router-link>
+          </li>
+        </ul>
 
-      <ul class="site-nav">
-        <li><router-link to="/trending">{{ lang('trending') }}</router-link></li>
-        <li><router-link to="/upcoming">{{ lang('upcoming') }}</router-link></li>
-      </ul>
+        <ul class="site-nav-second">
+          <li>
+            <router-link to="/calendar" @click.native="refresh('calendar')">{{ lang('calendar') }}</router-link>
+          </li>
+          <li>
+            <router-link to="/watchlist" @click.native="refresh('watchlist')" exact>{{ lang('watchlist') }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/tv" @click.native="refresh('tv')" exact>{{ lang('tv') }}</router-link>
+          </li>
+          <li>
+            <router-link to="/movies" @click.native="refresh('movie')" exact>{{ lang('movies') }}</router-link>
+          </li>
+        </ul>
+      </div>
+    </header>
 
-      <ul class="site-nav-second">
-        <li><router-link to="/tv">{{ lang('tv') }}</router-link></li>
-        <li><router-link to="/movies">{{ lang('movies') }}</router-link></li>
-      </ul>
-
-    </div>
-  </header>
+    <search></search>
+  </div>
 </template>
 
 <script>
-  import Helper from '../helper';
-  import store from '../store/index';
-  import { mapActions, mapMutations, mapState } from 'vuex'
+  import Search from './Search.vue';
+  import MiscHelper from '../helpers/misc';
+
+  import {mapActions, mapState} from 'vuex'
 
   export default {
-    mixins: [Helper],
+    mixins: [MiscHelper],
 
-    created() {
-      this.checkForUserFilter();
+    data() {
+      return {
+        sticky: false,
+        enableStickyOn: 100,
+        latestRoute: '',
+        mobileNavigationOpen: false
+      }
+    },
+
+    mounted() {
+      this.latestRoute = this.$route.name;
+      this.initSticky();
     },
 
     computed: {
       ...mapState({
-        userFilter: state => state.userFilter,
-        colorScheme: state => state.colorScheme
+        itemLoadedSubpage: state => state.itemLoadedSubpage
       }),
+
       root() {
         return config.uri;
       }
     },
 
     methods: {
-      ...mapActions([ 'setColorScheme', 'loadItems' ]),
-      ...mapMutations([ 'SET_USER_FILTER' ]),
+      ...mapActions(['loadItems']),
 
-      toggleColorScheme() {
-        const color = this.colorScheme == 'light' ? 'dark' : 'light';
-
-        this.setColorScheme(color);
+      initSticky() {
+        window.onscroll = () => {
+          this.sticky = document.body.scrollTop + document.documentElement.scrollTop > this.enableStickyOn;
+        };
       },
 
-      checkForUserFilter() {
-        if( ! localStorage.getItem('filter')) {
-          localStorage.setItem('filter', 'created_at');
+      toggleMobileNavigation() {
+        this.mobileNavigationOpen = !this.mobileNavigationOpen;
+      },
+      
+      refresh(route) {
+        this.mobileNavigationOpen = false;
+        let name = this.$route.name;
+        
+        // Reload only if the page is the same.
+        if (this.latestRoute === route) {
+          this.loadItems({name});
         }
 
-        this.SET_USER_FILTER(localStorage.getItem('filter'));
-      },
-
-      setUserFilter(filter) {
-        let name = this.$route.name;
-
-        localStorage.setItem('filter', filter);
-        this.SET_USER_FILTER(filter);
-        this.loadItems({name, filter});
+        this.latestRoute = name;
       }
+    },
+
+    components: {
+      Search
     }
   }
 </script>

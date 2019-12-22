@@ -1,54 +1,73 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
-    "type": "project",
-    "require": {
-        "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
-        "laravel/scout": "^1.1",
-        "guzzlehttp/guzzle": "^6.2",
-        "algolia/algoliasearch-client-php": "^1.10",
-        "doctrine/dbal": "^2.5"
+  "name": "devfake/flox",
+  "description": "Self Hosted Movie, Series and Anime Watch List",
+  "keywords": [
+    "movie",
+    "movies",
+    "self-hosted",
+    "tv",
+    "episodes",
+    "tmdb",
+    "laravel"
+  ],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": "^7.2",
+    "doctrine/dbal": "^2.10",
+    "fideloper/proxy": "^4.0",
+    "guzzlehttp/guzzle": "^6.3",
+    "imangazaliev/didom": "^1.14",
+    "laravel/framework": "6.8.*",
+    "laravel/tinker": "^2.0",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "facade/ignition": "^1.4",
+    "fzaninotto/faker": "~1.4",
+    "mockery/mockery": "^1.0",
+    "phpunit/phpunit": "^8.0",
+    "symfony/css-selector": "3.3.*",
+    "symfony/dom-crawler": "3.3.*"
+  },
+  "autoload": {
+    "classmap": [
+      "database/seeds",
+      "database/factories"
+    ],
+    "psr-4": {
+      "App\\": "app/"
     },
-    "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
-    },
-    "autoload": {
-        "classmap": [
-            "database"
-        ],
-        "psr-4": {
-            "App\\": "app/"
-        }
-    },
-    "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
-    },
-    "scripts": {
-        "post-root-package-install": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
-        ]
-    },
-    "config": {
-        "preferred-install": "dist"
+    "files": [
+      "app/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
     }
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": [
+      ]
+    }
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "@php artisan key:generate"
+    ],
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
 }

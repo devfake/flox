@@ -18,25 +18,44 @@
     }
 
     /**
-     * Create the poster image file.
+     * Create the export filename.
+     *
+     * @return string
+     */
+    public function createExportFilename()
+    {
+      return 'flox--' . date('Y-m-d---H-i') . '.json';
+    }
+
+    /**
+     * Download poster and backdrop image files.
      *
      * @param $poster
+     * @param $backdrop
      */
-    public function createPosterFile($poster)
+    public function downloadImages($poster, $backdrop)
     {
       if($poster) {
-        LaravelStorage::put($poster, file_get_contents('https://image.tmdb.org/t/p/w185' . $poster));
+        LaravelStorage::put($poster, file_get_contents(config('services.tmdb.poster') . $poster));
+        LaravelStorage::disk('subpage')->put($poster, file_get_contents(config('services.tmdb.poster_subpage') . $poster));
+      }
+
+      if($backdrop) {
+        LaravelStorage::disk('backdrop')->put($backdrop, file_get_contents(config('services.tmdb.backdrop') . $backdrop));
       }
     }
 
     /**
-     * Delete the poster image file.
+     * Delete poster and backdrop image files.
      *
      * @param $poster
+     * @param $backdrop
      */
-    public function removePosterFile($poster)
+    public function removeImages($poster, $backdrop)
     {
       LaravelStorage::delete($poster);
+      LaravelStorage::disk('subpage')->delete($poster);
+      LaravelStorage::disk('backdrop')->delete($backdrop);
     }
 
     /**
@@ -46,7 +65,7 @@
      */
     public function parseLanguage()
     {
-      $alternative = config('app.TRANSLATION') ?: 'EN';
+      $alternative = config('app.TRANSLATION');
       $filename = strtolower($alternative) . '.json';
 
       // Get english fallback

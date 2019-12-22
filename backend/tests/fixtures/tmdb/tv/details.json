@@ -1,0 +1,168 @@
+{
+  "backdrop_path": "/mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
+  "created_by": [
+    {
+      "id": 9813,
+      "name": "David Benioff",
+      "profile_path": "/8CuuNIKMzMUL1NKOPv9AqEwM7og.jpg"
+    },
+    {
+      "id": 228068,
+      "name": "D. B. Weiss",
+      "profile_path": "/caUAtilEe06OwOjoQY3B7BgpARi.jpg"
+    }
+  ],
+  "episode_run_time": [
+    60
+  ],
+  "first_air_date": "2011-04-17",
+  "genres": [
+    {
+      "id": 10759,
+      "name": "Action & Adventure"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    },
+    {
+      "id": 10765,
+      "name": "Sci-Fi & Fantasy"
+    }
+  ],
+  "homepage": "http://www.hbo.com/game-of-thrones",
+  "id": 1399,
+  "in_production": true,
+  "languages": [
+    "es",
+    "en",
+    "de"
+  ],
+  "last_air_date": "2017-07-16",
+  "name": "Game of Thrones",
+  "networks": [
+    {
+      "id": 49,
+      "name": "HBO"
+    },
+    {
+      "id": 1063,
+      "name": "Sky Atlantic"
+    }
+  ],
+  "number_of_episodes": 61,
+  "number_of_seasons": 7,
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_name": "Game of Thrones",
+  "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+  "popularity": 43.231961,
+  "poster_path": "/jIhL6mlT7AblhbHJgEoiBIOUVl1.jpg",
+  "production_companies": [
+    {
+      "name": "Home Box Office (HBO)",
+      "id": 3268
+    },
+    {
+      "name": "Generator Entertainment",
+      "id": 5820
+    },
+    {
+      "name": "Television 360",
+      "id": 12525
+    },
+    {
+      "name": "Bighead Littlehead",
+      "id": 12526
+    },
+    {
+      "name": "Revolution Sun Studios",
+      "id": 76043
+    }
+  ],
+  "seasons": [
+    {
+      "air_date": "2010-12-05",
+      "episode_count": 13,
+      "id": 3627,
+      "poster_path": "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg",
+      "season_number": 0
+    },
+    {
+      "air_date": "2011-04-17",
+      "episode_count": 10,
+      "id": 3624,
+      "poster_path": "/olJ6ivXxCMq3cfujo1IRw30OrsQ.jpg",
+      "season_number": 1
+    },
+    {
+      "air_date": "2012-04-01",
+      "episode_count": 10,
+      "id": 3625,
+      "poster_path": "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg",
+      "season_number": 2
+    },
+    {
+      "air_date": "2013-03-31",
+      "episode_count": 10,
+      "id": 3626,
+      "poster_path": "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg",
+      "season_number": 3
+    },
+    {
+      "air_date": "2014-04-06",
+      "episode_count": 10,
+      "id": 3628,
+      "poster_path": "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg",
+      "season_number": 4
+    },
+    {
+      "air_date": "2015-04-12",
+      "episode_count": 10,
+      "id": 62090,
+      "poster_path": "/yKOltUHsp9X7dXWIm0hNGcIQa4G.jpg",
+      "season_number": 5
+    },
+    {
+      "air_date": "2016-04-24",
+      "episode_count": 10,
+      "id": 71881,
+      "poster_path": "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg",
+      "season_number": 6
+    },
+    {
+      "air_date": "2017-07-16",
+      "episode_count": 1,
+      "id": 81266,
+      "poster_path": null,
+      "season_number": 7
+    }
+  ],
+  "status": "Returning Series",
+  "type": "Scripted",
+  "vote_average": 8,
+  "vote_count": 2074,
+  "videos": {
+    "results": [
+      {
+        "id": "572003f992514121f30003c6",
+        "iso_639_1": "en",
+        "iso_3166_1": "US",
+        "key": "BpJYNVhGf1s",
+        "name": "\"The Game Begins\"",
+        "site": "YouTube",
+        "size": 720,
+        "type": "Trailer"
+      }
+    ]
+  },
+  "external_ids": {
+    "imdb_id": "tt0944947",
+    "freebase_mid": "/m/0524b41",
+    "freebase_id": "/en/game_of_thrones",
+    "tvdb_id": 121361,
+    "tvrage_id": 24493
+  }
+}

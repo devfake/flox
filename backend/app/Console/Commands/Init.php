@@ -6,19 +6,8 @@
 
   class Init extends Command {
 
-    protected $signature = 'flox:init';
+    protected $signature = 'flox:init {database?} {username?} {password?}';
     protected $description = 'Create .env file, set the app key and fill database credentials';
-
-    private $requests = [
-      'DB_DATABASE' => 'Name',
-      'DB_USERNAME' => 'Username',
-      'DB_PASSWORD' => 'Password',
-    ];
-
-    public function __construct()
-    {
-      parent::__construct();
-    }
 
     public function handle()
     {
@@ -37,12 +26,14 @@
 
     private function fillDatabaseCredentials()
     {
-      foreach($this->requests as $type => $text) {
-        if( ! env($type)) {
-          $value = $this->ask('Enter your Database ' . $text);
-          $this->changeENV($type, $value);
-        }
-      }
+      $value = $this->ask('Enter your Database Name', $this->argument("database"));
+      $this->changeENV('DB_DATABASE', $value);
+
+      $value = $this->ask('Enter your Database Username', $this->argument("username"));
+      $this->changeENV('DB_USERNAME', $value);
+
+      $value = $this->ask('Enter your Database Password', $this->argument("password"));
+      $this->changeENV('DB_PASSWORD', $value);
     }
 
     private function setAppKey()
@@ -55,8 +46,8 @@
 
     private function changeENV($type, $value)
     {
-      file_put_contents('.env', str_replace(
-        $type . '=',
+      file_put_contents('.env', preg_replace(
+        "/$type=.*/",
         $type . '=' . $value,
         file_get_contents('.env')
       ));
