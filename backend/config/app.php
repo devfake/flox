@@ -3,7 +3,7 @@
   return [
 
     // Current version. Is synced with git releases.
-    'version' => '1.2.2',
+    'version' => '2.0.0',
 
     'TRANSLATION' => env('TRANSLATION', 'EN'),
     'LOADING_ITEMS' => env('LOADING_ITEMS'),
