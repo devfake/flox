@@ -14,6 +14,7 @@
     protected $fillable = [
       'username',
       'password',
+      'api_key',
     ];
 
     /**
@@ -25,4 +26,12 @@
       'password',
       'remember_token',
     ];
+
+    /**
+     * Scope to find a user by an api key.
+     */
+    public function scopeFindByApiKey($query, $key)
+    {
+      return $query->where('api_key', $key);
+    }
   }

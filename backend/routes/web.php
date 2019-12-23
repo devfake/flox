@@ -7,7 +7,7 @@
     Route::get('/episodes/{tmdbId}', 'ItemController@episodes');
     Route::get('/items/{type}/{orderBy}/{sortDirection}', 'ItemController@items');
     Route::get('/search-items', 'ItemController@search');
-    
+
     Route::get('/calendar', 'CalendarController@items');
 
     Route::get('/item/{tmdbId}/{mediaType}', 'SubpageController@item');
@@ -23,10 +23,14 @@
     Route::patch('/refresh-all', 'ItemController@refreshAll');
     Route::get('/settings', 'SettingController@settings');
 
+//    Route::middleware('api')
+
     Route::middleware('auth')->group(function() {
       Route::get('/check-update', 'SettingController@checkForUpdate');
       Route::get('/version', 'SettingController@getVersion');
+      Route::get('/api-key', 'SettingController@getApiKey');
       Route::patch('/settings/refresh', 'SettingController@updateRefresh');
+      Route::patch('/settings/api-key', 'SettingController@generateApiKey');
       Route::patch('/settings/reminders-send-to', 'SettingController@updateRemindersSendTo');
       Route::patch('/settings/reminder-options', 'SettingController@updateReminderOptions');
       Route::patch('/settings', 'SettingController@updateSettings');
@@ -51,5 +55,5 @@
       Route::get('/video/{type}/{id}', 'VideoController@serve');
     });
   });
-  
+
   Route::fallback('HomeController@app');
