@@ -6,7 +6,7 @@
   use Illuminate\Database\Eloquent\Model;
 
   class Episode extends Model {
-    
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -71,6 +71,22 @@
     public function scopeFindByTmdbId($query, $tmdbId)
     {
       return $query->where('tmdb_id', $tmdbId);
+    }
+
+    /**
+     * Scope to find the result via episode_number.
+     */
+    public function scopeFindByEpisodeNumber($query, $number)
+    {
+      return $query->where('episode_number', $number);
+    }
+
+    /**
+     * Scope to find the result via season_number.
+     */
+    public function scopeFindBySeasonNumber($query, $number)
+    {
+      return $query->where('season_number', $number);
     }
 
     /**

@@ -36,7 +36,7 @@
      *
      * @param $title
      * @param null $mediaType
-     * @return Collection
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|Collection
      */
     public function search($title, $mediaType = null)
     {
@@ -52,7 +52,7 @@
         $tv = collect($this->createItems($response, 'tv'));
       }
 
-      if( ! $mediaType || $mediaType == 'movies') {
+      if( ! $mediaType || $mediaType == 'movies' || $mediaType == 'movie') {
         $response = $this->fetchSearch($title, 'movie');
         $movies = collect($this->createItems($response, 'movie'));
       }

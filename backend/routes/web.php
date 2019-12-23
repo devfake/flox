@@ -23,7 +23,9 @@
     Route::patch('/refresh-all', 'ItemController@refreshAll');
     Route::get('/settings', 'SettingController@settings');
 
-//    Route::middleware('api')
+    Route::middleware('api_key')->group(function() {
+      Route::post('plex', 'ApiController@plex');
+    });
 
     Route::middleware('auth')->group(function() {
       Route::get('/check-update', 'SettingController@checkForUpdate');
