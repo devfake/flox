@@ -47,7 +47,7 @@ class Plex extends Api
    */
   protected function getRating()
   {
-    $rating = +$this->data['rating'];
+    $rating = $this->data['Metadata']['userRating'];
 
     if ($rating > 7) {
       return 1;

@@ -8,6 +8,7 @@ use App\Services\Api\Plex;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 use Tests\Traits\Factories;
 use Tests\Traits\Fixtures;
@@ -20,7 +21,7 @@ class ApiTest extends TestCase
   use Factories;
   use Fixtures;
 
-  private $apiClass;
+  public $apiClass;
 
   public function setUp(): void
   {
@@ -28,11 +29,6 @@ class ApiTest extends TestCase
 
     $this->createStorageDownloadsMock();
     $this->createImdbRatingMock();
-  }
-
-  public function setApiClass($api)
-  {
-    $this->apiClass = $api;
   }
 
   /** @test */
@@ -66,7 +62,7 @@ class ApiTest extends TestCase
 
     try {
       $api->handle($this->apiFixtures($fixture));
-    } catch (\Exception $exception) {
+    } catch (HttpException $exception) {
       $this->assertTrue(true);
     }
   }
@@ -79,11 +75,11 @@ class ApiTest extends TestCase
       $this->tmdbFixtures('movie/alternative_titles')
     );
 
-    $fakeApi = app($this->apiClass);
+    $api = app($this->apiClass);
 
     $itemsBefore = Item::all();
 
-    $fakeApi->handle($this->apiFixtures($fixture));
+    $api->handle($this->apiFixtures($fixture));
 
     $itemsAfter = Item::all();
 
@@ -95,11 +91,11 @@ class ApiTest extends TestCase
   {
     $this->createMovie();
 
-    $fakeApi = app($this->apiClass);
+    $api = app($this->apiClass);
 
     $itemsBefore = Item::all();
 
-    $fakeApi->handle($this->apiFixtures($fixture));
+    $api->handle($this->apiFixtures($fixture));
 
     $itemsAfter = Item::all();
 
@@ -117,11 +113,11 @@ class ApiTest extends TestCase
 
     $this->createTmdbEpisodeMock();
 
-    $fakeApi = app($this->apiClass);
+    $api = app($this->apiClass);
 
     $itemsBefore = Item::all();
 
-    $fakeApi->handle($this->apiFixtures($fixture));
+    $api->handle($this->apiFixtures($fixture));
 
     $itemsAfter = Item::all();
 
@@ -133,11 +129,11 @@ class ApiTest extends TestCase
   {
     $this->createTv();
 
-    $fakeApi = app($this->apiClass);
+    $api = app($this->apiClass);
 
     $itemsBefore = Item::all();
 
-    $fakeApi->handle($this->apiFixtures($fixture));
+    $api->handle($this->apiFixtures($fixture));
 
     $itemsAfter = Item::all();
 
@@ -145,47 +141,47 @@ class ApiTest extends TestCase
     $this->assertCount(1, $itemsAfter);
   }
 
-  public function it_should_rate_a_movie($fixture)
+  public function it_should_rate_a_movie($fixture, $shouldHaveRating)
   {
     $this->createMovie();
 
-    $fakeApi = app($this->apiClass);
+    $api = app($this->apiClass);
 
     $movieBefore = Item::first();
 
-    $fakeApi->handle($this->apiFixtures($fixture));
+    $api->handle($this->apiFixtures($fixture));
 
     $movieAfter = Item::first();
 
     $this->assertEquals(1, $movieBefore->rating);
-    $this->assertEquals(2, $movieAfter->rating);
+    $this->assertEquals($shouldHaveRating, $movieAfter->rating);
   }
 
-  public function it_should_rate_a_tv_show($fixture)
+  public function it_should_rate_a_tv_show($fixture, $shouldHaveRating)
   {
     $this->createTv();
 
-    $fakeApi = app($this->apiClass);
+    $api = app($this->apiClass);
 
     $tvBefore = Item::first();
 
-    $fakeApi->handle($this->apiFixtures($fixture));
+    $api->handle($this->apiFixtures($fixture));
 
     $tvAfter = Item::first();
 
     $this->assertEquals(1, $tvBefore->rating);
-    $this->assertEquals(3, $tvAfter->rating);
+    $this->assertEquals($shouldHaveRating, $tvAfter->rating);
   }
 
   public function it_should_mark_an_episode_as_seen($fixture)
   {
     $this->createTv();
 
-    $fakeApi = app($this->apiClass);
+    $api = app($this->apiClass);
 
     $seenEpisodesBefore = Episode::where('seen', true)->get();
 
-    $fakeApi->handle($this->apiFixtures($fixture));
+    $api->handle($this->apiFixtures($fixture));
 
     $seenEpisodesAfter = Episode::where('seen', true)->get();
 

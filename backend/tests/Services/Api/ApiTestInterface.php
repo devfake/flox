@@ -4,6 +4,7 @@ namespace Tests\Services\Api;
 
 interface ApiTestInterface
 {
+  public function setUp(): void;
   public function it_should_abort_the_request();
   public function it_should_create_a_new_movie();
   public function it_should_not_create_a_new_movie_if_it_exists();
