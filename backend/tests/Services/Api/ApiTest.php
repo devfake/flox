@@ -5,7 +5,6 @@ namespace Tests\Services\Api;
 use App\Episode;
 use App\Item;
 use App\Services\Api\Plex;
-use Tests\Fixtures\FakeApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,12 +20,19 @@ class ApiTest extends TestCase
   use Factories;
   use Fixtures;
 
+  private $apiClass;
+
   public function setUp(): void
   {
     parent::setUp();
 
     $this->createStorageDownloadsMock();
     $this->createImdbRatingMock();
+  }
+
+  public function setApiClass($api)
+  {
+    $this->apiClass = $api;
   }
 
   /** @test */
@@ -54,21 +60,18 @@ class ApiTest extends TestCase
     $responseAfter->assertSuccessful();
   }
 
-  /** @test */
-  public function it_should_abort_the_request()
+  public function it_should_abort_the_request($fixture)
   {
-    /** @var FakeApi $fakeApi */
-    $fakeApi = app(FakeApi::class);
+    $api = app($this->apiClass);
 
     try {
-      $fakeApi->handle($this->apiFixtures('fake/abort.json'));
+      $api->handle($this->apiFixtures($fixture));
     } catch (\Exception $exception) {
       $this->assertTrue(true);
     }
   }
 
-  /** @test */
-  public function it_should_create_a_new_movie()
+  public function it_should_create_a_new_movie($fixture)
   {
     $this->createGuzzleMock(
       $this->tmdbFixtures('movie/movie'),
@@ -76,12 +79,11 @@ class ApiTest extends TestCase
       $this->tmdbFixtures('movie/alternative_titles')
     );
 
-    /** @var FakeApi $fakeApi */
-    $fakeApi = app(FakeApi::class);
+    $fakeApi = app($this->apiClass);
 
     $itemsBefore = Item::all();
 
-    $fakeApi->handle($this->apiFixtures('fake/movie.json'));
+    $fakeApi->handle($this->apiFixtures($fixture));
 
     $itemsAfter = Item::all();
 
@@ -89,17 +91,15 @@ class ApiTest extends TestCase
     $this->assertCount(1, $itemsAfter);
   }
 
-  /** @test */
-  public function it_should_not_create_a_new_movie_if_it_exists()
+  public function it_should_not_create_a_new_movie_if_it_exists($fixture)
   {
     $this->createMovie();
 
-    /** @var FakeApi $fakeApi */
-    $fakeApi = app(FakeApi::class);
+    $fakeApi = app($this->apiClass);
 
     $itemsBefore = Item::all();
 
-    $fakeApi->handle($this->apiFixtures('fake/movie.json'));
+    $fakeApi->handle($this->apiFixtures($fixture));
 
     $itemsAfter = Item::all();
 
@@ -107,8 +107,7 @@ class ApiTest extends TestCase
     $this->assertCount(1, $itemsAfter);
   }
 
-  /** @test */
-  public function it_should_create_a_new_tv_show()
+  public function it_should_create_a_new_tv_show($fixture)
   {
     $this->createGuzzleMock(
       $this->tmdbFixtures('tv/tv'),
@@ -118,12 +117,11 @@ class ApiTest extends TestCase
 
     $this->createTmdbEpisodeMock();
 
-    /** @var FakeApi $fakeApi */
-    $fakeApi = app(FakeApi::class);
+    $fakeApi = app($this->apiClass);
 
     $itemsBefore = Item::all();
 
-    $fakeApi->handle($this->apiFixtures('fake/tv.json'));
+    $fakeApi->handle($this->apiFixtures($fixture));
 
     $itemsAfter = Item::all();
 
@@ -131,17 +129,15 @@ class ApiTest extends TestCase
     $this->assertCount(1, $itemsAfter);
   }
 
-  /** @test */
-  public function it_should_not_create_a_new_tv_show_if_it_exists()
+  public function it_should_not_create_a_new_tv_show_if_it_exists($fixture)
   {
     $this->createTv();
 
-    /** @var FakeApi $fakeApi */
-    $fakeApi = app(FakeApi::class);
+    $fakeApi = app($this->apiClass);
 
     $itemsBefore = Item::all();
 
-    $fakeApi->handle($this->apiFixtures('fake/tv.json'));
+    $fakeApi->handle($this->apiFixtures($fixture));
 
     $itemsAfter = Item::all();
 
@@ -149,17 +145,15 @@ class ApiTest extends TestCase
     $this->assertCount(1, $itemsAfter);
   }
 
-  /** @test */
-  public function it_should_rate_a_movie()
+  public function it_should_rate_a_movie($fixture)
   {
     $this->createMovie();
 
-    /** @var FakeApi $fakeApi */
-    $fakeApi = app(FakeApi::class);
+    $fakeApi = app($this->apiClass);
 
     $movieBefore = Item::first();
 
-    $fakeApi->handle($this->apiFixtures('fake/movie_rating.json'));
+    $fakeApi->handle($this->apiFixtures($fixture));
 
     $movieAfter = Item::first();
 
@@ -167,17 +161,15 @@ class ApiTest extends TestCase
     $this->assertEquals(2, $movieAfter->rating);
   }
 
-  /** @test */
-  public function it_should_rate_a_tv_show()
+  public function it_should_rate_a_tv_show($fixture)
   {
     $this->createTv();
 
-    /** @var FakeApi $fakeApi */
-    $fakeApi = app(FakeApi::class);
+    $fakeApi = app($this->apiClass);
 
     $tvBefore = Item::first();
 
-    $fakeApi->handle($this->apiFixtures('fake/tv_rating.json'));
+    $fakeApi->handle($this->apiFixtures($fixture));
 
     $tvAfter = Item::first();
 
@@ -185,17 +177,15 @@ class ApiTest extends TestCase
     $this->assertEquals(3, $tvAfter->rating);
   }
 
-  /** @test */
-  public function it_should_mark_an_episode_as_seen()
+  public function it_should_mark_an_episode_as_seen($fixture)
   {
     $this->createTv();
 
-    /** @var FakeApi $fakeApi */
-    $fakeApi = app(FakeApi::class);
+    $fakeApi = app($this->apiClass);
 
     $seenEpisodesBefore = Episode::where('seen', true)->get();
 
-    $fakeApi->handle($this->apiFixtures('fake/episode_seen.json'));
+    $fakeApi->handle($this->apiFixtures($fixture));
 
     $seenEpisodesAfter = Episode::where('seen', true)->get();
 
