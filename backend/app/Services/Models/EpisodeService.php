@@ -87,7 +87,7 @@
 
       return [
         'episodes' => $episodes->sortBy('episode_number')->groupBy('season_number'),
-        'next_episode' => $episodes->where('seen', 0)->first(),
+        'next_episode' => $episodes->where('seen', 0)->sortBy('season_number')->first(),
         'spoiler' => Setting::first()->episode_spoiler_protection,
       ];
     }
