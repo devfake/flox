@@ -27,7 +27,8 @@
       'rating' => 1,
       //'genre' => '',
       'released' => time(),
-      'last_seen_at' => Carbon::now(),
+      'released_timestamp' => now(),
+      'last_seen_at' => now(),
       'src' => null,
     ];
   });
