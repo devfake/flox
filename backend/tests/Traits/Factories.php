@@ -9,9 +9,9 @@
 
   trait Factories {
 
-    public function createUser()
+    public function createUser($custom = [])
     {
-      return factory(User::class)->create();
+      return factory(User::class)->create($custom);
     }
 
     public function createSetting()

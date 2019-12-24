@@ -6,9 +6,7 @@ class Plex extends Api
 {
 
   /**
-   * Abort the complete request if it's not a movie or episode.
-   *
-   * @return bool
+   * @inheritDoc
    */
   protected function abortRequest()
   {
@@ -16,9 +14,7 @@ class Plex extends Api
   }
 
   /**
-   * Is it a movie or tv show? Should return 'tv' or 'movie'.
-   *
-   * @return string
+   * @inheritDoc
    */
   protected function getType()
   {
@@ -28,9 +24,7 @@ class Plex extends Api
   }
 
   /**
-   * Title for the item (name of the movie or tv show).
-   *
-   * @return string
+   * @inheritDoc
    */
   protected function getTitle()
   {
@@ -38,9 +32,7 @@ class Plex extends Api
   }
 
   /**
-   * Check if rating is requested.
-   *
-   * @return bool
+   * @inheritDoc
    */
   protected function shouldRateItem()
   {
@@ -51,13 +43,7 @@ class Plex extends Api
   }
 
   /**
-   * Rating for flox in a 3-Point system.
-   *
-   * 1 = Good.
-   * 2 = Medium.
-   * 3 = Bad.
-   *
-   * @return int
+   * @inheritDoc
    */
   protected function getRating()
   {
@@ -75,9 +61,7 @@ class Plex extends Api
   }
 
   /**
-   * Check if seen episode is requested.
-   *
-   * @return bool
+   * @inheritDoc
    */
   protected function shouldEpisodeMarkedAsSeen()
   {
@@ -85,9 +69,7 @@ class Plex extends Api
   }
 
   /**
-   * Number of the episode.
-   *
-   * @return null|int
+   * @inheritDoc
    */
   protected function getEpisodeNumber()
   {
@@ -95,9 +77,7 @@ class Plex extends Api
   }
 
   /**
-   * Number of the season.
-   *
-   * @return null|int
+   * @inheritDoc
    */
   protected function getSeasonNumber()
   {

@@ -1,0 +1,12 @@
+{
+  "data": {
+    "abort": false,
+    "type": "movie",
+    "title": "Warcraft",
+    "rate": true,
+    "seen": false,
+    "rating": 2,
+    "episode": null,
+    "season": null
+  }
+}

@@ -9,6 +9,7 @@
       'username' => $faker->name,
       'password' => $password ?: $password = bcrypt('secret'),
       'remember_token' => Illuminate\Support\Str::random(10),
+      'api_key' => null,
     ];
   });
 
