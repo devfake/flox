@@ -185,6 +185,14 @@
     }
 
     /**
+     * Scope to find the result by year.
+     */
+    public function scopeFindByYear($query, $year)
+    {
+      return $query->whereYear('released_timestamp', $year);
+    }
+
+    /**
      * Scope to find the result via fp_name.
      */
     public function scopeFindByFPName($query, $item, $mediaType)

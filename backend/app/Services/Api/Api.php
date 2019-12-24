@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class Api
 {
+
   /**
    * @var array
    */
@@ -53,7 +54,9 @@ abstract class Api
       abort(Response::HTTP_NOT_IMPLEMENTED);
     }
 
-    $found = $this->item->findByTitle($this->getTitle(), $this->getType())->first();
+    $found = $this->item
+      ->findByTitle($this->getTitle(), $this->getType())
+      ->first();
 
     // Nothing found in our database, so we search in TMDb.
     if (!$found) {
