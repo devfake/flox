@@ -1,0 +1,12 @@
+{
+  "data": {
+    "abort": false,
+    "type": "tv",
+    "title": "Game of Thrones",
+    "rate": true,
+    "seen": false,
+    "rating": 3,
+    "episode": null,
+    "season": null
+  }
+}

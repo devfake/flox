@@ -11,14 +11,14 @@
      * Fallback date string for a item.
      */
     const FALLBACK_DATE = '1970-12-1';
-    
+
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = [
-      'last_seen_at', 
+      'last_seen_at',
       'refreshed_at',
       'created_at',
       'updated_at',
@@ -32,7 +32,7 @@
     protected $appends = [
       'startDate',
     ];
-    
+
     /**
      * The relations to eager load on every query.
      *
@@ -55,14 +55,16 @@
      */
     public function store($data)
     {
-      return $this->create([
+      return $this->firstOrCreate([
         'tmdb_id' => $data['tmdb_id'],
+      ], [
         'title' => $data['title'],
         'media_type' => $data['media_type'],
         'original_title' => $data['original_title'],
         'poster' => $data['poster'] ?? '',
         'rating' => 0,
         'released' => $data['released'],
+        'released_timestamp' => Carbon::parse($data['released']),
         'overview' => $data['overview'],
         'backdrop' => $data['backdrop'],
         'tmdb_rating' => $data['tmdb_rating'],
@@ -77,7 +79,7 @@
 
     /**
      * Create a new empty movie / tv show (for FP).
-     * 
+     *
      * @param $data
      * @param $mediaType
      * @return Item
@@ -92,6 +94,7 @@
         'poster' => '',
         'rating' => 0,
         'released' => time(),
+        'released_timestamp' => now(),
         'src' => $data['src'],
         'subtitles' => $data['subtitles'],
         'last_seen_at' => now(),
@@ -118,7 +121,7 @@
         return Carbon::createFromTimestamp($this->released)->format('Y-m-d');
       }
     }
-    
+
     /**
      * Belongs to many genres.
      */
@@ -144,7 +147,7 @@
     }
 
     /**
-     * The latest unseen episode. 
+     * The latest unseen episode.
      */
     public function latestEpisode()
     {
@@ -179,6 +182,14 @@
     public function scopeFindByTmdbId($query, $tmdbId)
     {
       return $query->where('tmdb_id', $tmdbId);
+    }
+
+    /**
+     * Scope to find the result by year.
+     */
+    public function scopeFindByYear($query, $year)
+    {
+      return $query->whereYear('released_timestamp', $year);
     }
 
     /**

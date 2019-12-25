@@ -10,6 +10,7 @@
   use Illuminate\Support\Facades\Auth;
   use Illuminate\Support\Facades\Cache;
   use Illuminate\Support\Facades\Request;
+  use Illuminate\Support\Str;
   use Symfony\Component\HttpFoundation\Response;
 
   class SettingController {
@@ -66,6 +67,32 @@
         'daily' => $settings->daily_reminder,
         'weekly' => $settings->weekly_reminder,
       ];
+    }
+
+    /**
+     * @return string
+     */
+    public function generateApiKey()
+    {
+      if (isDemo()) {
+        return response('Success', Response::HTTP_OK);
+      }
+
+      $key = Str::random(24);
+
+      Auth::user()->update([
+        'api_key' => $key,
+      ]);
+
+      return $key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiKey()
+    {
+      return Auth::user()->api_key;
     }
 
     /**

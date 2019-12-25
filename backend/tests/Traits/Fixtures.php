@@ -1,7 +1,7 @@
 <?php
 
   namespace Tests\Traits;
-  
+
   trait Fixtures {
 
     protected function fpFixtures($type)
@@ -22,6 +22,11 @@
     protected function floxFixtures($type)
     {
       return collect(json_decode(file_get_contents(__DIR__ . '/../fixtures/flox/' . $type . '.json')))->toArray();
+    }
+
+    protected function apiFixtures($path)
+    {
+      return collect(json_decode(file_get_contents(__DIR__ . '/../fixtures/api/' . $path), true))->toArray();
     }
 
     protected function getMovieSrc()

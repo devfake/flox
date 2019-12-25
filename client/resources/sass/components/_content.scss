@@ -70,8 +70,13 @@ main {
   //@include media(3) { lost-column: 1/5; }
   @include media(3) { lost-column: 1/3; }
   //@include media(4) { lost-column: 1/4; }
-  @include media(5) { lost-column: 1/2; }
-  @include media(6) { lost-column: 1; }
+  @include media(5) {
+    lost-column: 1/2;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  @include media(6) {  }
 }
 
 .show-ratings-never {

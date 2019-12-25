@@ -9,6 +9,7 @@
         <span :class="{active: activeTab == 'backup'}" @click="changeActiveTab('backup')">{{ lang('tab backup') }}</span>
         <span :class="{active: activeTab == 'refresh'}" @click="changeActiveTab('refresh')">{{ lang('refresh') }}</span>
         <span :class="{active: activeTab == 'reminders'}" @click="changeActiveTab('reminders')">{{ lang('reminders') }}</span>
+        <span :class="{active: activeTab == 'api_key'}" @click="changeActiveTab('api_key')">API</span>
       </div>
 
       <span class="loader fullsize-loader" v-if="loading"><i></i></span>
@@ -19,6 +20,7 @@
       <misc v-if="activeTab == 'misc'"></misc>
       <refresh v-if="activeTab == 'refresh'"></refresh>
       <reminders v-if="activeTab == 'reminders'"></reminders>
+      <api v-if="activeTab == 'api_key'"></api>
 
     </div>
   </main>
@@ -31,10 +33,11 @@
   import Misc from './Misc.vue';
   import Refresh from './Refresh.vue';
   import Reminders from './Reminders.vue';
+  import Api from './Api.vue';
 
   import { mapState, mapActions } from 'vuex';
   import MiscHelper from '../../../helpers/misc';
-  
+
   export default {
     mixins: [MiscHelper],
 
@@ -43,7 +46,7 @@
     },
 
     components: {
-      User, Options, Backup, Misc, Refresh, Reminders
+      User, Options, Backup, Misc, Refresh, Reminders, Api
     },
 
     data() {

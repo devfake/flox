@@ -95,4 +95,22 @@
       $this->assertEquals(1, $newSettings->daily_reminder);
       $this->assertEquals(1, $newSettings->weekly_reminder);
     }
+
+    /** @test */
+    public function user_can_generate_a_new_api_key()
+    {
+      $apiKeyBefore = $this->user->api_key;
+
+      $this->actingAs($this->user)->patchJson('api/settings/api-key');
+
+      $apiKeyAfter = $this->user->api_key;
+
+      $this->actingAs($this->user)->patchJson('api/settings/api-key');
+
+      $apiKeyAfterSecond = $this->user->api_key;
+
+      $this->assertNull($apiKeyBefore);
+      $this->assertNotNull($apiKeyAfter);
+      $this->assertNotEquals($apiKeyAfterSecond, $apiKeyAfter);
+    }
   }
