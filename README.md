@@ -68,23 +68,6 @@ https://YOUR-FLOX-URL/api/plex?token=YOUR-TOKEN
 
 If you start a tv show or movie in Plex, Flox will search the item via the title from TMDb and add them into the Flox database. If you rate a movie or tv show in Plex, Flox will also rate the item. Note that rating for seasons or episodes are not supported in Flox. If you rate an movie or tv show, which is not in the Flox database, Flox will also fetch them from TMDb first. If you complete an episode (passing the 90% mark), Flox will also check this episode as seen.
 
-### Update Process
-
-For each update i will make an extra [release](https://github.com/devfake/flox/releases).
-These are the common steps to upgrade flox:
-```bash
-git fetch
-git checkout x.x.x
-cd backend
-composer install
-php artisan migrate
-cd ../client
-npm install
-npm run build
-```
-
-If you go to the settings page of your installation, flox will automatically check for new updates.
-
 ### Queue
 
 To import or refresh any of your entries you need to have at least one worker running.
