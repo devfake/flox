@@ -6,7 +6,7 @@
 
   class Init extends Command {
 
-    protected $signature = 'flox:init {database?} {username?} {password?}';
+    protected $signature = 'flox:init {database?} {username?} {password?} {hostname=localhost} {port=3306}';
     protected $description = 'Create .env file, set the app key and fill database credentials';
 
     public function handle()
@@ -34,6 +34,12 @@
 
       $value = $this->ask('Enter your Database Password', $this->argument("password"));
       $this->changeENV('DB_PASSWORD', $value);
+
+      $value = $this->ask('Enter your Database Hostname', $this->argument("hostname"));
+      $this->changeENV('DB_HOST', $value);
+
+      $value = $this->ask('Enter your Database Port', $this->argument("port"));
+      $this->changeENV('DB_PORT', $value);
     }
 
     private function setAppKey()
