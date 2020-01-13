@@ -277,6 +277,27 @@
       $this->storage->removeImages($item->poster, $item->backdrop);
     }
 
+      /**
+       * Delete movie or tv show (with episodes and alternative titles).
+       * Also remove the poster image file.
+       *
+       * @param $itemId
+       * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+       */
+      public function toggleHistoric($itemId)
+      {
+          $item = $this->model->find($itemId);
+
+          if( ! $item) {
+              return response('Not Found', Response::HTTP_NOT_FOUND);
+          }
+
+          $item->update([
+              'is_historic' => ($item->is_historic === 1) ? 0 : 1
+          ]);
+      }
+
+
     /**
      * Return all items with pagination.
      *

@@ -18,6 +18,12 @@
           <span class="is-on-watchlist" :title="lang('remove from watchlist')" v-if="auth && localItem.watchlist && ! rated" @click="removeItem()">
             <i class="icon-watchlist-remove"></i>
           </span>
+          <span class="is-historic" :title="lang('set historic')" v-if="auth && localItem.rating != null && localItem.is_historic == 0" @click="toggleHistoric()">
+            <i class="icon-history"></i>
+          </span>
+          <span class="is-historic" :title="lang('reset historic')" v-if="auth && localItem.rating != null && localItem.is_historic == 1" @click="toggleHistoric()">
+            <i class="icon-history-remove"></i>
+          </span>
           <span :title="lang('episodes')" v-if="displaySeason(localItem) && latestEpisode" @click="openSeasonModal(localItem)" class="is-a-show">
             S{{ season }}E{{ episode }}
           </span>
@@ -129,6 +135,14 @@
         }, error => {
           alert(error);
           this.rated = false;
+        });
+      },
+
+      toggleHistoric() {
+        http.patch(`${config.api}/toggle-historic/${this.localItem.id}`).then(response => {
+          this.localItem.is_historic = (this.localItem.is_historic === 1) ? 0 : 1;
+        }, error => {
+          alert('Error in toggleHistoric()');
         });
       },
 

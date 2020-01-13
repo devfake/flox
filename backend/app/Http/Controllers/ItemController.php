@@ -39,6 +39,11 @@
       return $this->itemService->changeRating($itemId, Request::input('rating'));
     }
 
+    public function toggleHistoric($itemId)
+    {
+      return $this->itemService->toggleHistoric($itemId);
+    }
+
     public function add()
     {
       return $this->itemService->create(Request::input('item'));
