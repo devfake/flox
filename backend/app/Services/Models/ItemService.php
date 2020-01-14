@@ -292,9 +292,19 @@
               return response('Not Found', Response::HTTP_NOT_FOUND);
           }
 
-          $item->update([
-              'is_historic' => ($item->is_historic === 1) ? 0 : 1
-          ]);
+          if ($item->is_historic === 0) {
+              $item->update([
+                  'is_historic' => 1
+              ]);
+          } else {
+              // setting "non historic" from "historic" updates the
+              // last_seen timestamp, so the Item is considered the
+              // newest item
+              $item->update([
+                  'is_historic' => 0,
+                  'last_seen_at' => now()
+              ]);
+          }
       }
 
 
@@ -312,8 +322,12 @@
       $items = $this->model->with('latestEpisode')->withCount('episodesWithSrc');
 
       if ($filter === self::FLOX_FIELD_IS_HISTORIC) {
-          $items->orderBy($filter, 'asc');
-          $items->orderBy(self::FLOX_FIELD_LAST_SEEN_AT, $sortDirection);
+          /*
+           * Adding a computed column to sort by. The resultset should list all non historic entries
+           * first in the order of last_seen descending, than all historic in alphabetical order
+           */
+          $items->addSelect(DB::raw('CONCAT(is_historic, IF(is_historic = 0, NOW() - '.self::FLOX_FIELD_LAST_SEEN_AT.', title)) AS historySortKey'));
+          $items->orderBy('historySortKey', 'asc');
       } else {
           $items->orderBy($filter, $sortDirection);
       }

@@ -2,7 +2,7 @@
   <main>
     <div class="content-submenu" v-if=" ! loading && items.length">
       <div class="sort-wrap no-select">
-        <div class="sort-direction" @click="setUserSortDirection()">
+        <div class="sort-direction" @click="setUserSortDirection()" v-if="userFilter!=='last seen with history'">
           <i v-if="userSortDirection == 'asc'">&#8593;</i>
           <i v-if="userSortDirection == 'desc'">&#8595;</i>
         </div>
