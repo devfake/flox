@@ -326,7 +326,7 @@
            * Adding a computed column to sort by. The resultset should list all non historic entries
            * first in the order of last_seen descending, than all historic in alphabetical order
            */
-          $items->addSelect(DB::raw('CONCAT(is_historic, IF(is_historic = 0, NOW() - '.self::FLOX_FIELD_LAST_SEEN_AT.', title)) AS historySortKey'));
+          $items->addSelect(DB::raw('CONCAT(is_historic, IF(is_historic = 0, FROM_UNIXTIME(NOW() - '.self::FLOX_FIELD_LAST_SEEN_AT.'), title)) AS historySortKey'));
           $items->orderBy('historySortKey', 'asc');
       } else {
           $items->orderBy($filter, $sortDirection);
