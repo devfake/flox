@@ -18,16 +18,16 @@
 
     public function item($tmdbId, $mediaType)
     {
-      if($found = $this->itemService->findBy('tmdb_id', $tmdbId)) {
+      if($found = $this->itemService->findBy('tmdb_id_strict', $tmdbId)) {
         return $found;
       }
 
       $found = $this->tmdb->details($tmdbId, $mediaType);
-      
+
       if( ! (array) $found) {
         return response('Not found', Response::HTTP_NOT_FOUND);
       }
-      
+
       $found->genre_ids = collect($found->genres)->pluck('id')->all();
 
       $item = $this->tmdb->createItem($found, $mediaType);

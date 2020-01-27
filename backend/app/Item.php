@@ -185,6 +185,14 @@
     }
 
     /**
+     * Scope to find the result via tmdb_id and media_type.
+     */
+    public function scopeFindByTmdbIdStrict($query, $tmdbId, $mediaType)
+    {
+      return $query->where('tmdb_id', $tmdbId)->where('media_type', $mediaType);
+    }
+
+    /**
      * Scope to find the result by year.
      */
     public function scopeFindByYear($query, $year)
