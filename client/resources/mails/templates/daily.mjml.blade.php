@@ -4,7 +4,7 @@
       .link {
         color: #895bff;
       }
-      
+
       .link-title {
         color: #484848;
         text-decoration: none;
@@ -12,19 +12,19 @@
         clear: both;
         margin: 0 0 20px 0;
       }
-      
+
       .link-title:last-child {
         margin: 0;
       }
-      
+
       .link-title:hover {
         color: #f1309a;
       }
-      
+
       .link-title span {
         color: gray;
       }
-      
+
       .headline {
         font-size: 14px;
         float: left;
@@ -66,14 +66,14 @@
           @endforeach
         </mj-text>
         <mj-raw>
-          @endif 
+          @endif
           @if(count($movies))
         </mj-raw>
         <mj-text>
           <span class="headline">{{ $moviesHeadline }}</span>
           <br>
           @foreach($movies as $movie)
-            <a href="{{ url("/movie/{$movie->tmdb_id}") }}" class="link-title" target="_blank">
+            <a href="{{ url("/movies/{$movie->tmdb_id}") }}" class="link-title" target="_blank">
               {{ $movie->title }}
             </a>
           @endforeach

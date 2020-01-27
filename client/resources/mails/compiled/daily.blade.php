@@ -247,7 +247,7 @@
                     <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                       <div style="font-family:Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">
                         <span class="headline">{{ $moviesHeadline }}</span>
-                        <br> @foreach($movies as $movie) <a href="{{ url("/movie/{$movie->tmdb_id}") }}" class="link-title" target="_blank">
+                        <br> @foreach($movies as $movie) <a href="{{ url("/movies/{$movie->tmdb_id}") }}" class="link-title" target="_blank">
                           {{ $movie->title }}
                         </a> @endforeach </div>
                     </td>
