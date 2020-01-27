@@ -57,9 +57,9 @@
     {
       return $this->firstOrCreate([
         'tmdb_id' => $data['tmdb_id'],
+        'media_type' => $data['media_type'],
       ], [
         'title' => $data['title'],
-        'media_type' => $data['media_type'],
         'original_title' => $data['original_title'],
         'poster' => $data['poster'] ?? '',
         'rating' => 0,
