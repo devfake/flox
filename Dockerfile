@@ -1,3 +1,10 @@
+# NOTE : This dockerfile uses a feature called docker multistage builds
+# which would create two intermediate images that can be later removed
+# if needed. This is done to keep the size of the final image smaller.
+# Removal command : docker image prune (Please know what you're about to
+# do while using this.
+# Ref : https://docs.docker.com/develop/develop-images/multistage-build
+#       https://docs.docker.com/engine/reference/commandline/image_prune
 # start with the official node image and name it
 FROM node:latest AS node
 COPY ./client /flox/client
