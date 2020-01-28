@@ -147,6 +147,28 @@ You can also set options to display release date and/or genre of your own list. 
 
 There is an option to enable or disable spoiler protection for episode names.
 
+### Using docker-compose
+
+The project can be built and run as a docker image using docker-compose.
+ 
+```
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+      - APACHE_RUN_USER_ID=33
+      - APACHE_RUN_GROUP_ID=33
+      - FLOX_DB_NAME=flox
+      - FLOX_DB_USER=flox_user
+      - FLOX_DB_PASS=flox_pass
+      - FLOX_DB_HOST=mysql
+      - FLOX_DB_PORT=3306
+      - TMDB_API_KEY=72989de8340csdjhg67df552005c73a9e9
+      - FLOX_ADMIN_USER=admin
+      - FLOX_ADMIN_PASS=admin
+```
+The above section can be edited in the docker-copmose.yml file to specify your own set of variables and TMDB API Key. Kindly note the above **TMDB_API_KEY** is invalid and will fail to allow any interactions with TMDB.
+
 ### Troubleshooting
 
 #### Import does not work
