@@ -85,7 +85,9 @@ bash ./bin/install_worker_service.sh
 # bash ./bin/install_worker_service.sh $HOME/flox /custom/path/to/php/
 ```
 
-Check the [documentation](https://laravel.com/docs/5.5/queues) for more informations.
+The default queue driver is set to `database`. All your jobs will be stored in the `jobs` table. If you need some better performance and more reliability, consider to choose redis.
+
+Check the [documentation](https://laravel.com/docs/6.x/queues) for more informations.
 
 ### Cron Job
 
