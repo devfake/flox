@@ -17,11 +17,11 @@
 
   function mediaType($mediaType)
   {
-    if ($mediaType === 'movie') {
+    if (strpos($mediaType, 'movie') !== false) {
       return 'movie';
     }
 
-    return $mediaType == 'movies' ? 'movie' : 'tv';
+    return 'tv';
   }
 
   function getSlug($title)
