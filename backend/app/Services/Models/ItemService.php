@@ -13,6 +13,14 @@
   use Symfony\Component\HttpFoundation\Response;
 
   class ItemService {
+    const FLOX_FIELD_TITLE = 'title';
+    const FLOX_FIELD_RATING = 'rating';
+    const FLOX_FIELD_RELEASED = 'released';
+    const FLOX_FIELD_TMDB_RATING = 'tmdb_rating';
+    const FLOX_FIELD_IMDB_RATING = 'imdb_rating';
+    const FLOX_FIELD_IS_HISTORIC = 'is_historic';
+    const FLOX_FIELD_LAST_SEEN_AT = 'last_seen_at';
+
 
     private $model;
     private $tmdb;
@@ -98,7 +106,7 @@
         $data['homepage'] = $data['homepage'] ?? $details->homepage;
       }
 
-      $data['imdb_rating'] = $this->parseImdbRating($data);
+      $data[self::FLOX_FIELD_IMDB_RATING] = $this->parseImdbRating($data);
 
       return $data;
     }
@@ -182,7 +190,7 @@
      */
     private function parseImdbRating($data)
     {
-      if( ! isset($data['imdb_rating'])) {
+      if( ! isset($data[self::FLOX_FIELD_IMDB_RATING])) {
         $imdbId = $data['imdb_id'];
 
         if($imdbId) {
@@ -193,7 +201,7 @@
       }
 
       // Otherwise we already have the rating saved.
-      return $data['imdb_rating'];
+      return $data[self::FLOX_FIELD_IMDB_RATING];
     }
 
     /**
@@ -269,6 +277,37 @@
       $this->storage->removeImages($item->poster, $item->backdrop);
     }
 
+      /**
+       * Delete movie or tv show (with episodes and alternative titles).
+       * Also remove the poster image file.
+       *
+       * @param $itemId
+       * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+       */
+      public function toggleHistoric($itemId)
+      {
+          $item = $this->model->find($itemId);
+
+          if( ! $item) {
+              return response('Not Found', Response::HTTP_NOT_FOUND);
+          }
+
+          if ($item->is_historic === 0) {
+              $item->update([
+                  'is_historic' => 1
+              ]);
+          } else {
+              // setting "non historic" from "historic" updates the
+              // last_seen timestamp, so the Item is considered the
+              // newest item
+              $item->update([
+                  'is_historic' => 0,
+                  'last_seen_at' => now()
+              ]);
+          }
+      }
+
+
     /**
      * Return all items with pagination.
      *
@@ -280,8 +319,18 @@
     public function getWithPagination($type, $orderBy, $sortDirection)
     {
       $filter = $this->getSortFilter($orderBy);
+      $items = $this->model->with('latestEpisode')->withCount('episodesWithSrc');
 
-      $items = $this->model->orderBy($filter, $sortDirection)->with('latestEpisode')->withCount('episodesWithSrc');
+      if ($filter === self::FLOX_FIELD_IS_HISTORIC) {
+          /*
+           * Adding a computed column to sort by. The resultset should list all non historic entries
+           * first in the order of last_seen descending, than all historic in alphabetical order
+           */
+          $items->addSelect(DB::raw('CONCAT(is_historic, IF(is_historic = 0, FROM_UNIXTIME(NOW() - '.self::FLOX_FIELD_LAST_SEEN_AT.'), title)) AS historySortKey'));
+          $items->orderBy('historySortKey', 'asc');
+      } else {
+          $items->orderBy($filter, $sortDirection);
+      }
 
       if($type == 'watchlist') {
         $items->where('watchlist', true);
@@ -407,18 +456,21 @@
     private function getSortFilter($orderBy)
     {
       switch($orderBy) {
-        case 'last seen':
-          return 'last_seen_at';
         case 'own rating':
-          return 'rating';
+          return self::FLOX_FIELD_RATING;
         case 'title':
-          return 'title';
+          return self::FLOX_FIELD_TITLE;
         case 'release':
-          return 'released';
+          return self::FLOX_FIELD_RELEASED;
         case 'tmdb rating':
-          return 'tmdb_rating';
+          return self::FLOX_FIELD_TMDB_RATING;
         case 'imdb rating':
-          return 'imdb_rating';
+          return self::FLOX_FIELD_IMDB_RATING;
+        case 'last seen with history':
+          return self::FLOX_FIELD_IS_HISTORIC;
+        default:
+        case 'last seen':
+          return self::FLOX_FIELD_LAST_SEEN_AT;
       }
     }
   }

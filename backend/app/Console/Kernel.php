@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\Daily;
 use App\Console\Commands\Refresh;
 use App\Console\Commands\Weekly;
+use App\Console\Commands\History;
 use App\Setting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
       Refresh::class,
       Daily::class,
       Weekly::class,
+      History::class
     ];
 
     /**

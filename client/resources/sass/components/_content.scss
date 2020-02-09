@@ -517,6 +517,7 @@ main {
   padding: 5px 10px !important;
 }
 
+.is-historic,
 .is-on-watchlist {
   //position: absolute;
   //bottom: 10px;
@@ -544,6 +545,10 @@ main {
   i {
     margin: 0;
   }
+}
+
+.is-historic {
+  background: #484848;
 }
 
 .edit-item {
