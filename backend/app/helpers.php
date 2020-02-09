@@ -17,6 +17,10 @@
 
   function mediaType($mediaType)
   {
+    if ($mediaType === 'movie') {
+      return 'movie';
+    }
+
     return $mediaType == 'movies' ? 'movie' : 'tv';
   }
 

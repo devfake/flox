@@ -18,7 +18,7 @@
 
     public function item($tmdbId, $mediaType)
     {
-      if($found = $this->itemService->findBy('tmdb_id_strict', $tmdbId)) {
+      if($found = $this->itemService->findBy('tmdb_id_strict', $tmdbId, $mediaType)) {
         return $found;
       }
 
