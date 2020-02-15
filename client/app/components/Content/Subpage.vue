@@ -10,9 +10,33 @@
             <div class="big-teaser-data-wrap">
 
               <div class="subpage-poster-wrap-mobile no-select" :class="'show-ratings-' + displayRatings">
+                <div class="item-actions">
+                  <router-link :title="lang('suggestions')" :to="suggestionsUri(item)" v-if="item.tmdb_id"
+                               class="has-suggestion">
+                    <i class="icon-suggest"></i>
+                  </router-link>
+                  <span class="is-on-watchlist" :title="lang('add to watchlist')"
+                        v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)">
+                    <i class="icon-watchlist"></i>
+                  </span>
+                      <span class="is-on-watchlist" :title="lang('remove from watchlist')"
+                            v-if="item.watchlist && auth && ! rated" @click="removeItem()">
+                    <i class="icon-watchlist-remove"></i>
+                  </span>
+                      <span :title="lang('episodes')" v-if="displaySeason(item) && latestEpisode"
+                            @click="openSeasonModal(item)"
+                            class="is-a-show">
+                    S{{ season }}E{{ episode }}
+                  </span>
+                      <span :title="lang('finished')" v-if="displaySeason(item) && !latestEpisode"
+                            @click="openSeasonModal(item)" class="is-a-show">
+                    <i class="is-finished"></i>
+                  </span>
+                </div>
+
                 <rating :rated="rated" :item="item" :set-item="setItem" :set-rated="setRated"></rating>
-                <img class="base" :src="noImage" width="120" height="180">
-                <img class="real" :src="posterImage" width="120" height="180">
+                <img class="base" :src="noImage" width="140" height="200">
+                <img class="real" :src="posterImage" width="140" height="200">
               </div>
 
               <!-- todo: move to own component -->
