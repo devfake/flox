@@ -2428,6 +2428,7 @@ main {
   top: 10px;
   right: 10px;
   opacity: 0;
+  z-index: 150;
   -webkit-transition: opacity 0.2s ease 0s;
   transition: opacity 0.2s ease 0s; }
   @media (max-width: 740px) {
