@@ -70,4 +70,10 @@ class PlexApiTest extends TestCase implements ApiTestInterface
   {
     $this->apiTest->it_should_mark_an_episode_as_seen('plex/episode_seen.json');
   }
+
+  /** @test */
+  public function it_should_update_last_seen_at_of_a_show()
+  {
+    $this->apiTest->it_should_update_last_seen_at('plex/episode_seen.json');
+  }
 }
