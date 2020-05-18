@@ -90,7 +90,9 @@ abstract class Api
         ->findBySeasonNumber($this->getSeasonNumber())
         ->first();
 
+      // Mark the episode as seen and update the last_seen_at attribute of the item
       if ($episode) {
+        $found->updateLastSeenAt($found->tmdb_id);
         $episode->update([
           'seen' => true,
         ]);

@@ -188,4 +188,22 @@ class ApiTest extends TestCase
     $this->assertCount(0, $seenEpisodesBefore);
     $this->assertCount(1, $seenEpisodesAfter);
   }
+
+  public function it_should_update_last_seen_at($fixture)
+  {
+    $this->createTv();
+
+    $api = app($this->apiClass);
+
+    $lastSeenBefore = Item::first()->last_seen_at;
+
+    // sleep for 1 second so that Carbon::now() returns a different date
+    sleep(1);
+
+    $api->handle($this->apiFixtures($fixture));
+
+    $lastSeenAfter = Item::first()->last_seen_at;
+
+    $this->assertNotEquals($lastSeenBefore, $lastSeenAfter);
+  }
 }
