@@ -25,6 +25,15 @@
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+      'watchlist' => 'boolean',
+    ];
+    
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array

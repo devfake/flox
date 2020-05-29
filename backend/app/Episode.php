@@ -25,6 +25,15 @@
     protected $guarded = ['release_episode_human_format', 'startDate'];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+      'seen' => 'boolean',
+    ];
+    
+    /**
      * Accessor for human formatted release date.
      */
     public function getReleaseEpisodeHumanFormatAttribute()
