@@ -50,6 +50,19 @@ This project can also be setup using docker-compose. You need to edit some value
 
 At least it is needed that you set `TMDB_API_KEY` with your own TMDP API key. It is also recommended that you set `FLOX_TRANSLATION` (if you want to have localized content and GUI) and for security reasons `FLOX_DB_PASS` and `FLOX_ADMIN_PASS`.
 
+If the import of an backup fails because it's larger than 2MB, then you maybe want to add the following to your `docker-compose.yml`:
+
+```
+  volumes:
+    - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+```
+
+The `uploads.ini` should at least contain the following:
+
+```
+upload_max_filesize = 64M
+```
+
 ### Features
 
 - API for Plex.
