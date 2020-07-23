@@ -38,14 +38,16 @@ RUN a2enmod rewrite headers
 COPY ./entrypoint.sh /
 COPY ./wait-for-it.sh /
 COPY ./init-run.sh /
+COPY crontab /etc/cron/crontab /
 RUN apt-get update \
-    && apt-get install -y curl wget libzip-dev \
+    && apt-get install -y curl wget libzip-dev cron supervisor \
     && apt-get clean \
     && docker-php-ext-configure zip \
     && docker-php-ext-install pdo_mysql zip \
     && chmod +x /wait-for-it.sh \
     && chmod +x /init-run.sh \
-    && chmod +x /entrypoint.sh
+    && chmod +x /entrypoint.sh \
+    && crontab /etc/cron/crontab
 # Launch the httpd in foreground
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]
