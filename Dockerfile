@@ -38,7 +38,7 @@ RUN a2enmod rewrite headers
 COPY ./entrypoint.sh /
 COPY ./wait-for-it.sh /
 COPY ./init-run.sh /
-COPY crontab /etc/cron/crontab /
+COPY ./crontab /etc/cron/crontab /
 RUN apt-get update \
     && apt-get install -y curl wget libzip-dev cron supervisor \
     && apt-get clean \
