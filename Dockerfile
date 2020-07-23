@@ -50,4 +50,4 @@ RUN apt-get update \
     && crontab /etc/cron/crontab
 # Launch the httpd in foreground
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["apache2-foreground"]
+CMD ["/usr/bin/supervisord", "-c", "/supervisord.conf"]
