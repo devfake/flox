@@ -38,7 +38,8 @@ RUN a2enmod rewrite headers
 COPY ./entrypoint.sh /
 COPY ./wait-for-it.sh /
 COPY ./init-run.sh /
-COPY ./crontab /etc/cron/crontab /
+COPY ./crontab /crontab /
+COPY ./supervisors.conf /supervisord.conf /
 RUN apt-get update \
     && apt-get install -y curl wget libzip-dev cron supervisor \
     && apt-get clean \
@@ -47,7 +48,7 @@ RUN apt-get update \
     && chmod +x /wait-for-it.sh \
     && chmod +x /init-run.sh \
     && chmod +x /entrypoint.sh \
-    && crontab /etc/cron/crontab
+    && crontab /crontab
 # Launch the httpd in foreground
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/supervisord.conf"]
