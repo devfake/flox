@@ -39,7 +39,7 @@ COPY ./entrypoint.sh /
 COPY ./wait-for-it.sh /
 COPY ./init-run.sh /
 COPY ./crontab /crontab /
-COPY ./supervisors.conf /supervisord.conf /
+COPY ./supervisord.conf /supervisord.conf /
 RUN apt-get update \
     && apt-get install -y curl wget libzip-dev cron supervisor \
     && apt-get clean \
