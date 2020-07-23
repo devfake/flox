@@ -48,7 +48,9 @@ RUN apt-get update \
     && chmod +x /wait-for-it.sh \
     && chmod +x /init-run.sh \
     && chmod +x /entrypoint.sh \
-    && crontab /crontab
+    && crontab /crontab \
+    && mkdir /var/log/supervisord
+
 # Launch the httpd in foreground
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/supervisord.conf"]
