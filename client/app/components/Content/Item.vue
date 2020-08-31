@@ -43,7 +43,7 @@
       </div>
 
       <div class="item-content">
-        <span v-if="date == 1" class="item-year">{{ released }} <i>{{ lang(localItem.media_type) }}</i></span>
+        <span v-if="date == 1" class="item-year"><span>{{ released }}</span> <span>{{ runtime }}</span> <i>{{ lang(localItem.media_type) }}</i></span>
         <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.tmdb_id }}" class="item-title" :title="localItem.title">
           <i class="item-has-src" v-if="hasSrc"></i>
           {{ localItem.title }}
@@ -104,6 +104,10 @@
         }
 
         return released.getFullYear();
+      },
+
+      runtime() {
+          return this.calculateRuntime(this.localItem.runtime);
       }
     },
 

@@ -85,7 +85,7 @@
      */
     public function makeDataComplete($data)
     {
-      if( ! isset($data['imdb_id'])) {
+      if( ! isset($data['imdb_id']) || ! isset($data['runtime'])) {
         $details = $this->tmdb->details($data['tmdb_id'], $data['media_type']);
         $title = $details->name ?? $details->title;
 
@@ -96,6 +96,7 @@
         $data['backdrop'] = $data['backdrop'] ?? $details->backdrop_path;
         $data['slug'] = $data['slug'] ?? getSlug($title);
         $data['homepage'] = $data['homepage'] ?? $details->homepage;
+        $data['runtime'] = $data['runtime'] ?? $details->runtime ?? $details->episode_run_time['0'] ?? null;
       }
 
       $data['imdb_rating'] = $this->parseImdbRating($data);
@@ -159,6 +160,7 @@
         'title' => $title,
         'homepage' => $details->homepage ?? null,
         'original_title' => $details->original_name ?? $details->original_title,
+        'runtime' => $details->runtime ?? $details->episode_run_time['0'] ?? null,
       ]);
 
       $this->episodeService->create($item);
@@ -419,6 +421,10 @@
           return 'tmdb_rating';
         case 'imdb rating':
           return 'imdb_rating';
+        case 'type':
+          return 'media_type';
+        case 'runtime':
+          return 'runtime';
       }
     }
   }

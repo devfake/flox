@@ -192,6 +192,8 @@ main {
     color: #888;
     font-size: 14px;
     margin: 0 5px 0 0;
+    display: flex;
+    justify-content: space-between;
 
     .dark & {
       color: #626262;

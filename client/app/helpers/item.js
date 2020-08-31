@@ -60,6 +60,19 @@ export default {
       }
 
       return null;
+    },
+
+    calculateRuntime(runtime) {
+        switch (true) {
+            case Number.isInteger(runtime) && (runtime / 60 <= 1):
+                return `${runtime}m`;
+
+            case Number.isInteger(runtime) && (runtime / 60 > 1):
+                return `${Math.floor(runtime / 60)}:${runtime % 60}h`;
+
+            default:
+                return;
+        }
     }
   },
 

@@ -30,6 +30,8 @@
   "tmdb rating": "TMDb Bewertung",
   "imdb rating": "IMDb Bewertung",
   "change color": "Farbmodus wechseln",
+  "type": "Typ",
+  "runtime": "Länge",
 
   "settings": "Einstellungen",
   "logout": "Ausloggen",

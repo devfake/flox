@@ -83,6 +83,7 @@
         'last_seen_at' => now(),
         'slug' => $data['slug'],
         'homepage' => $data['homepage'] ?? null,
+        'runtime' => $data['runtime'] ?? null,
       ]);
     }
 

@@ -30,6 +30,8 @@
   "tmdb rating": "TMDb Rating",
   "imdb rating": "IMDb Rating",
   "change color": "Change colors",
+  "type": "Type",
+  "runtime": "Runtime",
 
   "settings": "Settings",
   "logout": "Logout",
