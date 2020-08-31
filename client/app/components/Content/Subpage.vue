@@ -41,7 +41,7 @@
 
               <!-- todo: move to own component -->
               <div class="big-teaser-item-data">
-                <span class="item-year">{{ released }}, <i>{{ lang(item.media_type) }}</i></span>
+                <span class="item-year">{{ released }}, <span>{{ runtime ? runtime + ', ' : '' }}</span> <i>{{ lang(item.media_type) }}</i></span>
                 <span class="item-title">{{ item.title }}</span>
                 <span class="item-genre">
                   <router-link :key="genre.id" :to="'/genre/' + genre.name"
@@ -218,6 +218,10 @@
 
         return released.getFullYear();
       },
+
+      runtime() {
+          return this.calculateRuntime(this.item.runtime);
+      }
     },
 
     methods: {

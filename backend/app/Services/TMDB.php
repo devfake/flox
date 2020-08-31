@@ -282,6 +282,7 @@
         'homepage' => $data->homepage ?? null,
         'tmdb_rating' => $data->vote_average,
         'popularity' => $data->popularity ?? 0,
+        'runtime' => $data->runtime ?? $data->episode_run_time['0'] ?? null
       ];
     }
 

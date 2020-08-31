@@ -14,7 +14,9 @@ export default new Vuex.Store({
       'title',
       'release',
       'tmdb rating',
-      'imdb rating'
+      'imdb rating',
+      'type',
+      'runtime'
     ],
     showFilters: false,
     items: [],
