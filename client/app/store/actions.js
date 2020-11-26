@@ -2,7 +2,8 @@ import http from 'axios';
 
 export function loadItems({state, commit}, response) {
   commit('SET_LOADING', true);
-  http(`${config.api}/items/${response.name}/${state.userFilter}/${state.userSortDirection}`).then(value => {
+  let hideCompleted = response.name === 'tv' ? `?hideCompleted=${state.userHideCompleted}` : '';
+  http(`${config.api}/items/${response.name}/${state.userFilter}/${state.userSortDirection}${hideCompleted}`).then(value => {
     const {data, next_page_url} = value.data;
 
     commit('SET_ITEMS', data);

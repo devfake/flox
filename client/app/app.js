@@ -25,6 +25,7 @@ const App = new Vue({
     this.checkForUserColorScheme();
     this.checkForUserFilter();
     this.checkForUserSortDirection();
+    this.checkForUserHideCompleted();
 
     // Close filter dropdown
     document.body.onclick = event => {
@@ -50,7 +51,7 @@ const App = new Vue({
 
   methods: {
     ...mapActions([ 'setColorScheme' ]),
-    ...mapMutations([ 'SET_USER_FILTER', 'SET_SHOW_FILTERS', 'SET_USER_SORT_DIRECTION' ]),
+    ...mapMutations([ 'SET_USER_FILTER', 'SET_SHOW_FILTERS', 'SET_USER_SORT_DIRECTION', 'SET_USER_HIDE_COMPLETED' ]),
 
     checkForUserColorScheme() {
       if( ! localStorage.getItem('color')) {
@@ -76,6 +77,14 @@ const App = new Vue({
       }
 
       this.SET_USER_SORT_DIRECTION(localStorage.getItem('sort-direction'));
+    },
+
+    checkForUserHideCompleted() {
+      if( ! localStorage.getItem('hide-completed')) {
+        localStorage.setItem('hide-completed', "false");
+      }
+
+      this.SET_USER_HIDE_COMPLETED(localStorage.getItem('hide-completed') === 'true');
     }
   }
 });

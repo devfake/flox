@@ -2,6 +2,7 @@
   <main>
     <div class="content-submenu" v-if=" ! loading && items.length">
       <div class="sort-wrap no-select">
+        <el-checkbox class="hide-completed" v-show="$route.name === 'tv'" v-model="userHideCompleted" @change="updateHideCompleted">{{ lang('hide completed') }}</el-checkbox>
         <div class="sort-direction" @click="setUserSortDirection()">
           <i v-if="userSortDirection == 'asc'">&#8593;</i>
           <i v-if="userSortDirection == 'desc'">&#8595;</i>
@@ -67,13 +68,14 @@
         userFilter: state => state.userFilter,
         userSortDirection: state => state.userSortDirection,
         clickedMoreLoading: state => state.clickedMoreLoading,
-        paginator: state => state.paginator
+        paginator: state => state.paginator,
+        userHideCompleted: state => state.userHideCompleted,
       })
     },
 
     methods: {
       ...mapActions([ 'loadItems', 'loadMoreItems', 'setSearchTitle', 'setPageTitle' ]),
-      ...mapMutations([ 'SET_USER_FILTER', 'SET_SHOW_FILTERS', 'SET_USER_SORT_DIRECTION' ]),
+      ...mapMutations([ 'SET_USER_FILTER', 'SET_SHOW_FILTERS', 'SET_USER_SORT_DIRECTION', 'SET_USER_HIDE_COMPLETED' ]),
 
       fetchData() {
         let name = this.$route.name;
@@ -110,6 +112,13 @@
 
       toggleShowFilters() {
         this.SET_SHOW_FILTERS( ! this.showFilters);
+      },
+
+      updateHideCompleted() {
+        let changed = ! this.userHideCompleted;
+        localStorage.setItem('hide-completed', `${changed}`);
+        this.SET_USER_HIDE_COMPLETED(changed);
+        this.fetchData();
       },
 
       setUserFilter(filter) {

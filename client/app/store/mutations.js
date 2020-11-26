@@ -13,6 +13,10 @@ export default {
     state.userSortDirection = direction;
   },
 
+  [type.SET_USER_HIDE_COMPLETED](state, hideCompleted) {
+    state.userHideCompleted = hideCompleted;
+  },
+
   [type.SET_ITEMS](state, items) {
     state.items = items;
   },
