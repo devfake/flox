@@ -275,13 +275,18 @@
      * @param $type
      * @param $orderBy
      * @param $sortDirection
+     * @param $hideCompleted
      * @return mixed
      */
-    public function getWithPagination($type, $orderBy, $sortDirection)
+    public function getWithPagination($type, $orderBy, $sortDirection, $hideCompleted)
     {
       $filter = $this->getSortFilter($orderBy);
 
       $items = $this->model->orderBy($filter, $sortDirection)->with('latestEpisode')->withCount('episodesWithSrc');
+
+      if ($type == 'tv' && $hideCompleted == 'true') {
+          $items->whereHas('latestEpisode');
+      }
 
       if($type == 'watchlist') {
         $items->where('watchlist', true);

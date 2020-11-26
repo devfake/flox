@@ -21,6 +21,7 @@ export default new Vuex.Store({
     searchTitle: '',
     userFilter: '',
     userSortDirection: '',
+    userHideCompleted: false,
     loading: false,
     clickedMoreLoading: false,
     paginator: null,

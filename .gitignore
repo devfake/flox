@@ -1,6 +1,8 @@
 node_modules
 /backend/vendor
 /.idea
+/target
+/log
 Homestead.json
 Homestead.yaml
 /backend/.env

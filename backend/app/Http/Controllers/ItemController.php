@@ -21,7 +21,7 @@
 
     public function items($type, $orderBy, $sortDirection)
     {
-      return $this->itemService->getWithPagination($type, $orderBy, $sortDirection);
+      return $this->itemService->getWithPagination($type, $orderBy, $sortDirection, Request::input('hideCompleted'));
     }
 
     public function episodes($tmdbId)
