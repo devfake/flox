@@ -66,4 +66,6 @@ chown -R foo:foo /var/www/flox \
                  /var/run/supervisord \
                  /var/spool/cron/crontabs
 
+service nginx start
+
 exec gosu foo "$@"
