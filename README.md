@@ -161,6 +161,45 @@ There is an option to enable or disable spoiler protection for episode names.
 * Run `npm install` or `yarn` in your `/client` folder.
 * Run `npm run dev`.
 
+### Running in Docker
+
+This project can be run in a Docker container, it exposes only port 80. It is advised 
+to run this configuration through a reverse proxy providing SSL if the service will be exposed over the internet. Data 
+is saved in the container at /var/www/flox/.
+
+An example run would be
+
+    cd <PROJECT_ROOT>
+    docker build . -t flox:latest
+    docker run -p '8080:80' --volume '/<PROJECT_ROOT>/target/:/var/www/flox' --env TMDB_API_KEY=<KEY> --rm -name flox flox:latest
+    
+You can then connect to localhost:8080 to access the application and any changes you make will be saved in /<PROJECT_ROOT>/target/.
+
+In order to create an admin user you will need to run an initial migration. This can be done by running the container 
+once with the environment variable FLOX_DB_INIT=true, or exec'ing into the container and manually running 
+php artisan flox:db
+
+Supported environment variables are:
+- UID - Unix user ID to run the container as
+- GID - Unix group ID to run the container as
+- TMDB_API_KEY - The TMDB API key to use - required for startup
+- FLOX_DB_INIT (false) - Run db init at container startup
+- FLOX_ADMIN_USER (admin) - The admin username for FLOX_DB_INIT
+- FLOX_ADMIN_PASS (admin) - The admin password for FLOX_DB_INIT
+- FLOX_DB_CONNECTION (sqlite) - The database connection to use
+- FLOX_DB_NAME (/var/www/flox/backend/database/database.sqlite) - The DB Name (or path if sqlite)
+- FLOX_DB_HOST - The database host
+- FLOX_DB_PORT - The database port
+- FLOX_DB_USER - The database user
+- FLOX_DB_PASS - The database password
+- FLOX_APP_URL (http://localhost) - The URL you will be hosting the app on
+- FLOX_APP_ENV (local) - The laravel app env
+- FLOX_APP_DEBUG (false) - Run in debug mode
+- FLOX_CLIENT_URI (/) - The relative path you are hosting on
+- FLOX_TIMEZONE (UTC) - The timezone Flox is running in
+- FLOX_DAILY_REMINDER_TIME (10:00) - The daily reminder time
+- FLOX_WEEKLY_REMINDER_TIME (20:00) - The weekly reminder time
+
 ### Contribution
 
 Like this project? Want to contribute? Awesome! Feel free to open some pull requests or just open an issue.
