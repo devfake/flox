@@ -61,6 +61,7 @@
                 <a v-if="isOn('apple', item.homepage)" :href="item.homepage" target="_blank" class="button-apple">
                   Apple TV+
                 </a>
+                <span @click="openTrailer()" v-if="item.youtube_key" class="button-watch"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
                 <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
                 <!--                <span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>-->
                 <!--                <span class="button-watchlist" v-if="item.watchlist && auth && ! rated" @click="removeItem()"><i class="icon-watchlist-remove"></i> {{ lang('remove from watchlist') }}</span>-->
