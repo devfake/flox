@@ -2918,12 +2918,12 @@ main {
   .button-trailer:active {
     background: #484848; }
 
-.button-watchlist {
+.button-watch {
   background: #238cce;
   color: rgba(255, 255, 255, 0.9); }
-  .button-watchlist:hover {
+  .button-watch:hover {
     background: #2f99dc; }
-  .button-watchlist:active {
+  .button-watch:active {
     background: #238cce; }
 
 .button-tmdb-rating {
