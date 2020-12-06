@@ -57,9 +57,10 @@
       Route::get('/video/{type}/{id}', 'VideoController@serve');
     });
   });
-  Route::domain('back.localhost')->group(function(){
+  Route::domain('back.localhost')->namespace('AdminControllers')->group(function(){
 
 Route::get('/','DashboardController@index');
+Route::get('series','SeriesController@index');
 
 
   });
