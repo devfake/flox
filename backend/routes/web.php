@@ -57,7 +57,7 @@
       Route::get('/video/{type}/{id}', 'VideoController@serve');
     });
   });
-  Route::domain('back.localhost')->middleware('auth')->group(function(){
+  Route::domain('back.localhost')->group(function(){
 
 Route::get('/','DashboardController@index');
 
