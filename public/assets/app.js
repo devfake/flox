@@ -6480,7 +6480,7 @@ var render = function() {
               "div",
               { staticClass: "item-actions" },
               [
-                _vm.localItem.tmdb_id
+                _vm.localItem.id
                   ? _c(
                       "router-link",
                       {
@@ -6623,7 +6623,7 @@ var render = function() {
           [
             _vm.date == 1
               ? _c("span", { staticClass: "item-year" }, [
-                  _vm._v(_vm._s(_vm.released) + " "),
+                  _vm._v(_vm._s(_vm.localItem.created_at) + " "),
                   _c("i", [_vm._v(_vm._s(_vm.lang(_vm.localItem.media_type)))])
                 ])
               : _vm._e(),
@@ -6635,16 +6635,18 @@ var render = function() {
                 attrs: {
                   to: {
                     name: "subpage-" + _vm.localItem.media_type,
-                    params: { tmdbId: _vm.localItem.tmdb_id }
+                    params: { tmdbId: _vm.localItem.id }
                   },
-                  title: _vm.localItem.title
+                  title: _vm.localItem.show_title
                 }
               },
               [
                 _vm.hasSrc
                   ? _c("i", { staticClass: "item-has-src" })
                   : _vm._e(),
-                _vm._v("\n        " + _vm._s(_vm.localItem.title) + "\n      ")
+                _vm._v(
+                  "\n        " + _vm._s(_vm.localItem.show_title) + "\n      "
+                )
               ]
             ),
             _vm._v(" "),

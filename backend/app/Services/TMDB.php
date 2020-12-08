@@ -4,6 +4,7 @@
 
   use App\Genre;
   use App\Item;
+  use App\Services\Models\Show;
   use Carbon\Carbon;
   use GuzzleHttp\Client;
   use Illuminate\Support\Collection;
@@ -141,17 +142,8 @@
      */
     public function nowPlaying()
     {
-      $cache = Cache::remember('current', $this->untilEndOfDay(), function() {
-        $region = getRegion($this->translation);
-
-        $response = $this->requestTmdb($this->base . '/3/movie/now_playing', [
-          'region' => $region,
-        ]);
-
-        return collect($this->createItems($response, 'movie'));
-      });
-
-      return $this->filterItems($cache);
+      $shows = Show::All();
+      return $shows;
     }
 
     /**
