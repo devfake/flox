@@ -30,7 +30,7 @@
         <!--<span v-if="auth && localItem.watchlist && ! rated" class="remove-from-watchlist" @click="removeItem()">{{ lang('remove from watchlist') }}</span>-->
         <span v-if="auth && ! localItem.tmdb_id" class="edit-item" @click="editItem()">Edit</span>
 
-        <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { id: localItem.id, slug: localItem.slug }}">
+        <router-link :to="{ name: `subpage-${localItem.slug}`, params: { id: localItem.id, slug: localItem.slug }}">
           <img v-if="localItem.poster" :src="poster" class="item-image" width="185" height="278">
           <img v-if=" ! localItem.poster" :src="noImage" class="item-image" width="185" height="278">
         </router-link>
@@ -43,8 +43,8 @@
       </div>
 
       <div class="item-content">
-        <span v-if="date == 1" class="item-year">{{localItem.created_at}} <i>{{ lang(localItem.media_type) }}</i></span>
-        <router-link :to="{ name: `subpage-${localItem.media_type}`, params: { tmdbId: localItem.id }}" class="item-title" :title="localItem.show_title">
+        <span v-if="date == 1" class="item-year">{{localItem.release}}<i>YENI</i></span>
+        <router-link :to="{ name: `subpage`, params: { slug: localItem.slug,id:localItem.id }}" class="item-title" :title="localItem.show_title">
           <i class="item-has-src" v-if="hasSrc"></i>
           {{ localItem.show_title }}
         </router-link>
@@ -84,11 +84,9 @@
       },
 
       poster() {
-        if(this.localItem.rating) {
-          return config.poster + this.localItem.poster;
-        }
 
-        return config.posterTMDB + this.localItem.poster;
+          return "assets/"+this.localItem.poster
+
       },
 
       noImage() {

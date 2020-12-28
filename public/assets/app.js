@@ -1873,11 +1873,8 @@ exports.default = {
       return this.localItem.src || this.localItem.episodes_with_src_count > 0;
     },
     poster: function poster() {
-      if (this.localItem.rating) {
-        return config.poster + this.localItem.poster;
-      }
 
-      return config.posterTMDB + this.localItem.poster;
+      return "assets/" + this.localItem.poster;
     },
     noImage: function noImage() {
       return config.url + '/assets/img/no-image.png';
@@ -3275,7 +3272,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   mixins: [_misc2.default, _item2.default],
 
-  props: ['mediaType'],
+  props: ['slug', 'id'],
 
   created: function created() {
     document.body.classList.add('subpage-open');
@@ -3327,11 +3324,7 @@ exports.default = {
         return this.noImage;
       }
 
-      if (this.item.rating != null) {
-        return config.posterSubpage + this.item.poster;
-      }
-
-      return config.posterSubpageTMDB + this.item.poster;
+      return "/assets/" + this.item.poster;
     },
     noImage: function noImage() {
       return config.url + '/assets/img/no-image-subpage.png';
@@ -3380,15 +3373,12 @@ exports.default = {
     fetchData: function fetchData() {
       var _this3 = this;
 
-      var tmdbId = this.$route.params.tmdbId;
-
       this.SET_LOADING(true);
-      (0, _axios2.default)(config.api + '/item/' + tmdbId + '/' + this.mediaType).then(function (response) {
+      (0, _axios2.default)(config.api + '/item/' + this.id).then(function (response) {
         _this3.item = response.data;
-        _this3.item.tmdb_rating = _this3.intToFloat(response.data.tmdb_rating);
         _this3.latestEpisode = _this3.item.latest_episode;
 
-        _this3.setPageTitle(_this3.item.title);
+        _this3.setPageTitle(_this3.item.show_title);
 
         _this3.disableLoading();
         _this3.fetchImdbRating();
@@ -6262,11 +6252,10 @@ var _Calendar2 = _interopRequireDefault(_Calendar);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vueRouter2.default);
-
 exports.default = new _vueRouter2.default({
     mode: 'history',
     base: _config2.default.uri,
-    routes: [{ path: '/', component: _Content2.default, name: 'home' }, { path: '/movies', component: _Content2.default, name: 'movie' }, { path: '/tv', component: _Content2.default, name: 'tv' }, { path: '/watchlist/:type?', component: _Content2.default, name: 'watchlist' }, { path: '/movies/:tmdbId/:slug?', component: _Subpage2.default, name: 'subpage-movie', props: { mediaType: 'movie' } }, { path: '/tv/:tmdbId/:slug?', component: _Subpage2.default, name: 'subpage-tv', props: { mediaType: 'tv' } }, { path: '/search', component: _SearchContent2.default, name: 'search' }, { path: '/settings', component: _Index2.default, name: 'settings' }, { path: '/suggestions', component: _TMDBContent2.default, name: 'suggestions' }, { path: '/trending', component: _TMDBContent2.default, name: 'trending' }, { path: '/upcoming', component: _TMDBContent2.default, name: 'upcoming' }, { path: '/now-playing', component: _TMDBContent2.default, name: 'now-playing' }, { path: '/genre/:genre', component: _TMDBContent2.default, name: 'genre' }, { path: '/calendar', component: _Calendar2.default, name: 'calendar' }, { path: '*', redirect: '/' }]
+    routes: [{ path: '/', component: _Content2.default, name: 'home' }, { path: '/movies', component: _Content2.default, name: 'movie' }, { path: '/tv', component: _Content2.default, name: 'tv' }, { path: '/watchlist/:type?', component: _Content2.default, name: 'watchlist' }, { path: '/shows/:id?/:slug?', component: _Subpage2.default, name: 'subpage', props: true }, { path: '/search', component: _SearchContent2.default, name: 'search' }, { path: '/settings', component: _Index2.default, name: 'settings' }, { path: '/suggestions', component: _TMDBContent2.default, name: 'suggestions' }, { path: '/trending', component: _TMDBContent2.default, name: 'trending' }, { path: '/upcoming', component: _TMDBContent2.default, name: 'upcoming' }, { path: '/now-playing', component: _TMDBContent2.default, name: 'now-playing' }, { path: '/genre/:genre', component: _TMDBContent2.default, name: 'genre' }, { path: '/calendar', component: _Calendar2.default, name: 'calendar' }, { path: '*', redirect: '/' }]
 });
 
 /***/ }),
@@ -6589,11 +6578,8 @@ var render = function() {
               {
                 attrs: {
                   to: {
-                    name: "subpage-" + _vm.localItem.media_type,
-                    params: {
-                      tmdbId: _vm.localItem.tmdb_id,
-                      slug: _vm.localItem.slug
-                    }
+                    name: "subpage-" + _vm.localItem.slug,
+                    params: { id: _vm.localItem.id, slug: _vm.localItem.slug }
                   }
                 }
               },
@@ -6623,8 +6609,8 @@ var render = function() {
           [
             _vm.date == 1
               ? _c("span", { staticClass: "item-year" }, [
-                  _vm._v(_vm._s(_vm.localItem.created_at) + " "),
-                  _c("i", [_vm._v(_vm._s(_vm.lang(_vm.localItem.media_type)))])
+                  _vm._v(_vm._s(_vm.localItem.release)),
+                  _c("i", [_vm._v("YENI")])
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -6634,8 +6620,8 @@ var render = function() {
                 staticClass: "item-title",
                 attrs: {
                   to: {
-                    name: "subpage-" + _vm.localItem.media_type,
-                    params: { tmdbId: _vm.localItem.id }
+                    name: "subpage",
+                    params: { slug: _vm.localItem.slug, id: _vm.localItem.id }
                   },
                   title: _vm.localItem.show_title
                 }
@@ -9965,12 +9951,11 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "big-teaser-item-data" }, [
                   _c("span", { staticClass: "item-year" }, [
-                    _vm._v(_vm._s(_vm.released) + ", "),
-                    _c("i", [_vm._v(_vm._s(_vm.lang(_vm.item.media_type)))])
+                    _vm._v(_vm._s(_vm.item.release))
                   ]),
                   _vm._v(" "),
                   _c("span", { staticClass: "item-title" }, [
-                    _vm._v(_vm._s(_vm.item.title))
+                    _vm._v(_vm._s(_vm.item.show_title))
                   ]),
                   _vm._v(" "),
                   _c(
@@ -9987,169 +9972,7 @@ var render = function() {
                       )
                     })
                   )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "big-teaser-buttons no-select",
-                    class: {
-                      "without-watchlist": _vm.item.rating != null || !_vm.auth
-                    }
-                  },
-                  [
-                    _vm.isOn("netflix", _vm.item.homepage)
-                      ? _c(
-                          "a",
-                          {
-                            staticClass: "button-netflix",
-                            attrs: { href: _vm.item.homepage, target: "_blank" }
-                          },
-                          [_vm._v("\n                Netflix\n              ")]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.isOn("amazon", _vm.item.homepage)
-                      ? _c(
-                          "a",
-                          {
-                            staticClass: "button-amazon",
-                            attrs: { href: _vm.item.homepage, target: "_blank" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                Amazon Prime\n              "
-                            )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.isOn("disney", _vm.item.homepage)
-                      ? _c(
-                          "a",
-                          {
-                            staticClass: "button-disney",
-                            attrs: { href: _vm.item.homepage, target: "_blank" }
-                          },
-                          [_vm._v("\n                Disney+\n              ")]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.isOn("apple", _vm.item.homepage)
-                      ? _c(
-                          "a",
-                          {
-                            staticClass: "button-apple",
-                            attrs: { href: _vm.item.homepage, target: "_blank" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                Apple TV+\n              "
-                            )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.item.youtube_key
-                      ? _c(
-                          "span",
-                          {
-                            staticClass: "button-watch",
-                            on: {
-                              click: function($event) {
-                                _vm.openTrailer()
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "icon-trailer" }),
-                            _vm._v(" " + _vm._s(_vm.lang("watch trailer")))
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.item.youtube_key
-                      ? _c(
-                          "span",
-                          {
-                            staticClass: "button-trailer",
-                            on: {
-                              click: function($event) {
-                                _vm.openTrailer()
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "icon-trailer" }),
-                            _vm._v(" " + _vm._s(_vm.lang("watch trailer")))
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "button-tmdb-rating",
-                        attrs: {
-                          href:
-                            "https://www.themoviedb.org/" +
-                            _vm.item.media_type +
-                            "/" +
-                            _vm.item.tmdb_id,
-                          target: "_blank"
-                        }
-                      },
-                      [
-                        _vm.item.tmdb_rating && _vm.item.tmdb_rating != 0
-                          ? _c("i", [
-                              _c("b", [_vm._v(_vm._s(_vm.item.tmdb_rating))]),
-                              _vm._v(" TMDb")
-                            ])
-                          : _c("i", [
-                              _vm._v(_vm._s(_vm.lang("no tmdb rating")))
-                            ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm.item.imdb_id
-                      ? _c(
-                          "a",
-                          {
-                            staticClass: "button-imdb-rating",
-                            attrs: {
-                              href:
-                                "http://www.imdb.com/title/" + _vm.item.imdb_id,
-                              target: "_blank"
-                            }
-                          },
-                          [
-                            _vm.loadingImdb
-                              ? _c("i", [
-                                  _vm._v(
-                                    _vm._s(_vm.lang("loading imdb rating"))
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.item.imdb_rating && !_vm.loadingImdb
-                              ? _c("i", [
-                                  _c("b", [
-                                    _vm._v(_vm._s(_vm.item.imdb_rating))
-                                  ]),
-                                  _vm._v(" IMDb")
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            !_vm.item.imdb_rating && !_vm.loadingImdb
-                              ? _c("i", [
-                                  _vm._v(_vm._s(_vm.lang("no imdb rating")))
-                                ])
-                              : _vm._e()
-                          ]
-                        )
-                      : _vm._e()
-                  ]
-                )
+                ])
               ])
             ])
           ])
@@ -10176,7 +9999,11 @@ var render = function() {
           _c("div", { staticClass: "subpage-overview" }, [
             _c("h2", [_vm._v(_vm._s(_vm.lang("overview")))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.overview))])
+            _c("p", [
+              _vm._v(
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+              )
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "subpage-sidebar" }, [

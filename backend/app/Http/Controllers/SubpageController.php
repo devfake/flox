@@ -4,12 +4,13 @@
 
   use App\Services\IMDB;
   use App\Services\Subpage;
+  use App\Services\Models\Show;
 
   class SubpageController {
 
-    public function item($tmdbId, $mediaType, Subpage $subpage)
+    public function item($id)
     {
-      return $subpage->item($tmdbId, $mediaType);
+      return Show::find($id);
     }
 
     public function imdbRating($id, IMDB $imdb)

@@ -11,7 +11,6 @@ import Subpage from './components/Content/Subpage.vue';
 import Calendar from './components/Content/Calendar.vue';
 
 Vue.use(Router);
-
 export default new Router({
   mode: 'history',
   base: config.uri,
@@ -23,8 +22,7 @@ export default new Router({
     { path: '/tv', component: Content, name: 'tv' },
     { path: '/watchlist/:type?', component: Content, name: 'watchlist' },
     
-    { path: '/movies/:tmdbId/:slug?', component: Subpage, name: 'subpage-movie', props: {mediaType: 'movie'} },
-    { path: '/tv/:tmdbId/:slug?', component: Subpage, name: 'subpage-tv', props: {mediaType: 'tv'} },
+    { path: '/shows/:id?/:slug?', component: Subpage, name: 'subpage', props:true },
 
     { path: '/search', component: SearchContent, name: 'search' },
     { path: '/settings', component: Settings, name: 'settings' },

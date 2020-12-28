@@ -41,41 +41,12 @@
 
               <!-- todo: move to own component -->
               <div class="big-teaser-item-data">
-                <span class="item-year">{{ released }}, <i>{{ lang(item.media_type) }}</i></span>
-                <span class="item-title">{{ item.title }}</span>
+                <span class="item-year">{{ item.release }}</span>
+                <span class="item-title">{{ item.show_title }}</span>
                 <span class="item-genre">
                   <router-link :key="genre.id" :to="'/genre/' + genre.name"
                                v-for="genre in item.genre">{{ genre.name }}</router-link>
                 </span>
-              </div>
-              <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
-                <a v-if="isOn('netflix', item.homepage)" :href="item.homepage" target="_blank" class="button-netflix">
-                  Netflix
-                </a>
-                <a v-if="isOn('amazon', item.homepage)" :href="item.homepage" target="_blank" class="button-amazon">
-                  Amazon Prime
-                </a>
-                <a v-if="isOn('disney', item.homepage)" :href="item.homepage" target="_blank" class="button-disney">
-                  Disney+
-                </a>
-                <a v-if="isOn('apple', item.homepage)" :href="item.homepage" target="_blank" class="button-apple">
-                  Apple TV+
-                </a>
-                <span @click="openTrailer()" v-if="item.youtube_key" class="button-watch"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
-                <span @click="openTrailer()" v-if="item.youtube_key" class="button-trailer"><i class="icon-trailer"></i> {{ lang('watch trailer') }}</span>
-                <!--                <span class="button-watchlist" v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)"><i class="icon-watchlist"></i> {{ lang('add to watchlist') }}</span>-->
-                <!--                <span class="button-watchlist" v-if="item.watchlist && auth && ! rated" @click="removeItem()"><i class="icon-watchlist-remove"></i> {{ lang('remove from watchlist') }}</span>-->
-                <a :href="`https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`" target="_blank"
-                   class="button-tmdb-rating">
-                  <i v-if="item.tmdb_rating && item.tmdb_rating != 0"><b>{{ item.tmdb_rating }}</b> TMDb</i>
-                  <i v-else>{{ lang('no tmdb rating') }}</i>
-                </a>
-                <a v-if="item.imdb_id" :href="`http://www.imdb.com/title/${item.imdb_id}`" target="_blank"
-                   class="button-imdb-rating">
-                  <i v-if="loadingImdb">{{ lang('loading imdb rating') }}</i>
-                  <i v-if="item.imdb_rating && ! loadingImdb"><b>{{ item.imdb_rating }}</b> IMDb</i>
-                  <i v-if=" ! item.imdb_rating && ! loadingImdb">{{ lang('no imdb rating') }}</i>
-                </a>
               </div>
             </div>
           </div>
@@ -87,7 +58,7 @@
       <div class="wrap">
         <div class="subpage-overview">
           <h2>{{ lang('overview') }}</h2>
-          <p>{{ overview }}</p>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
         </div>
 
         <div class="subpage-sidebar">
@@ -150,7 +121,7 @@
   export default {
     mixins: [MiscHelper, ItemHelper],
 
-    props: ['mediaType'],
+    props: ['slug','id'],
 
     created() {
       document.body.classList.add('subpage-open');
@@ -203,11 +174,7 @@
           return this.noImage;
         }
 
-        if (this.item.rating != null) {
-          return config.posterSubpage + this.item.poster;
-        }
-
-        return config.posterSubpageTMDB + this.item.poster;
+        return "/assets/" + this.item.poster;
       },
 
       noImage() {
@@ -258,15 +225,13 @@
       },
 
       fetchData() {
-        const tmdbId = this.$route.params.tmdbId;
 
         this.SET_LOADING(true);
-        http(`${config.api}/item/${tmdbId}/${this.mediaType}`).then(response => {
+        http(`${config.api}/item/${this.id}`).then(response => {
           this.item = response.data;
-          this.item.tmdb_rating = this.intToFloat(response.data.tmdb_rating);
           this.latestEpisode = this.item.latest_episode;
 
-          this.setPageTitle(this.item.title);
+          this.setPageTitle(this.item.show_title);
 
           this.disableLoading();
           this.fetchImdbRating();
