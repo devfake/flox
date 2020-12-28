@@ -279,21 +279,12 @@
      */
     public function getWithPagination($type, $orderBy, $sortDirection)
     {
-      $filter = $this->getSortFilter($orderBy);
 
-      $items = $this->model->orderBy($filter, $sortDirection)->with('latestEpisode')->withCount('episodesWithSrc');
 
-      if($type == 'watchlist') {
-        $items->where('watchlist', true);
-      } elseif( ! $this->setting->first()->show_watchlist_everywhere) {
-        $items->where('watchlist', false);
-      }
+      $items = $this->model->all();
 
-      if($type == 'tv' || $type == 'movie') {
-        $items->where('media_type', $type);
-      }
 
-      return $items->simplePaginate(config('app.LOADING_ITEMS'));
+      return $items;
     }
 
     /**

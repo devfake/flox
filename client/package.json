@@ -3,7 +3,16 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "dev": "webpack -w --progress --hide-modules",
-    "mail": "./node_modules/.bin/mjml ./resources/mails/templates/*.mjml.blade.php -o ./resources/mails/compiled"
+    "mail": "./node_modules/.bin/mjml ./resources/mails/templates/*.mjml.blade.php -o ./resources/mails/compiled",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js,jsx"
+    }
   },
   "dependencies": {
     "axios": "^0.18.1",
@@ -11,6 +20,7 @@
     "dayjs": "^1.7.5",
     "debounce": "^1.1.0",
     "element-ui": "^2.0.10",
+    "npm-watch": "^0.7.0",
     "v-hotkey": "^0.2.3",
     "vue": "^2.5.2",
     "vue-checkbox-radio": "^0.6.0",

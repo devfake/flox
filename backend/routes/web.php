@@ -10,7 +10,7 @@
 
     Route::get('/calendar', 'CalendarController@items');
 
-    Route::get('/item/{tmdbId}/{mediaType}', 'SubpageController@item');
+    Route::get('/item/{id}', 'SubpageController@item');
     Route::get('/imdb-rating/{imdbId}', 'SubpageController@imdbRating');
 
     Route::get('/suggestions/{tmdbID}/{mediaType}', 'TMDBController@suggestions');
@@ -56,6 +56,13 @@
 
       Route::get('/video/{type}/{id}', 'VideoController@serve');
     });
+  });
+  Route::domain('back.localhost')->namespace('AdminControllers')->group(function(){
+
+Route::get('/','DashboardController@index');
+Route::get('series','SeriesController@index');
+
+
   });
 
   Route::fallback('HomeController@app');

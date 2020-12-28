@@ -14,19 +14,21 @@
   "type": "project",
   "require": {
     "php": "^7.2",
+    "ext-json": "*",
     "doctrine/dbal": "^2.10",
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^6.3",
     "imangazaliev/didom": "^1.14",
+    "jeroennoten/laravel-adminlte": "^3.5",
     "laravel/framework": "6.8.*",
-    "laravel/tinker": "^2.0",
-    "ext-json": "*"
+    "laravel/tinker": "^2.0"
   },
   "require-dev": {
     "facade/ignition": "^1.4",
     "fzaninotto/faker": "~1.4",
     "mockery/mockery": "^1.0",
     "phpunit/phpunit": "^8.0",
+    "sven/artisan-view": "^3.3",
     "symfony/css-selector": "3.3.*",
     "symfony/dom-crawler": "3.3.*"
   },

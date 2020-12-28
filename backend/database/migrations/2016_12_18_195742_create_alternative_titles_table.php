@@ -10,7 +10,6 @@ class CreateAlternativeTitlesTable extends Migration
     {
         Schema::create('alternative_titles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('tmdb_id');
             $table->string('title')->index();
             $table->string('country');
         });
