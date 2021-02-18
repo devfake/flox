@@ -71,7 +71,7 @@ Environment variables
 | **Flox Application** |  |
 | FLOX_DB_HOST | **(required)** Host of the MySQL server |
 | FLOX_DB_PORT | **(required)** Port of the MySQL server *(default: 3306)* |
-| FLOX_DB_NAME | **(required)** Name of the MySQL database * |
+| FLOX_DB_NAME | **(required)** Name of the MySQL database  |
 | FLOX_DB_USER | **(required)** Name of the MySQL user  |
 | FLOX_DB_PASS | **(required)** Password of the MySQL user  |
 |  |  |
