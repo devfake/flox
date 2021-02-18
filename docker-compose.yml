@@ -26,6 +26,12 @@ services:
       - TMDB_API_KEY=fce675de8abd8761b876b98554ac3254339 # Provide your own API key here
       - FLOX_ADMIN_USER=admin # Can be any username you want to choose
       - FLOX_ADMIN_PASS=admin # Remember to change your password
+      - MAIL_DRIVER=smtp # Mail Driver
+      - MAIL_HOST=smtp.mailtrap.io # Hostname of the mail server
+      - MAIL_PORT=587 # Port of the mail server (SMTP Port)
+      - MAIL_USERNAME=noreply@mailtrap.io # User name on the mail server
+      - MAIL_PASSWORD=password # User password
+      - MAIL_ENCRYPTION=tls # Encryption Type (tls,ssl,none)
 
   mysql:
     image: mysql:5.7
