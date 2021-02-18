@@ -63,6 +63,39 @@ The `uploads.ini` should at least contain the following:
 upload_max_filesize = 64M
 ```
 
+Environment variables
+-----
+| Name | Description |
+|--|--|
+|  |  |
+| **Flox Application** |  |
+| FLOX_DB_HOST | **(required)** Host of the MySQL server |
+| FLOX_DB_PORT | **(required)** Port of the MySQL server *(default: 3306)* |
+| FLOX_DB_NAME | **(required)** Name of the MySQL database * |
+| FLOX_DB_USER | **(required)** Name of the MySQL user  |
+| FLOX_DB_PASS | **(required)** Password of the MySQL user  |
+|  |  |
+| FLOX_TRANSLATION | Default App-Language Tag *(default: en)* |
+| FLOX_APP_URL | Your app's external address (ex: example.com) |
+| TMDB_API_KEY | **(required)** The Movie Database API Key. *(https://developers.themoviedb.org/3/getting-started/introduction)* |
+|  |  |
+| FLOX_ADMIN_USER | **(required)** Username of the admin user *(Can be any username you want)* |
+| FLOX_ADMIN_PASS | **(required)** Password of the admin user |
+|  |  |
+| | *Set each to blank to disable mail* |
+| MAIL_DRIVER | Mail Driver to send mails *(default: smtp)* |
+| MAIL_HOST | Hostname of the mail server |
+| MAIL_PORT | Port of the mail server *(SMTP Port)* |
+| MAIL_USERNAME | User name on the mail server |
+| MAIL_PASSWORD | User password |
+| MAIL_ENCRYPTION | Encryption Type *(tls,ssl,none)* |
+|  |  |
+| **MYSQL Database** |  |
+| MYSQL_ROOT_PASSWORD | **(required)** Root password of the MySQL database |
+| MYSQL_DATABASE | **(required)** Name of the MySQL database  |
+| MYSQL_USER | **(required)** Name of the MySQL user  |
+| MYSQL_PASSWORD | **(required)** Password of the MySQL user  |
+
 ### Features
 
 - API for Plex.
