@@ -18,7 +18,7 @@
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^6.3",
     "imangazaliev/didom": "^1.14",
-    "laravel/framework": "6.8.*",
+    "laravel/framework": "6.18.*",
     "laravel/tinker": "^2.0",
     "ext-json": "*"
   },
