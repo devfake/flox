@@ -323,7 +323,7 @@
     public function details($tmdbId, $mediaType)
     {
       $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId, [
-        'append_to_response' => 'videos,external_ids',
+        'append_to_response' => 'videos,external_ids,credits',
       ]);
 
       if($response->getStatusCode() != Response::HTTP_OK) {
