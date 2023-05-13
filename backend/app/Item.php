@@ -35,7 +35,7 @@
      *
      * @var array
      */
-    protected $with = ['genre'];
+    protected $with = ['genre', 'person'];
 
     /**
      * Guard accessors from import.
@@ -128,6 +128,14 @@
     }
 
     /**
+     * Belongs to many persons.
+     */
+    public function person()
+    {
+      return $this->belongsToMany(Person::class);
+    }
+
+    /**
      * Can have many episodes.
      */
     public function episodes()
@@ -170,6 +178,16 @@
     {
       return $query->orWhereHas('genre', function($query) use ($genreId) {
         $query->where('genre_id', $genreId);
+      });
+    }
+
+    /**
+     * Scope to find the result by a person.
+     */
+    public function scopeFindByPersonId($query, $personId)
+    {
+      return $query->orWhereHas('person', function($query) use ($personId) {
+        $query->where('person_id', $personId);
       });
     }
 

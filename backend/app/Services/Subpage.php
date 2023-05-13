@@ -30,6 +30,9 @@
 
       $found->genre_ids = collect($found->genres)->pluck('id')->all();
 
+      $persons = collect($found->credits)->flatten(1);
+      $found->person_ids = collect($persons)->pluck('id')->all();
+
       $item = $this->tmdb->createItem($found, $mediaType);
       $item['youtube_key'] = $this->itemService->parseYoutubeKey($found, $mediaType);
       $item['imdb_id'] = $this->itemService->parseImdbId($found);

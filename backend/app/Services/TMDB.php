@@ -4,6 +4,8 @@
 
   use App\Genre;
   use App\Item;
+  use App\Person;
+  use App\Services\Models\PersonService;
   use Carbon\Carbon;
   use GuzzleHttp\Client;
   use Illuminate\Support\Collection;
@@ -15,6 +17,12 @@
 
     private $client;
     private $apiKey;
+
+    /*
+     * @var PersonService
+     */
+    private $personService;
+
     private $translation;
 
     private $base = 'https://api.themoviedb.org';
@@ -24,11 +32,12 @@
      *
      * @param Client $client
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client, PersonService $personService)
     {
       $this->apiKey = config('services.tmdb.key');
       $this->translation = config('app.TRANSLATION');
       $this->client = $client;
+      $this->personService = $personService;
     }
 
     /**
@@ -265,6 +274,8 @@
 
       $title = $data->name ?? $data->title;
 
+      $this->personService->updatePersonLists($data->credits);
+
       return [
         'tmdb_id' => $data->id,
         'title' => $title,
@@ -276,6 +287,8 @@
         'released_timestamp' => $release,
         'genre_ids' => $data->genre_ids,
         'genre' => Genre::whereIn('id', $data->genre_ids)->get(),
+        'person_ids' => $data->person_ids,
+        'person' => Person::whereIn('id', $data->person_ids)->get(),
         'episodes' => [],
         'overview' => $data->overview,
         'backdrop' => $data->backdrop_path,
