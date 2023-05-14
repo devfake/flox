@@ -12,6 +12,7 @@ class CreatePersonsTable extends Migration
       $table->integer('id');
       $table->string('name');
       $table->string('profile')->nullable();
+      $table->unsignedDecimal('popularity');
     });
   }
 

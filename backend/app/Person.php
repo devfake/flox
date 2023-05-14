@@ -42,7 +42,8 @@ class Person extends Model
          ['id' => $person->id],
          [
              'name' => $person->name,
-             'profile' => $person->profile_path
+             'profile' => $person->profile_path,
+             'popularity' => $person->popularity
          ]
        );
      }

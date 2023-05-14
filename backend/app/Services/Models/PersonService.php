@@ -2,18 +2,28 @@
 
   namespace App\Services\Models;
 
-  use App\Person as Model;
+  use App\CreditCast;
+  use App\CreditCrew;
+  use App\Person;
 
   class PersonService {
 
-    private $model;
+    private $creditCast;
+    private $creditCrew;
+    private $person;
 
     /**
-     * @param Model $model
+     * @param Person $person
      */
-    public function __construct(Model $model)
+    public function __construct(
+      CreditCast $creditCast,
+      CreditCrew $creditCrew,
+      Person $person
+    )
     {
-      $this->model = $model;
+      $this->creditCast = $creditCast;
+      $this->creditCrew = $creditCrew;
+      $this->person = $person;
     }
 
     /**
@@ -30,12 +40,22 @@
     /**
      * Update the persons table.
      */
-    public function updatePersonLists($credits)
+    public function updatePersonLists($itemId, $credits)
     {
-      $persons = collect($credits)->flatten(1);
-
-      foreach($persons as $person) {
-        $this->model->store($person);
+      foreach($credits as $type => $persons) {
+        foreach($persons as $person) {
+          $this->person->store($person);
+          switch($type) {
+            case 'cast':
+              $this->creditCast->store($itemId, $person);
+              break;
+            case 'crew':
+              $this->creditCrew->store($itemId, $person);
+              break;
+            default:
+              throw new \Exception('Unknown credit type: ' . $type);
+          }
+        }
       }
     }
   }

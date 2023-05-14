@@ -2,9 +2,10 @@
 
   namespace App\Services;
 
+  use App\CreditCast;
+  use App\CreditCrew;
   use App\Genre;
   use App\Item;
-  use App\Person;
   use App\Services\Models\PersonService;
   use Carbon\Carbon;
   use GuzzleHttp\Client;
@@ -274,9 +275,11 @@
 
       $title = $data->name ?? $data->title;
 
-      $this->personService->updatePersonLists($data->credits);
+      if(isset($data->credits)) {
+        $this->personService->updatePersonLists($data->id, $data->credits);
+      }
 
-      return [
+      $item = [
         'tmdb_id' => $data->id,
         'title' => $title,
         'slug' => getSlug($title),
@@ -287,8 +290,6 @@
         'released_timestamp' => $release,
         'genre_ids' => $data->genre_ids,
         'genre' => Genre::whereIn('id', $data->genre_ids)->get(),
-        'person_ids' => $data->person_ids,
-        'person' => Person::whereIn('id', $data->person_ids)->get(),
         'episodes' => [],
         'overview' => $data->overview,
         'backdrop' => $data->backdrop_path,
@@ -296,6 +297,11 @@
         'tmdb_rating' => $data->vote_average,
         'popularity' => $data->popularity ?? 0,
       ];
+      if(isset($data->credits)) {
+        $item['credit_cast'] = CreditCast::whereIn('id', $data->cast_ids)->get();
+        $item['credit_crew'] = CreditCrew::whereIn('id', $data->crew_ids)->get();
+      }
+      return $item;
     }
 
     private function requestTmdb($url, $query = [])

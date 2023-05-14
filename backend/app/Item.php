@@ -35,7 +35,11 @@
      *
      * @var array
      */
-    protected $with = ['genre', 'person'];
+    protected $with = [
+      'creditCast',
+      'creditCrew',
+      'genre'
+    ];
 
     /**
      * Guard accessors from import.
@@ -128,11 +132,19 @@
     }
 
     /**
-     * Belongs to many persons.
+     * Belongs to many creditCasts.
      */
-    public function person()
+    public function creditCast()
     {
-      return $this->belongsToMany(Person::class);
+      return $this->belongsToMany(CreditCast::class);
+    }
+
+    /**
+     * Belongs to many creditCrews.
+     */
+    public function creditCrew()
+    {
+      return $this->belongsToMany(CreditCrew::class);
     }
 
     /**
