@@ -87,6 +87,16 @@
         <div class="subpage-overview">
           <h2>{{ lang('overview') }}</h2>
           <p>{{ overview }}</p>
+          <ol
+            v-if="creditCast.length"
+            class="cast-list"
+          >
+            <Person
+              :item="item"
+              :key="'cast-' + index"
+              v-for="(item, index) in creditCast"
+            />
+          </ol>
         </div>
 
         <div class="subpage-sidebar">
@@ -143,6 +153,7 @@
   import {mapActions, mapMutations, mapState} from 'vuex'
   import MiscHelper from '../../helpers/misc';
   import ItemHelper from '../../helpers/item';
+  import Person from './Person.vue';
 
   import http from 'axios';
 
@@ -168,6 +179,7 @@
       return {
         item: {},
         latestEpisode: null,
+        creditCast: [],
         loadingImdb: false,
         auth: config.auth,
         rated: false,
@@ -262,6 +274,7 @@
         this.SET_LOADING(true);
         http(`${config.api}/item/${tmdbId}/${this.mediaType}`).then(response => {
           this.item = response.data;
+          this.creditCast = response.data.credit_cast;
           this.item.tmdb_rating = this.intToFloat(response.data.tmdb_rating);
           this.latestEpisode = this.item.latest_episode;
 
@@ -325,6 +338,7 @@
     },
 
     components: {
+      Person,
       Rating
     }
   }

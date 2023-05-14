@@ -579,3 +579,43 @@
     }
   }
 }
+
+.cast-list {
+  float: right;
+  display: flex;
+  padding-bottom: 20px;
+  max-width: 50vw;
+  list-style: none;
+  overflow-x: auto;
+  gap: 20px;
+}
+
+.cast-item {
+    display: flex;
+    padding-bottom: 10px;
+    max-width: 140px;
+    flex-direction: column;
+    background-color: #484848;
+    border-radius: 10px;
+}
+
+.cast-info {
+    display: flex;
+    margin: auto 0;
+    padding: 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cast-name {
+    margin-bottom: 5px;
+    color: white;
+    font-weight: 800;
+}
+
+.cast-character {
+    color: #afafaf;
+    font-size: 0.8rem;
+}

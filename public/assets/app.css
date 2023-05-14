@@ -3296,6 +3296,57 @@ main {
     .dark .subpage-overview p {
       color: #717171; }
 
+.cast-list {
+  float: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 20px;
+  max-width: 50vw;
+  list-style: none;
+  overflow-x: auto;
+  gap: 20px; }
+
+.cast-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 10px;
+  max-width: 140px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: #484848;
+  border-radius: 10px; }
+
+.cast-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: auto 0;
+  padding: 5px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center; }
+
+.cast-name {
+  margin-bottom: 5px;
+  color: white;
+  font-weight: 800; }
+
+.cast-character {
+  color: #afafaf;
+  font-size: 0.8rem; }
+
 .login-wrap {
   max-width: 320px;
   margin-left: auto;
