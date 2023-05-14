@@ -11,7 +11,7 @@ class CreatePersonsTable extends Migration
     Schema::create('persons', function (Blueprint $table) {
       $table->integer('id');
       $table->string('name');
-      $table->string('profile')->nullable();
+      $table->string('profile_path')->nullable();
       $table->unsignedDecimal('popularity');
     });
   }

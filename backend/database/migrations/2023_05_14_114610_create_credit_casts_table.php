@@ -14,8 +14,7 @@ class CreateCreditCastsTable extends Migration
     public function up()
     {
         Schema::create('credit_casts', function (Blueprint $table) {
-            $table->integer('id');
-            $table->integer('item_id');
+            $table->integer('tmdb_id');
             $table->integer('person_id');
             $table->string('character');
             $table->string('known_for_department');

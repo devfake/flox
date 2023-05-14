@@ -36,15 +36,25 @@ class Person extends Model
      * @param $data
      * @return Person
      */
-     public function store($person)
+     public function store(array $person)
      {
        return $this->firstOrCreate(
-         ['id' => $person->id],
+         ['id' => $person['id']],
          [
-             'name' => $person->name,
-             'profile' => $person->profile_path,
-             'popularity' => $person->popularity
+           'name' => $person['name'],
+           'profile_path' => $person['profile_path'],
+           'popularity' => $person['popularity']
          ]
        );
+     }
+
+     public function fromCredits(object $person)
+     {
+       return [
+         'id' => $person->id,
+         'name' => $person->name,
+         'profile_path' => $person->profile_path,
+         'popularity' => $person->popularity
+       ];
      }
 }

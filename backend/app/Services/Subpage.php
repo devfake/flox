@@ -3,16 +3,23 @@
   namespace App\Services;
 
   use App\Services\Models\ItemService;
+  use App\Services\Models\PersonService;
   use Symfony\Component\HttpFoundation\Response;
 
   class Subpage {
 
     private $itemService;
+    private $personService;
     private $tmdb;
 
-    public function __construct(ItemService $itemService, TMDB $tmdb)
+    public function __construct(
+      ItemService $itemService,
+      PersonService $personService,
+      TMDB $tmdb
+    )
     {
       $this->itemService = $itemService;
+      $this->personService = $personService;
       $this->tmdb = $tmdb;
     }
 
@@ -29,10 +36,8 @@
       }
 
       $found->genre_ids = collect($found->genres)->pluck('id')->all();
-
-      $credits = collect($found->credits);
-      $found->cast_ids = collect($credits['cast'])->pluck('id')->all();
-      $found->crew_ids = collect($credits['crew'])->pluck('id')->all();
+      $found->credit_cast = $this->personService->castFromTMDB($tmdbId, $found->credits->cast);
+      $found->credit_crew = $this->personService->crewFromTMDB($tmdbId, $found->credits->crew);
 
       $item = $this->tmdb->createItem($found, $mediaType);
       $item['youtube_key'] = $this->itemService->parseYoutubeKey($found, $mediaType);

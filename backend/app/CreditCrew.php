@@ -43,17 +43,31 @@ class CreditCrew extends Model
      * @param $data
      * @return CreditCrew
      */
-     public function store($itemId, $crew)
+     public function store(int $tmdbId, array $crew)
      {
        return $this->firstOrCreate(
-         ['item_id' => $itemId, 'person_id' => $crew->id],
          [
-            'id' => $crew->id,
-            'known_for_department' => $crew->known_for_department,
-            'credit_id' => $crew->credit_id,
-            'department' => $crew->department,
-            'job' => $crew->job
+           'tmdb_id' => $tmdbId,
+           'person_id' => $crew['person']['id']
+         ],
+         [
+            'known_for_department' => $crew['known_for_department'],
+            'credit_id' => $crew['credit_id'],
+            'department' => $crew['department'],
+            'job' => $crew['job']
          ]
        );
+     }
+
+     public function fromTMDB(int $tmdbId, object $crew)
+     {
+       return [
+         'tmdb_id' => $tmdbId,
+         'person_id' => $crew->id,
+         'known_for_department' => $crew->known_for_department,
+         'credit_id' => $crew->credit_id,
+         'department' => $crew->department,
+         'job' => $crew->job,
+       ];
      }
 }

@@ -14,8 +14,7 @@ class CreateCreditCrewsTable extends Migration
     public function up()
     {
         Schema::create('credit_crews', function (Blueprint $table) {
-            $table->integer('id');
-            $table->integer('item_id');
+            $table->integer('tmdb_id');
             $table->integer('person_id');
             $table->string('known_for_department');
             $table->string('credit_id');

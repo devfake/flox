@@ -275,10 +275,6 @@
 
       $title = $data->name ?? $data->title;
 
-      if(isset($data->credits)) {
-        $this->personService->updatePersonLists($data->id, $data->credits);
-      }
-
       $item = [
         'tmdb_id' => $data->id,
         'title' => $title,
@@ -289,6 +285,8 @@
         'released' => $release->copy()->getTimestamp(),
         'released_timestamp' => $release,
         'genre_ids' => $data->genre_ids,
+        'credit_cast' => $data->credit_cast ?? [],
+        'credit_crew' => $data->credit_crew ?? [],
         'genre' => Genre::whereIn('id', $data->genre_ids)->get(),
         'episodes' => [],
         'overview' => $data->overview,
@@ -297,10 +295,7 @@
         'tmdb_rating' => $data->vote_average,
         'popularity' => $data->popularity ?? 0,
       ];
-      if(isset($data->credits)) {
-        $item['credit_cast'] = CreditCast::whereIn('id', $data->cast_ids)->get();
-        $item['credit_crew'] = CreditCrew::whereIn('id', $data->crew_ids)->get();
-      }
+
       return $item;
     }
 

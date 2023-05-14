@@ -35,11 +35,7 @@
      *
      * @var array
      */
-    protected $with = [
-      'creditCast',
-      'creditCrew',
-      'genre'
-    ];
+    protected $with = ['genre'];
 
     /**
      * Guard accessors from import.
@@ -136,7 +132,7 @@
      */
     public function creditCast()
     {
-      return $this->belongsToMany(CreditCast::class);
+      return $this->hasMany(CreditCast::class, 'tmdb_id', 'tmdb_id');
     }
 
     /**
@@ -144,7 +140,7 @@
      */
     public function creditCrew()
     {
-      return $this->belongsToMany(CreditCrew::class);
+      return $this->hasMany(CreditCrew::class, 'tmdb_id', 'tmdb_id');
     }
 
     /**

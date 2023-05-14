@@ -43,17 +43,31 @@ class CreditCast extends Model
      * @param $data
      * @return CreditCast
      */
-     public function store($itemId, $cast)
+     public function store(int $tmdbId, array $cast)
      {
        return $this->firstOrCreate(
-         ['item_id' => $itemId, 'person_id' => $cast->id],
          [
-            'id' => $cast->id,
-            'character' => $cast->character,
-            'known_for_department' => $cast->known_for_department,
-            'credit_id' => $cast->credit_id,
-            'order' => $cast->order
+           'tmdb_id' => $tmdbId,
+           'person_id' => $cast['person']['id']
+         ],
+         [
+           'character' => $cast['character'],
+           'known_for_department' => $cast['known_for_department'],
+           'credit_id' => $cast['credit_id'],
+           'order' => $cast['order']
          ]
        );
+     }
+
+     public function fromTMDB(int $tmdbId, object $cast)
+     {
+       return [
+         'tmdb_id' => $tmdbId,
+         'person_id' => $cast->id,
+         'character' => $cast->character,
+         'known_for_department' => $cast->known_for_department,
+         'credit_id' => $cast->credit_id,
+         'order' => $cast->order
+       ];
      }
 }
