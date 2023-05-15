@@ -97,6 +97,17 @@
               v-for="(item, index) in creditCast"
             />
           </ol>
+
+          <ol
+            v-if="creditCrew.length"
+            class="cast-list"
+          >
+            <Person
+              :item="item"
+              :key="'crew-' + index"
+              v-for="(item, index) in creditCrew"
+            />
+          </ol>
         </div>
 
         <div class="subpage-sidebar">
@@ -180,6 +191,7 @@
         item: {},
         latestEpisode: null,
         creditCast: [],
+        creditCrew: [],
         loadingImdb: false,
         auth: config.auth,
         rated: false,
@@ -275,6 +287,7 @@
         http(`${config.api}/item/${tmdbId}/${this.mediaType}`).then(response => {
           this.item = response.data;
           this.creditCast = response.data.credit_cast;
+          this.creditCrew = response.data.credit_crew;
           this.item.tmdb_rating = this.intToFloat(response.data.tmdb_rating);
           this.latestEpisode = this.item.latest_episode;
 

@@ -8,7 +8,7 @@
       />
       <div class="cast-info">
           <div class="cast-name">{{ item.person.name }}</div>
-          <div class="cast-character">{{ item.character }}</div>
+          <div class="cast-character">{{ personTitle }}</div>
       </div>
     </li>
   </transition>
@@ -26,8 +26,8 @@
     },
 
     computed: {
-      hasSrc() {
-        return this.localItem.src || this.localItem.episodes_with_src_count > 0;
+      personTitle() {
+        return this.localItem.character || this.localItem.job;
       },
 
       image() {
