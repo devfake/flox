@@ -1,5 +1,4 @@
 .search-wrap {
-  float: left;
   width: 100%;
   //position: absolute;
   box-shadow: 0 0 70px 0 rgba(0, 0, 0, .3);
@@ -18,9 +17,6 @@
   .subpage-open & {
     background: none;
     box-shadow: none;
-    position: absolute;
-    top: auto;
-    left: auto;
   }
 
   .active & {

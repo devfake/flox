@@ -7,9 +7,8 @@
 
         <div class="wrap">
           <div class="big-teaser-content">
-            <div class="big-teaser-data-wrap">
-
-              <div class="subpage-poster-wrap-mobile no-select" :class="'show-ratings-' + displayRatings">
+            <div class="subpage-sidebar">
+              <div class="subpage-poster-wrap no-select" :class="'show-ratings-' + displayRatings">
                 <div class="item-actions">
                   <router-link :title="lang('suggestions')" :to="suggestionsUri(item)" v-if="item.tmdb_id"
                                class="has-suggestion">
@@ -19,34 +18,43 @@
                         v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)">
                     <i class="icon-watchlist"></i>
                   </span>
-                      <span class="is-on-watchlist" :title="lang('remove from watchlist')"
-                            v-if="item.watchlist && auth && ! rated" @click="removeItem()">
+                  <span class="is-on-watchlist" :title="lang('remove from watchlist')"
+                        v-if="item.watchlist && auth && ! rated" @click="removeItem()">
                     <i class="icon-watchlist-remove"></i>
                   </span>
-                      <span :title="lang('episodes')" v-if="displaySeason(item) && latestEpisode"
-                            @click="openSeasonModal(item)"
-                            class="is-a-show">
+                  <span :title="lang('episodes')" v-if="displaySeason(item) && latestEpisode" @click="openSeasonModal(item)"
+                        class="is-a-show">
                     S{{ season }}E{{ episode }}
                   </span>
-                      <span :title="lang('finished')" v-if="displaySeason(item) && !latestEpisode"
-                            @click="openSeasonModal(item)" class="is-a-show">
+                  <span :title="lang('finished')" v-if="displaySeason(item) && !latestEpisode"
+                        @click="openSeasonModal(item)" class="is-a-show">
                     <i class="is-finished"></i>
                   </span>
                 </div>
 
                 <rating :rated="rated" :item="item" :set-item="setItem" :set-rated="setRated"></rating>
-                <img class="base" :src="noImage" width="140" height="200">
-                <img class="real" :src="posterImage" width="140" height="200">
+                <img class="base" :src="noImage" width="272" height="408">
+                <img class="real" :src="posterImage" width="272" height="408">
+
               </div>
 
               <!-- todo: move to own component -->
+              <div class="subpage-sidebar-buttons no-select" v-if="item.rating != null && auth">
+                <span class="refresh-infos" @click="refreshInfos()">{{ lang('refresh infos') }}</span>
+                <span class="remove-item" @click="removeItem()" v-if=" ! item.watchlist">{{ lang('delete item') }}</span>
+              </div>
+            </div>
+
+            <div class="big-teaser-data-wrap">
+
+              <!-- todo: move to own component -->
               <div class="big-teaser-item-data">
-                <span class="item-year">{{ released }}, <i>{{ lang(item.media_type) }}</i></span>
-                <span class="item-title">{{ item.title }}</span>
-                <span class="item-genre">
+                <div class="item-year">{{ released }}, <i>{{ lang(item.media_type) }}</i></div>
+                <div class="item-title">{{ item.title }}</div>
+                <div class="item-genre">
                   <router-link :key="genre.id" :to="'/genre/' + genre.name"
                                v-for="genre in item.genre">{{ genre.name }}</router-link>
-                </span>
+                </div>
               </div>
               <div class="big-teaser-buttons no-select" :class="{'without-watchlist': item.rating != null || ! auth}">
                 <a v-if="isOn('netflix', item.homepage)" :href="item.homepage" target="_blank" class="button-netflix">
@@ -108,49 +116,6 @@
               v-for="(item, index) in creditCrew"
             />
           </ol>
-        </div>
-
-        <div class="subpage-sidebar">
-          <div class="subpage-poster-wrap no-select" :class="'show-ratings-' + displayRatings">
-            <div class="item-actions">
-              <router-link :title="lang('suggestions')" :to="suggestionsUri(item)" v-if="item.tmdb_id"
-                           class="has-suggestion">
-                <i class="icon-suggest"></i>
-              </router-link>
-              <span class="is-on-watchlist" :title="lang('add to watchlist')"
-                    v-if="item.rating == null && auth && ! rated" @click="addToWatchlist(item)">
-                <i class="icon-watchlist"></i>
-              </span>
-              <span class="is-on-watchlist" :title="lang('remove from watchlist')"
-                    v-if="item.watchlist && auth && ! rated" @click="removeItem()">
-                <i class="icon-watchlist-remove"></i>
-              </span>
-              <span :title="lang('episodes')" v-if="displaySeason(item) && latestEpisode" @click="openSeasonModal(item)"
-                    class="is-a-show">
-                S{{ season }}E{{ episode }}
-              </span>
-              <span :title="lang('finished')" v-if="displaySeason(item) && !latestEpisode"
-                    @click="openSeasonModal(item)" class="is-a-show">
-                <i class="is-finished"></i>
-              </span>
-            </div>
-
-            <rating :rated="rated" :item="item" :set-item="setItem" :set-rated="setRated"></rating>
-            <img class="base" :src="noImage" width="272" height="408">
-            <img class="real" :src="posterImage" width="272" height="408">
-
-            <!--            <router-link v-if="item.tmdb_id" :to="suggestionsUri(item)" class="recommend-item">{{ lang('suggestions') }}</router-link>-->
-            <!--            <span class="show-episode" @click="openSeasonModal(item)" v-if="displaySeason(item)">-->
-            <!--              <span class="season-item"><i>S</i>{{ season }}</span>-->
-            <!--              <span class="episode-item"><i>E</i>{{ episode }}</span>-->
-            <!--            </span>-->
-          </div>
-
-          <!-- todo: move to own component -->
-          <div class="subpage-sidebar-buttons no-select" v-if="item.rating != null && auth">
-            <span class="refresh-infos" @click="refreshInfos()">{{ lang('refresh infos') }}</span>
-            <span class="remove-item" @click="removeItem()" v-if=" ! item.watchlist">{{ lang('delete item') }}</span>
-          </div>
         </div>
       </div>
     </div>
