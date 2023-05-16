@@ -11,8 +11,8 @@ The rating based on an 3-Point system for `good`, `medium` and `bad`.
 
 ### Requirements
 
-* PHP >=7.2
-* Database (MySQL or [other](https://laravel.com/docs/6.x/database))
+* PHP >=8.1
+* Database (MySQL or [other](https://laravel.com/docs/database))
 * [Composer](https://getcomposer.org/)
 * The Movie Database Account for the free [API-Key](https://www.themoviedb.org/faq/api)
 
@@ -87,7 +87,7 @@ bash ./bin/install_worker_service.sh
 
 The default queue driver is set to `database`. All your jobs will be stored in the `jobs` table. If you need some better performance and more reliability, consider to choose redis.
 
-Check the [documentation](https://laravel.com/docs/6.x/queues) for more informations.
+Check the [documentation](https://laravel.com/docs/queues) for more informations.
 
 ### Cron Job
 
