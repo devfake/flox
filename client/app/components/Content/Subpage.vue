@@ -73,7 +73,7 @@
                    class="button-imdb-rating">
                   <i v-if="loadingImdb">{{ lang('loading imdb rating') }}</i>
                   <i v-if="item.imdb_rating && ! loadingImdb"><b>{{ item.imdb_rating }}</b> IMDb</i>
-                  <i v-if=" ! item.imdb_rating && ! loadingImdb">{{ lang('no imdb rating') }}</i>
+                  <i v-if=" ! item.imdb_rating && ! loadingImdb">IMDb</i>
                 </a>
               </div>
             </div>
@@ -268,7 +268,8 @@
           this.setPageTitle(this.item.title);
 
           this.disableLoading();
-          this.fetchImdbRating();
+          // @TODO web scrapping not working anymore, should use Imdb API instead
+          //this.fetchImdbRating();
         }, error => {
           console.log(error);
           this.SET_LOADING(false);
