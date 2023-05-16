@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "169ff2a52d0d2576495050ed0fe845d5",
+    "content-hash": "e566c16e16e49cfd1f9b06f97f7bb359",
     "packages": [
         {
             "name": "brick/math",
@@ -1312,58 +1312,6 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
-        },
-        {
-            "name": "imangazaliev/didom",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Imangazaliev/DiDOM.git",
-                "reference": "50fa6595d14f22c0c984efed5c818485cf548136"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Imangazaliev/DiDOM/zipball/50fa6595d14f22c0c984efed5c818485cf548136",
-                "reference": "50fa6595d14f22c0c984efed5c818485cf548136",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-iconv": "*",
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DiDom\\": "src/DiDom/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Imangazaliev Muhammad",
-                    "email": "imangazalievm@gmail.com"
-                }
-            ],
-            "description": "Simple and fast HTML parser",
-            "homepage": "https://github.com/Imangazaliev/DiDOM",
-            "keywords": [
-                "didom",
-                "html",
-                "parser",
-                "xml"
-            ],
-            "support": {
-                "issues": "https://github.com/Imangazaliev/DiDOM/issues",
-                "source": "https://github.com/Imangazaliev/DiDOM/tree/2.0.1"
-            },
-            "time": "2023-03-05T03:23:48+00:00"
         },
         {
             "name": "laravel/framework",
