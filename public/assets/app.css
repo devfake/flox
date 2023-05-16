@@ -3263,6 +3263,7 @@ main {
       .subpage-overview h2 {
         font-size: 14px; } }
   .subpage-overview p {
+    margin-bottom: 30px;
     color: #484848;
     font-size: 15px;
     line-height: 19pt; }
