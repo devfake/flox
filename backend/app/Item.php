@@ -13,24 +13,12 @@
     const FALLBACK_DATE = '1970-12-1';
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-      'last_seen_at',
-      'refreshed_at',
-      'created_at',
-      'updated_at',
-    ];
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-      'watchlist' => 'boolean',
+      'watchlist' => 'boolean', 'last_seen_at' => 'datetime', 'refreshed_at' => 'datetime', 'created_at' => 'datetime', 'updated_at' => 'datetime',
     ];
     
     /**

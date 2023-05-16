@@ -13,15 +13,6 @@
     public $timestamps = false;
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-      'last_fetch_to_file_parser',
-    ];
-
-    /**
      * Don't auto-apply mass assignment protection.
      *
      * @var array
@@ -41,5 +32,6 @@
       'refresh_automatically' => 'boolean',
       'daily_reminder' => 'boolean',
       'weekly_reminder' => 'boolean',
+      'last_fetch_to_file_parser' => 'datetime',
     ];
   }
