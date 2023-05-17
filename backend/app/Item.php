@@ -128,6 +128,22 @@
     }
 
     /**
+     * Belongs to many creditCasts.
+     */
+    public function creditCast()
+    {
+      return $this->hasMany(CreditCast::class, 'tmdb_id', 'tmdb_id');
+    }
+
+    /**
+     * Belongs to many creditCrews.
+     */
+    public function creditCrew()
+    {
+      return $this->hasMany(CreditCrew::class, 'tmdb_id', 'tmdb_id');
+    }
+
+    /**
      * Can have many episodes.
      */
     public function episodes()
@@ -170,6 +186,16 @@
     {
       return $query->orWhereHas('genre', function($query) use ($genreId) {
         $query->where('genre_id', $genreId);
+      });
+    }
+
+    /**
+     * Scope to find the result by a person.
+     */
+    public function scopeFindByPersonId($query, $personId)
+    {
+      return $query->orWhereHas('person', function($query) use ($personId) {
+        $query->where('person_id', $personId);
       });
     }
 

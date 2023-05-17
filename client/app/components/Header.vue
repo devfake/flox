@@ -2,7 +2,7 @@
   <div class="header-wrap" :class="{active: displayHeader, sticky: sticky, 'mobile-open': mobileNavigationOpen}">
     <header>
       <div class="wrap">
-        <router-link to="/" @click.native="refresh('home')" class="logo">
+        <router-link to="/" class="logo">
           <img src="../../../public/assets/img/logo.png" alt="Flox" width="108" height="32">
         </router-link>
         

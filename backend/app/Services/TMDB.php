@@ -2,8 +2,11 @@
 
   namespace App\Services;
 
+  use App\CreditCast;
+  use App\CreditCrew;
   use App\Genre;
   use App\Item;
+  use App\Services\Models\PersonService;
   use Carbon\Carbon;
   use GuzzleHttp\Client;
   use Illuminate\Support\Collection;
@@ -15,6 +18,12 @@
 
     private $client;
     private $apiKey;
+
+    /*
+     * @var PersonService
+     */
+    private $personService;
+
     private $translation;
 
     private $base = 'https://api.themoviedb.org';
@@ -24,11 +33,12 @@
      *
      * @param Client $client
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client, PersonService $personService)
     {
       $this->apiKey = config('services.tmdb.key');
       $this->translation = config('app.TRANSLATION');
       $this->client = $client;
+      $this->personService = $personService;
     }
 
     /**
@@ -265,7 +275,7 @@
 
       $title = $data->name ?? $data->title;
 
-      return [
+      $item = [
         'tmdb_id' => $data->id,
         'title' => $title,
         'slug' => getSlug($title),
@@ -275,6 +285,8 @@
         'released' => $release->copy()->getTimestamp(),
         'released_timestamp' => $release,
         'genre_ids' => $data->genre_ids,
+        'credit_cast' => $data->credit_cast ?? [],
+        'credit_crew' => $data->credit_crew ?? [],
         'genre' => Genre::whereIn('id', $data->genre_ids)->get(),
         'episodes' => [],
         'overview' => $data->overview,
@@ -283,6 +295,8 @@
         'tmdb_rating' => $data->vote_average,
         'popularity' => $data->popularity ?? 0,
       ];
+
+      return $item;
     }
 
     private function requestTmdb($url, $query = [])
@@ -323,7 +337,7 @@
     public function details($tmdbId, $mediaType)
     {
       $response = $this->requestTmdb($this->base . '/3/' . $mediaType . '/' . $tmdbId, [
-        'append_to_response' => 'videos,external_ids',
+        'append_to_response' => 'videos,external_ids,credits',
       ]);
 
       if($response->getStatusCode() != Response::HTTP_OK) {

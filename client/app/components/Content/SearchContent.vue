@@ -3,13 +3,13 @@
     <div class="wrap-content" v-if=" ! loading">
       <Item v-for="(item, index) in floxItems"
             :item="item"
-            :key="index"
+            :key="'items-' + index"
             :genre="true"
             :date="true"
       ></Item>
       <Item v-for="(item, index) in tmdbItems"
             :item="item"
-            :key="index"
+            :key="'tmdb-' + index"
             :genre="true"
             :date="true"
       ></Item>

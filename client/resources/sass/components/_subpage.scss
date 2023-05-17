@@ -1,6 +1,4 @@
 .bigsize-header {
-  float: left;
-  width: 100%;
   height: 600px;
   position: relative;
 
@@ -211,7 +209,6 @@
 .big-teaser-buttons {
   float: left;
   clear: both;
-  margin: 0 0 0 272px;
   display: flex;
 
   span,
@@ -249,12 +246,8 @@
     }
   }
 
-  @include media(3) {
-    margin: 0 0 0 200px;
-  }
-
   @include media(4) {
-    margin: 0 0 0 -20px;
+    margin: 0;
     width: 100%;
   }
 
@@ -264,15 +257,7 @@
 }
 
 .big-teaser-item-data {
-  float: left;
-  margin: 0 0 40px 300px;
-
-  .item-year,
-  .item-title,
-  .item-genre {
-    float: left;
-    clear: both;
-  }
+  margin: 0 0 50px 28px;
 
   .item-title {
     color: #fff;
@@ -319,12 +304,8 @@
   }
 
   @include media(3) {
-    margin: 0 0 40px 230px;
-  }
-
-  @include media(4) {
     clear: both;
-    margin: 30px 0 40px 0;
+    margin: 30px 20px 40px 20px;
   }
 }
 
@@ -352,28 +333,31 @@
 
 .big-teaser-data-wrap {
   float: left;
+  margin-left: 270px;
   width: 100%;
+
+  @include media(4) {
+    margin-left: 0;
+  }
 }
 
 .big-teaser-content {
   position: absolute;
+  display: flex;
+  align-items: end;
   bottom: 0;
 
   @include media(4) {
     width: 100%;
+    left: 0;
+    flex-direction: column;
+    align-items: start;
   }
 }
 
 .subpage-content {
   width: 100%;
-  float: left;
   padding: 0 0 50px 0;
-  //padding: calc(65vh - 90px) 0 0 0;
-  //padding: 520px 0 0 0;
-
-  @include media(6) {
-    //padding: 300px 0 0 0;
-  }
 
   .open-modal & {
     padding-right: 17px;
@@ -381,65 +365,31 @@
 }
 
 .subpage-sidebar {
-  float: left;
-  margin: -330px 0 0 0;
-  position: relative;
-  z-index: 50;
-
-  @include media(3) {
-    margin: -250px 0 0 0;
-  }
-
-  @include media(5) {
-    margin: 0;
-  }
+  position: absolute;
+  top: -180px;
 
   @include media(4) {
-    width: 100%;
-    margin: 0 0 30px 0;
-  }
-}
-
-.subpage-poster-wrap-mobile {
-  float: left;
-  position: relative;
-  display: none;
-
-  @include media(4) {
-    display: block;
-  }
-
-  // todo: remove
-  .base {
-    box-shadow: 0 20px 20px 0 rgba(0, 0, 0, .3);
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  .real {
     position: relative;
-    z-index: 100;
-    opacity: 0;
-    transition: opacity 1s ease 0s;
-
-    .active & {
-      opacity: 1;
-    }
+    display: flex;
+    margin-left: 20px;
+    top: 0;
   }
 }
 
 .subpage-poster-wrap {
-  float: left;
   position: relative;
+  max-width: 272px;
   max-height: 408px;
 
   img {
     border: 0;
 
     @include media(3) {
-      max-width: 200px;
       height: auto;
+    }
+
+    @include media(4) {
+      width: 120px;
     }
   }
 
@@ -459,12 +409,6 @@
     .active & {
       opacity: 1;
     }
-  }
-
-  @include media(4) {
-    //max-width: 100px;
-    //height: auto;
-    display: none;
   }
 }
 
@@ -481,9 +425,8 @@
     clear: both;
   }
 
-  @include media(6) {
-    //clear: none;
-    //width: auto;
+  @include media(4) {
+    margin: 0;
   }
 }
 
@@ -498,6 +441,10 @@
 
   .dark & {
     color: #717171;
+
+    @include media(4) {
+      color: white;
+    }
   }
 
   @include transition(color);
@@ -537,9 +484,8 @@
 }
 
 .subpage-overview {
+  margin-left: auto;
   width: calc(100% - 310px);
-  float: right;
-  //margin: 0 0 0 30px;
   padding: 0 0 30px 0;
 
   @include media(3) {
@@ -552,7 +498,6 @@
   }
 
   h2 {
-    float: left;
     color: $main2;
     text-transform: uppercase;
     font-size: 18px;
@@ -564,8 +509,7 @@
   }
 
   p {
-    float: left;
-    clear: both;
+    margin-bottom: 30px;
     color: $dark;
     font-size: 15px;
     line-height: 19pt;
@@ -578,4 +522,43 @@
       color: #717171;
     }
   }
+}
+
+.cast-list {
+  display: flex;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  list-style: none;
+  overflow-x: auto;
+  gap: 20px;
+}
+
+.cast-item {
+    display: flex;
+    padding-bottom: 10px;
+    max-width: 140px;
+    flex-direction: column;
+    background-color: #242424;
+    border-radius: 10px;
+}
+
+.cast-info {
+    display: flex;
+    margin: auto 0;
+    padding: 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cast-name {
+    margin-bottom: 5px;
+    color: white;
+    font-weight: 800;
+}
+
+.cast-character {
+    color: #afafaf;
+    font-size: 0.8rem;
 }

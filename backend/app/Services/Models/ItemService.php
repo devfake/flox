@@ -6,6 +6,7 @@
   use App\Item;
   use App\Services\IMDB;
   use App\Services\Storage;
+  use App\Services\Models\PersonService;
   use App\Services\TMDB;
   use App\Jobs\UpdateItem;
   use App\Setting;
@@ -22,6 +23,7 @@
     private $imdb;
     private $setting;
     private $genreService;
+    private $personService;
 
     /**
      * @param Model $model
@@ -32,6 +34,7 @@
      * @param GenreService $genreService
      * @param IMDB $imdb
      * @param Setting $setting
+     * @param PersonService $personService
      */
     public function __construct(
       Model $model,
@@ -41,7 +44,8 @@
       EpisodeService $episodeService,
       GenreService $genreService,
       IMDB $imdb,
-      Setting $setting
+      Setting $setting,
+      PersonService $personService
     ){
       $this->model = $model;
       $this->tmdb = $tmdb;
@@ -51,6 +55,7 @@
       $this->imdb = $imdb;
       $this->setting = $setting;
       $this->genreService = $genreService;
+      $this->personService = $personService;
     }
 
     /**
@@ -64,6 +69,12 @@
       $data = $this->makeDataComplete($data);
 
       $item = $this->model->store($data);
+      $this->personService->storeCredits(
+        [
+          'cast' => $data['credit_cast'],
+          'crew' => $data['credit_crew']
+        ]
+      );
 
       $this->episodeService->create($item);
       $this->genreService->sync($item, $data['genre_ids'] ?? []);
@@ -390,7 +401,7 @@
         case 'tmdb_id':
           return $this->model->findByTmdbId($value)->with('latestEpisode')->first();
         case 'tmdb_id_strict':
-          return$this->model->findByTmdbIdStrict($value, $mediaType)->with('latestEpisode')->first();
+          return $this->model->findByTmdbIdStrict($value, $mediaType)->with('creditCast', 'creditCrew', 'latestEpisode')->first();
         case 'src':
           return $this->model->findBySrc($value)->first();
       }
