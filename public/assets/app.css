@@ -681,8 +681,17 @@ having to override as much.
   background-color: #f7f7f7; }
 
 /* Grid */
-.theme-default .cv-day.today {
-  background-color: #ffe; }
+.theme-default .cv-weeknumber {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+  color: #808080; }
+
+.theme-default .cv-weeknumber span {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
 
 .theme-default .cv-day.past {
   background-color: #fafafa; }
@@ -690,42 +699,55 @@ having to override as much.
 .theme-default .cv-day.outsideOfMonth {
   background-color: #f7f7f7; }
 
+.theme-default .cv-day.today {
+  background-color: #ffe; }
+
+.theme-default .cv-day[aria-selected] {
+  background-color: #ffc; }
+
 /* Events */
-.theme-default .cv-event {
+.theme-default .cv-item {
   border-color: #e0e0f0;
   border-radius: 0.5em;
   background-color: #e7e7ff;
   text-overflow: ellipsis; }
 
-.theme-default .cv-event.purple {
+.theme-default .cv-item.purple {
   background-color: #f0e0ff;
   border-color: #e7d7f7; }
 
-.theme-default .cv-event.orange {
+.theme-default .cv-item.orange {
   background-color: #ffe7d0;
   border-color: #f7e0c7; }
 
-.theme-default .cv-event.continued::before,
-.theme-default .cv-event.toBeContinued::after {
+.theme-default .cv-item.continued::before,
+.theme-default .cv-item.toBeContinued::after {
   content: " \21E2   ";
   color: #999; }
 
-.theme-default .cv-event.toBeContinued {
+.theme-default .cv-item.toBeContinued {
   border-right-style: none;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0; }
 
-.theme-default .cv-event.isHovered.hasUrl {
+.theme-default .cv-item.isHovered.hasUrl {
   text-decoration: underline; }
 
-.theme-default .cv-event.continued {
+.theme-default .cv-item.continued {
   border-left-style: none;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0; }
 
+.cv-item.span3,
+.cv-item.span4,
+.cv-item.span5,
+.cv-item.span6,
+.cv-item.span7 {
+  text-align: center; }
+
 /* Event Times */
-.theme-default .cv-event .startTime,
-.theme-default .cv-event .endTime {
+.theme-default .cv-item .startTime,
+.theme-default .cv-item .endTime {
   font-weight: bold;
   color: #666; }
 
@@ -3485,8 +3507,8 @@ footer {
   .calendar-wrap .cv-weeks {
     overflow: hidden !important;
     border: none; }
-  .calendar-wrap .cv-week {
-    overflow-y: scroll !important; }
+  .calendar-wrap .cv-weekdays {
+    overflow-y: scroll; }
   .calendar-wrap .cv-header {
     background: transparent !important;
     border: none !important;
@@ -3513,7 +3535,10 @@ footer {
   .calendar-wrap .cv-day {
     background: transparent !important;
     color: #484848 !important;
-    border-color: #cbcbcb; }
+    border-color: #cbcbcb;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: end; }
     .calendar-wrap .cv-day.today {
       background: #cbcbcb !important; }
       .dark .calendar-wrap .cv-day.today {
@@ -3524,7 +3549,7 @@ footer {
     border-right: none; }
   .calendar-wrap .week1 .cv-day {
     border-top: none !important; }
-  .calendar-wrap .cv-event {
+  .calendar-wrap .cv-item {
     color: #fff !important;
     border-radius: 0;
     font-size: 14px;
@@ -3533,23 +3558,23 @@ footer {
     width: auto !important;
     max-width: calc(14.28571% - 20px);
     margin: 0 0 0 10px; }
-    .calendar-wrap .cv-event.eventRow1 {
+    .calendar-wrap .cv-item.eventRow1 {
       top: calc(1 * 1.4em + 1px) !important; }
-    .calendar-wrap .cv-event.eventRow2 {
+    .calendar-wrap .cv-item.eventRow2 {
       top: calc(2 * 1.4em + 2px) !important; }
-    .calendar-wrap .cv-event.eventRow3 {
+    .calendar-wrap .cv-item.eventRow3 {
       top: calc(3 * 1.4em + 3px) !important; }
-    .calendar-wrap .cv-event.eventRow4 {
+    .calendar-wrap .cv-item.eventRow4 {
       top: calc(4 * 1.4em + 4px) !important; }
-    .calendar-wrap .cv-event.tv {
+    .calendar-wrap .cv-item.tv {
       background: #895bff; }
-    .calendar-wrap .cv-event.movies {
+    .calendar-wrap .cv-item.movies {
       background: #f1309a; }
-    .calendar-wrap .cv-event.watchlist-1:before {
+    .calendar-wrap .cv-item.watchlist-1:before {
       content: "\1F441   "; }
-    .calendar-wrap .cv-event:active {
+    .calendar-wrap .cv-item:active {
       opacity: .6; }
-    .dark .calendar-wrap .cv-event {
+    .dark .calendar-wrap .cv-item {
       color: rgba(255, 255, 255, 0.8) !important; }
   .calendar-wrap .nextYear,
   .calendar-wrap .previousYear {

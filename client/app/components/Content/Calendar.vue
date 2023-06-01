@@ -4,8 +4,8 @@
       <div class="wrap-content calendar-wrap" v-if=" ! loading">
         <calendar-view
           :show-date="showDate"
-          :events="filteredEvents"
-          @click-event="navigateToItem"
+          :items="filteredItems"
+          @click-item="navigateToItem"
           :starting-day-of-week="1"
           class="theme-default">
           <calendar-view-header
@@ -42,8 +42,8 @@
     data() {
       return {
         showDate: new Date(),
-        events: [],
-        filteredEvents: []
+        items: [],
+        filteredItems: []
       }
     },
 
@@ -66,16 +66,16 @@
       this.checkForDate();
 
       http(`${config.api}/calendar`).then(value => {
-        this.events = value.data;
+        this.items = value.data;
         this.SET_LOADING(false);
-        this.removeEventsOutsideOfMonth();
+        this.removeItemsOutsideOfMonth();
       });
     },
 
     watch: {
       $route() {
         this.checkForDate();
-        this.removeEventsOutsideOfMonth();
+        this.removeItemsOutsideOfMonth();
       }
     },
     
@@ -83,13 +83,13 @@
       ...mapMutations([ 'SET_LOADING' ]),
       ...mapActions([ 'setPageTitle' ]),
 
-      removeEventsOutsideOfMonth() {
+      removeItemsOutsideOfMonth() {
         const date = dayjs(this.showDate);
         const firstDay = date.startOf('month');
         const lastDay = date.endOf('month');
 
-        this.filteredEvents = this.events.filter(event => {
-          return dayjs(event.startDate).isBetween(firstDay, lastDay);
+        this.filteredItems = this.items.filter(item => {
+          return dayjs(item.startDate).isBetween(firstDay, lastDay);
         });
       },
       
@@ -121,11 +121,11 @@
 
         this.$router.push({ name: 'calendar', query: {date}});
 
-        this.removeEventsOutsideOfMonth();
+        this.removeItemsOutsideOfMonth();
       },
 
-      navigateToItem(event) {
-        const {tmdb_id, type} = event.originalEvent;
+      navigateToItem(item) {
+        const {tmdb_id, type} = item.originalItem;
         
         this.$router.push(`/${type}/${tmdb_id}`);
       }

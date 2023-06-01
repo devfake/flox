@@ -12,9 +12,8 @@
     border: none;
   }
   
-  .cv-week {
-    //width: calc(100% + 17px);
-    overflow-y: scroll !important;
+  .cv-weekdays {
+    overflow-y: scroll;
   }
   
   .cv-header {
@@ -55,6 +54,7 @@
     background: transparent !important;
     color: #484848 !important;
     border-color: #cbcbcb;
+    justify-content: end;
     
     &.today {
       background: #cbcbcb !important;
@@ -77,7 +77,7 @@
     border-top: none !important;
   }
 
-  .cv-event {
+  .cv-item {
     color: #fff !important;
     border-radius: 0;
     font-size: 14px;
