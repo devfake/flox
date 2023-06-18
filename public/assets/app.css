@@ -3345,6 +3345,40 @@ main {
   color: #afafaf;
   font-size: 0.8rem; }
 
+.reviews {
+  margin-bottom: 30px; }
+
+.review-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 30px;
+  color: white;
+  background-color: #242424;
+  border-radius: 10px; }
+
+.review-add-label {
+  display: inline-block;
+  padding: 10px 20px 5px;
+  color: #afafaf;
+  background: #3A3A3A;
+  border-radius: 10px 10px 0 0; }
+
+.review-add {
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  color: white;
+  background-color: #242424;
+  border: 3px solid #3A3A3A; }
+
+.review-add:invalid {
+  min-height: 100px; }
+
+.review-add,
+.review-add:focus {
+  min-height: 300px; }
+
 .login-wrap {
   max-width: 320px;
   margin-left: auto;
