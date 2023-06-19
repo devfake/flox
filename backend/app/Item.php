@@ -92,9 +92,16 @@
         'rating' => 0,
         'released' => time(),
         'released_timestamp' => now(),
+        'overview' => '',
+        'backdrop' => '',
+        'tmdb_rating' => '',
+        'imdb_id' => '',
+        'imdb_rating' => '',
+        'youtube_key' => '',
+        'last_seen_at' => now(),
         'src' => $data['src'],
         'subtitles' => $data['subtitles'],
-        'last_seen_at' => now(),
+        'homepage' => null,
       ]);
     }
 

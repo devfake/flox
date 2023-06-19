@@ -26,6 +26,8 @@
         'original_title' => 'Warcraft',
         'tmdb_id' => 68735,
         'media_type' => 'movie',
+        'poster' => '',
+        'backdrop' => '',
       ];
 
       return factory(Item::class)->create(array_merge($data, $custom));
@@ -38,6 +40,8 @@
         'original_title' => 'Game of Thrones',
         'tmdb_id' => 1399,
         'media_type' => 'tv',
+        'poster' => '',
+        'backdrop' => '',
       ];
 
       factory(Item::class)->create(array_merge($data, $custom));
