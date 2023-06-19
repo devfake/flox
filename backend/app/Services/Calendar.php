@@ -37,12 +37,13 @@
 
     private function buildEvent($item, $type)
     {
+      $watchlisted = $this->isOnWatchlist($item, $type) ? '1' : '0';
       return [
         'startDate' => $item->startDate,
         'id' => $item->id,
         'tmdb_id' => $item->tmdb_id,
         'type' => $type,
-        'classes' => "$type watchlist-{$this->isOnWatchlist($item, $type)}",
+        'classes' => "$type watchlist-$watchlisted",
         'title' => $this->buildTitle($item, $type),
       ];
     }
