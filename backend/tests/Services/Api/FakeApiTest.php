@@ -16,7 +16,7 @@ class FakeApiTest extends TestCase implements ApiTestInterface
   {
     parent::setUp();
 
-    $this->apiTest = app(ApiTest::class);
+    $this->apiTest = new ApiTest('test');
 
     $this->apiTest->apiClass = FakeApi::class;
 

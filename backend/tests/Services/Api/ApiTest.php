@@ -34,7 +34,7 @@ class ApiTest extends TestCase
   /** @test */
   public function token_needs_to_be_provided()
   {
-    $response = $this->postJson('api/plex');
+    $response = $this->postJson('/api/plex');
 
     $response->assertJson(['message' => 'No token provided']);
     $response->assertStatus(Response::HTTP_UNAUTHORIZED);
