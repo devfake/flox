@@ -29,19 +29,19 @@
       $this->createMovie();
 
       $episode = $this->episode->find(1);
-      $episode->src = realpath('./tests/fixtures/media/1.mp4');
+      $episode->src = realpath('./tests/Fixtures/media/1.mp4');
       $episode->save();
 
       $episode = $this->episode->find(2);
-      $episode->src = realpath('./tests/fixtures/media/2.mp4');
+      $episode->src = realpath('./tests/Fixtures/media/2.mp4');
       $episode->save();
 
       $movie = $this->movie->find(1);
-      $movie->src = realpath('./tests/fixtures/media/2.mp4');
+      $movie->src = realpath('./tests/Fixtures/media/2.mp4');
       $movie->save();
 
       $movie = $this->movie->find(2);
-      $movie->src = realpath('./tests/fixtures/media/1.mp4');
+      $movie->src = realpath('./tests/Fixtures/media/1.mp4');
       $movie->save();
     }
 

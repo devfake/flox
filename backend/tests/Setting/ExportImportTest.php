@@ -82,7 +82,7 @@
     /** @test */
     public function it_should_import_from_old_backup_file()
     {
-      $oldBackupFile = json_decode(file_get_contents(__DIR__ . '/../fixtures/flox/export.json'));
+      $oldBackupFile = json_decode(file_get_contents(__DIR__ . '/../Fixtures/flox/export.json'));
 
       $this->import($oldBackupFile);
     }
@@ -90,7 +90,7 @@
     /** @test */
     public function it_should_import_from_new_backup_file()
     {
-      $newBackupFile = json_decode(file_get_contents(__DIR__ . '/../fixtures/flox/export-new-version.json'));
+      $newBackupFile = json_decode(file_get_contents(__DIR__ . '/../Fixtures/flox/export-new-version.json'));
 
       $this->import($newBackupFile);
     }
@@ -127,7 +127,7 @@
 
     private function callImport($filename)
     {
-      $path = __DIR__ . '/../fixtures/flox/' . $filename;
+      $path = __DIR__ . '/../Fixtures/flox/' . $filename;
 
       $file = new UploadedFile($path, $filename);
 

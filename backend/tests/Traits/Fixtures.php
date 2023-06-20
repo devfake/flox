@@ -6,27 +6,27 @@
 
     protected function fpFixtures($type)
     {
-      return json_decode(file_get_contents(__DIR__ . '/../fixtures/fp/' . $type . '.json'));
+      return json_decode(file_get_contents(__DIR__ . '/../Fixtures/fp/' . $type . '.json'));
     }
 
     protected function tmdbFixtures($type)
     {
-      return file_get_contents(__DIR__ . '/../fixtures/tmdb/' . $type . '.json');
+      return file_get_contents(__DIR__ . '/../Fixtures/tmdb/' . $type . '.json');
     }
 
     protected function imdbFixtures($type)
     {
-      return file_get_contents(__DIR__ . '/../fixtures/imdb/' . $type);
+      return file_get_contents(__DIR__ . '/../Fixtures/imdb/' . $type);
     }
 
     protected function floxFixtures($type)
     {
-      return collect(json_decode(file_get_contents(__DIR__ . '/../fixtures/flox/' . $type . '.json')))->toArray();
+      return collect(json_decode(file_get_contents(__DIR__ . '/../Fixtures/flox/' . $type . '.json')))->toArray();
     }
 
     protected function apiFixtures($path)
     {
-      return collect(json_decode(file_get_contents(__DIR__ . '/../fixtures/api/' . $path), true))->toArray();
+      return collect(json_decode(file_get_contents(__DIR__ . '/../Fixtures/api/' . $path), true))->toArray();
     }
 
     protected function getMovieSrc()
