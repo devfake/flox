@@ -1,6 +1,6 @@
 <?php
 
-  namespace Tests\Settting;
+  namespace Tests\Setting;
 
   use App\User;
   use Illuminate\Foundation\Testing\RefreshDatabase;
